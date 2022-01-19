@@ -1,12 +1,21 @@
 package com.etsisi.quizz.presentation.ui.login.view
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import com.etsisi.quizz.R
+import com.etsisi.quizz.databinding.ActivityLoginBinding
+import com.etsisi.quizz.presentation.common.BaseActivity
+import com.etsisi.quizz.presentation.ui.login.viewmodel.LoginViewModel
 
-class LoginActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
+    R.layout.activity_login, LoginViewModel::class
+) {
+    override fun observeViewModel(mViewModel: ViewModel) {
+        //TODO("Not yet implemented")
     }
+
+    override fun setUpDataBinding(mBinding: ViewDataBinding, mViewModel: ViewModel) {
+        //TODO("Not yet implemented")
+    }
+
 }
