@@ -1,0 +1,39 @@
+ext {
+    appVersionMajor = 0
+    appVersionMinor = 1
+    appVersionPatch = 0
+    appVersionCode = appVersionMajor * 100 + appVersionMinor * 10 + appVersionPatch
+    appVersionName = "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"
+
+    //Versions
+    appCompatVersion = '1.4.0'
+    coroutineVersion = '1.6.0'
+    fragmentVersion = '1.4.0'
+    glideVersion = '4.12.0'
+    koinVersion = '3.1.4'
+    ktxCoreVersion = '1.7.0'
+    lifecycleVersion = '2.4.0'
+    retrofitVersion = '2.9.0'
+
+    //Dependencies
+    androidAppCompat = "androidx.appcompat:appcompat:$appCompatVersion"
+    androidKotlinCore = "androidx.core:core-ktx:$ktxCoreVersion"
+
+    coroutinesKtxDependency = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
+
+    fragmentKtxDependency = "androidx.fragment:fragment-ktx:$fragmentVersion"
+
+    glideDependency = "com.github.bumptech.glide:glide:$glideVersion"
+    glideAnnotation = "com.github.bumptech.glide:compiler:$glideVersion"
+
+    koinDependency = "io.insert-koin:koin-android:$koinVersion"
+
+    liveDataKtxDependency = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    lifecycleKtxDependency = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    savedStateKtxDependency = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
+    viewModelKtxDependency = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+
+    retrofitDependency = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    retrofitGsonDependency = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+}
