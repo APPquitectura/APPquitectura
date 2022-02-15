@@ -1,5 +1,6 @@
 package com.etsisi.quizz.presentation.ui.login.view
 
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import com.etsisi.quizz.R
@@ -16,6 +17,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
 
     override fun setUpDataBinding(mBinding: ViewDataBinding, mViewModel: ViewModel) {
         //TODO("Not yet implemented")
+    }
+
+    override fun setUpSplashScreen() {
+        installSplashScreen()
     }
 
 }

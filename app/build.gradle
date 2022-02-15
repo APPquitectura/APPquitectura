@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.etsisi.quizz"
@@ -75,4 +75,7 @@ dependencies {
     // Retrofit
     implementation rootProject.ext.retrofitDependency
     implementation rootProject.ext.retrofitGsonDependency
+
+    //Splash
+    implementation rootProject.ext.splashScreenDependency
 }
