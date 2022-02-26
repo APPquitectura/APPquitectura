@@ -13,11 +13,12 @@ import androidx.lifecycle.ViewModel
 import com.etsisi.quizz.R
 import com.etsisi.quizz.databinding.ActivityLoginBinding
 import com.etsisi.quizz.presentation.common.BaseActivity
+import com.etsisi.quizz.presentation.common.EmptyViewModel
 import com.etsisi.quizz.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.quizz.presentation.utils.deviceApiIsAtLeast
 
-class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
-    R.layout.activity_login, LoginViewModel::class
+class LoginActivity : BaseActivity<ActivityLoginBinding, EmptyViewModel>(
+    R.layout.activity_login, EmptyViewModel::class
 ) {
     override fun observeViewModel(mViewModel: ViewModel) {
         //TODO("Not yet implemented")
@@ -26,6 +27,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
     override fun setUpDataBinding(mBinding: ViewDataBinding, mViewModel: ViewModel) {
         //TODO("Not yet implemented")
     }
+
+    override fun getFragmentContainer(): Int = mBinding.navHostLogin.id
 
 
     @SuppressLint("NewApi")
