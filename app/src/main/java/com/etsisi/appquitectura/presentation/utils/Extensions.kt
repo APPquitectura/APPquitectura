@@ -1,4 +1,4 @@
-package com.etsisi.quizz.presentation.utils
+package com.etsisi.appquitectura.presentation.utils
 
 import android.os.Build
 

@@ -1,11 +1,11 @@
-package com.etsisi.quizz.presentation.ui.login.view.formscreen
+package com.etsisi.appquitectura.presentation.ui.login.view.formscreen
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.etsisi.quizz.R
+import com.etsisi.appquitectura.R
 
 class LoginFormFragment : Fragment() {
 

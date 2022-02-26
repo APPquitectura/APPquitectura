@@ -1,8 +1,8 @@
-package com.etsisi.quizz.application
+package com.etsisi.appquitectura.application
 
 import android.app.Application
-import com.etsisi.quizz.di.presentationModule
-import com.etsisi.quizz.di.viewModelModule
+import com.etsisi.appquitectura.di.presentationModule
+import com.etsisi.appquitectura.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

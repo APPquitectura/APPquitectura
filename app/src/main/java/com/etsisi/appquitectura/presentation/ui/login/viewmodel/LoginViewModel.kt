@@ -1,4 +1,4 @@
-package com.etsisi.quizz.presentation.ui.login.viewmodel
+package com.etsisi.appquitectura.presentation.ui.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 

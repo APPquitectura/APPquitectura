@@ -1,4 +1,4 @@
-package com.etsisi.quizz.presentation.common
+package com.etsisi.appquitectura.presentation.common
 
 sealed class ViewState {
     object IDLE: ViewState()

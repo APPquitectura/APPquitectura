@@ -1,4 +1,4 @@
-package com.etsisi.quizz
+package com.etsisi.appquitectura
 
 import org.junit.Test
 

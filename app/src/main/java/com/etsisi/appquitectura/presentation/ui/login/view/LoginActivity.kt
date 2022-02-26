@@ -1,4 +1,4 @@
-package com.etsisi.quizz.presentation.ui.login.view
+package com.etsisi.appquitectura.presentation.ui.login.view
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -10,12 +10,11 @@ import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
-import com.etsisi.quizz.R
-import com.etsisi.quizz.databinding.ActivityLoginBinding
-import com.etsisi.quizz.presentation.common.BaseActivity
-import com.etsisi.quizz.presentation.common.EmptyViewModel
-import com.etsisi.quizz.presentation.ui.login.viewmodel.LoginViewModel
-import com.etsisi.quizz.presentation.utils.deviceApiIsAtLeast
+import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.databinding.ActivityLoginBinding
+import com.etsisi.appquitectura.presentation.common.BaseActivity
+import com.etsisi.appquitectura.presentation.common.EmptyViewModel
+import com.etsisi.appquitectura.presentation.utils.deviceApiIsAtLeast
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, EmptyViewModel>(
     R.layout.activity_login, EmptyViewModel::class

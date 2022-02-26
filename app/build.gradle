@@ -9,7 +9,7 @@ android {
     compileSdkVersion 31
 
     defaultConfig {
-        applicationId "com.etsisi.quizz"
+        applicationId "com.etsisi.appquitectura"
         minSdk 21
         targetSdk 31
         versionCode rootProject.ext.appVersionCode
