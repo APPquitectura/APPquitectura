@@ -14,6 +14,7 @@ ext {
     ktxCoreVersion = '1.7.0'
     lifecycleVersion = '2.4.0'
     retrofitVersion = '2.9.0'
+    splashscreenVersion = '1.0.0-beta01'
 
     //Dependencies
     androidAppCompat = "androidx.appcompat:appcompat:$appCompatVersion"
@@ -35,5 +36,7 @@ ext {
 
     retrofitDependency = "com.squareup.retrofit2:retrofit:$retrofitVersion"
     retrofitGsonDependency = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    splashScreenDependency = "androidx.core:core-splashscreen:$splashscreenVersion"
 
 }
