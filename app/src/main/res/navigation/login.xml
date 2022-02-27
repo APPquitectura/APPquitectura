@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFormFragment"
-        android:name="com.etsisi.quizz.presentation.ui.login.view.formscreen.LoginFormFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragment"
         android:label="fragment_login_form"
         tools:layout="@layout/fragment_login_form" />
 </navigation>
