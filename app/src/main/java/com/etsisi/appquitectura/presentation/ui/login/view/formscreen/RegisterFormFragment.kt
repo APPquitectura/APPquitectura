@@ -36,7 +36,12 @@ class RegisterFormFragment: BaseFragment<FragmentRegisterBinding, LoginViewModel
 
     override fun observeViewModel(mViewModel: LoginViewModel) {
         with(mViewModel) {
-            onSuccessRegister.observe(viewLifecycleOwner, LiveEventObserver {
+            onSuccessRegister.observe(viewLifecycleOwner, LiveEventObserver { navType ->
+                if (navType == LoginViewModel.REGISTER_NAVIGATION_TYPE.SUCESS) {
+                    //To main
+                } else {
+                    //verify email
+                }
                 requireContext().hideKeyboard(mBinding.btnRegister)
             })
             loading.observe(viewLifecycleOwner) { isLoading ->

@@ -6,25 +6,23 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
 import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
 import com.etsisi.appquitectura.presentation.utils.EMPTY
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class LoginViewModel(
     private val applicationContext: Application,
     private val registerUseCase: RegisterUseCase,
-    private val firebaseLoginUseCase: FirebaseLoginUseCase,
-    private val auth: FirebaseAuth
+    private val firebaseLoginUseCase: FirebaseLoginUseCase
 ): AndroidViewModel(applicationContext), LifecycleObserver {
+
+    enum class REGISTER_NAVIGATION_TYPE {SUCESS, VERIFY_EMAIL}
 
     private val _loading by lazy { MutableLiveData<Boolean>() }
     val loading: LiveData<Boolean>
@@ -50,8 +48,8 @@ class LoginViewModel(
     val onRegister: LiveEvent<Boolean>
         get() = _onRegister
 
-    private val _onSuccessRegister = MutableLiveEvent<Boolean>()
-    val onSuccessRegister: LiveEvent<Boolean>
+    private val _onSuccessRegister = MutableLiveEvent<REGISTER_NAVIGATION_TYPE>()
+    val onSuccessRegister: LiveEvent<REGISTER_NAVIGATION_TYPE>
         get() = _onSuccessRegister
 
     private val _onSuccessLogin = MutableLiveEvent<Boolean>()
@@ -63,11 +61,22 @@ class LoginViewModel(
     }
 
     fun isUserLoggedIn() {
-        _isUserLogged.value = Event(auth != null)
+        _isUserLogged.value = Event(CurrentUser.currentUserInstance != null)
     }
 
     fun onRegister() {
+        _email.value = String.EMPTY
+        _password.value = String.EMPTY
         _onRegister.value = Event(true)
+    }
+
+    fun onSuccessRegister() {
+        if (CurrentUser.isEmailVerfied) {
+            CurrentUser.currentUserInstance?.sendEmailVerification()
+            _onSuccessRegister.value = Event(REGISTER_NAVIGATION_TYPE.SUCESS)
+        } else {
+            _onSuccessRegister.value = Event(REGISTER_NAVIGATION_TYPE.VERIFY_EMAIL)
+        }
     }
 
     fun initLogin() {
@@ -107,7 +116,7 @@ class LoginViewModel(
                     RegisterUseCase.RESULT_CODES.EMAIL_ALREADY_EXISTS -> _errorMsg.value = applicationContext.getString(R.string.error_email_already_exists)
                     RegisterUseCase.RESULT_CODES.EMAIL_MALFORMED -> _errorMsg.value = applicationContext.getString(R.string.error_email_malformed)
                     RegisterUseCase.RESULT_CODES.GENERIC_ERROR -> _errorMsg.value = applicationContext.getString(R.string.error_generic)
-                    RegisterUseCase.RESULT_CODES.SUCCESS -> _onSuccessRegister.value = Event(true)
+                    RegisterUseCase.RESULT_CODES.SUCCESS -> onSuccessRegister()
                 }
             }
         } else {
