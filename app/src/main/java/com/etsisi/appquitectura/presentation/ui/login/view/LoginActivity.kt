@@ -14,17 +14,30 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.ActivityLoginBinding
 import com.etsisi.appquitectura.presentation.common.BaseActivity
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
+import com.etsisi.appquitectura.presentation.common.LiveEventObserver
+import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.utils.deviceApiIsAtLeast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
-class LoginActivity : BaseActivity<ActivityLoginBinding, EmptyViewModel>(
-    R.layout.activity_login, EmptyViewModel::class
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
+    R.layout.activity_login, LoginViewModel::class
 ) {
-    override fun observeViewModel(mViewModel: ViewModel) {
-        //TODO("Not yet implemented")
+
+    override fun setUpDataBinding(mBinding: ActivityLoginBinding, mViewModel: LoginViewModel) {
+        with(mBinding) {
+            lifecycleOwner = this@LoginActivity
+            lifecycle.addObserver(mViewModel)
+        }
     }
 
-    override fun setUpDataBinding(mBinding: ViewDataBinding, mViewModel: ViewModel) {
-        //TODO("Not yet implemented")
+    override fun observeViewModel(mViewModel: LoginViewModel) {
+        with(mViewModel) {
+            isUserLoggedIn.observe(this@LoginActivity, LiveEventObserver{ isLogged ->
+
+            })
+        }
     }
 
     override fun getFragmentContainer(): Int = mBinding.navHostLogin.id

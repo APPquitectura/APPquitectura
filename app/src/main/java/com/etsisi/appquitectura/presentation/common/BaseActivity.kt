@@ -45,9 +45,9 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         return result
     }
 
-    abstract fun observeViewModel(mViewModel: ViewModel)
+    abstract fun observeViewModel(mViewModel: viewModel)
 
-    abstract fun setUpDataBinding(mBinding: ViewDataBinding, mViewModel: ViewModel)
+    abstract fun setUpDataBinding(mBinding: binding, mViewModel: viewModel)
 
     abstract fun getFragmentContainer(): Int
 

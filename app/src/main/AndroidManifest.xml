@@ -12,6 +12,8 @@
         android:allowBackup="false">
         <activity
             android:name="com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/LoginActivityStyle"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

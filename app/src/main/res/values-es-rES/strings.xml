@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">APPquitectura</string>
+
+    <!-- Login -->
+    <string name="hint_email">Correo</string>
+    <string name="hint_password">Contraseña</string>
+</resources>
