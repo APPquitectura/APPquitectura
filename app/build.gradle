@@ -6,8 +6,25 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+def keyStorePropertiesFileName = "keystore.properties"
+
 android {
     compileSdkVersion 31
+
+    signingConfigs {
+        release {
+            if (rootProject.file(keyStorePropertiesFileName).exists()) {
+                // Load keystore
+                def keystorePropertiesFile = rootProject.file(keyStorePropertiesFileName)
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
 
     defaultConfig {
         applicationId "com.etsisi.appquitectura"
@@ -26,6 +43,7 @@ android {
         }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -62,7 +80,12 @@ dependencies {
     implementation rootProject.ext.coroutinesKtxDependency
 
     //Firebase
+    implementation platform(rootProject.ext.BOMdependency)
+    implementation rootProject.ext.firebaseAuthDependency
     implementation rootProject.ext.firestoreDependency
+
+    //Google Play Services
+    implementation rootProject.ext.googleAuthDependency
 
     //Glide
     implementation rootProject.ext.glideDependency

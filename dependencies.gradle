@@ -8,8 +8,8 @@ ext {
     //Versions
     appCompatVersion = '1.4.0'
     authVersion = '20.1.0'
+    BOMVersion = '29.0.4'
     coroutineVersion = '1.6.0'
-    firestoreVersion = '24.0.1'
     fragmentVersion = '1.4.0'
     glideVersion = '4.12.0'
     koinVersion = '3.1.4'
@@ -23,9 +23,13 @@ ext {
     androidAppCompat = "androidx.appcompat:appcompat:$appCompatVersion"
     androidKotlinCore = "androidx.core:core-ktx:$ktxCoreVersion"
 
+    firebaseAuthDependency = "com.google.firebase:firebase-auth-ktx"
+
+    BOMdependency = "com.google.firebase:firebase-bom:$BOMVersion"
+
     coroutinesKtxDependency = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
 
-    firestoreDependency = "com.google.firebase:firebase-firestore:$firestoreVersion"
+    firestoreDependency = "com.google.firebase:firebase-firestore"
 
     fragmentKtxDependency = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
