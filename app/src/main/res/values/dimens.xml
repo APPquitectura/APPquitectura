@@ -26,5 +26,5 @@
     <dimen name="dimen_28">28dp</dimen>
     <dimen name="dimen_29">29dp</dimen>
 
-    <dimen name="input_text_height">40dp</dimen>
+    <dimen name="input_text_height">45dp</dimen>
 </resources>

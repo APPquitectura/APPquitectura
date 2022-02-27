@@ -16,6 +16,7 @@ ext {
     ktxCoreVersion = '1.7.0'
     lifecycleVersion = '2.4.0'
     navigationVersion = '2.5.0-alpha03'
+    progressButtonVersion = '2.1.0'
     retrofitVersion = '2.9.0'
     splashscreenVersion = '1.0.0-beta01'
 
@@ -45,6 +46,8 @@ ext {
 
     navigationFragKtxDependency = "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     navigationKtxDependency = "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    progressButtonDependency = "com.github.razir.progressbutton:progressbutton:$progressButtonVersion"
 
     savedStateKtxDependency = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
     viewModelKtxDependency = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"

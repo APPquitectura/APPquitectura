@@ -105,6 +105,9 @@ dependencies {
     implementation rootProject.ext.navigationFragKtxDependency
     implementation rootProject.ext.navigationKtxDependency
 
+    //Progress Button
+    implementation rootProject.ext.progressButtonDependency
+
     // Retrofit
     implementation rootProject.ext.retrofitDependency
     implementation rootProject.ext.retrofitGsonDependency

@@ -42,6 +42,9 @@ abstract class BaseFragment<binding: ViewDataBinding, viewModel: ViewModel>(
             getViewModel(clazz = viewModelClass)
         }
 
+        setUpDataBinding(mBinding, mViewModel)
+        observeViewModel(mViewModel)
+
         if (arguments != null) {
             getFragmentArgs()
         }

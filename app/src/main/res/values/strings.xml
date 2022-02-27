@@ -2,6 +2,18 @@
     <string name="app_name">APPquitectura</string>
 
     <!-- Login -->
+    <string name="error_login_credentials">Wrong credentials</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+    <string name="login_btn_txt">Log in</string>
+
+    <!-- Register -->
+    <string name="register_btn_text">Register</string>
+    <string name="error_email_already_exists">Email already exists</string>
+    <string name="error_email_malformed">Email malformed</string>
+    <string name="error_weak_password">Weak password</string>
+    <string name="error_generic">Error, try again later</string>
+    <string name="error_text_input_empty">Check email and password</string>
+    <string name="loading">Loading</string>
+    <string name="done">Done</string>
 </resources>

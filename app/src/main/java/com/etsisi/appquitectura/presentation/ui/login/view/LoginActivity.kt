@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.view.View
 import android.view.animation.AnticipateInterpolator
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -37,6 +38,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             isUserLoggedIn.observe(this@LoginActivity, LiveEventObserver{ isLogged ->
 
             })
+            errorMsg.observe(this@LoginActivity) { msg ->
+                Toast.makeText(this@LoginActivity, msg, Toast.LENGTH_LONG).show()
+            }
         }
     }
 

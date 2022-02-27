@@ -3,6 +3,18 @@
     <string name="app_name">APPquitectura</string>
 
     <!-- Login -->
+    <string name="error_login_credentials">Credenciales erróneas</string>
     <string name="hint_email">Correo</string>
     <string name="hint_password">Contraseña</string>
+    <string name="login_btn_txt">Iniciar sesión</string>
+
+    <!-- Register -->
+    <string name="register_btn_text">Registrarse</string>
+    <string name="error_email_already_exists">El correo electrónico ya existe</string>
+    <string name="error_email_malformed">Correo electrónico incorrecto</string>
+    <string name="error_weak_password">Contraseña muy débil</string>
+    <string name="error_generic">Inténtelo más tarde</string>
+    <string name="error_text_input_empty">Comprueba el correo y la contraseña</string>
+    <string name="loading">Cargando</string>
+    <string name="done">Completado</string>
 </resources>

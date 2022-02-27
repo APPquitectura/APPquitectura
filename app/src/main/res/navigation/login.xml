@@ -9,5 +9,16 @@
         android:id="@+id/loginFormFragment"
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragment"
         android:label="fragment_login_form"
-        tools:layout="@layout/fragment_login_form" />
+        tools:layout="@layout/fragment_login_form" >
+        <action
+            android:id="@+id/action_loginForm_to_registerForm"
+            app:destination="@id/registerFormFragment"
+            app:popUpTo="@id/registerFormFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFormFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.RegisterFormFragment"
+        android:label="RegisterFormFragment"
+        tools:layout="@layout/fragment_register"/>
 </navigation>
