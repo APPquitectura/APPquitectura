@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "658477384822",
+    "project_id": "appquitectura-6ea75",
+    "storage_bucket": "appquitectura-6ea75.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658477384822:android:b9270353763aee57d74b57",
+        "android_client_info": {
+          "package_name": "com.etsisi.appquitectura"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658477384822-rvllqup0nj8iu2t1su940irim7gio396.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1sfhF5JOWI3kLMCKiitcoUcKZKLPSwFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "658477384822-rvllqup0nj8iu2t1su940irim7gio396.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658477384822:android:8ba976bb5214ec5cd74b57",
+        "android_client_info": {
+          "package_name": "com.etsisi.appquitectura.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658477384822-rvllqup0nj8iu2t1su940irim7gio396.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1sfhF5JOWI3kLMCKiitcoUcKZKLPSwFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "658477384822-rvllqup0nj8iu2t1su940irim7gio396.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
