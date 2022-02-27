@@ -13,6 +13,7 @@ ext {
     koinVersion = '3.1.4'
     ktxCoreVersion = '1.7.0'
     lifecycleVersion = '2.4.0'
+    navigationVersion = '2.5.0-alpha03'
     retrofitVersion = '2.9.0'
     splashscreenVersion = '1.0.0-beta01'
 
@@ -31,6 +32,10 @@ ext {
 
     liveDataKtxDependency = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     lifecycleKtxDependency = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+
+    navigationFragKtxDependency = "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    navigationKtxDependency = "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
     savedStateKtxDependency = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
     viewModelKtxDependency = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
