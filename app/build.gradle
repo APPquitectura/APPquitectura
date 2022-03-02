@@ -83,6 +83,7 @@ dependencies {
     implementation platform(rootProject.ext.BOMdependency)
     implementation rootProject.ext.firebaseAuthDependency
     implementation rootProject.ext.firestoreDependency
+    implementation rootProject.ext.dynamicLinksDependency
 
     //Google Play Services
     implementation rootProject.ext.googleAuthDependency

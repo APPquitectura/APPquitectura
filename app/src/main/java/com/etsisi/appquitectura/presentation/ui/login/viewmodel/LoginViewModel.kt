@@ -1,36 +1,42 @@
 package com.etsisi.appquitectura.presentation.ui.login.viewmodel
 
 import android.app.Application
+import android.graphics.drawable.Drawable
 import android.util.Patterns
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.domain.enums.NavType
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
+import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
 import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
-import com.etsisi.appquitectura.presentation.utils.EMPTY
 
 class LoginViewModel(
     private val applicationContext: Application,
     private val registerUseCase: RegisterUseCase,
-    private val firebaseLoginUseCase: FirebaseLoginUseCase
+    private val firebaseLoginUseCase: FirebaseLoginUseCase,
+    private val sendEmailVerificationUseCase: SendEmailVerificationUseCase
 ): AndroidViewModel(applicationContext), LifecycleObserver {
 
-    enum class REGISTER_NAVIGATION_TYPE {SUCESS, VERIFY_EMAIL}
-
-    private val _loading by lazy { MutableLiveData<Boolean>() }
-    val loading: LiveData<Boolean>
-        get() = _loading
+    private val _loaded by lazy { MutableLiveData<Boolean>() }
+    val loaded: LiveData<Boolean>
+        get() = _loaded
 
     private val _email by lazy { MutableLiveData<String>() }
     val email: MutableLiveData<String>
         get() = _email
+
+    private val _verifyEmailMsg by lazy { MutableLiveData<String>(null) }
+    val verifyEmailMsg: LiveData<String>
+        get() = _verifyEmailMsg
 
     private val _password by lazy { MutableLiveData<String>() }
     val password: MutableLiveData<String>
@@ -40,7 +46,7 @@ class LoginViewModel(
     val errorMsg: MutableLiveData<String>
         get() = _errorMsg
 
-    private val _isUserLogged = MutableLiveEvent<Boolean>()
+    private val _isUserLogged = MutableLiveEvent(Event(CurrentUser.instance != null))
     val isUserLoggedIn: LiveEvent<Boolean>
         get() = _isUserLogged
 
@@ -48,36 +54,17 @@ class LoginViewModel(
     val onRegister: LiveEvent<Boolean>
         get() = _onRegister
 
-    private val _onSuccessRegister = MutableLiveEvent<REGISTER_NAVIGATION_TYPE>()
-    val onSuccessRegister: LiveEvent<REGISTER_NAVIGATION_TYPE>
+    private val _onVerifyEmail = MutableLiveEvent<Boolean>()
+    val onVerifyEmail: LiveEvent<Boolean>
+        get() = _onVerifyEmail
+
+    private val _onSuccessRegister = MutableLiveEvent<Boolean>()
+    val onSuccessRegister: LiveEvent<Boolean>
         get() = _onSuccessRegister
 
     private val _onSuccessLogin = MutableLiveEvent<Boolean>()
     val onSuccessLogin: LiveEvent<Boolean>
         get() = _onSuccessLogin
-
-    init {
-        isUserLoggedIn()
-    }
-
-    fun isUserLoggedIn() {
-        _isUserLogged.value = Event(CurrentUser.currentUserInstance != null)
-    }
-
-    fun onRegister() {
-        _email.value = String.EMPTY
-        _password.value = String.EMPTY
-        _onRegister.value = Event(true)
-    }
-
-    fun onSuccessRegister() {
-        if (CurrentUser.isEmailVerfied) {
-            CurrentUser.currentUserInstance?.sendEmailVerification()
-            _onSuccessRegister.value = Event(REGISTER_NAVIGATION_TYPE.SUCESS)
-        } else {
-            _onSuccessRegister.value = Event(REGISTER_NAVIGATION_TYPE.VERIFY_EMAIL)
-        }
-    }
 
     fun initLogin() {
         val email = _email.value.orEmpty()
@@ -99,6 +86,10 @@ class LoginViewModel(
         } else {
             _errorMsg.value = applicationContext.getString(R.string.error_text_input_empty)
         }
+    }
+
+    fun onRegister() {
+        _onRegister.value = Event(true)
     }
 
     fun initRegister() {
@@ -124,10 +115,39 @@ class LoginViewModel(
         }
     }
 
+    fun onSuccessRegister() {
+        if (CurrentUser.isEmailVerfied) {
+            showLoading(false)
+            _onSuccessRegister.value = Event(true)
+        } else {
+            initVerifyEmail()
+        }
+    }
+
+    private fun initVerifyEmail() {
+        sendEmailVerificationUseCase.invoke(
+            scope = viewModelScope,
+            params = SendEmailVerificationUseCase.Params()
+        ) { resultCodes ->
+            showLoading(false)
+            if (resultCodes == SendEmailVerificationUseCase.RESULT_CODES.SUCESS) {
+                _onVerifyEmail.value = Event(true)
+            } else {
+                _onSuccessRegister.value = Event(true)
+            }
+        }
+    }
+
     private fun showLoading(flag: Boolean) {
-        _loading.value = flag
+        _loaded.value = flag.not()
     }
 
     private fun emailValid(email: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+    fun btnDrawable(): Drawable = ContextCompat
+        .getDrawable(applicationContext, R.drawable.ic_check_round_selected)
+        ?.apply {
+            setBounds(0, 0, 50, 50)
+        }!!
 
 }

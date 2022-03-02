@@ -27,37 +27,41 @@
             app:layout_constraintTop_toTopOf="parent"
             app:viewModel="@{viewModel}" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_login"
+        <LinearLayout
+            android:id="@+id/buttons_container"
             android:layout_width="0dp"
-            android:layout_height="@dimen/input_text_height"
-            android:layout_marginTop="@dimen/dimen_12"
-            android:focusable="true"
-            android:background="@drawable/shape_submit_button"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.initLogin()}"
-            android:text="@string/login_btn_txt"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/form" />
+            app:layout_constraintTop_toBottomOf="@+id/form">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_register"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/input_text_height"
-            android:layout_marginTop="@dimen/dimen_12"
-            android:focusable="true"
-            android:background="@drawable/shape_submit_button"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="@{() -> viewModel.onRegister()}"
-            android:text="@string/register_btn_text"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_text_height"
+                android:layout_marginTop="@dimen/dimen_12"
+                android:background="@drawable/shape_submit_button"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="@{() -> viewModel.initLogin()}"
+                android:text="@string/login_btn_txt"
+                android:textAllCaps="true"
+                android:textColor="@color/white"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_text_height"
+                android:layout_marginTop="@dimen/dimen_12"
+                android:background="@drawable/shape_submit_button"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:onClick="@{() -> viewModel.onRegister()}"
+                android:text="@string/register_btn_text"
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

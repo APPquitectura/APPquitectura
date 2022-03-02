@@ -42,12 +42,12 @@ abstract class BaseFragment<binding: ViewDataBinding, viewModel: ViewModel>(
             getViewModel(clazz = viewModelClass)
         }
 
+        if (arguments != null) {
+            getFragmentArgs(mBinding)
+        }
+
         setUpDataBinding(mBinding, mViewModel)
         observeViewModel(mViewModel)
-
-        if (arguments != null) {
-            getFragmentArgs()
-        }
 
         return mBinding.root
     }
@@ -61,7 +61,7 @@ abstract class BaseFragment<binding: ViewDataBinding, viewModel: ViewModel>(
         }
     }
 
-    open fun getFragmentArgs() {}
+    open fun getFragmentArgs(mBinding: binding) {}
 
     abstract fun observeViewModel(mViewModel: viewModel)
 

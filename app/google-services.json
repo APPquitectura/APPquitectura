@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "658477384822",
+    "firebase_url": "https://appquitectura-6ea75-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "appquitectura-6ea75",
     "storage_bucket": "appquitectura-6ea75.appspot.com"
   },
@@ -13,14 +14,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "658477384822-08s1ns6qs27j6rhgttjmeukmhabo4t3q.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.etsisi.appquitectura",
-            "certificate_hash": "6db1ee4c40791c8522abc3f3536510db1885ae57"
-          }
-        },
         {
           "client_id": "658477384822-rvllqup0nj8iu2t1su940irim7gio396.apps.googleusercontent.com",
           "client_type": 3
@@ -50,14 +43,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "658477384822-be1ftp5s0436ove271c82o4ib2b7eng2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.etsisi.appquitectura.debug",
-            "certificate_hash": "7ae813df4c23fd8d819db82c961c85a149b5cfe9"
-          }
-        },
         {
           "client_id": "658477384822-rvllqup0nj8iu2t1su940irim7gio396.apps.googleusercontent.com",
           "client_type": 3

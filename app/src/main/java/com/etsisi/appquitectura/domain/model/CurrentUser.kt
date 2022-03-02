@@ -9,7 +9,7 @@ import org.koin.core.component.inject
 object CurrentUser: KoinComponent {
     private val auth: FirebaseAuth by inject()
 
-    val currentUserInstance: FirebaseUser?
+    val instance: FirebaseUser?
         get() = auth.currentUser
 
     val isEmailVerfied: Boolean

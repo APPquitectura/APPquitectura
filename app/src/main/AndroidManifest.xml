@@ -24,8 +24,15 @@
             android:name="com.etsisi.appquitectura.presentation.ui.main.view.MainActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:host="etsisi.page.link"
+                    android:scheme="https"/>
+                <data
+                    android:host="etsisi.page.link"
+                    android:scheme="http"/>
             </intent-filter>
         </activity>
     </application>

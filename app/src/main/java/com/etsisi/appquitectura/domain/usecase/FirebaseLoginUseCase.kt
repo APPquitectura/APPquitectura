@@ -4,13 +4,17 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.util.Locale
 
 class FirebaseLoginUseCase(private val auth: FirebaseAuth): UseCase<FirebaseLoginUseCase.Params, FirebaseLoginUseCase.RESULT_CODES>() {
 
     enum class RESULT_CODES { EMAIL_INVALID, PASSWORD_INVALID, GENERIC_ERROR, SUCCESS }
 
     override suspend fun run(params: Params): RESULT_CODES {
-        return login(params.email, params.password)
+        return login(
+            params.email.trim().lowercase(Locale.getDefault()),
+            params.password.trim().lowercase(Locale.getDefault())
+        )
     }
 
     private suspend fun login(email: String, password: String): RESULT_CODES =

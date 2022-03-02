@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">APPquitectura</string>
-
     <!-- Login -->
     <string name="error_login_credentials">Credenciales erróneas</string>
     <string name="hint_email">Correo</string>

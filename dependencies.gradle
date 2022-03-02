@@ -30,6 +30,8 @@ ext {
 
     coroutinesKtxDependency = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
 
+    dynamicLinksDependency = "com.google.firebase:firebase-dynamic-links-ktx"
+
     firestoreDependency = "com.google.firebase:firebase-firestore"
 
     fragmentKtxDependency = "androidx.fragment:fragment-ktx:$fragmentVersion"

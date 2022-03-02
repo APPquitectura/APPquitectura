@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">APPquitectura</string>
+    <string name="app_name" translatable="false">APPquitectura</string>
 
     <!-- Login -->
     <string name="error_login_credentials">Wrong credentials</string>
