@@ -31,6 +31,11 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         setUpSplashScreen()
         mBinding = DataBindingUtil.setContentView(this@BaseActivity, layoutRes)
         mViewModel = getViewModel(clazz = viewModelClass)
+        intent.extras?.let { bundle ->
+            if (!bundle.isEmpty || intent.data != null) {
+                getActivityArgs()
+            }
+        }
         setUpDataBinding(mBinding, mViewModel)
         observeViewModel(mViewModel)
         getNavController(::getFragmentContainer)?.let { navController ->
@@ -44,6 +49,8 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         }.getOrNull()
         return result
     }
+
+    open fun getActivityArgs() {}
 
     abstract fun observeViewModel(mViewModel: viewModel)
 
