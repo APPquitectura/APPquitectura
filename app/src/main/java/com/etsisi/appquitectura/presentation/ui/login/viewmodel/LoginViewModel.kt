@@ -1,8 +1,10 @@
 package com.etsisi.appquitectura.presentation.ui.login.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.Patterns
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleObserver
@@ -13,17 +15,23 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
+import com.etsisi.appquitectura.domain.usecase.GoogleLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
 import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 
 class LoginViewModel(
     private val applicationContext: Application,
     private val registerUseCase: RegisterUseCase,
     private val firebaseLoginUseCase: FirebaseLoginUseCase,
+    private val googleLoginUseCase: GoogleLoginUseCase,
     private val sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     private val checkVerificationCodeUseCase: CheckVerificationCodeUseCase
 ): AndroidViewModel(applicationContext), LifecycleObserver {
@@ -35,10 +43,6 @@ class LoginViewModel(
     private val _email by lazy { MutableLiveData<String>() }
     val email: MutableLiveData<String>
         get() = _email
-
-    private val _verifyEmailMsg by lazy { MutableLiveData<String>(null) }
-    val verifyEmailMsg: LiveData<String>
-        get() = _verifyEmailMsg
 
     private val _password by lazy { MutableLiveData<String>() }
     val password: MutableLiveData<String>
@@ -72,7 +76,10 @@ class LoginViewModel(
     val onSuccessCode: LiveEvent<Boolean>
         get() = _onSuccessCode
 
-    fun initLogin() {
+    lateinit var googleClient: GoogleSignInClient
+        private set
+
+    fun initFirebaseLogin() {
         val email = _email.value.orEmpty()
         val password = _password.value.orEmpty()
         if (emailValid(email) && !password.isBlank()) {
@@ -91,6 +98,30 @@ class LoginViewModel(
             }
         } else {
             _errorMsg.value = applicationContext.getString(R.string.error_text_input_empty)
+        }
+    }
+
+    fun initGoogleLogin(token: String?, context: AppCompatActivity) {
+        if (token != null) {
+            googleLoginUseCase.invoke(
+                scope = viewModelScope,
+                params = GoogleLoginUseCase.Params(token, context)
+            ) { resultCode ->
+                if (resultCode == GoogleLoginUseCase.RESULT_CODES.SUCESS) {
+
+                } else {
+
+                }
+            }
+        }
+    }
+
+    fun initGoogleLoginFailed(statusCode: Int) {
+        when(statusCode) {
+            CommonStatusCodes.SIGN_IN_REQUIRED -> {}
+            CommonStatusCodes.NETWORK_ERROR -> {}
+            CommonStatusCodes.INVALID_ACCOUNT -> {}
+            CommonStatusCodes.INTERNAL_ERROR -> {}
         }
     }
 
@@ -172,5 +203,13 @@ class LoginViewModel(
         ?.apply {
             setBounds(0, 0, 50, 50)
         }!!
+
+    fun setGoogleClient(context: Context) {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+
+        googleClient = GoogleSignIn.getClient(context, gso)
+    }
 
 }

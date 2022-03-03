@@ -9,6 +9,9 @@
         <variable
             name="viewModel"
             type="com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel" />
+        <variable
+            name="googleListener"
+            type="com.etsisi.appquitectura.presentation.common.GoogleSignInListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,10 +47,10 @@
                 android:background="@drawable/shape_submit_button"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:onClick="@{() -> viewModel.initLogin()}"
+                android:onClick="@{() -> viewModel.initFirebaseLogin()}"
                 android:text="@string/login_btn_txt"
                 android:textAllCaps="true"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_register"
@@ -61,6 +64,14 @@
                 android:text="@string/register_btn_text"
                 android:textAllCaps="true"
                 android:textColor="@color/white" />
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/btn_google"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> googleListener.initSignInGoogle()}"
+                android:layout_marginTop="@dimen/dimen_12" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

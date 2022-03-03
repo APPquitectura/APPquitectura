@@ -1,5 +1,6 @@
 package com.etsisi.appquitectura.presentation.ui.login.view.formscreen
 
+import android.content.Context
 import android.graphics.Color
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -8,6 +9,7 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentLoginFormBinding
 import com.etsisi.appquitectura.domain.enums.NavType
 import com.etsisi.appquitectura.presentation.common.BaseFragment
+import com.etsisi.appquitectura.presentation.common.GoogleSignInListener
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.utils.hideKeyboard
@@ -31,6 +33,16 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
             bindProgressButton(btnRegister)
             btnLogin.attachTextChangeAnimator()
             btnRegister.attachTextChangeAnimator()
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is GoogleSignInListener) {
+            mViewModel.setGoogleClient(context)
+            mBinding.apply {
+                googleListener = context
+            }
         }
     }
 

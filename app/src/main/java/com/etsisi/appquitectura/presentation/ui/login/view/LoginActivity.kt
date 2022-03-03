@@ -7,22 +7,38 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.ActivityLoginBinding
 import com.etsisi.appquitectura.presentation.common.BaseActivity
+import com.etsisi.appquitectura.presentation.common.GoogleSignInListener
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.deviceApiIsAtLeast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
     R.layout.activity_login, LoginViewModel::class
-) {
+), GoogleSignInListener {
+
+    private val googleSignInLauncher by lazy {
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val completedTask = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+            try {
+                val account = completedTask.getResult(ApiException::class.java)
+                mViewModel.initGoogleLogin(account.idToken, this)
+            } catch (e: ApiException) {
+                mViewModel.initGoogleLoginFailed(e.statusCode)
+            }
+        }
+    }
 
     override fun getActivityArgs() {
         Firebase
@@ -62,6 +78,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
 
     override fun getFragmentContainer(): Int = mBinding.navHostLogin.id
 
+    override fun onStart() {
+        super.onStart()
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        //if account != null el usuario ya ha iniciado sesion
+    }
+
 
     @SuppressLint("NewApi")
     override fun setUpSplashScreen() {
@@ -91,6 +113,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             slideUp.start()
         }
 
+    }
+
+    override fun initSignInGoogle() {
+        googleSignInLauncher.launch(mViewModel.googleClient.signInIntent)
     }
 
 }

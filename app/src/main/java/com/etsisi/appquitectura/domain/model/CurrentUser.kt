@@ -26,4 +26,6 @@ object CurrentUser: KoinComponent {
 
     val userUid: String?
         get() = auth.currentUser?.uid
+
+    fun signOut() = auth.signOut()
 }

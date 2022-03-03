@@ -27,8 +27,8 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setUpSplashScreen()
+        super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this@BaseActivity, layoutRes)
         mViewModel = getViewModel(clazz = viewModelClass)
         intent.extras?.let { bundle ->
