@@ -102,6 +102,9 @@ dependencies {
     implementation rootProject.ext.lifecycleKtxDependency
     implementation rootProject.ext.viewModelKtxDependency
 
+    //Lottie
+    implementation rootProject.ext.lottieDependency
+
     //JetPack
     implementation rootProject.ext.navigationFragKtxDependency
     implementation rootProject.ext.navigationKtxDependency
