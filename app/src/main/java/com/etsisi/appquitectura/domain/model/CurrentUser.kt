@@ -12,6 +12,9 @@ object CurrentUser: KoinComponent {
     val instance: FirebaseUser?
         get() = auth.currentUser
 
+    val id: String?
+        get() = auth.uid
+
     val isEmailVerfied: Boolean
         get() = auth.currentUser?.isEmailVerified ?: false
 

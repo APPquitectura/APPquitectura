@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Appquitectura" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.Appquitectura" parent="ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen">
         <!--<item name="android:windowBackground">@color/launcher_background</item>
         <item name="android:statusBarColor">@color/launcher_background</item>-->
         <!-- Primary brand color. -->
