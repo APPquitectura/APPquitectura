@@ -1,8 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Appquitectura" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+        <!--   a darker variant of the primary color, used for
+               the status bar (on Android 5.0+) and contextual app bars -->
+        <item name="colorPrimaryDark">#303F9F</item>
+
+        <!-- color de fondo de las actividades -->
         <item name="android:windowBackground">@color/white</item>
-        <!-- Primary brand color. -->
+        <!-- Primary brand color.color for the app bar and other primary UI elements -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -12,7 +20,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here.  a secondary color for controls like checkboxes and text fields-->
         <item name="colorAccent">@color/red_error</item>
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/red_error</item>
     </style>
