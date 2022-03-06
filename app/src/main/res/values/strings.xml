@@ -1,19 +1,40 @@
 <resources>
     <string name="app_name" translatable="false">APPquitectura</string>
 
+    <!-- Generic Error -->
+    <string name="generic_error_title" translatable="false">Oops!</string>
+    <string name="generic_error_body">An error has occurred, please contact with the support team</string>
+
     <!-- Login -->
-    <string name="error_login_credentials">Wrong credentials</string>
+    <string name="error_network_title">Network error</string>
+    <string name="error_network_body">We are experiencing technical difficulties with your network</string>
+
+    <string name="error_login_credentials_title">Wrong credentials</string>
+    <string name="error_login_credentials_body">Check your email or password before you proceed</string>
+
+    <string name="error_internal_google_title">External error</string>
+    <string name="error_internal_google_body">We are having some external errors</string>
+
+    <string name="error_sign_in_required_google_title">Sign in required</string>
+    <string name="error_sign_in_required_google_body">Please, sign in in to your Google account before you proceed</string>
+
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="login_btn_txt">Log in</string>
 
     <!-- Register -->
-    <string name="register_btn_text">Register</string>
     <string name="error_email_already_exists">Email already exists</string>
+
     <string name="error_email_malformed">Email malformed</string>
+
+    <string name="error_email_password_malformed">Check your email/password. The password must have more than 6 characters</string>
+
+    <string name="error_sending_code_verification">We are experiencing technical difficulties sending a verification code to your email</string>
+    <string name="error_code_verification">We are experiencing technical difficulties verifying your email. Contact with our support team</string>
+
     <string name="error_weak_password">Weak password</string>
-    <string name="error_generic">Error, try again later</string>
-    <string name="error_text_input_empty">Check email and password</string>
+
+    <string name="register_btn_text">Register</string>
     <string name="loading">Loading</string>
     <string name="done">Done</string>
 </resources>

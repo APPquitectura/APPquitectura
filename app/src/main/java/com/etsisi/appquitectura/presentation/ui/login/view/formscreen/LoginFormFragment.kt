@@ -1,6 +1,5 @@
 package com.etsisi.appquitectura.presentation.ui.login.view.formscreen
 
-import android.content.Context
 import android.graphics.Color
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -9,8 +8,8 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentLoginFormBinding
 import com.etsisi.appquitectura.domain.enums.NavType
 import com.etsisi.appquitectura.presentation.common.BaseFragment
-import com.etsisi.appquitectura.presentation.common.GoogleSignInListener
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
+import com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.utils.hideKeyboard
 import com.github.razir.progressbutton.attachTextChangeAnimator
@@ -25,27 +24,6 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
 ) {
     private val args: LoginFormFragmentArgs by navArgs()
 
-    override fun setUpDataBinding(mBinding: FragmentLoginFormBinding, mViewModel: LoginViewModel) {
-        with(mBinding) {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = mViewModel
-            executePendingBindings()
-            bindProgressButton(btnRegister)
-            btnLogin.attachTextChangeAnimator()
-            btnRegister.attachTextChangeAnimator()
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is GoogleSignInListener) {
-            mViewModel.setGoogleClient(context)
-            mBinding.apply {
-                googleListener = context
-            }
-        }
-    }
-
     override fun getFragmentArgs(mBinding: FragmentLoginFormBinding) {
         when(args.navType) {
             NavType.REGISTER -> {
@@ -54,6 +32,18 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
             NavType.LOGIN -> {
                 mBinding.btnRegister.isVisible = true
             }
+        }
+    }
+
+    override fun setUpDataBinding(mBinding: FragmentLoginFormBinding, mViewModel: LoginViewModel) {
+        with(mBinding) {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = mViewModel
+            (requireActivity() as? LoginActivity)?.let { googleListener = it }
+            executePendingBindings()
+            bindProgressButton(btnRegister)
+            btnLogin.attachTextChangeAnimator()
+            btnRegister.attachTextChangeAnimator()
         }
     }
 

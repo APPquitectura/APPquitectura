@@ -36,6 +36,11 @@
             app:popExitAnim="@anim/enter_from_right"
             app:popUpTo="@id/login"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/navigate_login_dialog"
+            app:destination="@id/login_dialog"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down" />
     </fragment>
     <fragment
         android:id="@id/email_verification_fragment"
@@ -52,4 +57,13 @@
         android:name="com.etsisi.appquitectura.presentation.ui.main.view.MainActivity"
         android:label="ActivityMain"
         tools:layout="@layout/activity_main" />
+    <dialog
+        android:id="@+id/login_dialog"
+        android:name="com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog"
+        android:label="NavigationDialog"
+        tools:layout="@layout/dialog_navigation">
+        <argument
+            android:name="config"
+            app:argType="com.etsisi.appquitectura.presentation.dialog.model.DialogConfig" />
+    </dialog>
 </navigation>

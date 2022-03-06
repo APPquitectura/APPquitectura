@@ -15,12 +15,13 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
-import com.etsisi.appquitectura.domain.usecase.GoogleLoginUseCase
+import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
 import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
+import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -31,7 +32,7 @@ class LoginViewModel(
     private val applicationContext: Application,
     private val registerUseCase: RegisterUseCase,
     private val firebaseLoginUseCase: FirebaseLoginUseCase,
-    private val googleLoginUseCase: GoogleLoginUseCase,
+    private val firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
     private val sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     private val checkVerificationCodeUseCase: CheckVerificationCodeUseCase
 ): AndroidViewModel(applicationContext), LifecycleObserver {
@@ -48,17 +49,13 @@ class LoginViewModel(
     val password: MutableLiveData<String>
         get() = _password
 
-    private val _errorMsg by lazy { MutableLiveData<String>() }
-    val errorMsg: MutableLiveData<String>
-        get() = _errorMsg
-
-    private val _isUserLogged = MutableLiveEvent(Event(CurrentUser.instance != null))
-    val isUserLoggedIn: LiveEvent<Boolean>
-        get() = _isUserLogged
-
     private val _onRegister = MutableLiveEvent<Boolean>()
     val onRegister: LiveEvent<Boolean>
         get() = _onRegister
+
+    private val _onError = MutableLiveEvent<DialogConfig>()
+    val onError: LiveEvent<DialogConfig>
+        get() = _onError
 
     private val _onVerifyEmail by lazy { MutableLiveEvent<Boolean>() }
     val onVerifyEmail: LiveEvent<Boolean>
@@ -79,6 +76,8 @@ class LoginViewModel(
     lateinit var googleClient: GoogleSignInClient
         private set
 
+    fun isUserLogged(): Boolean = CurrentUser.instance != null
+
     fun initFirebaseLogin() {
         val email = _email.value.orEmpty()
         val password = _password.value.orEmpty()
@@ -90,27 +89,34 @@ class LoginViewModel(
             ) { resultCode ->
                 showLoading(false)
                 when(resultCode) {
-                    FirebaseLoginUseCase.RESULT_CODES.EMAIL_INVALID,
                     FirebaseLoginUseCase.RESULT_CODES.PASSWORD_INVALID,
-                    FirebaseLoginUseCase.RESULT_CODES.GENERIC_ERROR -> _errorMsg.value = applicationContext.getString(R.string.error_login_credentials)
+                    FirebaseLoginUseCase.RESULT_CODES.EMAIL_INVALID -> {
+                        val config = DialogConfig(title = R.string.error_login_credentials_title, body = R.string.error_login_credentials_body, lottieRes = R.raw.lottie_404)
+                        _onError.value = Event(config)
+                    }
+                    FirebaseLoginUseCase.RESULT_CODES.GENERIC_ERROR -> {
+                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.generic_error_body, lottieRes = R.raw.lottie_404)
+                        _onError.value = Event(config)
+                    }
                     FirebaseLoginUseCase.RESULT_CODES.SUCCESS -> _onSuccessLogin.value = Event(true)
                 }
             }
         } else {
-            _errorMsg.value = applicationContext.getString(R.string.error_text_input_empty)
+            val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_login_credentials_body, lottieRes = R.raw.lottie_404)
+            _onError.value = Event(config)
         }
     }
 
-    fun initGoogleLogin(token: String?, context: AppCompatActivity) {
+    fun initFirebaseLoginWithCredentials(token: String?, context: AppCompatActivity) {
         if (token != null) {
-            googleLoginUseCase.invoke(
+            firebaseLoginWithCredentialsUseCase.invoke(
                 scope = viewModelScope,
-                params = GoogleLoginUseCase.Params(token, context)
+                params = FirebaseLoginWithCredentialsUseCase.Params(token, context)
             ) { resultCode ->
-                if (resultCode == GoogleLoginUseCase.RESULT_CODES.SUCESS) {
-
+                if (resultCode == FirebaseLoginWithCredentialsUseCase.RESULT_CODES.SUCESS) {
+                    _onSuccessLogin.value = Event(true)
                 } else {
-
+                    initGoogleLoginFailed(-1)
                 }
             }
         }
@@ -118,10 +124,23 @@ class LoginViewModel(
 
     fun initGoogleLoginFailed(statusCode: Int) {
         when(statusCode) {
-            CommonStatusCodes.SIGN_IN_REQUIRED -> {}
-            CommonStatusCodes.NETWORK_ERROR -> {}
-            CommonStatusCodes.INVALID_ACCOUNT -> {}
-            CommonStatusCodes.INTERNAL_ERROR -> {}
+            CommonStatusCodes.SIGN_IN_REQUIRED -> {
+                val config = DialogConfig(title = R.string.error_sign_in_required_google_title, body = R.string.error_sign_in_required_google_body, lottieRes = R.raw.lottie_404)
+                _onError.value = Event(config)
+            }
+            CommonStatusCodes.NETWORK_ERROR -> {
+                val config = DialogConfig(title = R.string.error_network_title, body = R.string.error_network_body, lottieRes = R.raw.lottie_404)
+                _onError.value = Event(config)
+            }
+            CommonStatusCodes.INVALID_ACCOUNT,
+            CommonStatusCodes.INTERNAL_ERROR -> {
+                val config = DialogConfig(title = R.string.error_internal_google_title, body = R.string.error_internal_google_body, lottieRes = R.raw.lottie_404)
+                _onError.value = Event(config)
+            }
+            else -> {
+                val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_login_credentials_body, lottieRes = R.raw.lottie_404)
+                _onError.value = Event(config)
+            }
         }
     }
 
@@ -132,7 +151,7 @@ class LoginViewModel(
     fun initRegister() {
         val email = _email.value.orEmpty()
         val password = _password.value.orEmpty()
-        if (emailValid(email) && !password.isBlank()) {
+        if (emailValid(email) && passwordValid(password)) {
             showLoading(true)
             registerUseCase.invoke(
                 scope = viewModelScope,
@@ -140,15 +159,28 @@ class LoginViewModel(
             ) { resultCode ->
                 showLoading(false)
                 when(resultCode) {
-                    RegisterUseCase.RESULT_CODES.WEAK_PASSWORD -> _errorMsg.value = applicationContext.getString(R.string.error_weak_password)
-                    RegisterUseCase.RESULT_CODES.EMAIL_ALREADY_EXISTS -> _errorMsg.value = applicationContext.getString(R.string.error_email_already_exists)
-                    RegisterUseCase.RESULT_CODES.EMAIL_MALFORMED -> _errorMsg.value = applicationContext.getString(R.string.error_email_malformed)
-                    RegisterUseCase.RESULT_CODES.GENERIC_ERROR -> _errorMsg.value = applicationContext.getString(R.string.error_generic)
+                    RegisterUseCase.RESULT_CODES.WEAK_PASSWORD -> {
+                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_weak_password, lottieRes = R.raw.lottie_404)
+                        _onError.value = Event(config)
+                    }
+                    RegisterUseCase.RESULT_CODES.EMAIL_ALREADY_EXISTS -> {
+                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_email_already_exists, lottieRes = R.raw.lottie_404)
+                        _onError.value = Event(config)
+                    }
+                    RegisterUseCase.RESULT_CODES.EMAIL_MALFORMED -> {
+                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_email_malformed, lottieRes = R.raw.lottie_404)
+                        _onError.value = Event(config)
+                    }
+                    RegisterUseCase.RESULT_CODES.GENERIC_ERROR -> {
+                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.generic_error_body, lottieRes = R.raw.lottie_404)
+                        _onError.value = Event(config)
+                    }
                     RegisterUseCase.RESULT_CODES.SUCCESS -> onSuccessRegister()
                 }
             }
         } else {
-            _errorMsg.value = applicationContext.getString(R.string.error_text_input_empty)
+            val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_email_password_malformed, lottieRes = R.raw.lottie_404)
+            _onError.value = Event(config)
         }
     }
 
@@ -170,7 +202,8 @@ class LoginViewModel(
             if (resultCodes == SendEmailVerificationUseCase.RESULT_CODES.SUCESS) {
                 _onVerifyEmail.value = Event(true)
             } else {
-                _onSuccessRegister.value = Event(true)
+                val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sending_code_verification, lottieRes = R.raw.lottie_404)
+                _onError.value = Event(config)
             }
         }
     }
@@ -180,16 +213,19 @@ class LoginViewModel(
             checkVerificationCodeUseCase.invoke(
                 scope = viewModelScope,
                 params = CheckVerificationCodeUseCase.Params(pendingDynamicLinkData)
-            ) {
-                _onSuccessCode.value = Event(it != CheckVerificationCodeUseCase.RESULT_CODES.GENERIC_ERROR)
+            ) { resultCode ->
+                when(resultCode) {
+                    CheckVerificationCodeUseCase.RESULT_CODES.GENERIC_ERROR -> {
+                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_code_verification, lottieRes = R.raw.lottie_404)
+                        _onError.value = Event(config)
+                    }
+                    CheckVerificationCodeUseCase.RESULT_CODES.SUCESS ->_onSuccessCode.value = Event(true)
+                }
             }
         } else {
-            onCodeVerificationFailed()
+            val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_code_verification, lottieRes = R.raw.lottie_404)
+            _onError.value = Event(config)
         }
-    }
-
-    fun onCodeVerificationFailed() {
-        _onSuccessCode.value = Event(false)
     }
 
     private fun showLoading(flag: Boolean) {
@@ -197,6 +233,7 @@ class LoginViewModel(
     }
 
     private fun emailValid(email: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    private fun passwordValid(password: String) = password.length > 6
 
     fun btnDrawable(): Drawable = ContextCompat
         .getDrawable(applicationContext, R.drawable.ic_check_round_selected)

@@ -4,6 +4,7 @@ import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.google.firebase.auth.ActionCodeResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 class CheckVerificationCodeUseCase(private val auth: FirebaseAuth) : UseCase<CheckVerificationCodeUseCase.Params, CheckVerificationCodeUseCase.RESULT_CODES>() {
@@ -28,6 +29,7 @@ class CheckVerificationCodeUseCase(private val auth: FirebaseAuth) : UseCase<Che
         } ?: RESULT_CODES.GENERIC_ERROR
     }
 
+    @ExperimentalCoroutinesApi
     private suspend fun verifyCode(code: String): RESULT_CODES =
         suspendCancellableCoroutine { cont ->
             code.ifBlank {

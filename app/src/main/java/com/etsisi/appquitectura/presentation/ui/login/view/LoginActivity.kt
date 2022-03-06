@@ -6,7 +6,6 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.animation.AnticipateInterpolator
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.animation.doOnEnd
@@ -16,6 +15,7 @@ import com.etsisi.appquitectura.databinding.ActivityLoginBinding
 import com.etsisi.appquitectura.presentation.common.BaseActivity
 import com.etsisi.appquitectura.presentation.common.GoogleSignInListener
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
+import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.deviceApiIsAtLeast
@@ -28,17 +28,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
     R.layout.activity_login, LoginViewModel::class
 ), GoogleSignInListener {
 
-    private val googleSignInLauncher by lazy {
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private val googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val completedTask = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             try {
                 val account = completedTask.getResult(ApiException::class.java)
-                mViewModel.initGoogleLogin(account.idToken, this)
+                mViewModel.initFirebaseLoginWithCredentials(account.idToken, this)
             } catch (e: ApiException) {
                 mViewModel.initGoogleLoginFailed(e.statusCode)
             }
         }
-    }
+
 
     override fun getActivityArgs() {
         Firebase
@@ -48,7 +47,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
                 pendingDynamicLinkData?.link?.let { deeplink ->
                     mViewModel.initVerificationCode(pendingDynamicLinkData)
                 }
-                Log.e(TAG, "getDynamicLink:onSucess ${pendingDynamicLinkData?.link}")
             }
             .addOnFailureListener(this) { e ->
                 Log.e(TAG, "getDynamicLink:onFailure", e)
@@ -64,14 +62,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
 
     override fun observeViewModel(mViewModel: LoginViewModel) {
         with(mViewModel) {
-            isUserLoggedIn.observe(this@LoginActivity, LiveEventObserver{ isLogged ->
-
+            setGoogleClient(this@LoginActivity)
+            onError.observe(this@LoginActivity, LiveEventObserver { dialogConfig ->
+                navigator.openDialog(dialogConfig)
             })
-            errorMsg.observe(this@LoginActivity) { msg ->
-                Toast.makeText(this@LoginActivity, msg, Toast.LENGTH_LONG).show()
-            }
             onSuccessCode.observe(this@LoginActivity, LiveEventObserver {
-
+                if (it) {
+                    //Navigate to main
+                }
             })
         }
     }
@@ -80,8 +78,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
 
     override fun onStart() {
         super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        //if account != null el usuario ya ha iniciado sesion
+        if (!mViewModel.isUserLogged()) {
+            GoogleSignIn.getLastSignedInAccount(this)?.let { account ->
+                mViewModel.initFirebaseLoginWithCredentials(account.idToken, this)
+            }
+        }
     }
 
 
@@ -96,7 +97,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
     @RequiresApi(Build.VERSION_CODES.S)
     private fun setUpSplashAnimation() {
         splashScreen.setOnExitAnimationListener { splashScreenView ->
-            // Create your custom animation.
             val slideUp = ObjectAnimator.ofFloat(
                 splashScreenView,
                 View.TRANSLATION_Y,
@@ -105,14 +105,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             )
             slideUp.interpolator = AnticipateInterpolator()
             slideUp.duration = 200L
-
-            // Call SplashScreenView.remove at the end of your custom animation.
             slideUp.doOnEnd { splashScreenView.remove() }
-
-            // Run your animation.
             slideUp.start()
         }
-
     }
 
     override fun initSignInGoogle() {

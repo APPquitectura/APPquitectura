@@ -3,7 +3,7 @@ package com.etsisi.appquitectura.di
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
-import com.etsisi.appquitectura.domain.usecase.GoogleLoginUseCase
+import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
@@ -30,5 +30,5 @@ val useCaseModule = module {
     factory { FirebaseLoginUseCase(get()) }
     factory { SendEmailVerificationUseCase() }
     factory { CheckVerificationCodeUseCase(get()) }
-    factory { GoogleLoginUseCase(get()) }
+    factory { FirebaseLoginWithCredentialsUseCase(get()) }
 }

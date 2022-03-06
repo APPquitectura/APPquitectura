@@ -31,11 +31,11 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/dialog_title"
-            android:text="@{config.title}"
+            app:textRes="@{config.title}"
             tools:text="TITLE"/>
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/dialog_body"
-            android:text="@{config.body}"
+            app:textRes="@{config.body}"
             tools:text="BODY"/>
     </LinearLayout>
 </layout>

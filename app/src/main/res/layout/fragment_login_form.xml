@@ -69,7 +69,7 @@
                 android:id="@+id/btn_google"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> googleListener.initSignInGoogle()}"
+                app:onClickCustom="@{() -> googleListener.initSignInGoogle()}"
                 android:layout_marginTop="@dimen/dimen_12" />
 
         </LinearLayout>
