@@ -14,6 +14,7 @@
             android:name="com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/LoginActivityStyle"
+            android:screenOrientation="nosensor"
             android:noHistory="true"
             android:exported="true" >
             <intent-filter>
@@ -36,6 +37,7 @@
         <activity
             android:name="com.etsisi.appquitectura.presentation.ui.main.view.MainActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="nosensor"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

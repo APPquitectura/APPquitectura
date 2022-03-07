@@ -15,7 +15,6 @@ import com.etsisi.appquitectura.databinding.ActivityLoginBinding
 import com.etsisi.appquitectura.presentation.common.BaseActivity
 import com.etsisi.appquitectura.presentation.common.GoogleSignInListener
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
-import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.deviceApiIsAtLeast
@@ -68,7 +67,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             })
             onSuccessCode.observe(this@LoginActivity, LiveEventObserver {
                 if (it) {
-                    //Navigate to main
+                    navigator.navigateFromLoginToMain()
                 }
             })
         }

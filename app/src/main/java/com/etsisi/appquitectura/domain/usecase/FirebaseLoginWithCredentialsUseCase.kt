@@ -3,6 +3,7 @@ package com.etsisi.appquitectura.domain.usecase
 import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
@@ -11,7 +12,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 class FirebaseLoginWithCredentialsUseCase(private val auth: FirebaseAuth) :
     UseCase<FirebaseLoginWithCredentialsUseCase.Params, FirebaseLoginWithCredentialsUseCase.RESULT_CODES>() {
 
-    enum class RESULT_CODES { SUCESS, GENERIC_ERROR }
+    enum class RESULT_CODES { SUCESS, INVALID_USER, CREDENTIALS_MALFORMED, COLLISION }
 
     data class Params(val token: String, val context: FragmentActivity)
 
@@ -30,16 +31,13 @@ class FirebaseLoginWithCredentialsUseCase(private val auth: FirebaseAuth) :
                     } else {
                         when (task.exception) {
                             is FirebaseAuthInvalidUserException -> {
-                                //You are not register in our database
+                                cont.resume(RESULT_CODES.INVALID_USER, null)
                             }
-                            is FirebaseAuthInvalidUserException -> {
-                                //Thrown if the credential is malformed or has expired. If credential instanceof EmailAuthCredential it will be thrown if the password is incorrect.
+                            is FirebaseAuthInvalidCredentialsException -> {
+                                cont.resume(RESULT_CODES.CREDENTIALS_MALFORMED, null)
                             }
                             is FirebaseAuthUserCollisionException -> {
-                                //thrown if there already exists an account with the email address asserted by the credential. Resolve this case by calling fetchSignInMethodsForEmail(String) and then asking the user to sign in using one of them.
-                            }
-                            else -> {
-                                cont.resume(RESULT_CODES.GENERIC_ERROR, null)
+                                cont.resume(RESULT_CODES.COLLISION, null)
                             }
                         }
                     }

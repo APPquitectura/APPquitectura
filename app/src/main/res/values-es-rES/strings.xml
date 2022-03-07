@@ -11,6 +11,9 @@
     <string name="error_login_credentials_title">Credenciales erróneas</string>
     <string name="error_login_credentials_body">Comprueba tu correo o contraseña antes de proceder</string>
 
+    <string name="error_sign_in_google_collision">Ya existe una cuenta asociada a este correo electrónico</string>
+    <string name="error_sign_in_google_user_not_exists">No existe ninguna cuenta asociada a este correo electrónico</string>
+
     <string name="error_internal_google_title">Error externo</string>
     <string name="error_internal_google_body">Estamos experimentando algunos problemas externos</string>
 

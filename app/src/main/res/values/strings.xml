@@ -12,6 +12,9 @@
     <string name="error_login_credentials_title">Wrong credentials</string>
     <string name="error_login_credentials_body">Check your email or password before you proceed</string>
 
+    <string name="error_sign_in_google_collision">There already exists an account with your email address</string>
+    <string name="error_sign_in_google_user_not_exists">You do not have an account with this email address</string>
+
     <string name="error_internal_google_title">External error</string>
     <string name="error_internal_google_body">We are having some external errors</string>
 

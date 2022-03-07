@@ -9,70 +9,74 @@
         <variable
             name="viewModel"
             type="com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel" />
+
         <variable
             name="googleListener"
             type="com.etsisi.appquitectura.presentation.common.GoogleSignInListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraints_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="@dimen/dimen_12">
 
-        <include
-            android:id="@+id/form"
-            layout="@layout/login_form"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <ScrollView
+            android:id="@+id/scrollViewContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:isScrollContainer="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:viewModel="@{viewModel}" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/buttons_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/form">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/input_text_height"
-                android:layout_marginTop="@dimen/dimen_12"
-                android:background="@drawable/shape_submit_button"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:onClick="@{() -> viewModel.initFirebaseLogin()}"
-                android:text="@string/login_btn_txt"
-                android:textAllCaps="true"
-                android:textColor="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_register"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/input_text_height"
-                android:layout_marginTop="@dimen/dimen_12"
-                android:background="@drawable/shape_submit_button"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:onClick="@{() -> viewModel.onRegister()}"
-                android:text="@string/register_btn_text"
-                android:textAllCaps="true"
-                android:textColor="@color/white" />
-
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/btn_google"
+            <LinearLayout
+                android:id="@+id/buttons_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:onClickCustom="@{() -> googleListener.initSignInGoogle()}"
-                android:layout_marginTop="@dimen/dimen_12" />
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <include
+                    android:id="@+id/form"
+                    layout="@layout/login_form"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:viewModel="@{viewModel}" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/input_text_height"
+                    android:layout_marginTop="@dimen/dimen_12"
+                    android:background="@drawable/shape_submit_button"
+                    android:focusable="true"
+                    android:onClick="@{() -> viewModel.initFirebaseLogin()}"
+                    android:text="@string/login_btn_txt"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/input_text_height"
+                    android:layout_marginTop="@dimen/dimen_12"
+                    android:background="@drawable/shape_submit_button"
+                    android:focusable="true"
+                    android:onClick="@{() -> viewModel.onRegister()}"
+                    android:text="@string/register_btn_text"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white" />
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/btn_google"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_12"
+                    app:onClickCustom="@{() -> googleListener.initSignInGoogle()}" />
+
+            </LinearLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

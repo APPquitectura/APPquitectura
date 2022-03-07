@@ -1,7 +1,7 @@
 package com.etsisi.appquitectura.presentation.ui.login.view.formscreen
 
 import android.graphics.Color
-import android.widget.Toast
+import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
@@ -23,6 +23,12 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
     LoginViewModel::class
 ) {
     private val args: LoginFormFragmentArgs by navArgs()
+
+    val listener = object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            mBinding.root.rootView.rootView.height - mBinding.constraintsContainer.height
+        }
+    }
 
     override fun getFragmentArgs(mBinding: FragmentLoginFormBinding) {
         when(args.navType) {
@@ -88,7 +94,7 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
                 }
             })
             onSuccessLogin.observe(viewLifecycleOwner, LiveEventObserver {
-                Toast.makeText(requireContext(), "LOG IN!", Toast.LENGTH_LONG).show()
+                navigator.navigateFromLoginToMain()
             })
         }
     }

@@ -148,5 +148,5 @@
     <dimen name="text_35">35sp</dimen>
     <dimen name="text_40">40sp</dimen>
 
-    <dimen name="input_text_height">45dp</dimen>
+    <dimen name="input_text_height">48dp</dimen>
 </resources>
