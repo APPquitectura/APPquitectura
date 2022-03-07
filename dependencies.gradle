@@ -8,14 +8,16 @@ ext {
     //Versions
     appCompatVersion = '1.4.0'
     authVersion = '20.1.0'
+    BOMVersion = '29.0.4'
     coroutineVersion = '1.6.0'
-    firestoreVersion = '24.0.1'
     fragmentVersion = '1.4.0'
     glideVersion = '4.12.0'
     koinVersion = '3.1.4'
     ktxCoreVersion = '1.7.0'
     lifecycleVersion = '2.4.0'
+    lottieVersion = '5.0.2'
     navigationVersion = '2.5.0-alpha03'
+    progressButtonVersion = '2.1.0'
     retrofitVersion = '2.9.0'
     splashscreenVersion = '1.0.0-beta01'
 
@@ -23,9 +25,15 @@ ext {
     androidAppCompat = "androidx.appcompat:appcompat:$appCompatVersion"
     androidKotlinCore = "androidx.core:core-ktx:$ktxCoreVersion"
 
+    firebaseAuthDependency = "com.google.firebase:firebase-auth-ktx"
+
+    BOMdependency = "com.google.firebase:firebase-bom:$BOMVersion"
+
     coroutinesKtxDependency = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
 
-    firestoreDependency = "com.google.firebase:firebase-firestore:$firestoreVersion"
+    dynamicLinksDependency = "com.google.firebase:firebase-dynamic-links-ktx"
+
+    firestoreDependency = "com.google.firebase:firebase-firestore"
 
     fragmentKtxDependency = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
@@ -39,8 +47,12 @@ ext {
     liveDataKtxDependency = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     lifecycleKtxDependency = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 
+    lottieDependency = "com.airbnb.android:lottie:$lottieVersion"
+
     navigationFragKtxDependency = "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     navigationKtxDependency = "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    progressButtonDependency = "com.github.razir.progressbutton:progressbutton:$progressButtonVersion"
 
     savedStateKtxDependency = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
     viewModelKtxDependency = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"

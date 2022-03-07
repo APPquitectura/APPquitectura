@@ -1,4 +1,4 @@
-package com.etsisi.quizz.domain.common
+package com.etsisi.appquitectura.domain.usecase
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

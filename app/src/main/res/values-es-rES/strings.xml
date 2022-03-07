@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Generic Error -->
+    <string name="generic_error_body">Ha ocurrido un error, contacte con el equipo de soporte</string>
+
+    <!-- Login -->
+    <string name="error_network_title">Error de red</string>
+    <string name="error_network_body">Estamos experimentando fallas técnicas de conexión</string>
+
+    <string name="error_login_credentials_title">Credenciales erróneas</string>
+    <string name="error_login_credentials_body">Comprueba tu correo o contraseña antes de proceder</string>
+
+    <string name="error_sign_in_google_collision">Ya existe una cuenta asociada a este correo electrónico</string>
+    <string name="error_sign_in_google_user_not_exists">No existe ninguna cuenta asociada a este correo electrónico</string>
+
+    <string name="error_internal_google_title">Error externo</string>
+    <string name="error_internal_google_body">Estamos experimentando algunos problemas externos</string>
+
+    <string name="error_sign_in_required_google_title">Inicio de sesión con Google</string>
+    <string name="error_sign_in_required_google_body">Inicie sesión con su cuenta de Google antes de proceder</string>
+
+    <string name="hint_email">Correo</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="login_btn_txt">Iniciar sesión</string>
+
+    <!-- Register -->
+    <string name="error_email_already_exists">El correo electrónico ya existe</string>
+
+    <string name="error_email_malformed">Correo electrónico incorrecto</string>
+
+    <string name="error_email_password_malformed">Comprueba tu correo/contraseña. La contraseña debe tener más de 6 caracteres</string>
+
+    <string name="error_sending_code_verification">Estamos teniendo problemas técnicos para enviarte un código de verificación al correo electrónico</string>
+    <string name="error_code_verification">No hemos podido verificar su correo electrónico, contacte con soporte</string>
+
+    <string name="error_weak_password">Contraseña muy débil</string>
+
+    <string name="register_btn_text">Registrarse</string>
+    <string name="loading">Cargando</string>
+    <string name="done">Completado</string>
+</resources>

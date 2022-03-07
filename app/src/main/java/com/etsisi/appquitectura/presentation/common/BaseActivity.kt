@@ -27,10 +27,15 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setUpSplashScreen()
+        super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this@BaseActivity, layoutRes)
         mViewModel = getViewModel(clazz = viewModelClass)
+        intent.extras?.let { bundle ->
+            if (!bundle.isEmpty || intent.data != null) {
+                getActivityArgs()
+            }
+        }
         setUpDataBinding(mBinding, mViewModel)
         observeViewModel(mViewModel)
         getNavController(::getFragmentContainer)?.let { navController ->
@@ -45,9 +50,11 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         return result
     }
 
-    abstract fun observeViewModel(mViewModel: ViewModel)
+    open fun getActivityArgs() {}
 
-    abstract fun setUpDataBinding(mBinding: ViewDataBinding, mViewModel: ViewModel)
+    abstract fun observeViewModel(mViewModel: viewModel)
+
+    abstract fun setUpDataBinding(mBinding: binding, mViewModel: viewModel)
 
     abstract fun getFragmentContainer(): Int
 

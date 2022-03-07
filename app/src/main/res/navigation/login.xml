@@ -3,11 +3,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login"
-    app:startDestination="@id/loginFormFragment">
-
+    app:startDestination="@id/form_fragment">
+    <action
+        android:id="@+id/navigate_login_to_main"
+        app:destination="@id/main_activity"
+        app:enterAnim="@anim/enter_from_right"
+        app:exitAnim="@anim/exit_to_left"
+        app:popEnterAnim="@anim/enter_from_left"
+        app:popExitAnim="@anim/enter_from_right"
+        app:popUpTo="@id/login"
+        app:popUpToInclusive="true" />
     <fragment
-        android:id="@+id/loginFormFragment"
+        android:id="@id/form_fragment"
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragment"
-        android:label="fragment_login_form"
-        tools:layout="@layout/fragment_login_form" />
+        android:label="Form fragment"
+        tools:layout="@layout/fragment_login_form">
+        <action
+            android:id="@id/navigate_to_form"
+            app:destination="@id/form_fragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right" />
+        <argument
+            android:name="navType"
+            android:defaultValue="LOGIN"
+            app:argType="com.etsisi.appquitectura.domain.enums.NavType" />
+        <action
+            android:id="@id/navigate_to_emailVerificationFragment"
+            app:destination="@id/email_verification_fragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right"
+            app:popUpTo="@id/login"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/navigate_login_dialog"
+            app:destination="@id/login_dialog"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down" />
+    </fragment>
+    <fragment
+        android:id="@id/email_verification_fragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.EmailVerificationFragment"
+        android:label="EmailVerificationFragment"
+        tools:layout="@layout/fragment_email_verification">
+        <argument
+            android:name="emailVerified"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
+    <activity
+        android:id="@id/main_activity"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.view.MainActivity"
+        android:label="ActivityMain"
+        tools:layout="@layout/activity_main" />
+    <dialog
+        android:id="@+id/login_dialog"
+        android:name="com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog"
+        android:label="NavigationDialog"
+        tools:layout="@layout/dialog_navigation">
+        <argument
+            android:name="config"
+            app:argType="com.etsisi.appquitectura.presentation.dialog.model.DialogConfig" />
+    </dialog>
 </navigation>

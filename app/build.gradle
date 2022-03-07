@@ -2,12 +2,30 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
 }
 
+def keyStorePropertiesFileName = "keystore.properties"
+
 android {
     compileSdkVersion 31
+
+    signingConfigs {
+        release {
+            if (rootProject.file(keyStorePropertiesFileName).exists()) {
+                // Load keystore
+                def keystorePropertiesFile = rootProject.file(keyStorePropertiesFileName)
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
 
     defaultConfig {
         applicationId "com.etsisi.appquitectura"
@@ -26,6 +44,7 @@ android {
         }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -62,7 +81,13 @@ dependencies {
     implementation rootProject.ext.coroutinesKtxDependency
 
     //Firebase
+    implementation platform(rootProject.ext.BOMdependency)
+    implementation rootProject.ext.firebaseAuthDependency
     implementation rootProject.ext.firestoreDependency
+    implementation rootProject.ext.dynamicLinksDependency
+
+    //Google Play Services
+    implementation rootProject.ext.googleAuthDependency
 
     //Glide
     implementation rootProject.ext.glideDependency
@@ -78,9 +103,15 @@ dependencies {
     implementation rootProject.ext.lifecycleKtxDependency
     implementation rootProject.ext.viewModelKtxDependency
 
+    //Lottie
+    implementation rootProject.ext.lottieDependency
+
     //JetPack
     implementation rootProject.ext.navigationFragKtxDependency
     implementation rootProject.ext.navigationKtxDependency
+
+    //Progress Button
+    implementation rootProject.ext.progressButtonDependency
 
     // Retrofit
     implementation rootProject.ext.retrofitDependency

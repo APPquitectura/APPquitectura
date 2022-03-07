@@ -2,6 +2,7 @@ package com.etsisi.appquitectura.application
 
 import android.app.Application
 import com.etsisi.appquitectura.di.presentationModule
+import com.etsisi.appquitectura.di.useCaseModule
 import com.etsisi.appquitectura.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -21,7 +22,8 @@ class BaseApplication: Application() {
             modules(
                 listOf(
                     viewModelModule,
-                    presentationModule
+                    presentationModule,
+                    useCaseModule
                 )
             )
         }
