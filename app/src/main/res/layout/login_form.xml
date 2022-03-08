@@ -31,6 +31,7 @@
                 app:hintAnimationEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:imeOptions="actionNext"
@@ -49,6 +50,7 @@
                 app:hintAnimationEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:imeOptions="actionDone"

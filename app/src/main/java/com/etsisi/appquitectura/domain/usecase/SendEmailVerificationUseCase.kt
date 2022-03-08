@@ -40,6 +40,6 @@ class SendEmailVerificationUseCase: UseCase<SendEmailVerificationUseCase.Params,
         val installIfNotAvailable: Boolean = true,
         val handleCodeInApp: Boolean = true,
         val urlDeepLink: String = Constants.sendEmailVerificationDeeplink,
-        val dynamicLinkPrefix: String = Constants.dynamicLinkPrefix
+        val dynamicLinkPrefix: String = Constants.DYNAMIC_LINK_PREFIX
     )
 }

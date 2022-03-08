@@ -18,6 +18,7 @@ import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.deviceApiIsAtLeast
+import com.etsisi.appquitectura.utils.Constants
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -37,23 +38,26 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             }
         }
 
-
     override fun getActivityArgs() {
-        Firebase
-            .dynamicLinks
-            .getDynamicLink(intent)
-            .addOnSuccessListener(this) { pendingDynamicLinkData ->
-                pendingDynamicLinkData?.link?.let { deeplink ->
-                    mViewModel.initVerificationCode(pendingDynamicLinkData)
+        if (intent.data?.host == Constants.DYNAMIC_LINK_PREFIX) {
+            mViewModel.showLoading(true, R.string.verifying)
+            Firebase
+                .dynamicLinks
+                .getDynamicLink(intent)
+                .addOnSuccessListener(this) { pendingDynamicLinkData ->
+                    pendingDynamicLinkData?.link?.let { deeplink ->
+                        mViewModel.initVerificationCode(pendingDynamicLinkData)
+                    }
                 }
-            }
-            .addOnFailureListener(this) { e ->
-                Log.e(TAG, "getDynamicLink:onFailure", e)
-            }
+                .addOnFailureListener(this) { e ->
+                    Log.e(TAG, "getDynamicLink:onFailure", e)
+                }
+        }
     }
 
     override fun setUpDataBinding(mBinding: ActivityLoginBinding, mViewModel: LoginViewModel) {
         with(mBinding) {
+            viewModel = mViewModel
             lifecycleOwner = this@LoginActivity
             lifecycle.addObserver(mViewModel)
         }

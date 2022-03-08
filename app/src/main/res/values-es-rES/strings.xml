@@ -19,6 +19,7 @@
 
     <string name="error_sign_in_required_google_title">Inicio de sesión con Google</string>
     <string name="error_sign_in_required_google_body">Inicie sesión con su cuenta de Google antes de proceder</string>
+    <string name="error_sign_in_google_in_progress">Iniciando sesión en proceso</string>
 
     <string name="hint_email">Correo</string>
     <string name="hint_password">Contraseña</string>
@@ -39,4 +40,7 @@
     <string name="register_btn_text">Registrarse</string>
     <string name="loading">Cargando</string>
     <string name="done">Completado</string>
+
+    <!-- Verify -->
+    <string name="verifying">Verificando código...</string>
 </resources>

@@ -7,7 +7,6 @@ import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -18,6 +17,7 @@ import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
+import com.etsisi.appquitectura.presentation.common.BaseAndroidViewModel
 import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
 import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
@@ -25,6 +25,7 @@ import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 
@@ -35,7 +36,7 @@ class LoginViewModel(
     private val firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
     private val sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     private val checkVerificationCodeUseCase: CheckVerificationCodeUseCase
-): AndroidViewModel(applicationContext), LifecycleObserver {
+): BaseAndroidViewModel(applicationContext) {
 
     private val _loaded by lazy { MutableLiveData<Boolean>() }
     val loaded: LiveData<Boolean>
@@ -79,26 +80,29 @@ class LoginViewModel(
     fun isUserLogged(): Boolean = CurrentUser.instance != null
 
     fun initFirebaseLogin() {
-        val email = _email.value.orEmpty()
-        val password = _password.value.orEmpty()
+        val email = _email.value?.trim().orEmpty()
+        val password = _password.value?.trim().orEmpty()
         if (emailValid(email) && !password.isBlank()) {
-            showLoading(true)
+            showAuthenticationLoading(true)
             firebaseLoginUseCase.invoke(
                 scope = viewModelScope,
                 params = FirebaseLoginUseCase.Params(email, password)
             ) { resultCode ->
-                showLoading(false)
+                showAuthenticationLoading(false)
                 when(resultCode) {
-                    FirebaseLoginUseCase.RESULT_CODES.PASSWORD_INVALID,
-                    FirebaseLoginUseCase.RESULT_CODES.EMAIL_INVALID -> {
+                    FirebaseLoginUseCase.RESULT_CODES.PASSWORD_INVALID -> {
                         val config = DialogConfig(title = R.string.error_login_credentials_title, body = R.string.error_login_credentials_body, lottieRes = R.raw.lottie_404)
+                        _onError.value = Event(config)
+                    }
+                    FirebaseLoginUseCase.RESULT_CODES.EMAIL_INVALID -> {
+                        val config = DialogConfig(title = R.string.error_login_credentials_title, body = R.string.error_sign_in_google_user_not_exists, lottieRes = R.raw.lottie_404)
                         _onError.value = Event(config)
                     }
                     FirebaseLoginUseCase.RESULT_CODES.GENERIC_ERROR -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.generic_error_body, lottieRes = R.raw.lottie_404)
                         _onError.value = Event(config)
                     }
-                    FirebaseLoginUseCase.RESULT_CODES.SUCCESS -> _onSuccessLogin.value = Event(true)
+                    FirebaseLoginUseCase.RESULT_CODES.SUCCESS -> onSuccessLogin()
                 }
             }
         } else {
@@ -114,7 +118,7 @@ class LoginViewModel(
                 params = FirebaseLoginWithCredentialsUseCase.Params(token, context)
             ) { resultCode ->
                 when(resultCode) {
-                    FirebaseLoginWithCredentialsUseCase.RESULT_CODES.SUCESS -> _onSuccessLogin.value = Event(true)
+                    FirebaseLoginWithCredentialsUseCase.RESULT_CODES.SUCESS -> onSuccessLogin()
                     FirebaseLoginWithCredentialsUseCase.RESULT_CODES.COLLISION -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_collision, lottieRes = R.raw.lottie_404)
                         _onError.value = Event(config)
@@ -147,6 +151,14 @@ class LoginViewModel(
                 val config = DialogConfig(title = R.string.error_internal_google_title, body = R.string.error_internal_google_body, lottieRes = R.raw.lottie_404)
                 _onError.value = Event(config)
             }
+            GoogleSignInStatusCodes.SIGN_IN_FAILED -> {
+                val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_user_not_exists, lottieRes = R.raw.lottie_404)
+                _onError.value = Event(config)
+            }
+            GoogleSignInStatusCodes.SIGN_IN_CURRENTLY_IN_PROGRESS -> {
+                val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_in_progress, lottieRes = R.raw.lottie_404)
+                _onError.value = Event(config)
+            }
         }
     }
 
@@ -158,12 +170,12 @@ class LoginViewModel(
         val email = _email.value.orEmpty()
         val password = _password.value.orEmpty()
         if (emailValid(email) && passwordValid(password)) {
-            showLoading(true)
+            showAuthenticationLoading(true)
             registerUseCase.invoke(
                 scope = viewModelScope,
                 params = RegisterUseCase.Params(email, password)
             ) { resultCode ->
-                showLoading(false)
+                showAuthenticationLoading(false)
                 when(resultCode) {
                     RegisterUseCase.RESULT_CODES.WEAK_PASSWORD -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_weak_password, lottieRes = R.raw.lottie_404)
@@ -192,8 +204,17 @@ class LoginViewModel(
 
     fun onSuccessRegister() {
         if (CurrentUser.isEmailVerfied) {
-            showLoading(false)
+            showAuthenticationLoading(false)
             _onSuccessRegister.value = Event(true)
+        } else {
+            initVerifyEmail()
+        }
+    }
+
+    fun onSuccessLogin() {
+        if (CurrentUser.isEmailVerfied) {
+            showAuthenticationLoading(false)
+            _onSuccessLogin.value = Event(true)
         } else {
             initVerifyEmail()
         }
@@ -204,7 +225,7 @@ class LoginViewModel(
             scope = viewModelScope,
             params = SendEmailVerificationUseCase.Params()
         ) { resultCodes ->
-            showLoading(false)
+            showAuthenticationLoading(false)
             if (resultCodes == SendEmailVerificationUseCase.RESULT_CODES.SUCESS) {
                 _onVerifyEmail.value = Event(true)
             } else {
@@ -220,6 +241,7 @@ class LoginViewModel(
                 scope = viewModelScope,
                 params = CheckVerificationCodeUseCase.Params(pendingDynamicLinkData)
             ) { resultCode ->
+                showLoading(false)
                 when(resultCode) {
                     CheckVerificationCodeUseCase.RESULT_CODES.GENERIC_ERROR -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_code_verification, lottieRes = R.raw.lottie_404)
@@ -234,7 +256,7 @@ class LoginViewModel(
         }
     }
 
-    private fun showLoading(flag: Boolean) {
+    private fun showAuthenticationLoading(flag: Boolean) {
         _loaded.value = flag.not()
     }
 
