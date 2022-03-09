@@ -65,7 +65,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
 
     override fun observeViewModel(mViewModel: LoginViewModel) {
         with(mViewModel) {
-            setGoogleClient(this@LoginActivity)
+            // String default_web_client_id is auto-generated
+            setGoogleClient(this@LoginActivity, getString(R.string.default_web_client_id))
             onError.observe(this@LoginActivity, LiveEventObserver { dialogConfig ->
                 navigator.openDialog(dialogConfig)
             })

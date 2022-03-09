@@ -3,10 +3,10 @@ package com.etsisi.appquitectura.presentation.ui.login.viewmodel
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.provider.Settings.Global.getString
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -112,6 +112,7 @@ class LoginViewModel(
     }
 
     fun initFirebaseLoginWithCredentials(token: String?, context: AppCompatActivity) {
+        showLoading(true, )
         if (token != null) {
             firebaseLoginWithCredentialsUseCase.invoke(
                 scope = viewModelScope,
@@ -256,6 +257,10 @@ class LoginViewModel(
         }
     }
 
+    fun onLogOut() {
+        CurrentUser.signOut()
+    }
+
     private fun showAuthenticationLoading(flag: Boolean) {
         _loaded.value = flag.not()
     }
@@ -269,9 +274,10 @@ class LoginViewModel(
             setBounds(0, 0, 50, 50)
         }!!
 
-    fun setGoogleClient(context: Context) {
+    fun setGoogleClient(context: Context, token: String) {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
+            .requestIdToken(token)
             .build()
 
         googleClient = GoogleSignIn.getClient(context, gso)

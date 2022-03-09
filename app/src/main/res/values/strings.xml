@@ -25,6 +25,7 @@
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="login_btn_txt">Log in</string>
+    <string name="loading_sign_in_google">Signing in with Google...</string>
 
     <!-- Register -->
     <string name="error_email_already_exists">Email already exists</string>

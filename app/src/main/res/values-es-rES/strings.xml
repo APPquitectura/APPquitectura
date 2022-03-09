@@ -25,6 +25,8 @@
     <string name="hint_password">Contraseña</string>
     <string name="login_btn_txt">Iniciar sesión</string>
 
+    <string name="loading_sign_in_google">Iniciando sesión con Google...</string>
+
     <!-- Register -->
     <string name="error_email_already_exists">El correo electrónico ya existe</string>
 

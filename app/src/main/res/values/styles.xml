@@ -28,8 +28,7 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.01</item>
-        <item name="android:lineSpacingExtra">6sp</item>
-        <item name="maxLines">3</item>
+        <item name="android:lineSpacingExtra">2sp</item>
     </style>
 
     <style name="dialog_no_actionbar" parent="android:Theme.Material.Dialog.NoActionBar">

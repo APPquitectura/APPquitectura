@@ -31,19 +31,17 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this@BaseActivity, layoutRes)
         mViewModel = getViewModel(clazz = viewModelClass)
-        setUpDataBinding(mBinding, mViewModel)
-        observeViewModel(mViewModel)
-        getNavController(::getFragmentContainer)?.let { navController ->
-            navigator = get { parametersOf(navController) }
-        }
-    }
 
-    override fun onResume() {
-        super.onResume()
         intent.extras?.let { bundle ->
             if (!bundle.isEmpty || intent.data != null) {
                 getActivityArgs()
             }
+        }
+
+        setUpDataBinding(mBinding, mViewModel)
+        observeViewModel(mViewModel)
+        getNavController(::getFragmentContainer)?.let { navController ->
+            navigator = get { parametersOf(navController) }
         }
     }
 
