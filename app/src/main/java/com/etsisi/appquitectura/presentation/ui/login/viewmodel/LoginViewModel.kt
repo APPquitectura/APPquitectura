@@ -112,7 +112,7 @@ class LoginViewModel(
     }
 
     fun initFirebaseLoginWithCredentials(token: String?, context: AppCompatActivity) {
-        showLoading(true, )
+        showLoading(true, R.string.loading_sign_in_google)
         if (token != null) {
             firebaseLoginWithCredentialsUseCase.invoke(
                 scope = viewModelScope,
@@ -255,10 +255,6 @@ class LoginViewModel(
             val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_code_verification, lottieRes = R.raw.lottie_404)
             _onError.value = Event(config)
         }
-    }
-
-    fun onLogOut() {
-        CurrentUser.signOut()
     }
 
     private fun showAuthenticationLoading(flag: Boolean) {

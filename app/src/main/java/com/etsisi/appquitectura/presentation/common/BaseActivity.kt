@@ -27,7 +27,6 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setUpSplashScreen()
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this@BaseActivity, layoutRes)
         mViewModel = getViewModel(clazz = viewModelClass)
@@ -59,6 +58,4 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
     abstract fun setUpDataBinding(mBinding: binding, mViewModel: viewModel)
 
     abstract fun getFragmentContainer(): Int
-
-    open fun setUpSplashScreen() {}
 }

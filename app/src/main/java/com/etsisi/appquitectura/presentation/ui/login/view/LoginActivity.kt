@@ -3,6 +3,7 @@ package com.etsisi.appquitectura.presentation.ui.login.view
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AnticipateInterpolator
@@ -37,6 +38,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
                 mViewModel.initGoogleLoginFailed(e.statusCode)
             }
         }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+        if (deviceApiIsAtLeast(Build.VERSION_CODES.S)) {
+            setUpSplashAnimation()
+        }
+        super.onCreate(savedInstanceState)
+    }
 
     override fun getActivityArgs() {
         if (intent.data?.host == Constants.DYNAMIC_LINK_PREFIX) {
@@ -86,15 +95,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             GoogleSignIn.getLastSignedInAccount(this)?.let { account ->
                 mViewModel.initFirebaseLoginWithCredentials(account.idToken, this)
             }
-        }
-    }
-
-
-    @SuppressLint("NewApi")
-    override fun setUpSplashScreen() {
-        installSplashScreen()
-        if (deviceApiIsAtLeast(Build.VERSION_CODES.S)) {
-            setUpSplashAnimation()
         }
     }
 

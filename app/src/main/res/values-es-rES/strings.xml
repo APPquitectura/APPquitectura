@@ -23,7 +23,8 @@
 
     <string name="hint_email">Correo</string>
     <string name="hint_password">Contraseña</string>
-    <string name="login_btn_txt">Iniciar sesión</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="login_btn_txt">Acceder</string>
 
     <string name="loading_sign_in_google">Iniciando sesión con Google...</string>
 
