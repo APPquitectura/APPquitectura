@@ -9,8 +9,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.suspendCancellableCoroutine
 
-class FirebaseLoginWithCredentialsUseCase(private val auth: FirebaseAuth) :
-    UseCase<FirebaseLoginWithCredentialsUseCase.Params, FirebaseLoginWithCredentialsUseCase.RESULT_CODES>() {
+class FirebaseLoginWithCredentialsUseCase(private val auth: FirebaseAuth): UseCase<FirebaseLoginWithCredentialsUseCase.Params, FirebaseLoginWithCredentialsUseCase.RESULT_CODES>() {
 
     enum class RESULT_CODES { SUCESS, INVALID_USER, CREDENTIALS_MALFORMED, COLLISION }
 

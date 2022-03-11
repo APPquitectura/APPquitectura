@@ -33,7 +33,7 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
 
         intent.extras?.let { bundle ->
             if (!bundle.isEmpty || intent.data != null) {
-                getActivityArgs()
+                getActivityArgs(bundle)
             }
         }
 
@@ -51,7 +51,7 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         return result
     }
 
-    open fun getActivityArgs() {}
+    open fun getActivityArgs(bundle: Bundle) {}
 
     abstract fun observeViewModel(mViewModel: viewModel)
 

@@ -27,15 +27,12 @@
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/red_error</item>
     </style>
 
-    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/black</item>
-<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/icon_example</item>
-        <item name="android:windowSplashScreenBrandingImage" tools:targetApi="s">@drawable/wol</item>-->
-        <item name="windowSplashScreenAnimationDuration">100</item>
-        <item name="postSplashScreenTheme">@style/Theme.Appquitectura</item>
+    <style name="SplashTheme" parent="Theme.Appquitectura">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="LoginActivityStyle" parent="Theme.Appquitectura">
+    <style name="LoginTheme" parent="Theme.Appquitectura">
         <item name="colorError">@color/red_error</item>
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
