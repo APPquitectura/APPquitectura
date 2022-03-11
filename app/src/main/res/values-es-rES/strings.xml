@@ -40,6 +40,8 @@
 
     <string name="error_weak_password">Contraseña muy débil</string>
 
+    <string name="error_register_database">Estamos teniendo problemas técnicos con la base de datos</string>
+
     <string name="register_btn_text">Registrarse</string>
     <string name="loading">Cargando</string>
     <string name="done">Completado</string>

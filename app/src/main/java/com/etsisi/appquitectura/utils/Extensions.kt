@@ -2,7 +2,6 @@ package com.etsisi.appquitectura.presentation.utils
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -12,10 +11,6 @@ import androidx.fragment.app.FragmentActivity
 
 val String.Companion.EMPTY: String
     get() = ""
-
-inline fun deviceApiIsAtLeast(version: Int): Boolean  {
-    return Build.VERSION.SDK_INT >= version
-}
 
 inline fun <reified T: AppCompatActivity> AppCompatActivity.startActivity(args: Bundle? = null) {
     val intent = Intent(this, T::class.java)

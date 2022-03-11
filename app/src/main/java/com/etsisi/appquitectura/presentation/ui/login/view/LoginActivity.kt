@@ -18,7 +18,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             val completedTask = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             try {
                 val account = completedTask.getResult(ApiException::class.java)
-                mViewModel.initFirebaseLoginWithCredentials(account.idToken, this)
+                mViewModel.initFirebaseLoginWithCredentials(account.idToken, account.email, true,this)
             } catch (e: ApiException) {
                 mViewModel.initGoogleLoginFailed(e.statusCode)
             }

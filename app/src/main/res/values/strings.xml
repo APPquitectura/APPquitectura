@@ -41,6 +41,8 @@
 
     <string name="error_weak_password">Weak password</string>
 
+    <string name="error_register_database">We are experiencing technical difficulties with the database</string>
+
     <string name="register_btn_text">Register</string>
     <string name="loading">Loading</string>
     <string name="done">Done</string>
