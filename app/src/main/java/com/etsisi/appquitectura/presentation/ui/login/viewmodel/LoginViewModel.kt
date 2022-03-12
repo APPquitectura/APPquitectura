@@ -149,6 +149,10 @@ class LoginViewModel(
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.generic_error_body, lottieRes = R.raw.lottie_404)
                         _onError.value = Event(config)
                     }
+                    RegisterUseCase.RESULT_CODES.DATABASE_ERROR -> {
+                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_register_database, lottieRes = R.raw.message_alert)
+                        _onError.value = Event(config)
+                    }
                     RegisterUseCase.RESULT_CODES.SUCCESS -> onSuccessRegister()
                 }
             }

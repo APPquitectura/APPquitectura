@@ -12,11 +12,17 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.suspendCancellableCoroutine
 
-class FirebaseLoginWithCredentialsUseCase(private val auth: FirebaseAuth): UseCase<FirebaseLoginWithCredentialsUseCase.Params, FirebaseLoginWithCredentialsUseCase.RESULT_CODES>() {
+class FirebaseLoginWithCredentialsUseCase(private val auth: FirebaseAuth) :
+    UseCase<FirebaseLoginWithCredentialsUseCase.Params, FirebaseLoginWithCredentialsUseCase.RESULT_CODES>() {
 
     enum class RESULT_CODES { SUCESS, INVALID_USER, CREDENTIALS_MALFORMED, DATABASE_ERROR, COLLISION }
 
-    data class Params(val token: String, val context: FragmentActivity, val createUser: Boolean, val email: String)
+    data class Params(
+        val token: String,
+        val context: FragmentActivity,
+        val createUser: Boolean,
+        val email: String
+    )
 
     override suspend fun run(params: Params): RESULT_CODES {
         val credentials = GoogleAuthProvider.getCredential(params.token, null)
@@ -53,23 +59,22 @@ class FirebaseLoginWithCredentialsUseCase(private val auth: FirebaseAuth): UseCa
 
     private suspend fun createUserInDatabase(email: String): RESULT_CODES =
         suspendCancellableCoroutine { cont ->
-            with(CurrentUser) {
-                val data = hashMapOf(
-                    EMAIL_FIELD to email,
-                    NAME_FIELD to name
-                )
-                FirestoreHelper
-                    .writeDocument(
-                        collection = Constants.users_collection,
-                        document = userUid ?: email,
-                        data = data,
-                        onSuccess = {
-                            cont.resume(RESULT_CODES.SUCESS, null)
-                        },
-                        onError = {
-                            cont.resume(RESULT_CODES.DATABASE_ERROR, null)
-                        }
-                    )
+            var data = CurrentUser.toDomain()
+            if (data.id.isBlank()) {
+                data = data.copy(id = email)
             }
+            FirestoreHelper
+                .writeDocument(
+                    collection = Constants.users_collection,
+                    document = data.id,
+                    data = data,
+                    onSuccess = {
+                        cont.resume(RESULT_CODES.SUCESS, null)
+                    },
+                    onError = {
+                        cont.resume(RESULT_CODES.DATABASE_ERROR, null)
+                    }
+                )
         }
+
 }

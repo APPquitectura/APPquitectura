@@ -12,6 +12,7 @@ import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 open class BaseAndroidViewModel(
     protected val applicationContext: Application,
@@ -37,11 +38,11 @@ open class BaseAndroidViewModel(
         _loading.value = Pair(show, msg)
     }
 
-    fun initFirebaseLoginWithCredentials(token: String?, email: String?, createUser: Boolean, context: AppCompatActivity) {
-        if (token != null) {
+    fun initFirebaseLoginWithCredentials(account: GoogleSignInAccount, createUser: Boolean, context: AppCompatActivity) {
+        if (account.idToken != null) {
             showLoading(true, R.string.loading_sign_in_google)
             firebaseLoginWithCredentialsUseCase.invoke(
-                params = FirebaseLoginWithCredentialsUseCase.Params(token, context, createUser, email.orEmpty())
+                params = FirebaseLoginWithCredentialsUseCase.Params(account.idToken!!, context, createUser, account.email.orEmpty())
             ) { resultCode ->
                 when(resultCode) {
                     FirebaseLoginWithCredentialsUseCase.RESULT_CODES.SUCESS -> {

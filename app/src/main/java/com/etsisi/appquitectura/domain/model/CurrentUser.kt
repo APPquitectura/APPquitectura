@@ -31,4 +31,12 @@ object CurrentUser: KoinComponent {
         get() = auth.currentUser?.photoUrl
 
     fun signOut() = auth.signOut()
+
+    fun toDomain(): UserBO {
+        return UserBO(
+            id= userUid.orEmpty(),
+            name = name.orEmpty(),
+            email = email.orEmpty()
+        )
+    }
 }

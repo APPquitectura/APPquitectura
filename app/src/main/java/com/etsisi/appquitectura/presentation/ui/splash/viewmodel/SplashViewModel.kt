@@ -51,7 +51,7 @@ class SplashViewModel(
 
     fun login(context: AppCompatActivity) {
         GoogleSignIn.getLastSignedInAccount(context)?.let { account ->
-            initFirebaseLoginWithCredentials(account.idToken, account.email, false, context)
+            initFirebaseLoginWithCredentials(account, false, context)
         } ?: run {
             _onSuccessLogin.value = Event(isUserLogged())
         }
