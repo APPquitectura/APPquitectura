@@ -24,6 +24,9 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
 ) {
     private val args: LoginFormFragmentArgs by navArgs()
 
+    override val isSharedViewModel: Boolean
+        get() = args.navType == NavType.LOGIN
+
     val listener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             mBinding.root.rootView.rootView.height - mBinding.constraintsContainer.height
@@ -33,9 +36,11 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
     override fun getFragmentArgs(mBinding: FragmentLoginFormBinding) {
         when(args.navType) {
             NavType.REGISTER -> {
+                mBinding.btnGoogle.isVisible = false
                 mBinding.btnLogin.isVisible = false
             }
             NavType.LOGIN -> {
+                mBinding.btnGoogle.isVisible = true
                 mBinding.btnRegister.isVisible = true
             }
         }
@@ -61,7 +66,7 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
                         if (loaded) {
                             mBinding.btnLogin.hideProgress(R.string.login_btn_txt)
                         } else {
-                            requireContext().hideKeyboard(mBinding.btnLogin)
+                            requireContext().hideKeyboard(mBinding.form.etPassword)
                             mBinding.btnLogin.showProgress {
                                 buttonText = getString(R.string.loading)
                                 progressColors = intArrayOf(Color.WHITE, Color.BLACK)
@@ -70,7 +75,7 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
                     }
                     NavType.REGISTER -> {
                         if (loaded) {
-                            requireContext().hideKeyboard(mBinding.btnRegister)
+                            requireContext().hideKeyboard(mBinding.form.etPassword)
                             mBinding.btnRegister.showDrawable(mViewModel.btnDrawable()) {
                                 buttonText = getString(R.string.done)
                             }

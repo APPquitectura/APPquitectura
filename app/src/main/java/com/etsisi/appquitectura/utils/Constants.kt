@@ -1,6 +1,13 @@
 package com.etsisi.appquitectura.utils
 
 object Constants {
-    const val dynamicLinkPrefix = "etsisi.page.link"
+    const val DYNAMIC_LINK_PREFIX = "etsisi.page.link"
     const val sendEmailVerificationDeeplink = "https://etsisi.page.link/verify_mail"
+
+
+
+
+    //Firestore
+    const val users_collection = "users"
+
 }

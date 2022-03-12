@@ -9,11 +9,14 @@ import org.koin.core.component.inject
 object CurrentUser: KoinComponent {
     private val auth: FirebaseAuth by inject()
 
+    const val EMAIL_FIELD = "email"
+    const val NAME_FIELD = "name"
+
     val instance: FirebaseUser?
         get() = auth.currentUser
 
-    val id: String?
-        get() = auth.uid
+    val userUid: String?
+        get() = auth.currentUser?.uid
 
     val isEmailVerfied: Boolean
         get() = auth.currentUser?.isEmailVerified ?: false
@@ -27,8 +30,13 @@ object CurrentUser: KoinComponent {
     val photoUrl: Uri?
         get() = auth.currentUser?.photoUrl
 
-    val userUid: String?
-        get() = auth.currentUser?.uid
-
     fun signOut() = auth.signOut()
+
+    fun toDomain(): UserBO {
+        return UserBO(
+            id= userUid.orEmpty(),
+            name = name.orEmpty(),
+            email = email.orEmpty()
+        )
+    }
 }

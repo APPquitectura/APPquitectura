@@ -14,6 +14,7 @@
 
     <string name="error_sign_in_google_collision">There already exists an account with your email address</string>
     <string name="error_sign_in_google_user_not_exists">You do not have an account with this email address</string>
+    <string name="error_sign_in_google_in_progress">A sign in process is currently in progress</string>
 
     <string name="error_internal_google_title">External error</string>
     <string name="error_internal_google_body">We are having some external errors</string>
@@ -23,7 +24,10 @@
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
-    <string name="login_btn_txt">Log in</string>
+    <string name="login_btn_txt">Access</string>
+    <string name="sign_in">Sign in</string>
+
+    <string name="loading_sign_in_google">Signing in with Google...</string>
 
     <!-- Register -->
     <string name="error_email_already_exists">Email already exists</string>
@@ -37,7 +41,12 @@
 
     <string name="error_weak_password">Weak password</string>
 
+    <string name="error_register_database">We are experiencing technical difficulties with the database</string>
+
     <string name="register_btn_text">Register</string>
     <string name="loading">Loading</string>
     <string name="done">Done</string>
+
+    <!-- Verify -->
+    <string name="verifying">Verifying code...</string>
 </resources>

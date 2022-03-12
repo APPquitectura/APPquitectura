@@ -10,6 +10,7 @@ ext {
     authVersion = '20.1.0'
     BOMVersion = '29.0.4'
     coroutineVersion = '1.6.0'
+    flexboxVersion = '3.0.0'
     fragmentVersion = '1.4.0'
     glideVersion = '4.12.0'
     koinVersion = '3.1.4'
@@ -26,6 +27,7 @@ ext {
     androidKotlinCore = "androidx.core:core-ktx:$ktxCoreVersion"
 
     firebaseAuthDependency = "com.google.firebase:firebase-auth-ktx"
+    flexboxDependency = "com.google.android.flexbox:flexbox:$flexboxVersion"
 
     BOMdependency = "com.google.firebase:firebase-bom:$BOMVersion"
 

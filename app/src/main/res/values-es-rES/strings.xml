@@ -19,10 +19,14 @@
 
     <string name="error_sign_in_required_google_title">Inicio de sesión con Google</string>
     <string name="error_sign_in_required_google_body">Inicie sesión con su cuenta de Google antes de proceder</string>
+    <string name="error_sign_in_google_in_progress">Iniciando sesión en proceso</string>
 
     <string name="hint_email">Correo</string>
     <string name="hint_password">Contraseña</string>
-    <string name="login_btn_txt">Iniciar sesión</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="login_btn_txt">Acceder</string>
+
+    <string name="loading_sign_in_google">Iniciando sesión con Google...</string>
 
     <!-- Register -->
     <string name="error_email_already_exists">El correo electrónico ya existe</string>
@@ -36,7 +40,12 @@
 
     <string name="error_weak_password">Contraseña muy débil</string>
 
+    <string name="error_register_database">Estamos teniendo problemas técnicos con la base de datos</string>
+
     <string name="register_btn_text">Registrarse</string>
     <string name="loading">Cargando</string>
     <string name="done">Completado</string>
+
+    <!-- Verify -->
+    <string name="verifying">Verificando código...</string>
 </resources>
