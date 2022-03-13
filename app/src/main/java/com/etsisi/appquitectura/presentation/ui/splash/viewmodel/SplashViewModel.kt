@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
 import com.etsisi.appquitectura.presentation.common.BaseAndroidViewModel
@@ -50,10 +51,14 @@ class SplashViewModel(
     }
 
     fun login(context: AppCompatActivity) {
-        GoogleSignIn.getLastSignedInAccount(context)?.let { account ->
-            initFirebaseLoginWithCredentials(account, false, context)
-        } ?: run {
-            _onSuccessLogin.value = Event(isUserLogged())
+        if (!CurrentUser.isSigned()) {
+            GoogleSignIn.getLastSignedInAccount(context)?.let { account ->
+                initFirebaseLoginWithCredentials(account, false, context)
+            } ?: run {
+                _onSuccessLogin.value = Event(CurrentUser.isSigned())
+            }
+        } else {
+            _onSuccessLogin.value = Event(true)
         }
     }
 }

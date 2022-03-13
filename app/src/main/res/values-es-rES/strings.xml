@@ -28,6 +28,14 @@
 
     <string name="loading_sign_in_google">Iniciando sesión con Google...</string>
 
+    <!-- Main -->
+    <string name="item_home_profile">Perfil</string>
+    <string name="item_home_configuration">Configuración</string>
+    <string name="item_home_ranking">Ranking</string>
+    <string name="item_home_about">Info</string>
+    <string name="item_home_analytics">Estadísticas</string>
+    <string name="item_home_play">Empezar partida</string>
+
     <!-- Register -->
     <string name="error_email_already_exists">El correo electrónico ya existe</string>
 

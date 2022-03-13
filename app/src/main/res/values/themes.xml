@@ -25,14 +25,16 @@
         <item name="colorAccent">@color/red_error</item>
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/red_error</item>
+
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.Appquitectura">
+    <style name="Theme.Appquitectura.Splash" parent="Theme.Appquitectura">
         <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="LoginTheme" parent="Theme.Appquitectura">
+    <style name="Theme.Appquitectura.Login" parent="Theme.Appquitectura">
         <item name="colorError">@color/red_error</item>
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
@@ -41,5 +43,26 @@
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="Theme.Appquitectura.Main" parent="Theme.Appquitectura">
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="colorSurface">@color/primary_yellow</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+        <item name="elevation">2dp</item>
+    </style>
+
+    <!-- Bottomsheet -->
+    <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <!-- Apply attributes here -->
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
     </style>
 </resources>

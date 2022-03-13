@@ -32,6 +32,8 @@ object CurrentUser: KoinComponent {
 
     fun signOut() = auth.signOut()
 
+    fun isSigned() = instance != null
+
     fun toDomain(): UserBO {
         return UserBO(
             id= userUid.orEmpty(),

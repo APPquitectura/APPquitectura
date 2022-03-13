@@ -27,12 +27,6 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
     override val isSharedViewModel: Boolean
         get() = args.navType == NavType.LOGIN
 
-    val listener = object : ViewTreeObserver.OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            mBinding.root.rootView.rootView.height - mBinding.constraintsContainer.height
-        }
-    }
-
     override fun getFragmentArgs(mBinding: FragmentLoginFormBinding) {
         when(args.navType) {
             NavType.REGISTER -> {

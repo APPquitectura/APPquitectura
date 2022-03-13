@@ -31,8 +31,6 @@ open class BaseAndroidViewModel(
     val onError: LiveEvent<DialogConfig>
         get() = _onError
 
-    fun isUserLogged(): Boolean = CurrentUser.instance != null
-
     fun showLoading(show: Boolean, msgRes: Int? = null) {
         val msg = msgRes?.let { applicationContext.getString(it) }
         _loading.value = Pair(show, msg)
