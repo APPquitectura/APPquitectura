@@ -21,6 +21,7 @@ class SettingsAdapter(
         override fun bind(item: ItemSettings) {
             view.apply {
                 this.item = item
+                this.listener = this@SettingsAdapter.listener
             }
         }
     }

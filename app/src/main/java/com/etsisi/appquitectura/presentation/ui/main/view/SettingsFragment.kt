@@ -3,6 +3,7 @@ package com.etsisi.appquitectura.presentation.ui.main.view
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentSettingsBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
+import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.main.adapter.SettingsAdapter
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.SettingsViewModel
 
@@ -23,7 +24,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
             executePendingBindings()
             rvSettings.adapter = SettingsAdapter(
                 listener = {
-
+                    mViewModel.handleSettings(it)
                 }
             )
         }
@@ -34,6 +35,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
             sections.observe(viewLifecycleOwner) {
                 adapter?.addDataSet(it)
             }
+            onLogOut.observe(viewLifecycleOwner, LiveEventObserver {
+                navigator.navigateFromMainToLogin()
+            })
         }
     }
 }

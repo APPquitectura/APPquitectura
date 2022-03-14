@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
@@ -24,7 +25,7 @@ val viewModelModule = module {
     viewModel { EmptyViewModel() }
     viewModel { SplashViewModel(get(), get(), get()) }
     viewModel { HomeViewModel() }
-    viewModel { SettingsViewModel() }
+    viewModel { SettingsViewModel(get()) }
 }
 
 val presentationModule = module {
@@ -39,4 +40,5 @@ val useCaseModule = module {
     factory { SendEmailVerificationUseCase() }
     factory { CheckVerificationCodeUseCase(get()) }
     factory { FirebaseLoginWithCredentialsUseCase(get()) }
+    factory { LogOutUseCase() }
 }
