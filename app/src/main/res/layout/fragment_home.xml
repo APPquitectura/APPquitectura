@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel" />
@@ -25,7 +26,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:spanCount="3" />
+            app:spanCount="3"
+            tools:itemCount="6"
+            tools:listitem="@layout/item_home" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
