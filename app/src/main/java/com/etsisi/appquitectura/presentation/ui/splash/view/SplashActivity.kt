@@ -63,6 +63,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(
                     startActivity<MainActivity>()
                 else
                     startActivity<LoginActivity>()
+
+                finishAffinity()
             })
         }
     }

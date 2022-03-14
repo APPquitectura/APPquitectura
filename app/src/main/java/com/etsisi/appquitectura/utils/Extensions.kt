@@ -3,11 +3,14 @@ package com.etsisi.appquitectura.presentation.utils
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
+import org.json.JSONException
+import org.json.JSONObject
 
 val String.Companion.EMPTY: String
     get() = ""
@@ -45,4 +48,18 @@ fun FragmentActivity.checkDialogOpened(): Boolean {
         else ret = true
     }
     return ret
+}
+
+fun Bundle.toJson(): JSONObject {
+    val json = JSONObject()
+    val keys = this.keySet()
+    for (key in keys) {
+        try {
+            json.put(key, this.get(key))
+        } catch (e: JSONException) {
+            Log.e("toJson",e.toString())
+        }
+    }
+
+    return json
 }

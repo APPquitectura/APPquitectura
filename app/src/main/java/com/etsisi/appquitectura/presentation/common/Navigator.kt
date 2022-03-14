@@ -6,6 +6,7 @@ import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHomeAction
+import com.etsisi.appquitectura.presentation.ui.main.view.HomeFragmentDirections
 
 class Navigator (private val navController: NavController){
 
@@ -29,14 +30,15 @@ class Navigator (private val navController: NavController){
     }
 
     fun openSection(item: ItemHome) {
-        when(item.action) {
-            ItemHomeAction.ABOUT -> {}
-            ItemHomeAction.ANALYTICS -> {}
-            ItemHomeAction.PROFILE -> {}
-            ItemHomeAction.RANKING -> {}
-            ItemHomeAction.CONFIGURATION -> {}
-            ItemHomeAction.START_GAME -> {}
+        val directions = when(item.action) {
+            ItemHomeAction.ABOUT -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.ANALYTICS -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.PROFILE -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.RANKING -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.CONFIGURATION -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.START_GAME -> { HomeFragmentDirections.actionHomeToSettings() }
         }
+        navController.navigate(directions)
     }
 
 }

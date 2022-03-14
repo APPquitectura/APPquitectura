@@ -10,7 +10,9 @@ import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.Navigator
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel
+import com.etsisi.appquitectura.presentation.ui.main.viewmodel.SettingsViewModel
 import com.etsisi.appquitectura.presentation.ui.splash.viewmodel.SplashViewModel
+import com.etsisi.appquitectura.utils.NavigationTracker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import org.koin.android.ext.koin.androidApplication
@@ -22,10 +24,12 @@ val viewModelModule = module {
     viewModel { EmptyViewModel() }
     viewModel { SplashViewModel(get(), get(), get()) }
     viewModel { HomeViewModel() }
+    viewModel { SettingsViewModel() }
 }
 
 val presentationModule = module {
     factory { (navController: NavController) -> Navigator(navController) }
+    factory { NavigationTracker() }
 }
 
 val useCaseModule = module {
