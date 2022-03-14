@@ -109,6 +109,9 @@ dependencies {
     //Lottie
     implementation rootProject.ext.lottieDependency
 
+    //Material
+    implementation rootProject.ext.materialDependency
+
     //JetPack
     implementation rootProject.ext.navigationFragKtxDependency
     implementation rootProject.ext.navigationKtxDependency

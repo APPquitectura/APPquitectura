@@ -4,6 +4,8 @@ import androidx.navigation.NavController
 import com.etsisi.appquitectura.domain.enums.NavType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
+import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
+import com.etsisi.appquitectura.presentation.ui.main.model.ItemHomeAction
 
 class Navigator (private val navController: NavController){
 
@@ -26,5 +28,15 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
+    fun openSection(item: ItemHome) {
+        when(item.action) {
+            ItemHomeAction.ABOUT -> {}
+            ItemHomeAction.ANALYTICS -> {}
+            ItemHomeAction.PROFILE -> {}
+            ItemHomeAction.RANKING -> {}
+            ItemHomeAction.CONFIGURATION -> {}
+            ItemHomeAction.START_GAME -> {}
+        }
+    }
 
 }

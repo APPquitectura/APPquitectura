@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.etsisi.appquitectura.presentation.ui.main.model.ItemHome" />
+
+        <variable
+            name="listener"
+            type="com.etsisi.appquitectura.presentation.common.HomeItemClicked" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_4"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{() -> listener.onMenuItemClicked(item)}"
+            android:padding="@dimen/dimen_2"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcRes="@{item.icon}"
+            tools:src="@drawable/ic_profile" />
+
+        <TextView
+            android:id="@+id/txtProfileName"
+            android:layout_width="@dimen/dimen_64"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:gravity="center_horizontal"
+            android:minHeight="@dimen/dimen_16"
+            android:singleLine="true"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/text_12"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgProfile"
+            app:lineHeight="@dimen/text_16"
+            app:textRes="@{item.title}"
+            tools:text="Profile" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

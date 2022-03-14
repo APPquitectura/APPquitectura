@@ -17,6 +17,7 @@ ext {
     ktxCoreVersion = '1.7.0'
     lifecycleVersion = '2.4.0'
     lottieVersion = '5.0.2'
+    materialVersion = '1.6.0-alpha03'
     navigationVersion = '2.5.0-alpha03'
     progressButtonVersion = '2.1.0'
     retrofitVersion = '2.9.0'
@@ -50,6 +51,8 @@ ext {
     lifecycleKtxDependency = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 
     lottieDependency = "com.airbnb.android:lottie:$lottieVersion"
+
+    materialDependency = "com.google.android.material:material:$materialVersion"
 
     navigationFragKtxDependency = "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     navigationKtxDependency = "androidx.navigation:navigation-ui-ktx:$navigationVersion"

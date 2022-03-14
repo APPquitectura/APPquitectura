@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Appquitectura">
         <activity
             android:name=".presentation.ui.splash.view.SplashActivity"
-            android:theme="@style/SplashTheme"
+            android:theme="@style/Theme.Appquitectura.Splash"
             android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
@@ -38,7 +38,7 @@
             android:noHistory="true"
             android:launchMode="singleInstance"
             android:screenOrientation="nosensor"
-            android:theme="@style/LoginTheme"
+            android:theme="@style/Theme.Appquitectura.Login"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -49,7 +49,7 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
-            android:theme="@style/Theme.Appquitectura">
+            android:theme="@style/Theme.Appquitectura.Main">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
