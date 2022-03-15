@@ -10,9 +10,7 @@
         app:enterAnim="@anim/enter_from_right"
         app:exitAnim="@anim/exit_to_left"
         app:popEnterAnim="@anim/enter_from_left"
-        app:popExitAnim="@anim/enter_from_right"
-        app:popUpTo="@id/login"
-        app:popUpToInclusive="true" />
+        app:popExitAnim="@anim/enter_from_right" />
     <fragment
         android:id="@id/form_fragment"
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragment"
@@ -27,8 +25,8 @@
             app:popExitAnim="@anim/enter_from_right" />
         <argument
             android:name="navType"
-            android:defaultValue="LOGIN"
-            app:argType="com.etsisi.appquitectura.domain.enums.NavType" />
+            app:argType="com.etsisi.appquitectura.domain.enums.LoginNavType"
+            android:defaultValue="LOGIN" />
         <action
             android:id="@id/navigate_to_emailVerificationFragment"
             app:destination="@id/email_verification_fragment"

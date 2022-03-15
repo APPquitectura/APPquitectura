@@ -7,9 +7,7 @@
 
     <action
         android:id="@+id/action_main_to_login"
-        app:destination="@id/loginActivity"
-        app:popUpTo="@id/main"
-        app:popUpToInclusive="true" />
+        app:destination="@id/loginActivity" />
 
     <fragment
         android:id="@+id/homeFragment"
@@ -22,9 +20,14 @@
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/enter_from_right"
-            app:popUpTo="@id/settingsFragment"
-            app:popUpToInclusive="true" />
+            app:popExitAnim="@anim/enter_from_right" />
+        <action
+            android:id="@+id/action_home_to_play"
+            app:destination="@id/playFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right"/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -35,5 +38,19 @@
         android:id="@+id/loginActivity"
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity"
         android:label="LoginActivity"
-        tools:layout="@layout/activity_login" />
+        tools:layout="@layout/activity_login" >
+        <argument
+            android:name="isFromMain"
+            app:argType="boolean" />
+    </activity>
+    <fragment
+        android:id="@+id/playFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.view.PlayFragment"
+        android:label="PlayFragment"
+        tools:layout="@layout/fragment_play">
+        <argument
+            android:name="navType"
+            app:argType="com.etsisi.appquitectura.domain.enums.GameNavType"
+            android:defaultValue="GAME_MODE" />
+    </fragment>
 </navigation>

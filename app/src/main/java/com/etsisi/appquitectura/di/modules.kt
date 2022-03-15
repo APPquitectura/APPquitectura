@@ -11,8 +11,8 @@ import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.Navigator
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel
+import com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.SettingsViewModel
-import com.etsisi.appquitectura.presentation.ui.splash.viewmodel.SplashViewModel
 import com.etsisi.appquitectura.utils.NavigationTracker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -21,11 +21,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { LoginViewModel(androidApplication(), get(), get(), get(),  get()) }
+    viewModel { LoginViewModel(androidApplication(), get(), get(), get(),  get(), get()) }
     viewModel { EmptyViewModel() }
-    viewModel { SplashViewModel(get(), get(), get()) }
     viewModel { HomeViewModel() }
     viewModel { SettingsViewModel(get()) }
+    viewModel { PlayViewModel() }
 }
 
 val presentationModule = module {

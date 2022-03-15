@@ -3,6 +3,8 @@ package com.etsisi.appquitectura.presentation.common
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
@@ -21,6 +23,12 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
 ): AppCompatActivity() {
     private val navigationTracker: NavigationTracker by inject()
 
+    protected open val isSplash: Boolean
+        get() = false
+
+    protected lateinit var splashScreen: SplashScreen
+        private set
+
     protected lateinit var mBinding: binding
         private set
 
@@ -32,6 +40,9 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (isSplash) {
+            splashScreen = installSplashScreen()
+        }
         mBinding = DataBindingUtil.setContentView(this@BaseActivity, layoutRes)
         mViewModel = getViewModel(clazz = viewModelClass)
 

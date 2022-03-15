@@ -29,9 +29,11 @@
         <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
     </style>
 
-    <style name="Theme.Appquitectura.Splash" parent="Theme.Appquitectura">
-        <item name="android:windowBackground">@drawable/splash_background</item>
-        <item name="android:windowFullscreen">true</item>
+    <style name="Theme.Appquitectura.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_background</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        <item name="postSplashScreenTheme">@style/Theme.Appquitectura</item>
     </style>
 
     <style name="Theme.Appquitectura.Login" parent="Theme.Appquitectura">

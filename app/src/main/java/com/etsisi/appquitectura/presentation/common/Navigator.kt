@@ -1,8 +1,7 @@
 package com.etsisi.appquitectura.presentation.common
 
 import androidx.navigation.NavController
-import com.etsisi.appquitectura.MainDirections
-import com.etsisi.appquitectura.domain.enums.NavType
+import com.etsisi.appquitectura.domain.enums.LoginNavType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
@@ -17,7 +16,7 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
     fun openRegisterFragment() {
-        val directions = LoginFormFragmentDirections.navigateToForm(navType = NavType.REGISTER)
+        val directions = LoginFormFragmentDirections.navigateToForm(navType = LoginNavType.REGISTER)
         navController.navigate(directions)
     }
 
@@ -32,7 +31,7 @@ class Navigator (private val navController: NavController){
     }
 
     fun navigateFromMainToLogin() {
-        val directions = SettingsFragmentDirections.actionMainToLogin()
+        val directions = SettingsFragmentDirections.actionMainToLogin(true)
         navController.navigate(directions)
     }
 
@@ -43,7 +42,7 @@ class Navigator (private val navController: NavController){
             ItemHomeAction.PROFILE -> { HomeFragmentDirections.actionHomeToSettings() }
             ItemHomeAction.RANKING -> { HomeFragmentDirections.actionHomeToSettings() }
             ItemHomeAction.CONFIGURATION -> { HomeFragmentDirections.actionHomeToSettings() }
-            ItemHomeAction.START_GAME -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.START_GAME -> { HomeFragmentDirections.actionHomeToPlay() }
         }
         navController.navigate(directions)
     }
