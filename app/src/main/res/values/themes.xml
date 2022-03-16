@@ -36,27 +36,9 @@
         <item name="postSplashScreenTheme">@style/Theme.Appquitectura</item>
     </style>
 
-    <style name="Theme.Appquitectura.Login" parent="Theme.Appquitectura">
-        <item name="colorError">@color/red_error</item>
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
-    </style>
-
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">4dp</item>
-    </style>
-
-    <style name="Theme.Appquitectura.Main" parent="Theme.Appquitectura">
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
-        <item name="colorSurface">@color/primary_yellow</item>
-    </style>
-
-    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerFamily">cut</item>
-        <item name="cornerSize">4dp</item>
-        <item name="elevation">2dp</item>
     </style>
 
     <!-- Bottomsheet -->

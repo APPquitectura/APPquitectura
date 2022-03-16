@@ -12,14 +12,13 @@
         android:theme="@style/Theme.Appquitectura.Splash">
         <activity
             android:name=".presentation.ui.login.view.LoginActivity"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:finishOnTaskLaunch="true"
             android:exported="true"
-            android:launchMode="singleInstance"
+            android:theme="@style/Theme.Appquitectura"
             android:screenOrientation="nosensor"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -34,10 +33,15 @@
         </activity>
         <activity
             android:name=".presentation.ui.main.view.MainActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="nosensor"
-            android:exported="false"
-            android:theme="@style/Theme.Appquitectura.Main">
+            android:clearTaskOnLaunch="true"
+            android:finishOnTaskLaunch="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

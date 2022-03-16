@@ -26,16 +26,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
     R.layout.activity_login, LoginViewModel::class
 ), GoogleSignInListener {
 
-    override val isSplash: Boolean
-        get() = true
-
-    private val isFromMain:Boolean
-        get() = runCatching { args.isFromMain }.getOrDefault(false)
-    private val args: LoginActivityArgs by navArgs()
-
-    private val contentView: View
-        get() = findViewById(android.R.id.content)
-
     private val googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val completedTask = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             try {
@@ -45,17 +35,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
                 mViewModel.initGoogleLoginFailed(e.statusCode)
             }
         }
-
-    private val onPreDrawListener = object: ViewTreeObserver.OnPreDrawListener {
-        override fun onPreDraw(): Boolean {
-            return if (mViewModel.login(this@LoginActivity)) {
-                contentView.viewTreeObserver.removeOnPreDrawListener(this)
-                true
-            } else {
-                false
-            }
-        }
-    }
 
     override fun getActivityArgs(bundle: Bundle) {
         if (intent.data?.host == Constants.DYNAMIC_LINK_PREFIX) {
@@ -78,9 +57,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             viewModel = mViewModel
             lifecycleOwner = this@LoginActivity
             lifecycle.addObserver(mViewModel)
-            if (!isFromMain) {
-                contentView.viewTreeObserver.addOnPreDrawListener(onPreDrawListener)
-            }
         }
     }
 
@@ -95,15 +71,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
                 navigator.navigateFromLoginToMain()
             })
             onSuccessLogin.observe(this@LoginActivity, LiveEventObserver {
-                navigator.navigateFromLoginToMain()
+                if (it) {
+                    navigator.navigateFromLoginToMain()
+                    finish()
+                }
             })
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (!isFromMain) {
-            contentView.viewTreeObserver.addOnPreDrawListener(onPreDrawListener)
         }
     }
 

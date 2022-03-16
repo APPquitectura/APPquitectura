@@ -1,6 +1,8 @@
 package com.etsisi.appquitectura.presentation.common
 
 import androidx.navigation.NavController
+import com.etsisi.appquitectura.LoginDirections
+import com.etsisi.appquitectura.MainDirections
 import com.etsisi.appquitectura.domain.enums.LoginNavType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
@@ -26,12 +28,12 @@ class Navigator (private val navController: NavController){
     }
 
     fun navigateFromLoginToMain() {
-        val directions = LoginFormFragmentDirections.navigateLoginToMain()
+        val directions = LoginDirections.navigateLoginToMain()
         navController.navigate(directions)
     }
 
     fun navigateFromMainToLogin() {
-        val directions = SettingsFragmentDirections.actionMainToLogin(true)
+        val directions = MainDirections.actionMainToLogin()
         navController.navigate(directions)
     }
 

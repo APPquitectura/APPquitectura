@@ -12,7 +12,14 @@ import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 open class BaseAndroidViewModel(
     protected val applicationContext: Application,
@@ -42,32 +49,44 @@ open class BaseAndroidViewModel(
             firebaseLoginWithCredentialsUseCase.invoke(
                 params = FirebaseLoginWithCredentialsUseCase.Params(account.idToken!!, context, createUser, account.email.orEmpty())
             ) { resultCode ->
+                showLoading(false)
+                _onSuccessLogin.value = Event(resultCode == FirebaseLoginWithCredentialsUseCase.RESULT_CODES.SUCESS)
                 when(resultCode) {
-                    FirebaseLoginWithCredentialsUseCase.RESULT_CODES.SUCESS -> {
-                        _onSuccessLogin.value = Event(true)
-                    }
                     FirebaseLoginWithCredentialsUseCase.RESULT_CODES.COLLISION -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_collision, lottieRes = R.raw.lottie_404)
-                        showLoading(false)
                         _onError.value = Event(config)
                     }
                     FirebaseLoginWithCredentialsUseCase.RESULT_CODES.CREDENTIALS_MALFORMED -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.generic_error_body, lottieRes = R.raw.lottie_404)
-                        showLoading(false)
                         _onError.value = Event(config)
                     }
                     FirebaseLoginWithCredentialsUseCase.RESULT_CODES.INVALID_USER -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_user_not_exists, lottieRes = R.raw.lottie_404)
-                        showLoading(false)
                         _onError.value = Event(config)
                     }
                     FirebaseLoginWithCredentialsUseCase.RESULT_CODES.DATABASE_ERROR -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_register_database, lottieRes = R.raw.message_alert)
-                        showLoading(false)
                         _onError.value = Event(config)
                     }
                 }
             }
+        } else {
+            _onSuccessLogin.value = Event(false)
+        }
+    }
+
+
+    fun initSilentLogin(context: AppCompatActivity): Boolean {
+        return if (!CurrentUser.isSigned()) {
+            GoogleSignIn.getLastSignedInAccount(context)?.let { account ->
+                initFirebaseLoginWithCredentials(account, false, context)
+                true
+            } ?: run {
+                _onSuccessLogin.value = Event(false)
+                true
+            }
+        } else {
+            true
         }
     }
 }

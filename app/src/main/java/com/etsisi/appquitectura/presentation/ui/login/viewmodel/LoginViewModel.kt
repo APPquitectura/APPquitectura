@@ -100,20 +100,6 @@ class LoginViewModel(
         }
     }
 
-    fun login(context: AppCompatActivity): Boolean {
-        return if (!CurrentUser.isSigned()) {
-            GoogleSignIn.getLastSignedInAccount(context)?.let { account ->
-                initFirebaseLoginWithCredentials(account, false, context)
-                true
-            } ?: run {
-                true
-            }
-        } else {
-            _onSuccessLogin.value = Event(true)
-            true
-        }
-    }
-
     fun initGoogleLoginFailed(statusCode: Int) {
         when(statusCode) {
             CommonStatusCodes.SIGN_IN_REQUIRED -> {

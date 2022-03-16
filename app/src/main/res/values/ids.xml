@@ -1,14 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Actions -->
-    <item name="navigate_to_form" type="id" />
-    <item name="navigate_to_email_verification" type="id" />
-    <item name="navigate_to_emailVerificationFragment" type="id" />
-
-    <!-- Fragments -->
-    <item name="form_fragment" type="id" />
-    <item name="email_verification_fragment" type="id" />
-
-    <!-- Activities -->
-    <item name="main_activity" type="id" />
 </resources>
