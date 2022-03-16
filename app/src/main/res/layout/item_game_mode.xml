@@ -6,7 +6,7 @@
     <data>
         <variable
             name="gameMode"
-            type="String" />
+            type="com.etsisi.appquitectura.presentation.ui.main.model.ItemGameMode" />
     </data>
 
     <FrameLayout
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_20"
                 android:textAlignment="center"
-                android:text="@{gameMode}"
+                app:textRes="@{gameMode.title}"
                 app:layout_constraintBottom_toBottomOf="@+id/lottie"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/lottie"

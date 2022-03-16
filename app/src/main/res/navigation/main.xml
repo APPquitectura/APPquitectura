@@ -53,5 +53,17 @@
             android:name="navType"
             android:defaultValue="GAME_MODE"
             app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
+        <action
+            android:id="@+id/action_gameMode_to_play"
+            app:destination="@id/playFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right">
+            <argument
+                android:name="navType"
+                android:defaultValue="START_GAME"
+                app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
+        </action>
     </fragment>
 </navigation>

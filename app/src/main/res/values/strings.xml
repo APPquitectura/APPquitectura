@@ -37,6 +37,10 @@
     <string name="item_home_analytics">Analytics</string>
     <string name="item_home_play">Start game</string>
 
+    <!-- Play -->
+    <string name="game_mode_thirty">30 Questions</string>
+    <string name="game_mode_sixty">60 Questions</string>
+
     <!-- Register -->
     <string name="error_email_already_exists">Email already exists</string>
 
