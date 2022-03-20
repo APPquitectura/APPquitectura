@@ -1,11 +1,16 @@
 package com.etsisi.appquitectura.presentation.common
 
 import androidx.navigation.NavController
-import com.etsisi.appquitectura.domain.enums.NavType
+import com.etsisi.appquitectura.LoginDirections
+import com.etsisi.appquitectura.MainDirections
+import com.etsisi.appquitectura.domain.enums.LoginNavType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHomeAction
+import com.etsisi.appquitectura.presentation.ui.main.view.HomeFragmentDirections
+import com.etsisi.appquitectura.presentation.ui.main.view.PlayFragmentDirections
+import com.etsisi.appquitectura.presentation.ui.main.view.SettingsFragmentDirections
 
 class Navigator (private val navController: NavController){
 
@@ -14,7 +19,7 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
     fun openRegisterFragment() {
-        val directions = LoginFormFragmentDirections.navigateToForm(navType = NavType.REGISTER)
+        val directions = LoginFormFragmentDirections.navigateToForm(navType = LoginNavType.REGISTER)
         navController.navigate(directions)
     }
 
@@ -24,19 +29,30 @@ class Navigator (private val navController: NavController){
     }
 
     fun navigateFromLoginToMain() {
-        val directions = LoginFormFragmentDirections.navigateLoginToMain()
+        val directions = LoginDirections.navigateLoginToMain()
+        navController.navigate(directions)
+    }
+
+    fun navigateFromMainToLogin() {
+        val directions = MainDirections.actionMainToLogin()
+        navController.navigate(directions)
+    }
+
+    fun startGame() {
+        val directions = PlayFragmentDirections.actionGameModeToPlay()
         navController.navigate(directions)
     }
 
     fun openSection(item: ItemHome) {
-        when(item.action) {
-            ItemHomeAction.ABOUT -> {}
-            ItemHomeAction.ANALYTICS -> {}
-            ItemHomeAction.PROFILE -> {}
-            ItemHomeAction.RANKING -> {}
-            ItemHomeAction.CONFIGURATION -> {}
-            ItemHomeAction.START_GAME -> {}
+        val directions = when(item.action) {
+            ItemHomeAction.ABOUT -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.ANALYTICS -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.PROFILE -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.RANKING -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.CONFIGURATION -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.START_GAME -> { HomeFragmentDirections.actionHomeToPlay() }
         }
+        navController.navigate(directions)
     }
 
 }

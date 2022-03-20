@@ -4,12 +4,14 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.Patterns
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
+import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
@@ -24,13 +26,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.api.CommonStatusCodes
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 
 class LoginViewModel(
     applicationContext: Application,
     firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
     private val registerUseCase: RegisterUseCase,
     private val firebaseLoginUseCase: FirebaseLoginUseCase,
-    private val sendEmailVerificationUseCase: SendEmailVerificationUseCase
+    private val sendEmailVerificationUseCase: SendEmailVerificationUseCase,
+    private val checkVerificationCodeUseCase: CheckVerificationCodeUseCase
 ): BaseAndroidViewModel(applicationContext, firebaseLoginWithCredentialsUseCase) {
 
     private val _loaded by lazy { MutableLiveData<Boolean>() }
@@ -52,6 +56,10 @@ class LoginViewModel(
     private val _onVerifyEmail by lazy { MutableLiveEvent<Boolean>() }
     val onVerifyEmail: LiveEvent<Boolean>
         get() = _onVerifyEmail
+
+    private val _onCodeVerified by lazy { MutableLiveEvent<Boolean>() }
+    val onCodeVerified: LiveEvent<Boolean>
+        get() = _onCodeVerified
 
     private val _onSuccessRegister by lazy { MutableLiveEvent<Boolean>() }
     val onSuccessRegister: LiveEvent<Boolean>
@@ -159,6 +167,17 @@ class LoginViewModel(
         } else {
             val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_email_password_malformed, lottieRes = R.raw.lottie_404)
             _onError.value = Event(config)
+        }
+    }
+
+    fun initVerificationCode(pendingDynamicLinkData: PendingDynamicLinkData?) {
+        if (pendingDynamicLinkData != null) {
+            checkVerificationCodeUseCase.invoke(
+                scope = viewModelScope,
+                params = CheckVerificationCodeUseCase.Params(pendingDynamicLinkData)
+            ) { resultCode ->
+                _onCodeVerified.value = Event(resultCode == CheckVerificationCodeUseCase.RESULT_CODES.SUCESS)
+            }
         }
     }
 

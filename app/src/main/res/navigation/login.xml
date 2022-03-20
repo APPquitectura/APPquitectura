@@ -9,17 +9,20 @@
         app:destination="@id/main_activity"
         app:enterAnim="@anim/enter_from_right"
         app:exitAnim="@anim/exit_to_left"
+        app:launchSingleTop="true"
         app:popEnterAnim="@anim/enter_from_left"
         app:popExitAnim="@anim/enter_from_right"
-        app:popUpTo="@id/login"
-        app:popUpToInclusive="true" />
+        app:popUpTo="@id/form_fragment"
+        app:popUpToInclusive="true"
+        app:popUpToSaveState="false"
+        app:restoreState="false" />
     <fragment
-        android:id="@id/form_fragment"
+        android:id="@+id/form_fragment"
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragment"
         android:label="Form fragment"
         tools:layout="@layout/fragment_login_form">
         <action
-            android:id="@id/navigate_to_form"
+            android:id="@+id/navigate_to_form"
             app:destination="@id/form_fragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left"
@@ -28,9 +31,9 @@
         <argument
             android:name="navType"
             android:defaultValue="LOGIN"
-            app:argType="com.etsisi.appquitectura.domain.enums.NavType" />
+            app:argType="com.etsisi.appquitectura.domain.enums.LoginNavType" />
         <action
-            android:id="@id/navigate_to_emailVerificationFragment"
+            android:id="@+id/navigate_to_emailVerificationFragment"
             app:destination="@id/email_verification_fragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left"
@@ -45,7 +48,7 @@
             app:exitAnim="@anim/slide_down" />
     </fragment>
     <fragment
-        android:id="@id/email_verification_fragment"
+        android:id="@+id/email_verification_fragment"
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.EmailVerificationFragment"
         android:label="EmailVerificationFragment"
         tools:layout="@layout/fragment_email_verification">
@@ -55,7 +58,7 @@
             app:argType="boolean" />
     </fragment>
     <activity
-        android:id="@id/main_activity"
+        android:id="@+id/main_activity"
         android:name="com.etsisi.appquitectura.presentation.ui.main.view.MainActivity"
         android:label="ActivityMain"
         tools:layout="@layout/activity_main" />

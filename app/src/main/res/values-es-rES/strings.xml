@@ -36,6 +36,10 @@
     <string name="item_home_analytics">Estadísticas</string>
     <string name="item_home_play">Empezar partida</string>
 
+    <!-- Play -->
+    <string name="game_mode_thirty">Partida 30</string>
+    <string name="game_mode_sixty">Partida 60</string>
+
     <!-- Register -->
     <string name="error_email_already_exists">El correo electrónico ya existe</string>
 
@@ -53,6 +57,10 @@
     <string name="register_btn_text">Registrarse</string>
     <string name="loading">Cargando</string>
     <string name="done">Completado</string>
+
+    <!-- Settings -->
+    <string name="item_settings_log_out">Cerrar sesión</string>
+    <string name="version_info">Versión %s</string>
 
     <!-- Verify -->
     <string name="verifying">Verificando código...</string>

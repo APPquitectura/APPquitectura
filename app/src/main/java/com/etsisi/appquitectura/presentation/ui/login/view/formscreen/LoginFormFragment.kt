@@ -1,12 +1,11 @@
 package com.etsisi.appquitectura.presentation.ui.login.view.formscreen
 
 import android.graphics.Color
-import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentLoginFormBinding
-import com.etsisi.appquitectura.domain.enums.NavType
+import com.etsisi.appquitectura.domain.enums.LoginNavType
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity
@@ -25,15 +24,15 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
     private val args: LoginFormFragmentArgs by navArgs()
 
     override val isSharedViewModel: Boolean
-        get() = args.navType == NavType.LOGIN
+        get() = args.navType == LoginNavType.LOGIN
 
     override fun getFragmentArgs(mBinding: FragmentLoginFormBinding) {
         when(args.navType) {
-            NavType.REGISTER -> {
+            LoginNavType.REGISTER -> {
                 mBinding.btnGoogle.isVisible = false
                 mBinding.btnLogin.isVisible = false
             }
-            NavType.LOGIN -> {
+            LoginNavType.LOGIN -> {
                 mBinding.btnGoogle.isVisible = true
                 mBinding.btnRegister.isVisible = true
             }
@@ -56,7 +55,7 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
         with(mViewModel) {
             loaded.observe(viewLifecycleOwner) { loaded ->
                 when(args.navType) {
-                    NavType.LOGIN -> {
+                    LoginNavType.LOGIN -> {
                         if (loaded) {
                             mBinding.btnLogin.hideProgress(R.string.login_btn_txt)
                         } else {
@@ -67,7 +66,7 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
                             }
                         }
                     }
-                    NavType.REGISTER -> {
+                    LoginNavType.REGISTER -> {
                         if (loaded) {
                             requireContext().hideKeyboard(mBinding.form.etPassword)
                             mBinding.btnRegister.showDrawable(mViewModel.btnDrawable()) {
@@ -86,14 +85,11 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
                 navigator.openVerifyEmailFragment()
             }
             onRegister.observe(viewLifecycleOwner, LiveEventObserver {
-                if (args.navType == NavType.REGISTER) {
+                if (args.navType == LoginNavType.REGISTER) {
                     initRegister()
                 } else {
                     navigator.openRegisterFragment()
                 }
-            })
-            onSuccessLogin.observe(viewLifecycleOwner, LiveEventObserver {
-                navigator.navigateFromLoginToMain()
             })
         }
     }

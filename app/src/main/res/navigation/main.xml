@@ -5,9 +5,65 @@
     android:id="@+id/main"
     app:startDestination="@id/homeFragment">
 
+    <action
+        android:id="@+id/action_main_to_login"
+        app:destination="@id/loginActivity"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/main"
+        app:popUpToInclusive="true"
+        app:popUpToSaveState="false"
+        app:restoreState="false" />
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.etsisi.appquitectura.presentation.ui.main.view.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_settings"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right" />
+        <action
+            android:id="@+id/action_home_to_play"
+            app:destination="@id/playFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.view.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"></fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity"
+        android:label="LoginActivity"
+        tools:layout="@layout/activity_login"></activity>
+    <fragment
+        android:id="@+id/playFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.view.PlayFragment"
+        android:label="PlayFragment"
+        tools:layout="@layout/fragment_play">
+        <argument
+            android:name="navType"
+            android:defaultValue="GAME_MODE"
+            app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
+        <action
+            android:id="@+id/action_gameMode_to_play"
+            app:destination="@id/playFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/enter_from_right">
+            <argument
+                android:name="navType"
+                android:defaultValue="START_GAME"
+                app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
+        </action>
+    </fragment>
 </navigation>

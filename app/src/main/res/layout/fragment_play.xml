@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.etsisi.appquitectura.domain.enums.GameNavType" />
+
+        <variable
+            name="navType"
+            type="com.etsisi.appquitectura.domain.enums.GameNavType" />
+
+        <variable
+            name="viewModel"
+            type="com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel" />
+
+        <variable
+            name="listener"
+            type="com.etsisi.appquitectura.presentation.common.PlayFragmentListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/dimen_20"
+            app:isVisible="@{ navType == GameNavType.GAME_MODE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/include"
+                layout="@layout/item_game_mode"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="@{() -> listener.onGameMode(viewModel.gameModes.get(0))}"
+                app:gameMode="@{viewModel.gameModes.get(0)}"
+                app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal" />
+
+            <include
+                layout="@layout/item_game_mode"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="@{() -> listener.onGameMode(viewModel.gameModes.get(1))}"
+                app:gameMode="@{viewModel.gameModes.get(1)}"
+                app:layout_constraintBottom_toTopOf="@+id/guideline_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideline_horizontal" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:isVisible="@{navType == GameNavType.START_GAME}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabMode="scrollable"/>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

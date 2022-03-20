@@ -37,6 +37,10 @@
     <string name="item_home_analytics">Analytics</string>
     <string name="item_home_play">Start game</string>
 
+    <!-- Play -->
+    <string name="game_mode_thirty">30 Questions</string>
+    <string name="game_mode_sixty">60 Questions</string>
+
     <!-- Register -->
     <string name="error_email_already_exists">Email already exists</string>
 
@@ -55,8 +59,10 @@
     <string name="loading">Loading</string>
     <string name="done">Done</string>
 
+    <!-- Settings -->
+    <string name="item_settings_log_out">Log out</string>
+    <string name="version_info">Version %s</string>
+
     <!-- Verify -->
     <string name="verifying">Verifying code...</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
