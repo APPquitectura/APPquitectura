@@ -17,7 +17,7 @@ class PlayFragment: BaseFragment<FragmentPlayBinding, PlayViewModel>(
 ), PlayFragmentListener {
 
     val args: PlayFragmentArgs by navArgs()
-    private var questionsList = listOf(QuestionBO("pregunta 1"))
+    private var questionsList = listOf(QuestionBO("XXX", "title1"))
 
     override fun setUpDataBinding(mBinding: FragmentPlayBinding, mViewModel: PlayViewModel) {
         with(mBinding) {

@@ -105,7 +105,7 @@ object FirestoreHelper {
     }
 
     //Retrieves all documents of a collection
-    inline fun <reified T> readDocumentsOfACollection(collection: String, query: Pair<String,Any>, crossinline onSuccess: (data: List<T>) -> Unit, crossinline onError: (error: Exception) -> Unit) {
+    inline fun <reified T> readDocumentsOfACollection(collection: String, crossinline onSuccess: (data: List<T>) -> Unit, crossinline onError: (error: Exception) -> Unit) {
         db
             .collection(collection)
             .get()

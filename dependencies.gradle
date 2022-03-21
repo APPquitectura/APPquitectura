@@ -20,9 +20,11 @@ ext {
     materialVersion = '1.6.0-alpha03'
     navigationVersion = '2.5.0-alpha03'
     progressButtonVersion = '2.1.0'
+    roomVersion = '2.4.2'
     retrofitVersion = '2.9.0'
     splashscreenVersion = '1.0.0-beta01'
     viewPager2Version = '1.0.0'
+    workManagerVersion = '2.7.1'
 
     //Dependencies
     androidAppCompat = "androidx.appcompat:appcompat:$appCompatVersion"
@@ -66,8 +68,14 @@ ext {
     retrofitDependency = "com.squareup.retrofit2:retrofit:$retrofitVersion"
     retrofitGsonDependency = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
+    roomDependency = "androidx.room:room-runtime:$roomVersion"
+    roomCoroutinesDependency = "androidx.room:room-ktx:$roomVersion"
+    roomAnnotation = "androidx.room:room-compiler:$roomVersion"
+
     splashScreenDependency = "androidx.core:core-splashscreen:$splashscreenVersion"
 
     viewPager2Dependency = "androidx.viewpager2:viewpager2:$viewPager2Version"
+
+    workManagerDependency = "androidx.work:work-runtime-ktx:$workManagerVersion"
 
 }

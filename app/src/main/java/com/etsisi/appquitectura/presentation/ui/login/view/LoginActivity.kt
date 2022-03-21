@@ -2,20 +2,14 @@ package com.etsisi.appquitectura.presentation.ui.login.view
 
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.ViewTreeObserver
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.bundleOf
-import androidx.navigation.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.ActivityLoginBinding
 import com.etsisi.appquitectura.presentation.common.BaseActivity
 import com.etsisi.appquitectura.presentation.common.GoogleSignInListener
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
-import com.etsisi.appquitectura.presentation.ui.main.view.MainActivity
 import com.etsisi.appquitectura.presentation.utils.TAG
-import com.etsisi.appquitectura.presentation.utils.startActivity
 import com.etsisi.appquitectura.utils.Constants
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException

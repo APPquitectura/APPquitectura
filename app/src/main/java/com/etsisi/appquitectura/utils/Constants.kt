@@ -9,5 +9,9 @@ object Constants {
 
     //Firestore
     const val users_collection = "users"
+    const val questions_collection = "questions/composicion/preguntas"
+
+    //ROOM
+    const val DATABASE_NAME = "appquitectura-db"
 
 }
