@@ -1,6 +1,5 @@
 package com.etsisi.appquitectura.presentation.ui.main.adapter
 
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.etsisi.appquitectura.domain.model.QuestionBO
@@ -13,5 +12,5 @@ class QuestionsViewPagerAdapter(
 
     override fun getItemCount(): Int = questionsList.size
 
-    override fun createFragment(position: Int): Fragment = QuestionFragment.newInstance(questionsList[position])
+    override fun createFragment(position: Int): Fragment = QuestionFragment.newInstance()
 }

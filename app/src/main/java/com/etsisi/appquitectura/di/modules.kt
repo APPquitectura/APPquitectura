@@ -30,11 +30,11 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { LoginViewModel(androidApplication(), get(), get(), get(),  get(), get()) }
-    viewModel { MainViewModel(get(), androidApplication(), get()) }
+    viewModel { MainViewModel(androidApplication(), get()) }
     viewModel { EmptyViewModel() }
     viewModel { HomeViewModel() }
     viewModel { SettingsViewModel(get()) }
-    viewModel { PlayViewModel() }
+    viewModel { PlayViewModel(get()) }
 }
 
 val presentationModule = module {

@@ -15,7 +15,7 @@ import org.koin.core.context.startKoin
 class BaseApplication: Application() {
 
     companion object {
-        const val appDatabaseVersion: Int = BuildConfig.VERSION_CODE
+        const val appDatabaseVersion: Int = BuildConfig.DATABASE_VERSION
     }
 
     override fun onCreate() {

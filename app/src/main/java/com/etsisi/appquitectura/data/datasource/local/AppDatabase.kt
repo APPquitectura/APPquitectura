@@ -10,7 +10,7 @@ import com.etsisi.appquitectura.data.datasource.local.dao.QuestionsDAO
 import com.etsisi.appquitectura.data.model.entities.QuestionEntity
 import com.etsisi.appquitectura.utils.Constants.DATABASE_NAME
 
-@Database(entities = [QuestionEntity::class], version = BaseApplication.appDatabaseVersion, exportSchema = false)
+@Database(entities = [QuestionEntity::class], version = BaseApplication.appDatabaseVersion)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun questionsDao(): QuestionsDAO
 
@@ -31,7 +31,9 @@ abstract class AppDatabase: RoomDatabase() {
                             super.onCreate(db)
                         }
                     }
-                ).build()
+                )
+                .fallbackToDestructiveMigration()
+                .build()
         }
     }
 }
