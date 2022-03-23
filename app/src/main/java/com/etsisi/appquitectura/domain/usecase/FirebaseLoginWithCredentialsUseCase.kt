@@ -20,16 +20,13 @@ class FirebaseLoginWithCredentialsUseCase(private val auth: FirebaseAuth) :
     data class Params(
         val token: String,
         val context: FragmentActivity,
-        val createUser: Boolean,
         val email: String
     )
 
     override suspend fun run(params: Params): RESULT_CODES {
         val credentials = GoogleAuthProvider.getCredential(params.token, null)
         var result = login(credentials, params.context)
-        if (result == RESULT_CODES.SUCESS && params.createUser) {
-            result = createUserInDatabase(CurrentUser?.email ?: params.email)
-        }
+
         return result
     }
 
@@ -55,26 +52,6 @@ class FirebaseLoginWithCredentialsUseCase(private val auth: FirebaseAuth) :
                         }
                     }
                 }
-        }
-
-    private suspend fun createUserInDatabase(email: String): RESULT_CODES =
-        suspendCancellableCoroutine { cont ->
-            var data = CurrentUser.toDomain()
-            if (data.id.isBlank()) {
-                data = data.copy(id = email)
-            }
-            FirestoreHelper
-                .writeDocument(
-                    collection = Constants.users_collection,
-                    document = data.id,
-                    data = data,
-                    onSuccess = {
-                        cont.resume(RESULT_CODES.SUCESS, null)
-                    },
-                    onError = {
-                        cont.resume(RESULT_CODES.DATABASE_ERROR, null)
-                    }
-                )
         }
 
 }

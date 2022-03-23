@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="viewModel"
-            type="com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel" />
-
-        <variable
-            name="googleListener"
-            type="com.etsisi.appquitectura.presentation.common.GoogleSignInListener" />
+            type="com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,12 +30,12 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/login_title"
+                    android:id="@+id/register_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/dimen_32"
                     android:layout_gravity="center"
-                    android:text="@string/sign_in"
+                    android:text="@string/register_btn_text"
                     android:textSize="@dimen/text_22" />
 
                 <include
@@ -52,39 +45,39 @@
                     android:layout_height="wrap_content"
                     app:viewModel="@{viewModel}" />
 
-                <com.google.android.flexbox.FlexboxLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_10"
-                    app:alignItems="center"
-                    app:dividerDrawable="@drawable/divider"
-                    app:flexDirection="row"
-                    app:flexWrap="nowrap"
-                    app:showDivider="middle">
+                    android:layout_marginVertical="@dimen/dimen_4"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btn_login"
-                        style="@style/buttonStyle"
-                        android:onClick="@{() -> viewModel.initFirebaseLogin()}"
-                        android:text="@string/login_btn_txt" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen_4"
+                        android:text="Año de carrera"/>
 
-                    <com.google.android.gms.common.SignInButton
-                        android:id="@+id/btn_google"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:onClickCustom="@{() -> googleListener.initSignInGoogle()}" />
-                </com.google.android.flexbox.FlexboxLayout>
+                    <Spinner
+                        android:id="@+id/year_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_register"
                     style="@style/buttonStyle"
                     android:layout_margin="@dimen/dimen_40"
-                    android:onClick="@{() -> viewModel.onRegister()}"
+                    android:onClick="@{() -> viewModel.initRegister()}"
                     android:text="@string/register_btn_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="You will need to verify your email after this step"/>
             </LinearLayout>
 
         </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

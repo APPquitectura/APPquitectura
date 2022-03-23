@@ -1,53 +1,60 @@
-package com.etsisi.appquitectura.presentation.common
+package com.etsisi.appquitectura.presentation.ui.login.viewmodel
 
-import android.app.Application
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
+import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
-import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
+import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
+import com.etsisi.appquitectura.presentation.common.BaseViewModel
+import com.etsisi.appquitectura.presentation.common.Event
+import com.etsisi.appquitectura.presentation.common.LiveEvent
+import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
+import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.GoogleApiClient
 
-open class BaseAndroidViewModel(
-    protected val applicationContext: Application,
-    private val firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase
-    ): AndroidViewModel(applicationContext), LifecycleObserver {
+open class BaseLoginViewModel(
+    private val firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
+    private val sendEmailVerificationUseCase: SendEmailVerificationUseCase
+    ): BaseViewModel(), LifecycleObserver {
 
-    protected val _loading by lazy { MutableLiveData<Pair<Boolean, String?>>() }
-    val loading: LiveData<Pair<Boolean, String?>>
-        get() = _loading
+    protected val _email by lazy { MutableLiveData<String>() }
+    val email: MutableLiveData<String>
+        get() = _email
+
+    protected val _password by lazy { MutableLiveData<String>() }
+    val password: MutableLiveData<String>
+        get() = _password
 
     protected val _onSuccessLogin by lazy { MutableLiveEvent<Boolean>() }
     val onSuccessLogin: LiveEvent<Boolean>
         get() = _onSuccessLogin
 
+    private val _emailVerificationSended by lazy { MutableLiveEvent<Boolean>() }
+    val emailVerificationSended: LiveEvent<Boolean>
+        get() = _emailVerificationSended
+
     protected val _onError = MutableLiveEvent<DialogConfig>()
     val onError: LiveEvent<DialogConfig>
         get() = _onError
 
-    fun showLoading(show: Boolean, msgRes: Int? = null) {
-        val msg = msgRes?.let { applicationContext.getString(it) }
-        _loading.value = Pair(show, msg)
-    }
+    lateinit var googleClient: GoogleSignInClient
+        private set
 
-    fun initFirebaseLoginWithCredentials(account: GoogleSignInAccount, createUser: Boolean, context: AppCompatActivity) {
+    fun initFirebaseLoginWithCredentials(account: GoogleSignInAccount, context: AppCompatActivity) {
         if (account.idToken != null) {
             showLoading(true, R.string.loading_sign_in_google)
             firebaseLoginWithCredentialsUseCase.invoke(
-                params = FirebaseLoginWithCredentialsUseCase.Params(account.idToken!!, context, createUser, account.email.orEmpty())
+                params = FirebaseLoginWithCredentialsUseCase.Params(account.idToken!!, context, account.email.orEmpty())
             ) { resultCode ->
                 showLoading(false)
                 _onSuccessLogin.value = Event(resultCode == FirebaseLoginWithCredentialsUseCase.RESULT_CODES.SUCESS)
@@ -79,7 +86,7 @@ open class BaseAndroidViewModel(
     fun initSilentLogin(context: AppCompatActivity): Boolean {
         return if (!CurrentUser.isSigned()) {
             GoogleSignIn.getLastSignedInAccount(context)?.let { account ->
-                initFirebaseLoginWithCredentials(account, false, context)
+                initFirebaseLoginWithCredentials(account, context)
                 true
             } ?: run {
                 _onSuccessLogin.value = Event(false)
@@ -88,5 +95,29 @@ open class BaseAndroidViewModel(
         } else {
             true
         }
+    }
+
+    fun initVerifyEmail() {
+        sendEmailVerificationUseCase.invoke(
+            scope = viewModelScope,
+            params = SendEmailVerificationUseCase.Params()
+        ) { resultCodes ->
+            showLoading(false)
+            if (resultCodes == SendEmailVerificationUseCase.RESULT_CODES.SUCESS) {
+                _emailVerificationSended.value = Event(true)
+            } else {
+                val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sending_code_verification, lottieRes = R.raw.lottie_404)
+                _onError.value = Event(config)
+            }
+        }
+    }
+
+    fun setGoogleClient(context: Context, token: String) {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestIdToken(token)
+            .build()
+
+        googleClient = GoogleSignIn.getClient(context, gso)
     }
 }

@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.etsisi.appquitectura">
 
+    <queries>
+        <intent>
+            <action
+                android:name="android.intent.action.VIEW" />
+            <data
+                android:scheme="mailto" />
+        </intent>
+    </queries>
+
     <application
         android:name=".application.BaseApplication"
         android:allowBackup="false"
@@ -12,9 +21,6 @@
         android:theme="@style/Theme.Appquitectura.Splash">
         <activity
             android:name=".presentation.ui.login.view.LoginActivity"
-            android:launchMode="singleTask"
-            android:clearTaskOnLaunch="true"
-            android:finishOnTaskLaunch="true"
             android:exported="true"
             android:theme="@style/Theme.Appquitectura"
             android:screenOrientation="nosensor"
@@ -33,10 +39,7 @@
         </activity>
         <activity
             android:name=".presentation.ui.main.view.MainActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="nosensor"
-            android:clearTaskOnLaunch="true"
-            android:finishOnTaskLaunch="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

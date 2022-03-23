@@ -2,6 +2,9 @@ package com.etsisi.appquitectura.presentation.utils
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.LabeledIntent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -65,3 +68,9 @@ fun Bundle.toJson(): JSONObject {
 
     return json
 }
+
+fun List<ResolveInfo>.toLabeledIntentArray(packageManager: PackageManager): Array<LabeledIntent> = map {
+    val packageName = it.activityInfo.packageName
+    val intent = packageManager.getLaunchIntentForPackage(packageName)
+    LabeledIntent(intent, packageName, it.loadLabel(packageManager), it.icon)
+}.toTypedArray()

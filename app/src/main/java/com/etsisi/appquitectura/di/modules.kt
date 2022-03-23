@@ -7,6 +7,7 @@ import com.etsisi.appquitectura.data.datasource.local.QuestionsLocalDataSource
 import com.etsisi.appquitectura.data.datasource.remote.QuestionsRemoteDataSource
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
 import com.etsisi.appquitectura.data.repository.imp.QuestionsRepositoryImp
+import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
@@ -16,6 +17,7 @@ import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.Navigator
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
+import com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.MainViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel
@@ -29,8 +31,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { LoginViewModel(androidApplication(), get(), get(), get(),  get(), get()) }
-    viewModel { MainViewModel(androidApplication(), get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get(),  get()) }
+    viewModel { RegisterViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(androidApplication(), get(), get()) }
     viewModel { EmptyViewModel() }
     viewModel { HomeViewModel() }
     viewModel { SettingsViewModel(get()) }
@@ -50,6 +53,7 @@ val useCaseModule = module {
     factory { CheckVerificationCodeUseCase(get()) }
     factory { FirebaseLoginWithCredentialsUseCase(get()) }
     factory { LogOutUseCase() }
+    factory { CheckUserIsRegisteredUseCase() }
 }
 
 val repositoryModule = module {

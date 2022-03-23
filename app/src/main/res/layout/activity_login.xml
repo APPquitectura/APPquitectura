@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.etsisi.appquitectura.presentation.common.BaseAndroidViewModel" />
+            type="com.etsisi.appquitectura.presentation.ui.login.viewmodel.BaseLoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

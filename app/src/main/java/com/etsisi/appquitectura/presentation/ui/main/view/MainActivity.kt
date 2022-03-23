@@ -1,6 +1,5 @@
 package com.etsisi.appquitectura.presentation.ui.main.view
 
-import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import com.etsisi.appquitectura.R
@@ -28,16 +27,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
             } else {
                 false
             }
-        }
-    }
-
-    companion object {
-        const val EXTRA_CODE_VERIFIED = "isVerified"
-    }
-
-    override fun getActivityArgs(bundle: Bundle) {
-        with(bundle) {
-            getBoolean(EXTRA_CODE_VERIFIED, true)
         }
     }
 

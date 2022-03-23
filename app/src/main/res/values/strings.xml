@@ -28,6 +28,7 @@
     <string name="sign_in">Sign in</string>
 
     <string name="loading_sign_in_google">Signing in with Google...</string>
+    <string name="loading_veryfing_code">Veryfing code...</string>
 
     <!-- Main -->
     <string name="item_home_profile">Profile</string>
@@ -42,18 +43,15 @@
     <string name="game_mode_sixty">60 Questions</string>
 
     <!-- Register -->
-    <string name="error_email_already_exists">Email already exists</string>
-
-    <string name="error_email_malformed">Email malformed</string>
-
-    <string name="error_email_password_malformed">Check your email/password. The password must have more than 6 characters</string>
-
-    <string name="error_sending_code_verification">We are experiencing technical difficulties sending a verification code to your email</string>
     <string name="error_code_verification">We are experiencing technical difficulties verifying your email. Contact with our support team</string>
-
-    <string name="error_weak_password">Weak password</string>
-
+    <string name="error_email_already_exists">Email already exists</string>
+    <string name="error_email_malformed">Email malformed</string>
+    <string name="error_email_password_malformed">Check your email/password. The password must have more than 6 characters</string>
     <string name="error_register_database">We are experiencing technical difficulties with the database</string>
+    <string name="error_sending_code_verification">We are experiencing technical difficulties sending a verification code to your email</string>
+    <string name="error_weak_password">Weak password</string>
+    <string name="error_unselected_year">Select the year of the degree</string>
+
 
     <string name="register_btn_text">Register</string>
     <string name="loading">Loading</string>

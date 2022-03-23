@@ -1,30 +1,33 @@
 package com.etsisi.appquitectura.presentation.common
 
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.LoginDirections
 import com.etsisi.appquitectura.MainDirections
-import com.etsisi.appquitectura.domain.enums.LoginNavType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHomeAction
 import com.etsisi.appquitectura.presentation.ui.main.view.HomeFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.view.PlayFragmentDirections
-import com.etsisi.appquitectura.presentation.ui.main.view.SettingsFragmentDirections
+import com.etsisi.appquitectura.presentation.utils.toLabeledIntentArray
 
 class Navigator (private val navController: NavController){
 
     fun openDialog(config: DialogConfig) {
-        val directions = LoginFormFragmentDirections.navigateLoginDialog(config)
+        val directions = LoginDirections.navigateLoginDialog(config)
         navController.navigate(directions)
     }
     fun openRegisterFragment() {
-        val directions = LoginFormFragmentDirections.navigateToForm(navType = LoginNavType.REGISTER)
+        val directions = LoginFormFragmentDirections.navigateToRegisterFormFragment()
         navController.navigate(directions)
     }
 
-    fun openVerifyEmailFragment(emailVerified: Boolean = false) {
-        val directions = LoginFormFragmentDirections.navigateToEmailVerificationFragment(emailVerified)
+    fun openVerifyEmailFragment() {
+        val directions = LoginDirections.navigateToEmailVerificationFragment()
         navController.navigate(directions)
     }
 
@@ -53,6 +56,19 @@ class Navigator (private val navController: NavController){
             ItemHomeAction.START_GAME -> { HomeFragmentDirections.actionHomeToPlay() }
         }
         navController.navigate(directions)
+    }
+
+    fun openInboxMail(activity: Activity) {
+        with(activity) {
+            val emailIntent = Intent(Intent.ACTION_VIEW, Uri.parse("mailto:"))
+            val resInfo = packageManager.queryIntentActivities(emailIntent, PackageManager.MATCH_ALL)
+            val intentChooser = packageManager.getLaunchIntentForPackage(resInfo.first().activityInfo.packageName)
+            val openChooser = Intent.createChooser(intentChooser, "Selecciona")
+            val emailApps = resInfo.toLabeledIntentArray(packageManager)
+
+            openChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, emailApps)
+            startActivity(openChooser)
+        }
     }
 
 }

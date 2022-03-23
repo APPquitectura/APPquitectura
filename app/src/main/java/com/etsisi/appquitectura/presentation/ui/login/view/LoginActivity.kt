@@ -24,13 +24,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             val completedTask = GoogleSignIn.getSignedInAccountFromIntent(it.data)
             try {
                 val account = completedTask.getResult(ApiException::class.java)
-                mViewModel.initFirebaseLoginWithCredentials(account, true,this)
+                mViewModel.onGoogleSignInClicked(account, this)
             } catch (e: ApiException) {
                 mViewModel.initGoogleLoginFailed(e.statusCode)
             }
         }
 
-    override fun getActivityArgs(bundle: Bundle) {
+    override fun onResume() {
+        super.onResume()
         if (intent.data?.host == Constants.DYNAMIC_LINK_PREFIX) {
             Firebase
                 .dynamicLinks
@@ -63,12 +64,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
             })
             onCodeVerified.observe(this@LoginActivity, LiveEventObserver {
                 navigator.navigateFromLoginToMain()
-            })
-            onSuccessLogin.observe(this@LoginActivity, LiveEventObserver {
-                if (it) {
-                    navigator.navigateFromLoginToMain()
-                    finish()
-                }
             })
         }
     }
