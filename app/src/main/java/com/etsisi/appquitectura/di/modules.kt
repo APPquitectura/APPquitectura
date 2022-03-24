@@ -31,12 +31,12 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { LoginViewModel(get(), get(), get(), get(),  get()) }
-    viewModel { RegisterViewModel(get(), get(), get()) }
-    viewModel { MainViewModel(androidApplication(), get(), get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get(), get(),  get()) }
+    viewModel { RegisterViewModel(get(), get(), get(), get()) }
+    viewModel { MainViewModel(androidApplication(), get(), get(), get()) }
     viewModel { EmptyViewModel() }
     viewModel { HomeViewModel() }
-    viewModel { SettingsViewModel(get()) }
+    viewModel { SettingsViewModel(get(), get(), get()) }
     viewModel { PlayViewModel(get()) }
 }
 

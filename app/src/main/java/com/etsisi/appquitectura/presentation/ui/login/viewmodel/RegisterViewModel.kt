@@ -8,6 +8,7 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.Event
@@ -17,10 +18,12 @@ import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError
 
 class RegisterViewModel(
+    logOutUseCase: LogOutUseCase,
     firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     private val registerUseCase: RegisterUseCase
 ) : BaseLoginViewModel(
+    logOutUseCase,
     firebaseLoginWithCredentialsUseCase,
     sendEmailVerificationUseCase
 ) {

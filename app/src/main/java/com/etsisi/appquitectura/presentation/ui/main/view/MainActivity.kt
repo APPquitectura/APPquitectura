@@ -21,6 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
     private val onPreDrawListener = object: ViewTreeObserver.OnPreDrawListener {
         override fun onPreDraw(): Boolean {
+            mViewModel.setGoogleClient(this@MainActivity, getString(R.string.default_web_client_id))
             return if (mViewModel.initSilentLogin(this@MainActivity)) {
                 contentView.viewTreeObserver.removeOnPreDrawListener(this)
                 true

@@ -9,6 +9,7 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.BaseViewModel
 import com.etsisi.appquitectura.presentation.common.Event
@@ -23,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
 
 open class BaseLoginViewModel(
+    private val logOutUseCase: LogOutUseCase,
     private val firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
     private val sendEmailVerificationUseCase: SendEmailVerificationUseCase
     ): BaseViewModel(), LifecycleObserver {
@@ -110,6 +112,13 @@ open class BaseLoginViewModel(
                 _onError.value = Event(config)
             }
         }
+    }
+
+    fun logOut() {
+        logOutUseCase.invoke(
+            params = LogOutUseCase.Params(googleClient),
+            onResult = {}
+        )
     }
 
     fun setGoogleClient(context: Context, token: String) {

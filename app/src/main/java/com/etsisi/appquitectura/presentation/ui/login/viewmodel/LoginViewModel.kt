@@ -11,6 +11,7 @@ import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
@@ -22,12 +23,17 @@ import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 
 class LoginViewModel(
+    logOutUseCase: LogOutUseCase,
     firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     private val checkUserIsRegisteredUseCase: CheckUserIsRegisteredUseCase,
     private val firebaseLoginUseCase: FirebaseLoginUseCase,
     private val checkVerificationCodeUseCase: CheckVerificationCodeUseCase
-): BaseLoginViewModel(firebaseLoginWithCredentialsUseCase, sendEmailVerificationUseCase) {
+) : BaseLoginViewModel(
+    logOutUseCase,
+    firebaseLoginWithCredentialsUseCase,
+    sendEmailVerificationUseCase
+) {
 
     private val _loaded by lazy { MutableLiveData<Boolean>() }
     val loaded: LiveData<Boolean>
@@ -49,7 +55,12 @@ class LoginViewModel(
             if (userExists) {
                 initFirebaseLoginWithCredentials(account, context)
             } else {
-                val config = DialogConfig(title = R.string.error_login_credentials_title, body = R.string.error_sign_in_google_user_not_exists, lottieRes = R.raw.lottie_404)
+                logOut()
+                val config = DialogConfig(
+                    title = R.string.error_login_credentials_title,
+                    body = R.string.error_sign_in_google_user_not_exists,
+                    lottieRes = R.raw.lottie_404
+                )
                 _onError.value = Event(config)
             }
         }
@@ -65,49 +76,85 @@ class LoginViewModel(
                 params = FirebaseLoginUseCase.Params(email, password)
             ) { resultCode ->
                 _loaded.value = true
-                when(resultCode) {
+                when (resultCode) {
                     FirebaseLoginUseCase.RESULT_CODES.PASSWORD_INVALID -> {
-                        val config = DialogConfig(title = R.string.error_login_credentials_title, body = R.string.error_login_credentials_body, lottieRes = R.raw.lottie_404)
+                        val config = DialogConfig(
+                            title = R.string.error_login_credentials_title,
+                            body = R.string.error_login_credentials_body,
+                            lottieRes = R.raw.lottie_404
+                        )
                         _onError.value = Event(config)
                     }
                     FirebaseLoginUseCase.RESULT_CODES.EMAIL_INVALID -> {
-                        val config = DialogConfig(title = R.string.error_login_credentials_title, body = R.string.error_sign_in_google_user_not_exists, lottieRes = R.raw.lottie_404)
+                        val config = DialogConfig(
+                            title = R.string.error_login_credentials_title,
+                            body = R.string.error_sign_in_google_user_not_exists,
+                            lottieRes = R.raw.lottie_404
+                        )
                         _onError.value = Event(config)
                     }
                     FirebaseLoginUseCase.RESULT_CODES.GENERIC_ERROR -> {
-                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.generic_error_body, lottieRes = R.raw.lottie_404)
+                        val config = DialogConfig(
+                            title = R.string.generic_error_title,
+                            body = R.string.generic_error_body,
+                            lottieRes = R.raw.lottie_404
+                        )
                         _onError.value = Event(config)
                     }
                     FirebaseLoginUseCase.RESULT_CODES.SUCCESS -> onSuccessLogin()
                 }
             }
         } else {
-            val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_login_credentials_body, lottieRes = R.raw.lottie_404)
+            val config = DialogConfig(
+                title = R.string.generic_error_title,
+                body = R.string.error_login_credentials_body,
+                lottieRes = R.raw.lottie_404
+            )
             _onError.value = Event(config)
         }
     }
 
     fun initGoogleLoginFailed(statusCode: Int) {
-        when(statusCode) {
+        when (statusCode) {
             CommonStatusCodes.SIGN_IN_REQUIRED -> {
-                val config = DialogConfig(title = R.string.error_sign_in_required_google_title, body = R.string.error_sign_in_required_google_body, lottieRes = R.raw.lottie_404)
+                val config = DialogConfig(
+                    title = R.string.error_sign_in_required_google_title,
+                    body = R.string.error_sign_in_required_google_body,
+                    lottieRes = R.raw.lottie_404
+                )
                 _onError.value = Event(config)
             }
             CommonStatusCodes.NETWORK_ERROR -> {
-                val config = DialogConfig(title = R.string.error_network_title, body = R.string.error_network_body, lottieRes = R.raw.lottie_404)
+                val config = DialogConfig(
+                    title = R.string.error_network_title,
+                    body = R.string.error_network_body,
+                    lottieRes = R.raw.lottie_404
+                )
                 _onError.value = Event(config)
             }
             CommonStatusCodes.INVALID_ACCOUNT,
             CommonStatusCodes.INTERNAL_ERROR -> {
-                val config = DialogConfig(title = R.string.error_internal_google_title, body = R.string.error_internal_google_body, lottieRes = R.raw.lottie_404)
+                val config = DialogConfig(
+                    title = R.string.error_internal_google_title,
+                    body = R.string.error_internal_google_body,
+                    lottieRes = R.raw.lottie_404
+                )
                 _onError.value = Event(config)
             }
             GoogleSignInStatusCodes.SIGN_IN_FAILED -> {
-                val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_user_not_exists, lottieRes = R.raw.lottie_404)
+                val config = DialogConfig(
+                    title = R.string.generic_error_title,
+                    body = R.string.error_sign_in_google_user_not_exists,
+                    lottieRes = R.raw.lottie_404
+                )
                 _onError.value = Event(config)
             }
             GoogleSignInStatusCodes.SIGN_IN_CURRENTLY_IN_PROGRESS -> {
-                val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_in_progress, lottieRes = R.raw.lottie_404)
+                val config = DialogConfig(
+                    title = R.string.generic_error_title,
+                    body = R.string.error_sign_in_google_in_progress,
+                    lottieRes = R.raw.lottie_404
+                )
                 _onError.value = Event(config)
             }
         }
@@ -125,7 +172,8 @@ class LoginViewModel(
                 params = CheckVerificationCodeUseCase.Params(pendingDynamicLinkData)
             ) { resultCode ->
                 showLoading(false)
-                _onCodeVerified.value = Event(resultCode == CheckVerificationCodeUseCase.RESULT_CODES.SUCESS)
+                _onCodeVerified.value =
+                    Event(resultCode == CheckVerificationCodeUseCase.RESULT_CODES.SUCESS)
             }
         }
     }
@@ -141,7 +189,5 @@ class LoginViewModel(
     }
 
     private fun emailValid(email: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-
 
 }
