@@ -1,6 +1,5 @@
 package com.etsisi.appquitectura.presentation.ui.main.view
 
-import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import com.etsisi.appquitectura.R
@@ -22,22 +21,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
 
     private val onPreDrawListener = object: ViewTreeObserver.OnPreDrawListener {
         override fun onPreDraw(): Boolean {
+            mViewModel.setGoogleClient(this@MainActivity, getString(R.string.default_web_client_id))
             return if (mViewModel.initSilentLogin(this@MainActivity)) {
                 contentView.viewTreeObserver.removeOnPreDrawListener(this)
                 true
             } else {
                 false
             }
-        }
-    }
-
-    companion object {
-        const val EXTRA_CODE_VERIFIED = "isVerified"
-    }
-
-    override fun getActivityArgs(bundle: Bundle) {
-        with(bundle) {
-            getBoolean(EXTRA_CODE_VERIFIED, true)
         }
     }
 

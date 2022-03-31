@@ -3,7 +3,10 @@ package com.etsisi.appquitectura.presentation.ui.main.view
 import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentPlayBinding
+import com.etsisi.appquitectura.domain.model.QuestionAge
 import com.etsisi.appquitectura.domain.model.QuestionBO
+import com.etsisi.appquitectura.domain.model.QuestionLevel
+import com.etsisi.appquitectura.domain.model.QuestionTopic
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
@@ -17,7 +20,7 @@ class PlayFragment: BaseFragment<FragmentPlayBinding, PlayViewModel>(
 ), PlayFragmentListener {
 
     val args: PlayFragmentArgs by navArgs()
-    private var questionsList = listOf(QuestionBO("pregunta 1"))
+    private var questionsList = listOf(QuestionBO("XXX", "title1", QuestionLevel.DIFFICULT,QuestionAge.MIDDLE_AGE,QuestionTopic.ART_NOUVEAU))
 
     override fun setUpDataBinding(mBinding: FragmentPlayBinding, mViewModel: PlayViewModel) {
         with(mBinding) {
@@ -35,7 +38,11 @@ class PlayFragment: BaseFragment<FragmentPlayBinding, PlayViewModel>(
     }
 
     override fun observeViewModel(mViewModel: PlayViewModel) {
-        //TODO("Not yet implemented")
+        with(mViewModel) {
+            questions.observe(viewLifecycleOwner) {
+                it
+            }
+        }
     }
 
     override fun onGameMode(item: ItemGameMode) {

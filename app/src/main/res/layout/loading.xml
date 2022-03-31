@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.etsisi.appquitectura.presentation.common.BaseAndroidViewModel" />
+            type="com.etsisi.appquitectura.presentation.common.BaseViewModel" />
     </data>
 
     <FrameLayout
@@ -33,7 +33,7 @@
             android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/dimen_50"
             android:gravity="center"
-            android:text="@{viewModel.loading.second ?? @string/loading}"
+            app:textRes="@{viewModel.loading.second}"
             android:textColor="#DAD8D0D0"
             android:textSize="@dimen/text_16"
             tools:text="Loading..." />

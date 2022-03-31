@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login"
-    app:startDestination="@id/form_fragment">
+    app:startDestination="@id/login_form_fragment">
     <action
         android:id="@+id/navigate_login_to_main"
         app:destination="@id/main_activity"
@@ -12,51 +12,48 @@
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/enter_from_left"
         app:popExitAnim="@anim/enter_from_right"
-        app:popUpTo="@id/form_fragment"
+        app:popUpTo="@id/login_form_fragment"
         app:popUpToInclusive="true"
         app:popUpToSaveState="false"
         app:restoreState="false" />
+
+    <action
+        android:id="@+id/navigate_to_emailVerificationFragment"
+        app:destination="@id/email_verification_fragment"
+        app:enterAnim="@anim/enter_from_right"
+        app:exitAnim="@anim/exit_to_left"
+        app:popEnterAnim="@anim/enter_from_left"
+        app:popExitAnim="@anim/enter_from_right"
+        app:popUpTo="@id/login"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/navigate_login_dialog"
+        app:destination="@id/login_dialog"
+        app:enterAnim="@anim/slide_up"
+        app:exitAnim="@anim/slide_down" />
+
     <fragment
-        android:id="@+id/form_fragment"
+        android:id="@+id/login_form_fragment"
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragment"
         android:label="Form fragment"
         tools:layout="@layout/fragment_login_form">
         <action
-            android:id="@+id/navigate_to_form"
-            app:destination="@id/form_fragment"
+            android:id="@+id/navigate_to_registerFormFragment"
+            app:destination="@id/register_form_fragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/enter_from_right" />
-        <argument
-            android:name="navType"
-            android:defaultValue="LOGIN"
-            app:argType="com.etsisi.appquitectura.domain.enums.LoginNavType" />
-        <action
-            android:id="@+id/navigate_to_emailVerificationFragment"
-            app:destination="@id/email_verification_fragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/exit_to_left"
-            app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/enter_from_right"
-            app:popUpTo="@id/login"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/navigate_login_dialog"
-            app:destination="@id/login_dialog"
-            app:enterAnim="@anim/slide_up"
-            app:exitAnim="@anim/slide_down" />
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/login_form_fragment"
+            app:popUpToSaveState="false"
+            app:restoreState="false" />
     </fragment>
     <fragment
         android:id="@+id/email_verification_fragment"
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.EmailVerificationFragment"
         android:label="EmailVerificationFragment"
-        tools:layout="@layout/fragment_email_verification">
-        <argument
-            android:name="emailVerified"
-            android:defaultValue="false"
-            app:argType="boolean" />
-    </fragment>
+        tools:layout="@layout/fragment_email_verification"></fragment>
     <activity
         android:id="@+id/main_activity"
         android:name="com.etsisi.appquitectura.presentation.ui.main.view.MainActivity"
@@ -71,4 +68,9 @@
             android:name="config"
             app:argType="com.etsisi.appquitectura.presentation.dialog.model.DialogConfig" />
     </dialog>
+    <fragment
+        android:id="@+id/register_form_fragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.RegisterFormFragment"
+        android:label="RegisterFormFragment"
+        tools:layout="@layout/fragment_register" />
 </navigation>

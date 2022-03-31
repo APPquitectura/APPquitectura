@@ -16,9 +16,7 @@ class QuestionFragment: BaseFragment<FragmentQuestionBinding, EmptyViewModel>(
         const val ARG_QUESTION = "question"
 
         @JvmStatic
-        fun newInstance(question: QuestionBO) = QuestionFragment().apply {
-            arguments = bundleOf(ARG_QUESTION to question)
-        }
+        fun newInstance() = QuestionFragment()
     }
 
     override fun observeViewModel(mViewModel: EmptyViewModel) {

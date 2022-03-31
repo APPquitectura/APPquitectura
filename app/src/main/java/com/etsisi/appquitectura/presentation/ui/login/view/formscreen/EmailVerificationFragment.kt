@@ -1,7 +1,5 @@
 package com.etsisi.appquitectura.presentation.ui.login.view.formscreen
 
-import androidx.core.view.isVisible
-import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentEmailVerificationBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
@@ -12,22 +10,13 @@ class EmailVerificationFragment: BaseFragment<FragmentEmailVerificationBinding, 
     EmptyViewModel::class
 ) {
 
-    val args: EmailVerificationFragmentArgs by navArgs()
-
     override fun setUpDataBinding(
         mBinding: FragmentEmailVerificationBinding,
         mViewModel: EmptyViewModel
     ) {
         with(mBinding) {
-            btnGoToMain.setOnClickListener {
-                navigator.navigateFromLoginToMain()
-            }
-            btnGoToMain.isVisible = args.emailVerified
-
-            if (args.emailVerified) {
-
-            } else {
-                btnGoToMain.isVisible = false
+            btnGoToEmail.setOnClickListener {
+                navigator.openInboxMail(requireActivity())
             }
         }
     }

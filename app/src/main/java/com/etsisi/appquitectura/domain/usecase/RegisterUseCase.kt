@@ -49,13 +49,10 @@ class RegisterUseCase(private val auth: FirebaseAuth): UseCase<RegisterUseCase.P
     private suspend fun createUserInDatabase(email: String): RESULT_CODES =
         suspendCancellableCoroutine { cont ->
             var data = CurrentUser.toDomain()
-            if (data.id.isBlank()) {
-                data = data.copy(id = email)
-            }
             FirestoreHelper
                 .writeDocument(
                     collection = Constants.users_collection,
-                    document = data.id,
+                    document = email,
                     data = data,
                     onSuccess = {
                         cont.resume(RESULT_CODES.SUCCESS, null)

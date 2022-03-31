@@ -9,7 +9,7 @@
     <string name="error_network_body">Estamos experimentando fallas técnicas de conexión</string>
 
     <string name="error_login_credentials_title">Credenciales erróneas</string>
-    <string name="error_login_credentials_body">Comprueba tu correo o contraseña antes de proceder</string>
+    <string name="error_login_credentials_body">Comprueba tu correo o contraseña antes de continuar</string>
 
     <string name="error_sign_in_google_collision">Ya existe una cuenta asociada a este correo electrónico</string>
     <string name="error_sign_in_google_user_not_exists">No existe ninguna cuenta asociada a este correo electrónico</string>
@@ -27,6 +27,7 @@
     <string name="login_btn_txt">Acceder</string>
 
     <string name="loading_sign_in_google">Iniciando sesión con Google...</string>
+    <string name="loading_veryfing_code">Verificando código...</string>
 
     <!-- Main -->
     <string name="item_home_profile">Perfil</string>
@@ -41,16 +42,13 @@
     <string name="game_mode_sixty">Partida 60</string>
 
     <!-- Register -->
-    <string name="error_email_already_exists">El correo electrónico ya existe</string>
-
-    <string name="error_email_malformed">Correo electrónico incorrecto</string>
-
-    <string name="error_email_password_malformed">Comprueba tu correo/contraseña. La contraseña debe tener más de 6 caracteres</string>
-
-    <string name="error_sending_code_verification">Estamos teniendo problemas técnicos para enviarte un código de verificación al correo electrónico</string>
     <string name="error_code_verification">No hemos podido verificar su correo electrónico, contacte con soporte</string>
-
+    <string name="error_email_already_exists">El correo electrónico ya existe</string>
+    <string name="error_email_malformed">Correo electrónico incorrecto</string>
+    <string name="error_email_password_malformed">Comprueba tu correo/contraseña. La contraseña debe tener más de 6 caracteres</string>
+    <string name="error_sending_code_verification">Estamos teniendo problemas técnicos para enviarte un código de verificación al correo electrónico</string>
     <string name="error_weak_password">Contraseña muy débil</string>
+    <string name="error_unselected_year">Selecciona el año de grado universitario</string>
 
     <string name="error_register_database">Estamos teniendo problemas técnicos con la base de datos</string>
 
