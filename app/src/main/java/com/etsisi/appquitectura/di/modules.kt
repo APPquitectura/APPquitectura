@@ -4,9 +4,13 @@ import androidx.navigation.NavController
 import androidx.room.Room
 import com.etsisi.appquitectura.data.datasource.local.AppDatabase
 import com.etsisi.appquitectura.data.datasource.local.QuestionsLocalDataSource
+import com.etsisi.appquitectura.data.datasource.local.UsersLocalDataSource
 import com.etsisi.appquitectura.data.datasource.remote.QuestionsRemoteDataSource
+import com.etsisi.appquitectura.data.datasource.remote.UsersRemoteDataSource
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
+import com.etsisi.appquitectura.data.repository.UsersRepository
 import com.etsisi.appquitectura.data.repository.imp.QuestionsRepositoryImp
+import com.etsisi.appquitectura.data.repository.imp.UsersRepositoryImp
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
@@ -15,6 +19,7 @@ import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.ResetPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
+import com.etsisi.appquitectura.domain.usecase.UpdateQuestionsUseCase
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.Navigator
 import com.etsisi.appquitectura.presentation.dialog.viewmodel.InputTextViewModel
@@ -39,7 +44,7 @@ val viewModelModule = module {
     viewModel { EmptyViewModel() }
     viewModel { HomeViewModel() }
     viewModel { InputTextViewModel(get()) }
-    viewModel { SettingsViewModel(get(), get(), get()) }
+    viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { PlayViewModel(get()) }
 }
 
@@ -55,25 +60,30 @@ val useCaseModule = module {
     factory { SendEmailVerificationUseCase() }
     factory { CheckVerificationCodeUseCase(get()) }
     factory { FirebaseLoginWithCredentialsUseCase(get()) }
-    factory { LogOutUseCase() }
-    factory { CheckUserIsRegisteredUseCase() }
+    factory { LogOutUseCase(get()) }
+    factory { CheckUserIsRegisteredUseCase(get()) }
     factory { ResetPasswordUseCase(get()) }
+    factory { UpdateQuestionsUseCase(get(), get()) }
 }
 
 val repositoryModule = module {
     factory<QuestionsRepository> { QuestionsRepositoryImp(get(), get()) }
+    factory<UsersRepository> { UsersRepositoryImp(get(), get()) }
 }
 
 val remoteDataSourceModule = module {
     factory { QuestionsRemoteDataSource() }
+    factory { UsersRemoteDataSource(get()) }
 }
 
 val localDataSourceModule = module {
     //DAO's
     single { get<AppDatabase>().questionsDao() }
+    single { get<AppDatabase>().usersDao() }
 
     //LocalDataSource
     factory { QuestionsLocalDataSource(get()) }
+    factory { UsersLocalDataSource(get()) }
 }
 
 val databaseModule = module {

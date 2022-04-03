@@ -8,6 +8,8 @@ class QuestionsLocalDataSource(
 ) {
     suspend fun fetchQuestions(): List<QuestionBO>? = dao.getQuestions()?.map { it.toDomain() }
 
+    suspend fun deleteAll() = dao.deleteAll()
+
     suspend fun addAll(questions: List<QuestionBO>) {
         val questionsList = questions.mapNotNull { it.toEntity() }
         dao.insertAll(questionsList)

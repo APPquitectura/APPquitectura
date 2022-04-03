@@ -6,6 +6,7 @@ import com.etsisi.appquitectura.databinding.FragmentPlayBinding
 import com.etsisi.appquitectura.domain.model.QuestionAge
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
+import com.etsisi.appquitectura.domain.model.QuestionSubject
 import com.etsisi.appquitectura.domain.model.QuestionTopic
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
@@ -20,7 +21,7 @@ class PlayFragment: BaseFragment<FragmentPlayBinding, PlayViewModel>(
 ), PlayFragmentListener {
 
     val args: PlayFragmentArgs by navArgs()
-    private var questionsList = listOf(QuestionBO("XXX", "title1", QuestionLevel.DIFFICULT,QuestionAge.MIDDLE_AGE,QuestionTopic.ART_NOUVEAU))
+    private var questionsList = listOf(QuestionBO("XXX", "title1", QuestionSubject.COMPOSICION, QuestionLevel.DIFFICULT,QuestionAge.MIDDLE_AGE,QuestionTopic.ART_NOUVEAU))
 
     override fun setUpDataBinding(mBinding: FragmentPlayBinding, mViewModel: PlayViewModel) {
         with(mBinding) {

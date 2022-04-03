@@ -8,6 +8,7 @@
         <variable
             name="item"
             type="com.etsisi.appquitectura.presentation.ui.main.model.ItemSettings" />
+
         <variable
             name="listener"
             type="com.etsisi.appquitectura.presentation.common.SettingsItemClicked" />
@@ -18,7 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_44"
         android:onClick="@{() -> listener.onSettingsItemClicked(item)}"
-        android:background="@color/cardview_dark_background"
         android:foreground="?android:attr/selectableItemBackground">
 
         <ImageView
@@ -31,7 +31,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcRes="@{item.icon}"
-            tools:src="@drawable/ic_settings" />
+            tools:src="@drawable/ic_settings"
+            app:tint="@color/text_color_primary" />
 
         <TextView
             android:id="@+id/txtItemHomeProfile"

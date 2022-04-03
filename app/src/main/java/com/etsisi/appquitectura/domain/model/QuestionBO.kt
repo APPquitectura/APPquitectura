@@ -3,19 +3,31 @@ package com.etsisi.appquitectura.domain.model
 import com.etsisi.appquitectura.data.model.entities.QuestionEntity
 
 data class QuestionBO(
-    val id: String?,
-    val title: String?,
-    val level: QuestionLevel,
-    val age: QuestionAge,
-    val topic: QuestionTopic
+        val id: String?,
+        val title: String?,
+        val subject: QuestionSubject,
+        val level: QuestionLevel,
+        val age: QuestionAge,
+        val topic: QuestionTopic
 ) {
     fun toEntity() = QuestionEntity(
-        id = id.orEmpty(),
-        title = title.orEmpty(),
-        level = level.value,
-        age = age.value,
-        topic = topic.value
+            id = id.orEmpty(),
+            title = title.orEmpty(),
+            subject = subject.value,
+            level = level.value,
+            age = age.value,
+            topic = topic.value
     )
+}
+
+enum class QuestionSubject(val value: Int) {
+    COMPOSICION(1),
+    INTRODUCCION(2),
+    UNKNOWN(3);
+
+    companion object {
+        fun parseQuest(subject: Int) = values().find { it.value == subject } ?: UNKNOWN
+    }
 }
 
 enum class QuestionLevel(val value: Int) {
@@ -26,9 +38,9 @@ enum class QuestionLevel(val value: Int) {
 
     companion object {
         fun parseLevel(x: Int?): QuestionLevel {
-            return when(x) {
+            return when (x) {
                 EASY.value -> EASY
-                NORMAL.value-> NORMAL
+                NORMAL.value -> NORMAL
                 DIFFICULT.value -> DIFFICULT
                 else -> UNKNOWN
             }
@@ -45,7 +57,7 @@ enum class QuestionAge(val value: Int) {
 
     companion object {
         fun parseAge(x: Int?): QuestionAge {
-            return when(x) {
+            return when (x) {
                 OLD.value -> OLD
                 MIDDLE_AGE.value -> MIDDLE_AGE
                 MODERN_AGE.value -> MODERN_AGE

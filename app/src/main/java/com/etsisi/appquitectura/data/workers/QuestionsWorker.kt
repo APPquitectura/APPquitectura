@@ -10,8 +10,9 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
+import com.etsisi.appquitectura.domain.model.QuestionSubject
 import com.etsisi.appquitectura.presentation.utils.TAG
-import com.etsisi.appquitectura.utils.Constants.questions_collection
+import com.etsisi.appquitectura.utils.Constants.questions_composicion_collection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
@@ -43,7 +44,7 @@ class QuestionsWorker (appContext: Context, params: WorkerParameters): Coroutine
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
-            questionsRepository.fetchQuestions(questions_collection)?.let { list ->
+            questionsRepository.fetchQuestions(questions_composicion_collection, QuestionSubject.COMPOSICION)?.let { list ->
                 Result.success()
             } ?: Result.failure()
         } catch (e: Exception) {
