@@ -9,10 +9,9 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
-import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
-import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
+import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
-import com.etsisi.appquitectura.domain.usecase.ResetPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
@@ -25,14 +24,14 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 
 class LoginViewModel(
     logOutUseCase: LogOutUseCase,
-    firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
+    signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     private val checkUserIsRegisteredUseCase: CheckUserIsRegisteredUseCase,
-    private val firebaseLoginUseCase: FirebaseLoginUseCase,
+    private val signInWithEmailAndPasswordUseCase: SignInWithEmailAndPasswordUseCase,
     private val checkVerificationCodeUseCase: CheckVerificationCodeUseCase
 ) : BaseLoginViewModel(
     logOutUseCase,
-    firebaseLoginWithCredentialsUseCase,
+    signInWithCredentialsUseCase,
     sendEmailVerificationUseCase
 ) {
 
@@ -77,13 +76,13 @@ class LoginViewModel(
         val password = _password.value?.trim().orEmpty()
         if (emailValid(email) && !password.isBlank()) {
             _loaded.value = false
-            firebaseLoginUseCase.invoke(
+            signInWithEmailAndPasswordUseCase.invoke(
                 scope = viewModelScope,
-                params = FirebaseLoginUseCase.Params(email, password)
+                params = SignInWithEmailAndPasswordUseCase.Params(email, password)
             ) { resultCode ->
                 _loaded.value = true
                 when (resultCode) {
-                    FirebaseLoginUseCase.RESULT_CODES.PASSWORD_INVALID -> {
+                    SignInWithEmailAndPasswordUseCase.RESULT_CODES.PASSWORD_INVALID -> {
                         val config = DialogConfig(
                             title = R.string.error_login_credentials_title,
                             body = R.string.error_login_credentials_body,
@@ -91,7 +90,7 @@ class LoginViewModel(
                         )
                         _onError.value = Event(config)
                     }
-                    FirebaseLoginUseCase.RESULT_CODES.EMAIL_INVALID -> {
+                    SignInWithEmailAndPasswordUseCase.RESULT_CODES.EMAIL_INVALID -> {
                         val config = DialogConfig(
                             title = R.string.error_login_credentials_title,
                             body = R.string.error_sign_in_google_user_not_exists,
@@ -99,7 +98,7 @@ class LoginViewModel(
                         )
                         _onError.value = Event(config)
                     }
-                    FirebaseLoginUseCase.RESULT_CODES.GENERIC_ERROR -> {
+                    SignInWithEmailAndPasswordUseCase.RESULT_CODES.GENERIC_ERROR -> {
                         val config = DialogConfig(
                             title = R.string.generic_error_title,
                             body = R.string.generic_error_body,
@@ -107,7 +106,7 @@ class LoginViewModel(
                         )
                         _onError.value = Event(config)
                     }
-                    FirebaseLoginUseCase.RESULT_CODES.SUCCESS -> onSuccessLogin()
+                    SignInWithEmailAndPasswordUseCase.RESULT_CODES.SUCCESS -> onSuccessLogin()
                 }
             }
         } else {

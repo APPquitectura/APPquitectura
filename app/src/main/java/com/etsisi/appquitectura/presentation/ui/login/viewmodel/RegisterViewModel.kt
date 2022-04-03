@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
-import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
-import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
@@ -19,12 +19,12 @@ import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError
 
 class RegisterViewModel(
     logOutUseCase: LogOutUseCase,
-    firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
+    signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     private val registerUseCase: RegisterUseCase
 ) : BaseLoginViewModel(
     logOutUseCase,
-    firebaseLoginWithCredentialsUseCase,
+    signInWithCredentialsUseCase,
     sendEmailVerificationUseCase
 ) {
 
@@ -36,13 +36,19 @@ class RegisterViewModel(
     val onSuccessRegister: LiveEvent<Boolean>
         get() = _onSuccessRegister
 
+    private val _name = MutableLiveData<String>()
+    val name: MutableLiveData<String>
+        get() = _name
+
+    var spinnerOption: QuestionSubject? = null
+
     fun initRegister() {
         val email = _email.value.orEmpty()
         val password = _password.value.orEmpty()
-        if (emailValid(email) && passwordValid(password)) {
+        if (emailValid(email) && passwordValid(password) && spinnerOption != null && nameValid()) {
             registerUseCase.invoke(
                 scope = viewModelScope,
-                params = RegisterUseCase.Params(email, password)
+                params = RegisterUseCase.Params(_name.value, email, password, spinnerOption!!)
             ) { resultCode ->
                 when (resultCode) {
                     RegisterUseCase.RESULT_CODES.WEAK_PASSWORD -> {
@@ -100,6 +106,7 @@ class RegisterViewModel(
 
     private fun emailValid(email: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches()
     private fun passwordValid(password: String) = password.length > 6
+    private fun nameValid() = _name.value?.isNotBlank() == true
 
     fun onSuccessRegister() {
         if (CurrentUser.isEmailVerfied) {

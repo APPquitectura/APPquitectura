@@ -44,7 +44,11 @@
         android:id="@+id/email_verification_fragment"
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.EmailVerificationFragment"
         android:label="EmailVerificationFragment"
-        tools:layout="@layout/fragment_email_verification"></fragment>
+        tools:layout="@layout/fragment_email_verification">
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
     <dialog
         android:id="@+id/login_dialog"
         android:name="com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog"

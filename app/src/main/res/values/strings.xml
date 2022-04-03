@@ -43,6 +43,8 @@
     <string name="game_mode_sixty">60 Questions</string>
 
     <!-- Register -->
+    <string name="register_greeting">Hi %s!</string>
+    <string name="name">Name</string>
     <string name="error_code_verification">We are experiencing technical difficulties verifying your email. Contact with our support team</string>
     <string name="error_email_already_exists">Email already exists</string>
     <string name="error_email_malformed">Email malformed</string>
@@ -64,8 +66,10 @@
 
     <!-- Settings -->
     <string name="item_settings_log_out">Log out</string>
+    <string name="item_settings_update_questions">Update questions</string>
     <string name="version_info">Version %s</string>
 
     <!-- Verify -->
+    <string name="verify_code_scree_welcome">Hi %s! After sending the registration form, please check your inbox for an e-mail inviting you to confirm your registration.</string>
     <string name="verifying">Verifying code...</string>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,70 +26,47 @@
                 android:src="@drawable/etsam" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/answersRecyclerView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView">
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            tools:listitem="@layout/item_answer" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/answerOne"
-                style="@style/buttonStyle"
-                android:layout_width="0dp"
-                android:text="@string/login_btn_txt"
-                app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontal"
-                app:layout_constraintEnd_toEndOf="@id/guidelineVertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal" />
+        <RelativeLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="@dimen/dimen_100"
+            android:layout_height="@dimen/dimen_100"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/answerTwo"
-                style="@style/buttonStyle"
-                android:layout_width="0dp"
-                android:text="@string/login_btn_txt"
-                app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guidelineVertical"
-                app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal" />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_circular"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circular_progress"
+                android:textAlignment="center" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/answerThree"
-                style="@style/buttonStyle"
-                android:layout_width="0dp"
-                android:text="@string/login_btn_txt"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/guidelineVertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/answerOne"
-                app:layout_constraintVertical_bias="0.2" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/answerFour"
-                style="@style/buttonStyle"
-                android:layout_width="0dp"
-                android:text="@string/login_btn_txt"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guidelineVertical"
-                app:layout_constraintTop_toBottomOf="@+id/answerOne"
-                app:layout_constraintVertical_bias="0.2" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineVertical"
+            <TextView
+                android:id="@+id/progress_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.3" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="---"
+                android:textColor="@color/text_color_primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -42,6 +42,8 @@
     <string name="game_mode_sixty">Partida 60</string>
 
     <!-- Register -->
+    <string name="register_greeting">¡Hola %s!</string>
+    <string name="name">Nombre</string>
     <string name="error_code_verification">No hemos podido verificar su correo electrónico, contacte con soporte</string>
     <string name="error_email_already_exists">El correo electrónico ya existe</string>
     <string name="error_email_malformed">Correo electrónico incorrecto</string>
@@ -63,8 +65,10 @@
 
     <!-- Settings -->
     <string name="item_settings_log_out">Cerrar sesión</string>
+    <string name="item_settings_update_questions">Actualizar preguntas</string>
     <string name="version_info">Versión %s</string>
 
     <!-- Verify -->
+    <string name="verify_code_scree_welcome">¡Hola %s! Por último, comprueba la bandeja de entrada de tu correo electrónico para verificar que eres tú</string>
     <string name="verifying">Verificando código...</string>
 </resources>

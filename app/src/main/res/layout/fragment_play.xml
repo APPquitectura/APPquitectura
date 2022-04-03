@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="com.etsisi.appquitectura.domain.enums.GameNavType" />
-
-        <variable
-            name="navType"
-            type="com.etsisi.appquitectura.domain.enums.GameNavType" />
 
         <variable
             name="viewModel"
@@ -27,11 +24,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="@dimen/dimen_20"
-            app:isVisible="@{ navType == GameNavType.GAME_MODE}"
+            app:isVisible="@{viewModel.navType == GameNavType.GAME_MODE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone">
 
             <include
                 android:id="@+id/include"
@@ -71,21 +69,36 @@
                 app:layout_constraintGuide_percent="0.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/ready_to_start_game"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:isVisible="@{viewModel.navType == GameNavType.PRE_START_GAME}"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:lottie_rawRes="@raw/lottie_start_game"
+            tools:visibility="visible" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:isVisible="@{navType == GameNavType.START_GAME}"
+            app:isVisible="@{viewModel.navType == GameNavType.START_GAME}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabMode="scrollable"/>
+                app:tabMode="scrollable" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"

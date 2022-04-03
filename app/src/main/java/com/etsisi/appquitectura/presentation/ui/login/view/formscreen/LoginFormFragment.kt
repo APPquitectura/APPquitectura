@@ -1,9 +1,9 @@
 package com.etsisi.appquitectura.presentation.ui.login.view.formscreen
 
-import android.graphics.Bitmap
 import android.graphics.Color
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentLoginFormBinding
+import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
@@ -68,7 +68,7 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
             })
 
             emailVerificationSended.observe(viewLifecycleOwner) {
-                navigator.openVerifyEmailFragment()
+                navigator.openVerifyEmailFragment(CurrentUser.name.orEmpty())
             }
         }
     }

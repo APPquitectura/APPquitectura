@@ -9,9 +9,6 @@ import org.koin.core.component.inject
 object CurrentUser: KoinComponent {
     private val auth: FirebaseAuth by inject()
 
-    const val EMAIL_FIELD = "email"
-    const val NAME_FIELD = "name"
-
     val instance: FirebaseUser?
         get() = auth.currentUser
 
@@ -34,11 +31,4 @@ object CurrentUser: KoinComponent {
 
     fun isSigned() = instance != null
 
-    fun toDomain(): UserBO {
-        return UserBO(
-            id= userUid.orEmpty(),
-            name = name.orEmpty(),
-            email = email.orEmpty()
-        )
-    }
 }

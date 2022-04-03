@@ -3,6 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="com.etsisi.appquitectura.R"/>
+
         <variable
             name="viewModel"
             type="com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel" />
@@ -33,10 +36,28 @@
                     android:id="@+id/register_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/dimen_32"
                     android:layout_gravity="center"
+                    android:layout_marginVertical="@dimen/dimen_32"
                     android:text="@string/register_btn_text"
                     android:textSize="@dimen/text_22" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dynamicText="@{viewModel.name}"
+                    app:dynamicRes="@{R.string.register_greeting}"
+                    app:isVisible="@{!viewModel.name.empty}"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:maxLines="1"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"
+                    android:hint="@string/name"
+                    android:text="@={viewModel.name}"
+                    android:textColor="@color/text_color_primary" />
 
                 <include
                     android:id="@+id/form"
@@ -56,10 +77,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/dimen_4"
-                        android:text="Año de carrera"/>
+                        android:text="Año de carrera" />
 
                     <Spinner
                         android:id="@+id/year_spinner"
+                        android:dropDownWidth="@dimen/dimen_15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -74,7 +96,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="You will need to verify your email after this step"/>
+                    android:text="You will need to verify your email after this step" />
             </LinearLayout>
 
         </ScrollView>

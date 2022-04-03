@@ -39,4 +39,12 @@ object BindingAdapter {
             setImageDrawable(drawable)
         }
     }
+
+    @BindingAdapter("dynamicText", "dynamicRes")
+    @JvmStatic
+    fun TextView.setDynamicText(string: String?, @StringRes res: Int?) {
+        if (string != null && res != null) {
+            text = context.getString(res, string)
+        }
+    }
 }

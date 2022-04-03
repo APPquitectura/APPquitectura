@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentRegisterBinding
+import com.etsisi.appquitectura.domain.model.QuestionSubject
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError
@@ -55,7 +56,7 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
             })
 
             emailVerificationSended.observe(viewLifecycleOwner) {
-                navigator.openVerifyEmailFragment()
+                navigator.openVerifyEmailFragment(name.value.orEmpty())
             }
 
             onError.observe(viewLifecycleOwner, LiveEventObserver { dialogConfig ->
@@ -65,11 +66,17 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-        parent.getItemAtPosition(position)
+        mViewModel.spinnerOption = when(parent.getItemAtPosition(position).toString().toInt()){
+            1,2 -> QuestionSubject.INTRODUCCION
+            else -> QuestionSubject.COMPOSICION
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        mViewModel.setError(RegisterError.YEAR_UNSELECTED.value)
+        with(mViewModel) {
+            spinnerOption = null
+            setError(RegisterError.YEAR_UNSELECTED.value)
+        }
     }
 
     private fun  btnDrawable(): Drawable = ContextCompat

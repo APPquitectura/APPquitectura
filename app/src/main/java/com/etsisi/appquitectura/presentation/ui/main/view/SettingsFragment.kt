@@ -1,6 +1,5 @@
 package com.etsisi.appquitectura.presentation.ui.main.view
 
-import android.content.Intent
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentSettingsBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
