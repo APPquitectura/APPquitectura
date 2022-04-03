@@ -52,6 +52,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="false"
+                    android:maxLines="1"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"
                     android:hint="@string/name"
                     android:text="@={viewModel.name}"
                     android:textColor="@color/text_color_primary" />
@@ -78,6 +81,7 @@
 
                     <Spinner
                         android:id="@+id/year_spinner"
+                        android:dropDownWidth="@dimen/dimen_15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>

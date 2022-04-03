@@ -1,20 +1,39 @@
 package com.etsisi.appquitectura.domain.usecase
 
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
+import com.etsisi.appquitectura.data.repository.UsersRepository
+import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.presentation.utils.EMPTY
+import com.etsisi.appquitectura.utils.Constants
 
 class FetchAllQuestionsUseCase(
+    private val usersRepository: UsersRepository,
     private val questionsRepository: QuestionsRepository
-): UseCase<FetchAllQuestionsUseCase.Params, List<QuestionBO>>() {
+) : UseCase<Unit, List<QuestionBO>>() {
 
-    data class Params(
-        val collection: String,
-        val questionsSubject: QuestionSubject
-    )
+    override suspend fun run(params: Unit): List<QuestionBO> {
+        return CurrentUser.email?.let {
+            val currentUser = usersRepository.getUserById(it)
+            val collection = when (currentUser.subject) {
+                QuestionSubject.COMPOSICION -> {
+                    Constants.questions_composicion_collection
+                }
+                QuestionSubject.INTRODUCCION -> {
+                    Constants.questions_introduccion_collection
+                }
+                else -> {
+                    String.EMPTY
+                }
+            }
 
-    override suspend fun run(params: Params): List<QuestionBO> {
-        return questionsRepository.fetchQuestions(params.collection, params.questionsSubject) ?: emptyList()
+            if (collection.isNotBlank()) {
+                questionsRepository.fetchQuestions(collection, currentUser.subject) ?: emptyList()
+            } else {
+                emptyList()
+            }
+        } ?: emptyList()
     }
 
 }

@@ -8,12 +8,14 @@ import com.etsisi.appquitectura.data.model.dto.UserDTO
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.model.UserBO
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
+import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.getMethodName
 import com.etsisi.appquitectura.utils.Constants
+import com.google.firebase.auth.ActionCodeResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -150,4 +152,29 @@ class UsersRemoteDataSource(
                     }
                 }
         }
-}
+
+    suspend fun checkVerificationCode(code: String): CheckVerificationCodeUseCase.RESULT_CODES =
+        suspendCancellableCoroutine { cont ->
+            code.ifBlank {
+                cont.resume(CheckVerificationCodeUseCase.RESULT_CODES.GENERIC_ERROR, null)
+            }
+            auth
+                .checkActionCode(code)
+                .addOnSuccessListener { action ->
+                    if (action.operation == ActionCodeResult.VERIFY_EMAIL) {
+                        auth
+                            .applyActionCode(code)
+                            .addOnSuccessListener {
+                                CurrentUser.instance?.reload()
+                                cont.resume(CheckVerificationCodeUseCase.RESULT_CODES.SUCESS, null)
+                            }
+                            .addOnFailureListener {
+                                cont.resume(CheckVerificationCodeUseCase.RESULT_CODES.GENERIC_ERROR, null)
+                            }
+                    }
+                }
+                .addOnFailureListener {
+                    cont.resume(CheckVerificationCodeUseCase.RESULT_CODES.GENERIC_ERROR, null)
+                }
+        }
+    }

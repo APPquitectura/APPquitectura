@@ -5,8 +5,10 @@ import androidx.fragment.app.FragmentActivity
 import com.etsisi.appquitectura.data.datasource.local.UsersLocalDataSource
 import com.etsisi.appquitectura.data.datasource.remote.UsersRemoteDataSource
 import com.etsisi.appquitectura.data.repository.UsersRepository
+import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.model.UserBO
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
+import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
@@ -59,6 +61,17 @@ class UsersRepositoryImp(
         credential: AuthCredential,
         context: FragmentActivity
     ): SignInWithCredentialsUseCase.RESULT_CODES {
-        return remote.signInWithCredentials(credential, context)
+        val result = remote.signInWithCredentials(credential, context)
+        if (result == SignInWithCredentialsUseCase.RESULT_CODES.SUCESS) {
+            CurrentUser.instance?.let {
+                it.reload()
+                it.email?.let { getUserById(it) }
+            }
+        }
+        return result
+    }
+
+    override suspend fun checkVerificationCode(code: String): CheckVerificationCodeUseCase.RESULT_CODES {
+        return remote.checkVerificationCode(code)
     }
 }

@@ -6,20 +6,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="W, 1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/lottie_signed_up"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+
         <TextView
             android:id="@+id/msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="verifica tu email"
+            android:textSize="@dimen/text_22"
             app:layout_constraintBottom_toTopOf="@+id/btn_go_to_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/animation" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_go_to_email"
             style="@style/buttonStyle"
             android:layout_width="0dp"
+            android:layout_margin="@dimen/dimen_40"
             android:text="Open your inbox"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

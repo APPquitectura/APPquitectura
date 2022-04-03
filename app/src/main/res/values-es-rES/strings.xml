@@ -69,5 +69,6 @@
     <string name="version_info">Versión %s</string>
 
     <!-- Verify -->
+    <string name="verify_code_scree_welcome">¡Hola %s! Por último, comprueba la bandeja de entrada de tu correo electrónico para verificar que eres tú</string>
     <string name="verifying">Verificando código...</string>
 </resources>

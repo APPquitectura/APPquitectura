@@ -4,6 +4,7 @@ import com.etsisi.appquitectura.data.repository.QuestionsRepository
 import com.etsisi.appquitectura.data.repository.UsersRepository
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.presentation.utils.EMPTY
 import com.etsisi.appquitectura.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -15,27 +16,31 @@ class UpdateQuestionsUseCase(
 ): UseCase<Unit, Unit>() {
 
     override suspend fun run(params: Unit) {
-        val currentUserSubject = runCatching {
-                usersRepository.getUserById(CurrentUser.email.orEmpty())?.subject
-            }.getOrDefault(QuestionSubject.COMPOSICION)
 
-        with(MainScope()) {
-            val deleteJob = async(Dispatchers.IO) {
-                questionsRepository.deleteAllLocalQuestions()
-            }
-            val downloadJob = async(Dispatchers.IO) {
-                val collection = when(currentUserSubject) {
-                    QuestionSubject.COMPOSICION -> {
-                        Constants.questions_composicion_collection
-                    }
-                    else -> {
-                        Constants.questions_introduccion_collection
-                    }
+        CurrentUser.email?.let {
+            val currentUser = usersRepository.getUserById(it)
+            val collection = when (currentUser.subject) {
+                QuestionSubject.COMPOSICION -> {
+                    Constants.questions_composicion_collection
                 }
-                questionsRepository.fetchQuestions(collection, currentUserSubject)
+                QuestionSubject.INTRODUCCION -> {
+                    Constants.questions_introduccion_collection
+                }
+                else -> {
+                    String.EMPTY
+                }
             }
-            deleteJob.await()
-            downloadJob.await()
+
+            with(MainScope()) {
+                val deleteJob = async(Dispatchers.IO) {
+                    questionsRepository.deleteAllLocalQuestions()
+                }
+                val downloadJob = async(Dispatchers.IO) {
+                    questionsRepository.fetchQuestions(collection, currentUser.subject)
+                }
+                deleteJob.await()
+                downloadJob.await()
+            }
         }
     }
 

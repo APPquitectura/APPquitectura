@@ -34,8 +34,8 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun openVerifyEmailFragment() {
-        val directions = LoginDirections.navigateToEmailVerificationFragment()
+    fun openVerifyEmailFragment(name: String) {
+        val directions = LoginDirections.navigateToEmailVerificationFragment(name)
         navController.navigate(directions)
     }
 

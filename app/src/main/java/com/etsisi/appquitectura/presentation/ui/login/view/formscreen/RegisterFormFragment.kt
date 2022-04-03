@@ -56,7 +56,7 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
             })
 
             emailVerificationSended.observe(viewLifecycleOwner) {
-                navigator.openVerifyEmailFragment()
+                navigator.openVerifyEmailFragment(name.value.orEmpty())
             }
 
             onError.observe(viewLifecycleOwner, LiveEventObserver { dialogConfig ->
@@ -66,8 +66,10 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-        parent.getItemAtPosition(position)
-        mViewModel.spinnerOption = QuestionSubject.COMPOSICION
+        mViewModel.spinnerOption = when(parent.getItemAtPosition(position).toString().toInt()){
+            1,2 -> QuestionSubject.INTRODUCCION
+            else -> QuestionSubject.COMPOSICION
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

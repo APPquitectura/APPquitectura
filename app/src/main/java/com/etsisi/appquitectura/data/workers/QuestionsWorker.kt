@@ -11,16 +11,18 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
 import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.domain.usecase.FetchAllQuestionsUseCase
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.utils.Constants.questions_composicion_collection
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class QuestionsWorker (appContext: Context, params: WorkerParameters): CoroutineWorker(appContext, params), KoinComponent {
 
-    private val questionsRepository: QuestionsRepository by inject()
+    private val fetchAllQuestionsUseCase: FetchAllQuestionsUseCase by inject()
 
     companion object {
 
@@ -44,12 +46,20 @@ class QuestionsWorker (appContext: Context, params: WorkerParameters): Coroutine
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
-            questionsRepository.fetchQuestions(questions_composicion_collection, QuestionSubject.COMPOSICION)?.let { list ->
-                Result.success()
-            } ?: Result.failure()
+            launchFetchQuestionsUseCase()
         } catch (e: Exception) {
             Log.e(TAG, e.message.orEmpty())
             Result.failure()
+        }
+    }
+
+    private suspend fun launchFetchQuestionsUseCase(): Result = suspendCancellableCoroutine { cont ->
+        fetchAllQuestionsUseCase.invoke(params = Unit) {
+            if (it.isNullOrEmpty()) {
+                cont.resume(Result.failure(), null)
+            } else {
+                cont.resume(Result.success(), null)
+            }
         }
     }
 }
