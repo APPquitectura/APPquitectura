@@ -38,8 +38,9 @@ class SettingsViewModel(
     fun handleSettings(item: ItemSettings) {
         when(item.action) {
             ItemSettingsAction.LOG_OUT -> {
-                logOut()
-                _onLogOut.value = Event(true)
+                logOut {
+                    _onLogOut.value = Event(true)
+                }
             }
         }
     }

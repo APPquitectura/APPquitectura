@@ -48,6 +48,9 @@
             app:popUpTo="@id/login_form_fragment"
             app:popUpToSaveState="false"
             app:restoreState="false" />
+        <action
+            android:id="@+id/open_input_text_dialog"
+            app:destination="@id/input_text_dialog" />
     </fragment>
     <fragment
         android:id="@+id/email_verification_fragment"
@@ -73,4 +76,16 @@
         android:name="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.RegisterFormFragment"
         android:label="RegisterFormFragment"
         tools:layout="@layout/fragment_register" />
+    <dialog
+        android:id="@+id/input_text_dialog"
+        android:name="com.etsisi.appquitectura.presentation.dialog.view.InputTextDialog"
+        android:label="InputTextDialog"
+        tools:layout="@layout/dialog_input_text">
+        <argument
+            android:name="dialogType"
+            app:argType="com.etsisi.appquitectura.presentation.dialog.enums.DialogType" />
+        <argument
+            android:name="config"
+            app:argType="com.etsisi.appquitectura.presentation.dialog.model.DialogConfig" />
+    </dialog>
 </navigation>

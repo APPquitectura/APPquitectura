@@ -25,14 +25,18 @@ object BindingAdapter {
 
     @BindingAdapter("textRes")
     @JvmStatic
-    fun TextView.textRes(@StringRes res: Int) {
-        text = this.context.getString(res)
+    fun TextView.textRes(@StringRes res: Int?) {
+        res?.let {
+            text = this.context.getString(it)
+        }
     }
 
     @BindingAdapter("srcRes")
     @JvmStatic
-    fun ImageView.setImageRes(@DrawableRes res: Int) {
-        val drawable = ContextCompat.getDrawable(context, res)
-        setImageDrawable(drawable)
+    fun ImageView.setImageRes(@DrawableRes res: Int?) {
+        res?.let {
+            val drawable = ContextCompat.getDrawable(context, it)
+            setImageDrawable(drawable)
+        }
     }
 }

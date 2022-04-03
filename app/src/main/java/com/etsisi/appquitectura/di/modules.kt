@@ -13,9 +13,11 @@ import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
+import com.etsisi.appquitectura.domain.usecase.ResetPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.Navigator
+import com.etsisi.appquitectura.presentation.dialog.viewmodel.InputTextViewModel
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel
@@ -31,11 +33,12 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { LoginViewModel(get(), get(), get(), get(), get(),  get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { RegisterViewModel(get(), get(), get(), get()) }
     viewModel { MainViewModel(androidApplication(), get(), get(), get()) }
     viewModel { EmptyViewModel() }
     viewModel { HomeViewModel() }
+    viewModel { InputTextViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }
     viewModel { PlayViewModel(get()) }
 }
@@ -54,6 +57,7 @@ val useCaseModule = module {
     factory { FirebaseLoginWithCredentialsUseCase(get()) }
     factory { LogOutUseCase() }
     factory { CheckUserIsRegisteredUseCase() }
+    factory { ResetPasswordUseCase(get()) }
 }
 
 val repositoryModule = module {

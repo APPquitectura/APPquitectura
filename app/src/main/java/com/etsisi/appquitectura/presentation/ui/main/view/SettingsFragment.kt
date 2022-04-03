@@ -23,22 +23,22 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
     ) {
         with(mBinding) {
             lifecycleOwner = viewLifecycleOwner
-            executePendingBindings()
             rvSettings.adapter = SettingsAdapter(
                 listener = {
                     mViewModel.handleSettings(it)
                 }
             )
+            executePendingBindings()
         }
     }
 
     override fun observeViewModel(mViewModel: SettingsViewModel) {
         with(mViewModel) {
+            setGoogleClient(requireActivity(), getString(R.string.default_web_client_id))
             sections.observe(viewLifecycleOwner) {
                 adapter?.addDataSet(it)
             }
             onLogOut.observe(viewLifecycleOwner, LiveEventObserver {
-                //navigator.navigateFromMainToLogin()
                 val intent = Intent(activity, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)

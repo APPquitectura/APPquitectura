@@ -114,10 +114,12 @@ open class BaseLoginViewModel(
         }
     }
 
-    fun logOut() {
+    fun logOut(callback: () -> Unit) {
         logOutUseCase.invoke(
             params = LogOutUseCase.Params(googleClient),
-            onResult = {}
+            onResult = {
+                callback()
+            }
         )
     }
 

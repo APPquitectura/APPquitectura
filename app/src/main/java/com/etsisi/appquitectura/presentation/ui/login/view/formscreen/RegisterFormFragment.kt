@@ -59,7 +59,7 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
             }
 
             onError.observe(viewLifecycleOwner, LiveEventObserver { dialogConfig ->
-                navigator.openDialog(dialogConfig)
+                navigator.openNavigationDialog(dialogConfig)
             })
         }
     }
