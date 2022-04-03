@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.etsisi.appquitectura.data.model.entities.QuestionEntity
+import com.etsisi.appquitectura.domain.model.QuestionLevel
 
 @Dao
 interface QuestionsDAO: BaseDAO<QuestionEntity> {
@@ -18,5 +19,8 @@ interface QuestionsDAO: BaseDAO<QuestionEntity> {
 
     @Query("SELECT * FROM questions")
     suspend fun getQuestions(): List<QuestionEntity>
+
+    @Query("SELECT * FROM questions WHERE level = :level LIMIT :totalCount")
+    suspend fun getCustomQuestions(level: Int, totalCount: Int): List<QuestionEntity>
 
 }

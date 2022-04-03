@@ -13,8 +13,10 @@ import com.etsisi.appquitectura.data.repository.imp.QuestionsRepositoryImp
 import com.etsisi.appquitectura.data.repository.imp.UsersRepositoryImp
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
+import com.etsisi.appquitectura.domain.usecase.FetchAllQuestionsUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.ResetPasswordUseCase
@@ -64,6 +66,8 @@ val useCaseModule = module {
     factory { CheckUserIsRegisteredUseCase(get()) }
     factory { ResetPasswordUseCase(get()) }
     factory { UpdateQuestionsUseCase(get(), get()) }
+    factory { FetchAllQuestionsUseCase(get()) }
+    factory { GetGameQuestionsUseCase(get()) }
 }
 
 val repositoryModule = module {

@@ -5,10 +5,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.ui.main.view.QuestionFragment
 
-class QuestionsViewPagerAdapter(
-    private val questionsList: List<QuestionBO>,
-    fragment: Fragment
-): FragmentStateAdapter(fragment) {
+class QuestionsViewPagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
+
+    private var questionsList: List<QuestionBO> = emptyList()
+
+    fun addData(list: List<QuestionBO>, positionStart: Int) {
+        questionsList = list
+        notifyItemRangeChanged(positionStart, itemCount)
+    }
 
     override fun getItemCount(): Int = questionsList.size
 

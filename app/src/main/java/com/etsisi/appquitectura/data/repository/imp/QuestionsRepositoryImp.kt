@@ -4,6 +4,7 @@ import com.etsisi.appquitectura.data.datasource.local.QuestionsLocalDataSource
 import com.etsisi.appquitectura.data.datasource.remote.QuestionsRemoteDataSource
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
 import com.etsisi.appquitectura.domain.model.QuestionBO
+import com.etsisi.appquitectura.domain.model.QuestionLevel
 import com.etsisi.appquitectura.domain.model.QuestionSubject
 
 class QuestionsRepositoryImp(
@@ -28,6 +29,10 @@ class QuestionsRepositoryImp(
 
     override suspend fun deleteAllLocalQuestions() {
         local.deleteAll()
+    }
+
+    override suspend fun getGameQuestions(level: QuestionLevel, totalCount: Int): List<QuestionBO>? {
+        return local.getCustomQuestions(level, totalCount)
     }
 
 }

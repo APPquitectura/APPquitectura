@@ -25,14 +25,19 @@
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/enter_from_right" />
+            app:popExitAnim="@anim/exit_to_right" />
         <action
             android:id="@+id/action_home_to_play"
             app:destination="@id/playFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/enter_from_right" />
+            app:popExitAnim="@anim/exit_to_right">
+            <argument
+                android:name="gameMode"
+                android:defaultValue="UNKNOWN"
+                app:argType="com.etsisi.appquitectura.presentation.ui.main.model.ItemGameModeAction" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -59,11 +64,16 @@
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/enter_from_right">
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/homeFragment"
+            app:restoreState="false">
             <argument
                 android:name="navType"
-                android:defaultValue="START_GAME"
+                android:defaultValue="PRE_START_GAME"
                 app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
         </action>
+        <argument
+            android:name="gameMode"
+            app:argType="com.etsisi.appquitectura.presentation.ui.main.model.ItemGameModeAction" />
     </fragment>
 </navigation>

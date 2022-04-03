@@ -1,18 +1,12 @@
 package com.etsisi.appquitectura.presentation.ui.main.view
 
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
-import android.widget.Toast
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.ActivityMainBinding
 import com.etsisi.appquitectura.presentation.common.BaseActivity
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.MainViewModel
-import com.etsisi.appquitectura.presentation.utils.TAG
-import com.etsisi.appquitectura.utils.Constants
-import com.google.firebase.dynamiclinks.ktx.dynamicLinks
-import com.google.firebase.ktx.Firebase
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     R.layout.activity_main,

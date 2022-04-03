@@ -1,6 +1,5 @@
 package com.etsisi.appquitectura.presentation.ui.login.view.formscreen
 
-import android.graphics.Bitmap
 import android.graphics.Color
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentLoginFormBinding

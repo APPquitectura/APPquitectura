@@ -10,6 +10,7 @@ import com.etsisi.appquitectura.MainDirections
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
+import com.etsisi.appquitectura.presentation.ui.main.model.ItemGameModeAction
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHomeAction
 import com.etsisi.appquitectura.presentation.ui.main.view.HomeFragmentDirections
@@ -49,8 +50,8 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun startGame() {
-        val directions = PlayFragmentDirections.actionGameModeToPlay()
+    fun startGame(gameMode: ItemGameModeAction) {
+        val directions = PlayFragmentDirections.actionGameModeToPlay(gameMode = gameMode)
         navController.navigate(directions)
     }
 

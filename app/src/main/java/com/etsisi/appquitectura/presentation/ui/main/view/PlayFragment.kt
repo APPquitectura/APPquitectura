@@ -1,53 +1,91 @@
 package com.etsisi.appquitectura.presentation.ui.main.view
 
+import android.os.CountDownTimer
 import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentPlayBinding
-import com.etsisi.appquitectura.domain.model.QuestionAge
-import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionSubject
-import com.etsisi.appquitectura.domain.model.QuestionTopic
+import com.etsisi.appquitectura.databinding.ItemTabHeaderBinding
+import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class PlayFragment: BaseFragment<FragmentPlayBinding, PlayViewModel>(
+class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     R.layout.fragment_play,
     PlayViewModel::class
-), PlayFragmentListener {
+), PlayFragmentListener, TabLayout.OnTabSelectedListener {
 
     val args: PlayFragmentArgs by navArgs()
-    private var questionsList = listOf(QuestionBO("XXX", "title1", QuestionSubject.COMPOSICION, QuestionLevel.DIFFICULT,QuestionAge.MIDDLE_AGE,QuestionTopic.ART_NOUVEAU))
+    private val questionsAdapter by lazy { QuestionsViewPagerAdapter(this) }
+    private val readySetGoCounter by lazy { object : CountDownTimer(4000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {}
+        override fun onFinish() {
+            mViewModel.setNavType(GameNavType.START_GAME)
+        }
+    } }
+
+    companion object {
+        private const val SELECTED_ALPHA = 1.0F
+        private const val UNSELECTED_ALPHA = 0.2F
+    }
 
     override fun setUpDataBinding(mBinding: FragmentPlayBinding, mViewModel: PlayViewModel) {
         with(mBinding) {
             lifecycleOwner = viewLifecycleOwner
             lifecycle.addObserver(mViewModel)
             viewModel = mViewModel
-            navType = args.navType
+            mViewModel.setNavType(args.navType)
+            if (args.navType == GameNavType.PRE_START_GAME) {
+                readySetGoCounter.start().also {
+                    readyToStartGame.playAnimation()
+                }
+            }
             listener = this@PlayFragment
-            viewPager.adapter = QuestionsViewPagerAdapter(questionsList, this@PlayFragment)
+            viewPager.adapter = questionsAdapter
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = questionsList[position].title
+                tab.customView = ItemTabHeaderBinding.inflate(layoutInflater, tab.view, false)
+                    .apply {
+                        questionPosition.text = position.toString()
+                    }.root
+                setTabAlpha(tab, false)
             }.attach()
+            tabLayout.apply {
+                setSelectedTabIndicator(null)
+                addOnTabSelectedListener(this@PlayFragment)
+            }
             executePendingBindings()
         }
     }
 
     override fun observeViewModel(mViewModel: PlayViewModel) {
         with(mViewModel) {
+            navType.observe(viewLifecycleOwner) {
+                if (it == GameNavType.PRE_START_GAME) {
+                    fetchInitialQuestions(args.gameMode)
+                }
+            }
             questions.observe(viewLifecycleOwner) {
-                it
+                questionsAdapter.addData(it, mBinding.tabLayout.selectedTabPosition)
             }
         }
     }
 
     override fun onGameMode(item: ItemGameMode) {
-        navigator.startGame()
+        navigator.startGame(item.action)
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab?) = setTabAlpha(tab, true)
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) = setTabAlpha(tab, false)
+
+    override fun onTabReselected(tab: TabLayout.Tab?) = setTabAlpha(tab, true)
+
+    private fun setTabAlpha(tab: TabLayout.Tab?, selected: Boolean) {
+        tab?.customView?.alpha = if (selected) SELECTED_ALPHA else UNSELECTED_ALPHA
     }
 
 }

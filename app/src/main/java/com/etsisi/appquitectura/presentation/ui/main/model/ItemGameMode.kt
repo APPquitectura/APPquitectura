@@ -8,4 +8,4 @@ data class ItemGameMode(
     val action: ItemGameModeAction
 )
 
-enum class ItemGameModeAction { THIRTY_QUESTIONS, SIXTY_QUESTIONS }
+enum class ItemGameModeAction { UNKNOWN, THIRTY_QUESTIONS, SIXTY_QUESTIONS }
