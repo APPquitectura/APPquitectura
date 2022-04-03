@@ -52,7 +52,7 @@ class LoginFormFragment: BaseFragment<FragmentLoginFormBinding, LoginViewModel>(
 
             onSuccessLogin.observe(viewLifecycleOwner, LiveEventObserver {
                 if (it) {
-                    navigator.navigateFromLoginToMain()
+                    navigator.navigateFromLoginToMain(requireActivity())
                 }
             })
 

@@ -8,6 +8,7 @@ import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity
 import com.etsisi.appquitectura.presentation.ui.main.adapter.SettingsAdapter
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.SettingsViewModel
+import com.etsisi.appquitectura.presentation.utils.startClearActivity
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel>(
     R.layout.fragment_settings,
@@ -39,9 +40,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
                 adapter?.addDataSet(it)
             }
             onLogOut.observe(viewLifecycleOwner, LiveEventObserver {
-                val intent = Intent(activity, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                requireActivity().startClearActivity<LoginActivity>()
             })
         }
     }

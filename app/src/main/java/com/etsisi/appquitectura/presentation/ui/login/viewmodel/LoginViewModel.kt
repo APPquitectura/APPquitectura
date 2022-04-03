@@ -55,7 +55,7 @@ class LoginViewModel(
     fun onGoogleSignInClicked(account: GoogleSignInAccount, context: AppCompatActivity) {
         checkUserIsRegisteredUseCase.invoke(
             scope = viewModelScope,
-            params = CheckUserIsRegisteredUseCase.Params(account.idToken.orEmpty())
+            params = CheckUserIsRegisteredUseCase.Params(account.email.orEmpty())
         ) { userExists ->
             if (userExists) {
                 initFirebaseLoginWithCredentials(account, context)

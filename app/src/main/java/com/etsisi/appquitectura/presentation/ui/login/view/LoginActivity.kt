@@ -61,7 +61,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
                 navigator.openNavigationDialog(dialogConfig)
             })
             onCodeVerified.observe(this@LoginActivity, LiveEventObserver {
-                navigator.navigateFromLoginToMain()
+                navigator.navigateFromLoginToMain(this@LoginActivity)
             })
         }
     }

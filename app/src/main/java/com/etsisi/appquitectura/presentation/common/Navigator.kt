@@ -13,7 +13,9 @@ import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormF
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHomeAction
 import com.etsisi.appquitectura.presentation.ui.main.view.HomeFragmentDirections
+import com.etsisi.appquitectura.presentation.ui.main.view.MainActivity
 import com.etsisi.appquitectura.presentation.ui.main.view.PlayFragmentDirections
+import com.etsisi.appquitectura.presentation.utils.startClearActivity
 import com.etsisi.appquitectura.presentation.utils.toLabeledIntentArray
 
 class Navigator (private val navController: NavController){
@@ -36,9 +38,10 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun navigateFromLoginToMain() {
-        val directions = LoginDirections.navigateLoginToMain()
-        navController.navigate(directions)
+    fun navigateFromLoginToMain(activity: Activity) {
+        with(activity) {
+            startClearActivity<MainActivity>()
+        }
     }
 
     fun navigateFromMainToLogin() {
