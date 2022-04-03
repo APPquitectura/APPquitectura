@@ -43,6 +43,7 @@
     <string name="game_mode_sixty">60 Questions</string>
 
     <!-- Register -->
+    <string name="register_greeting">Hi %s!</string>
     <string name="name">Name</string>
     <string name="error_code_verification">We are experiencing technical difficulties verifying your email. Contact with our support team</string>
     <string name="error_email_already_exists">Email already exists</string>
