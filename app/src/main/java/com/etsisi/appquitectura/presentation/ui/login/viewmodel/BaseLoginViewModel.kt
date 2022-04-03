@@ -7,8 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
-import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
-import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.BaseViewModel
@@ -16,16 +15,14 @@ import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
 import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
-import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.GoogleApiClient
 
 open class BaseLoginViewModel(
     private val logOutUseCase: LogOutUseCase,
-    private val firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
+    private val signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     private val sendEmailVerificationUseCase: SendEmailVerificationUseCase
     ): BaseViewModel(), LifecycleObserver {
 
@@ -55,25 +52,25 @@ open class BaseLoginViewModel(
     fun initFirebaseLoginWithCredentials(account: GoogleSignInAccount, context: AppCompatActivity) {
         if (account.idToken != null) {
             showLoading(true, R.string.loading_sign_in_google)
-            firebaseLoginWithCredentialsUseCase.invoke(
-                params = FirebaseLoginWithCredentialsUseCase.Params(account.idToken!!, context, account.email.orEmpty())
+            signInWithCredentialsUseCase.invoke(
+                params = SignInWithCredentialsUseCase.Params(account.idToken!!, context, account.email.orEmpty())
             ) { resultCode ->
                 showLoading(false)
-                _onSuccessLogin.value = Event(resultCode == FirebaseLoginWithCredentialsUseCase.RESULT_CODES.SUCESS)
+                _onSuccessLogin.value = Event(resultCode == SignInWithCredentialsUseCase.RESULT_CODES.SUCESS)
                 when(resultCode) {
-                    FirebaseLoginWithCredentialsUseCase.RESULT_CODES.COLLISION -> {
+                    SignInWithCredentialsUseCase.RESULT_CODES.COLLISION -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_collision, lottieRes = R.raw.lottie_404)
                         _onError.value = Event(config)
                     }
-                    FirebaseLoginWithCredentialsUseCase.RESULT_CODES.CREDENTIALS_MALFORMED -> {
+                    SignInWithCredentialsUseCase.RESULT_CODES.CREDENTIALS_MALFORMED -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.generic_error_body, lottieRes = R.raw.lottie_404)
                         _onError.value = Event(config)
                     }
-                    FirebaseLoginWithCredentialsUseCase.RESULT_CODES.INVALID_USER -> {
+                    SignInWithCredentialsUseCase.RESULT_CODES.INVALID_USER -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_user_not_exists, lottieRes = R.raw.lottie_404)
                         _onError.value = Event(config)
                     }
-                    FirebaseLoginWithCredentialsUseCase.RESULT_CODES.DATABASE_ERROR -> {
+                    SignInWithCredentialsUseCase.RESULT_CODES.DATABASE_ERROR -> {
                         val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_register_database, lottieRes = R.raw.message_alert)
                         _onError.value = Event(config)
                     }

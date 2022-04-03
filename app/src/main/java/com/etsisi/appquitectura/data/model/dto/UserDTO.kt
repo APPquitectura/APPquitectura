@@ -10,4 +10,10 @@ data class UserDTO (
         val name: String = String.EMPTY,
         val subject: Int = QuestionSubject.UNKNOWN.value
 ): FirestoreDTO() {
+        fun toDomain() = UserBO(
+                email = email,
+                id = id,
+                name = name,
+                subject = QuestionSubject.parseQuest(subject)
+        )
 }

@@ -7,8 +7,14 @@ class UsersLocalDataSource(
         private val dao: UsersDAO
 ) {
 
-    suspend fun getUserById(id: String): UserBO {
-        return dao.getUserById(id).toDomain()
+    suspend fun getUserById(id: String): UserBO? {
+        return dao.getUserById(id)?.toDomain()
+    }
+
+    suspend fun addUsers(vararg users: UserBO) {
+        users.map {
+            dao.addUser(it.toEntity())
+        }
     }
 
 }

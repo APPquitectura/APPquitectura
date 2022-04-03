@@ -75,3 +75,7 @@ fun List<ResolveInfo>.toLabeledIntentArray(packageManager: PackageManager): Arra
     val intent = packageManager.getLaunchIntentForPackage(packageName)
     LabeledIntent(intent, packageName, it.loadLabel(packageManager), it.icon)
 }.toTypedArray()
+
+fun <T> getMethodName(clazz: Class<T>): String {
+    return "${clazz.enclosingClass?.simpleName}.${clazz.enclosingMethod?.name}"
+}

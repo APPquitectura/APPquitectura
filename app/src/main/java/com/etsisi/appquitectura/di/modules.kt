@@ -1,7 +1,6 @@
 package com.etsisi.appquitectura.di
 
 import androidx.navigation.NavController
-import androidx.room.Room
 import com.etsisi.appquitectura.data.datasource.local.AppDatabase
 import com.etsisi.appquitectura.data.datasource.local.QuestionsLocalDataSource
 import com.etsisi.appquitectura.data.datasource.local.UsersLocalDataSource
@@ -14,8 +13,8 @@ import com.etsisi.appquitectura.data.repository.imp.UsersRepositoryImp
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FetchAllQuestionsUseCase
-import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
-import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
+import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
@@ -31,7 +30,6 @@ import com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.MainViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel
 import com.etsisi.appquitectura.presentation.ui.main.viewmodel.SettingsViewModel
-import com.etsisi.appquitectura.utils.Constants.DATABASE_NAME
 import com.etsisi.appquitectura.utils.NavigationTracker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -58,10 +56,10 @@ val presentationModule = module {
 val useCaseModule = module {
     single { Firebase.auth }
     factory { RegisterUseCase(get()) }
-    factory { FirebaseLoginUseCase(get()) }
+    factory { SignInWithEmailAndPasswordUseCase(get()) }
     factory { SendEmailVerificationUseCase() }
     factory { CheckVerificationCodeUseCase(get()) }
-    factory { FirebaseLoginWithCredentialsUseCase(get()) }
+    factory { SignInWithCredentialsUseCase(get()) }
     factory { LogOutUseCase(get()) }
     factory { CheckUserIsRegisteredUseCase(get()) }
     factory { ResetPasswordUseCase(get()) }

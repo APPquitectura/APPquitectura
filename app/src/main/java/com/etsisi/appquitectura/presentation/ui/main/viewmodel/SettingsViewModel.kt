@@ -2,10 +2,9 @@ package com.etsisi.appquitectura.presentation.ui.main.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
-import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.domain.usecase.UpdateQuestionsUseCase
@@ -17,11 +16,11 @@ import com.etsisi.appquitectura.presentation.ui.main.model.ItemSettings
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemSettingsAction
 
 class SettingsViewModel(
-        private val updateQuestionsUseCase: UpdateQuestionsUseCase,
-        firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
-        sendEmailVerificationUseCase: SendEmailVerificationUseCase,
-        logOutUseCase: LogOutUseCase
-) : BaseLoginViewModel(logOutUseCase, firebaseLoginWithCredentialsUseCase, sendEmailVerificationUseCase) {
+    private val updateQuestionsUseCase: UpdateQuestionsUseCase,
+    signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
+    sendEmailVerificationUseCase: SendEmailVerificationUseCase,
+    logOutUseCase: LogOutUseCase
+) : BaseLoginViewModel(logOutUseCase, signInWithCredentialsUseCase, sendEmailVerificationUseCase) {
 
     val _sections = MutableLiveData<List<ItemSettings>>()
     val sections: LiveData<List<ItemSettings>>

@@ -2,6 +2,7 @@ package com.etsisi.appquitectura.domain.usecase
 
 import com.etsisi.appquitectura.data.repository.UsersRepository
 import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.domain.model.UserBO
 
 class RegisterUseCase(private val repository: UsersRepository) : UseCase<RegisterUseCase.Params, RegisterUseCase.RESULT_CODES>() {
 
@@ -15,11 +16,15 @@ class RegisterUseCase(private val repository: UsersRepository) : UseCase<Registe
     )
 
     override suspend fun run(params: Params): RESULT_CODES {
-        var result = repository.register(params.email, params.password)
-        if (result == RESULT_CODES.SUCCESS) {
-            result = repository.createUserInDatabase(params.name, params.email, params.subject)
-        }
-        return result
+        val user = UserBO(
+            id = params.email,
+            name = params.name.orEmpty(),
+            email = params.email,
+            subject = params.subject,
+            password = params.password
+        )
+
+        return repository.register(user)
     }
 
 }

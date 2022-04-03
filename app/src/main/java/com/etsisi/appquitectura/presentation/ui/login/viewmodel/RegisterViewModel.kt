@@ -7,8 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.model.QuestionSubject
-import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
-import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
@@ -20,12 +19,12 @@ import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError
 
 class RegisterViewModel(
     logOutUseCase: LogOutUseCase,
-    firebaseLoginWithCredentialsUseCase: FirebaseLoginWithCredentialsUseCase,
+    signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     private val registerUseCase: RegisterUseCase
 ) : BaseLoginViewModel(
     logOutUseCase,
-    firebaseLoginWithCredentialsUseCase,
+    signInWithCredentialsUseCase,
     sendEmailVerificationUseCase
 ) {
 
