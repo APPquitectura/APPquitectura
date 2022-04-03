@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class DialogConfig(
     @StringRes val title: Int,
-    @StringRes val body: Int,
-    @RawRes val lottieRes: Int
+    @StringRes val body: Int? = null,
+    @RawRes val lottieRes: Int? = null,
+    val withEditText: Boolean = false
 ) : Parcelable

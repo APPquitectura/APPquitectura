@@ -7,18 +7,25 @@ import android.net.Uri
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.LoginDirections
 import com.etsisi.appquitectura.MainDirections
+import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
 import com.etsisi.appquitectura.presentation.ui.main.model.ItemHomeAction
 import com.etsisi.appquitectura.presentation.ui.main.view.HomeFragmentDirections
+import com.etsisi.appquitectura.presentation.ui.main.view.MainActivity
 import com.etsisi.appquitectura.presentation.ui.main.view.PlayFragmentDirections
+import com.etsisi.appquitectura.presentation.utils.startClearActivity
 import com.etsisi.appquitectura.presentation.utils.toLabeledIntentArray
 
 class Navigator (private val navController: NavController){
 
-    fun openDialog(config: DialogConfig) {
+    fun openNavigationDialog(config: DialogConfig) {
         val directions = LoginDirections.navigateLoginDialog(config)
+        navController.navigate(directions)
+    }
+    fun openEditTextDialog(config: DialogConfig, dialogType: DialogType) {
+        val directions = LoginFormFragmentDirections.openInputTextDialog(dialogType,config)
         navController.navigate(directions)
     }
     fun openRegisterFragment() {
@@ -31,9 +38,10 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun navigateFromLoginToMain() {
-        val directions = LoginDirections.navigateLoginToMain()
-        navController.navigate(directions)
+    fun navigateFromLoginToMain(activity: Activity) {
+        with(activity) {
+            startClearActivity<MainActivity>()
+        }
     }
 
     fun navigateFromMainToLogin() {

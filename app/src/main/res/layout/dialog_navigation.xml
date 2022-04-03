@@ -38,5 +38,6 @@
             style="@style/dialog_body"
             app:textRes="@{config.body}"
             tools:text="BODY" />
+
     </LinearLayout>
 </layout>

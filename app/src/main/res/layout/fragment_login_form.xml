@@ -81,6 +81,14 @@
                     android:layout_margin="@dimen/dimen_40"
                     android:onClick="@{() -> viewModel.onRegister()}"
                     android:text="@string/register_btn_text" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_reset_password"
+                    style="@style/buttonStyle"
+                    android:layout_margin="@dimen/dimen_40"
+                    android:background="@android:color/transparent"
+                    android:onClick="@{() -> viewModel.onResetPassword()}"
+                    android:text="@string/reset_password" />
             </LinearLayout>
 
         </ScrollView>

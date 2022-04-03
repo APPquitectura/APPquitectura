@@ -56,6 +56,11 @@
     <string name="loading">Cargando</string>
     <string name="done">Completado</string>
 
+    <!-- Reset Password -->
+    <string name="accept">Aceptar</string>
+    <string name="reset_password">Restablecer contraseña</string>
+    <string name="type_email">Escribe tu email para recuperar tu contraseña</string>
+
     <!-- Settings -->
     <string name="item_settings_log_out">Cerrar sesión</string>
     <string name="version_info">Versión %s</string>

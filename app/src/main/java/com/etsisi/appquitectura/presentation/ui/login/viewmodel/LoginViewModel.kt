@@ -12,6 +12,7 @@ import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginUseCase
 import com.etsisi.appquitectura.domain.usecase.FirebaseLoginWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
+import com.etsisi.appquitectura.domain.usecase.ResetPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
@@ -47,21 +48,26 @@ class LoginViewModel(
     val onRegister: LiveEvent<Boolean>
         get() = _onRegister
 
+    private val _onResetPassword = MutableLiveEvent<Boolean>()
+    val onResetPassword: LiveEvent<Boolean>
+        get() = _onResetPassword
+
     fun onGoogleSignInClicked(account: GoogleSignInAccount, context: AppCompatActivity) {
         checkUserIsRegisteredUseCase.invoke(
             scope = viewModelScope,
-            params = CheckUserIsRegisteredUseCase.Params(account.idToken.orEmpty())
+            params = CheckUserIsRegisteredUseCase.Params(account.email.orEmpty())
         ) { userExists ->
             if (userExists) {
                 initFirebaseLoginWithCredentials(account, context)
             } else {
-                logOut()
-                val config = DialogConfig(
-                    title = R.string.error_login_credentials_title,
-                    body = R.string.error_sign_in_google_user_not_exists,
-                    lottieRes = R.raw.lottie_404
-                )
-                _onError.value = Event(config)
+                logOut {
+                    val config = DialogConfig(
+                            title = R.string.error_login_credentials_title,
+                            body = R.string.error_sign_in_google_user_not_exists,
+                            lottieRes = R.raw.lottie_404
+                    )
+                    _onError.value = Event(config)
+                }
             }
         }
     }
@@ -162,6 +168,10 @@ class LoginViewModel(
 
     fun onRegister() {
         _onRegister.value = Event(true)
+    }
+
+    fun onResetPassword() {
+        _onResetPassword.value = Event(true)
     }
 
     fun initVerificationCode(pendingDynamicLinkData: PendingDynamicLinkData?) {
