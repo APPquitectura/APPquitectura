@@ -1,5 +1,6 @@
 package com.etsisi.appquitectura.presentation.dialog.viewmodel
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -35,7 +36,7 @@ class InputTextViewModel(
 
     fun resetPassword() {
         _input.value?.let { input ->
-            if (input.isNotBlank()) {
+            if (emailValid(input)) {
                 resetPassword.invoke(
                         scope = viewModelScope,
                         params = ResetPasswordUseCase.Params(input)
@@ -43,7 +44,12 @@ class InputTextViewModel(
                     _onResult.value = Event(it == ResetPasswordUseCase.RESULT_CODES.SUCCESS)
                     _inputError.value = it == ResetPasswordUseCase.RESULT_CODES.ERROR
                 }
+            } else {
+                _inputError.value = true
+                _onResult.value = Event(false)
             }
         }
     }
+
+    private fun emailValid(email: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }

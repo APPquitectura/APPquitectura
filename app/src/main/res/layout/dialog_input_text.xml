@@ -27,13 +27,17 @@
             tools:text="TITLE" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen_2"
             android:layout_marginBottom="@dimen/dimen_4"
             android:hint="@string/hint_email"
             android:minHeight="@dimen/input_text_height"
+            app:boxBackgroundColor="@color/white"
             app:endIconMode="clear_text"
+            app:errorEnabled="@{viewModel.inputError}"
+            app:errorTextColor="@color/red_error"
             app:hintAnimationEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -44,7 +48,7 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:text="@={viewModel.input}"
-                android:textColor="@{viewModel.inputError ? @color/red_error : @color/black}"
+                android:textColor="@color/text_color_primary"
                 app:isVisible="@{config.withEditText}" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -53,6 +57,7 @@
             style="@style/buttonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10"
             android:minHeight="@dimen/dimen_48"
             android:onClick="@{() -> viewModel.onPositiveButtonClicked()}"
             android:text="@string/accept" />

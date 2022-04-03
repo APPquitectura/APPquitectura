@@ -1,6 +1,5 @@
 package com.etsisi.appquitectura.presentation.dialog.view
 
-import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.DialogInputTextBinding
@@ -41,8 +40,7 @@ class InputTextDialog: BaseDialog<DialogInputTextBinding, InputTextViewModel>(
                         if (success) {
                             dismiss()
                         } else {
-                            dismiss()
-                            Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                            mBinding.editTextLayout.error = getString(R.string.error_email_malformed)
                         }
                     }
                 }
