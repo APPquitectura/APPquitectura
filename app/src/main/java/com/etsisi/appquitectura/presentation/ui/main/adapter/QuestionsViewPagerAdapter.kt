@@ -3,7 +3,7 @@ package com.etsisi.appquitectura.presentation.ui.main.adapter
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.presentation.ui.main.view.QuestionFragment
+import com.etsisi.appquitectura.presentation.ui.main.game.view.QuestionFragment
 
 class QuestionsViewPagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
 

@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel" />
+            type="com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel" />
 
         <variable
             name="listener"

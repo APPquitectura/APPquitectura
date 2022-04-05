@@ -1,22 +1,25 @@
 package com.etsisi.appquitectura.domain.model
 
 import com.etsisi.appquitectura.data.model.entities.QuestionEntity
+import com.google.firebase.storage.StorageReference
 
 data class QuestionBO(
-        val id: String?,
-        val title: String?,
-        val subject: QuestionSubject,
-        val level: QuestionLevel,
-        val age: QuestionAge,
-        val topic: QuestionTopic
+    val id: String?,
+    val title: String?,
+    val subject: QuestionSubject,
+    val level: QuestionLevel,
+    val age: QuestionAge,
+    val topic: QuestionTopic,
+    val imageRef: StorageReference
 ) {
     fun toEntity() = QuestionEntity(
-            id = id.orEmpty(),
-            title = title.orEmpty(),
-            subject = subject.value,
-            level = level.value,
-            age = age.value,
-            topic = topic.value
+        id = id.orEmpty(),
+        title = title.orEmpty(),
+        subject = subject.value,
+        level = level.value,
+        age = age.value,
+        topic = topic.value,
+        imageRef = imageRef.name
     )
 }
 

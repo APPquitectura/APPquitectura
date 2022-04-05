@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.view
+package com.etsisi.appquitectura.presentation.ui.main.game.view
 
 import android.os.CountDownTimer
 import com.etsisi.appquitectura.R

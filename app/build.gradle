@@ -87,6 +87,8 @@ dependencies {
     implementation platform(rootProject.ext.BOMdependency)
     implementation rootProject.ext.firebaseAuthDependency
     implementation rootProject.ext.firestoreDependency
+    implementation rootProject.ext.firebaseStorageDependency
+    implementation rootProject.ext.firebaseUIStorageDependency
     implementation rootProject.ext.dynamicLinksDependency
 
     //Flexbox

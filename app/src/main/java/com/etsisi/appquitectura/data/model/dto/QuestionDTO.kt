@@ -1,5 +1,6 @@
 package com.etsisi.appquitectura.data.model.dto
 
+import com.etsisi.appquitectura.data.helper.FireStorageHelper
 import com.etsisi.appquitectura.domain.model.QuestionAge
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
@@ -11,7 +12,8 @@ data class QuestionDTO(
         val title: String? = null,
         val level: Int? = null,
         val age: Int? = null,
-        val topic: Int? = null
+        val topic: Int? = null,
+        val imageRef: String? = null
 ) {
     fun toDomain() =
             QuestionBO(
@@ -20,6 +22,7 @@ data class QuestionDTO(
                     subject = QuestionSubject.UNKNOWN,
                     level = QuestionLevel.parseLevel(level),
                     age = QuestionAge.parseAge(age),
-                    topic = QuestionTopic.parseTopic(topic)
+                    topic = QuestionTopic.parseTopic(topic),
+                    imageRef = FireStorageHelper.getImageReference(imageRef.orEmpty())
             )
 }

@@ -8,6 +8,8 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.StorageReference
 
 object BindingAdapter {
 
@@ -37,6 +39,16 @@ object BindingAdapter {
         res?.let {
             val drawable = ContextCompat.getDrawable(context, it)
             setImageDrawable(drawable)
+        }
+    }
+
+    @BindingAdapter("imageUrlRef")
+    @JvmStatic
+    fun ImageView.setImageUrl(imageReference: StorageReference?) {
+        imageReference?.let {
+            Glide.with(this)
+                .load(it)
+                .into(this)
         }
     }
 

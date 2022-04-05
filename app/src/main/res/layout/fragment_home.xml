@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel" />
+            type="com.etsisi.appquitectura.presentation.ui.main.home.viewmodel.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

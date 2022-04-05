@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.viewmodel
+package com.etsisi.appquitectura.presentation.ui.main
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope

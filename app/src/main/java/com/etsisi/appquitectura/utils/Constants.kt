@@ -13,6 +13,9 @@ object Constants {
     const val questions_composicion_collection = "questions/composicion/preguntas"
     const val questions_introduccion_collection = "questions/introduccion/preguntas"
 
+    //Firebase Storage
+    const val imagesRef = "images"
+
     //ROOM
     const val DATABASE_NAME = "appquitectura-db"
 

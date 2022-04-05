@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.ui.main.view.MainActivity"
+            android:name=".presentation.ui.main.MainActivity"
             android:screenOrientation="nosensor"
             android:exported="true">
             <intent-filter>

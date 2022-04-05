@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.viewmodel
+package com.etsisi.appquitectura.presentation.ui.main.game.viewmodel
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
@@ -6,16 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
-import com.etsisi.appquitectura.data.repository.QuestionsRepository
 import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionSubject
 import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemGameMode
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemGameModeAction
-import com.etsisi.appquitectura.utils.Constants
-import kotlinx.coroutines.launch
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 
 class PlayViewModel(
     private val getGameQuestionsUseCase: GetGameQuestionsUseCase

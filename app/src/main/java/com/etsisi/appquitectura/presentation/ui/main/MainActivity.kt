@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.view
+package com.etsisi.appquitectura.presentation.ui.main
 
 import android.view.View
 import android.view.ViewTreeObserver
@@ -6,7 +6,6 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.ActivityMainBinding
 import com.etsisi.appquitectura.presentation.common.BaseActivity
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.MainViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     R.layout.activity_main,

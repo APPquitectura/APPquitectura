@@ -26,10 +26,10 @@ import com.etsisi.appquitectura.presentation.common.Navigator
 import com.etsisi.appquitectura.presentation.dialog.viewmodel.InputTextViewModel
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.MainViewModel
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.SettingsViewModel
+import com.etsisi.appquitectura.presentation.ui.main.home.viewmodel.HomeViewModel
+import com.etsisi.appquitectura.presentation.ui.main.MainViewModel
+import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
+import com.etsisi.appquitectura.presentation.ui.main.settings.viewmodel.SettingsViewModel
 import com.etsisi.appquitectura.utils.NavigationTracker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

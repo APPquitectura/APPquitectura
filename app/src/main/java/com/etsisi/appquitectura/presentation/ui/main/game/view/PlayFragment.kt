@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.view
+package com.etsisi.appquitectura.presentation.ui.main.game.view
 
 import android.os.CountDownTimer
 import androidx.navigation.fragment.navArgs
@@ -9,8 +9,8 @@ import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemGameMode
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
+import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 

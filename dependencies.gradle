@@ -14,6 +14,7 @@ ext {
     coroutineVersion = '1.6.0'
     flexboxVersion = '3.0.0'
     fragmentVersion = '1.4.0'
+    firebaseUIVersion = '7.2.0'
     glideVersion = '4.12.0'
     koinVersion = '3.1.4'
     ktxCoreVersion = '1.7.0'
@@ -42,6 +43,8 @@ ext {
     dynamicLinksDependency = "com.google.firebase:firebase-dynamic-links-ktx"
 
     firestoreDependency = "com.google.firebase:firebase-firestore"
+    firebaseStorageDependency = "com.google.firebase:firebase-storage"
+    firebaseUIStorageDependency = "com.firebaseui:firebase-ui-storage:$firebaseUIVersion"
 
     fragmentKtxDependency = "androidx.fragment:fragment-ktx:$fragmentVersion"
 

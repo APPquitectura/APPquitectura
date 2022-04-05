@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.model
+package com.etsisi.appquitectura.presentation.ui.main.settings.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

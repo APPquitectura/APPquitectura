@@ -3,6 +3,7 @@ package com.etsisi.appquitectura.data.model.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.etsisi.appquitectura.data.helper.FireStorageHelper
 import com.etsisi.appquitectura.domain.model.QuestionAge
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
@@ -16,7 +17,8 @@ data class QuestionEntity(
         val subject: Int,
         val level: Int,
         val age: Int,
-        val topic: Int
+        val topic: Int,
+        val imageRef: String
 ) {
     fun toDomain() = QuestionBO(
             id = id,
@@ -24,6 +26,7 @@ data class QuestionEntity(
             subject = QuestionSubject.parseQuest(subject),
             level = QuestionLevel.parseLevel(level),
             age = QuestionAge.parseAge(age),
-            topic = QuestionTopic.parseTopic(topic)
+            topic = QuestionTopic.parseTopic(topic),
+            imageRef = FireStorageHelper.getImageReference(imageRef)
     )
 }
