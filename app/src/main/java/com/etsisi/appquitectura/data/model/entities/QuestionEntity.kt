@@ -27,6 +27,6 @@ data class QuestionEntity(
             level = QuestionLevel.parseLevel(level),
             age = QuestionAge.parseAge(age),
             topic = QuestionTopic.parseTopic(topic),
-            imageRef = FireStorageHelper.getImageReference(imageRef)
+            imageRef = imageRef
     )
 }

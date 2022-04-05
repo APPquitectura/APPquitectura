@@ -16,5 +16,5 @@ class QuestionsViewPagerAdapter(fragment: Fragment): FragmentStateAdapter(fragme
 
     override fun getItemCount(): Int = questionsList.size
 
-    override fun createFragment(position: Int): Fragment = QuestionFragment.newInstance()
+    override fun createFragment(position: Int): Fragment = QuestionFragment.newInstance(questionsList[position])
 }
