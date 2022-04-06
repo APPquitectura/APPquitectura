@@ -52,7 +52,6 @@ class SettingsViewModel(
 
     private fun updateQuestions() {
         updateQuestionsUseCase.invoke(
-                scope = viewModelScope,
                 params = Unit
         ) {
 

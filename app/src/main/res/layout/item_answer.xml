@@ -3,9 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="listener"
+            type="com.etsisi.appquitectura.presentation.common.OnItemClicked" />
+        <variable
+            name="answerBO"
+            type="com.etsisi.appquitectura.domain.model.AnswerBO" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_home_item_profile"
         android:layout_width="match_parent"
+        android:clickable="true"
+        android:onClick="@{() -> listener.onItemClicked(answerBO)}"
         android:layout_height="@dimen/dimen_44">
 
         <ImageView
@@ -25,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_16"
+            android:text="@{answerBO.title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/txtItemIcon"
             app:layout_constraintTop_toTopOf="parent"

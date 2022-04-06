@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<item: Any, holder: BaseHolder<item,*>>: RecyclerView.Adapter<holder>(){
 
-    private var dataSet = mutableListOf<item>()
+    protected var dataSet = mutableListOf<item>()
 
     fun addDataSet(items: List<item>) {
         dataSet.addAll(items)

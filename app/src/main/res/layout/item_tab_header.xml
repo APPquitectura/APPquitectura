@@ -5,7 +5,7 @@
     <FrameLayout
         android:layout_width="@dimen/dimen_50"
         android:layout_height="@dimen/dimen_50"
-        android:background="@drawable/shape_circle">
+        android:background="@drawable/shape_circular">
         <TextView
             android:id="@+id/question_position"
             android:layout_width="wrap_content"
