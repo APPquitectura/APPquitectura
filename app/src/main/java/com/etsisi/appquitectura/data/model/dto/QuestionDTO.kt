@@ -12,7 +12,8 @@ data class QuestionDTO(
         val level: Int? = null,
         val age: Int? = null,
         val topic: Int? = null,
-        val imageRef: String? = null
+        val imageRef: String? = null,
+        val answers: List<AnswerDTO>? = null
 ) {
     fun toDomain() =
             QuestionBO(
@@ -22,6 +23,7 @@ data class QuestionDTO(
                     level = QuestionLevel.parseLevel(level),
                     age = QuestionAge.parseAge(age),
                     topic = QuestionTopic.parseTopic(topic),
-                    imageRef = imageRef.orEmpty()
+                    imageRef = imageRef.orEmpty(),
+                    answers = answers?.map { it.toDomain() }.orEmpty()
             )
 }

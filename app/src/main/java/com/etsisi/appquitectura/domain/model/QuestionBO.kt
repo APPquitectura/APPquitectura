@@ -2,7 +2,6 @@ package com.etsisi.appquitectura.domain.model
 
 import android.os.Parcelable
 import com.etsisi.appquitectura.data.helper.FireStorageHelper
-import com.etsisi.appquitectura.data.helper.FirestoreHelper
 import com.etsisi.appquitectura.data.model.entities.QuestionEntity
 import kotlinx.parcelize.Parcelize
 
@@ -14,7 +13,8 @@ data class QuestionBO(
     val level: QuestionLevel,
     val age: QuestionAge,
     val topic: QuestionTopic,
-    val imageRef: String
+    val imageRef: String,
+    val answers: List<AnswerBO>
 ): Parcelable {
 
     fun getImageFirestorageReference() = FireStorageHelper.getImageReference(imageRef)
@@ -26,7 +26,8 @@ data class QuestionBO(
         level = level.value,
         age = age.value,
         topic = topic.value,
-        imageRef = imageRef
+        imageRef = imageRef,
+        answers = answers
     )
 }
 

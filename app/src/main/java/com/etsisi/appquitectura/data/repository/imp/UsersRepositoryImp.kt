@@ -1,6 +1,5 @@
 package com.etsisi.appquitectura.data.repository.imp
 
-import android.database.sqlite.SQLiteException
 import androidx.fragment.app.FragmentActivity
 import com.etsisi.appquitectura.data.datasource.local.UsersLocalDataSource
 import com.etsisi.appquitectura.data.datasource.remote.UsersRemoteDataSource
@@ -19,12 +18,10 @@ class UsersRepositoryImp(
        private val local: UsersLocalDataSource
 ): UsersRepository {
 
-    @Throws(SQLiteException::class)
     override suspend fun isUserRegistered(email: String): CheckUserIsRegisteredUseCase.RESULT_CODES {
         return remote.isUserRegistered(email)
     }
 
-    @Throws(SQLiteException::class)
     override suspend fun register(user: UserBO): RegisterUseCase.RESULT_CODES {
         val result = remote.register(user.email, user.password)
         if (result == RegisterUseCase.RESULT_CODES.SUCCESS) {
@@ -33,13 +30,11 @@ class UsersRepositoryImp(
         return result
     }
 
-    @Throws(SQLiteException::class)
     override suspend fun createUser(userBO: UserBO): RegisterUseCase.RESULT_CODES {
         local.addUsers(userBO)
         return remote.createUserInFirestore(userBO)
     }
 
-    @Throws(SQLiteException::class)
     override suspend fun getUserById(email: String): UserBO {
         return local.getUserById(email) ?: remote.getUserById(email).also {
             local.addUsers(it)
