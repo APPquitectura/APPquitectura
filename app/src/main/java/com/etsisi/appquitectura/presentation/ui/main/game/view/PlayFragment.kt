@@ -2,12 +2,15 @@ package com.etsisi.appquitectura.presentation.ui.main.game.view
 
 import android.os.CountDownTimer
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentPlayBinding
 import com.etsisi.appquitectura.databinding.ItemTabHeaderBinding
 import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.presentation.common.BaseFragment
+import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
+import com.etsisi.appquitectura.presentation.components.ZoomOutPageTransformer
 import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
@@ -17,16 +20,20 @@ import com.google.android.material.tabs.TabLayoutMediator
 class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     R.layout.fragment_play,
     PlayViewModel::class
-), PlayFragmentListener, TabLayout.OnTabSelectedListener {
+), PlayFragmentListener, TabLayout.OnTabSelectedListener, GameListener {
 
     val args: PlayFragmentArgs by navArgs()
     private val questionsAdapter by lazy { QuestionsViewPagerAdapter(this) }
-    private val readySetGoCounter by lazy { object : CountDownTimer(4000, 1000) {
-        override fun onTick(millisUntilFinished: Long) {}
-        override fun onFinish() {
-            mViewModel.setNavType(GameNavType.START_GAME)
+    private val viewPager: ViewPager2
+        get() = mBinding.viewPager
+    private val readySetGoCounter by lazy {
+        object : CountDownTimer(4000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {}
+            override fun onFinish() {
+                mViewModel.setNavType(GameNavType.START_GAME)
+            }
         }
-    } }
+    }
 
     companion object {
         private const val SELECTED_ALPHA = 1.0F
@@ -45,7 +52,11 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 }
             }
             listener = this@PlayFragment
-            viewPager.adapter = questionsAdapter
+            this@PlayFragment.viewPager.apply {
+                adapter = questionsAdapter
+                isUserInputEnabled = false
+                setPageTransformer(ZoomOutPageTransformer())
+            }
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.customView = ItemTabHeaderBinding.inflate(layoutInflater, tab.view, false)
                     .apply {
@@ -86,6 +97,11 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
 
     private fun setTabAlpha(tab: TabLayout.Tab?, selected: Boolean) {
         tab?.customView?.alpha = if (selected) SELECTED_ALPHA else UNSELECTED_ALPHA
+    }
+
+    override fun setNexQuestion() {
+        if (viewPager.currentItem < viewPager.adapter?.itemCount?.minus(1) ?: 0)
+            viewPager.currentItem++
     }
 
 }

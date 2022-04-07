@@ -17,8 +17,8 @@ fun interface SettingsItemClicked {
     fun onSettingsItemClicked(item: ItemSettings)
 }
 
-fun interface AnswerItemClicked {
-    fun onAnswerItemClicked(answer: AnswerBO)
+interface GameListener {
+    fun setNexQuestion()
 }
 
 fun interface OnItemClicked<in T> {

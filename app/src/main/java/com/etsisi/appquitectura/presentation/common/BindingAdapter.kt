@@ -1,5 +1,7 @@
 package com.etsisi.appquitectura.presentation.common
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,6 +11,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
+import com.etsisi.appquitectura.presentation.utils.TAG
+import com.etsisi.appquitectura.presentation.utils.getMethodName
 import com.google.firebase.storage.StorageReference
 
 object BindingAdapter {
@@ -42,12 +52,12 @@ object BindingAdapter {
         }
     }
 
-    @BindingAdapter("imageUrlRef")
+    @BindingAdapter("imageUrl")
     @JvmStatic
-    fun ImageView.setImageUrl(imageReference: StorageReference?) {
-        imageReference?.let {
+    fun ImageView.setImageUrl(url: String?) {
+        if (!url.isNullOrEmpty()) {
             Glide.with(this)
-                .load(it)
+                .load(url)
                 .into(this)
         }
     }
