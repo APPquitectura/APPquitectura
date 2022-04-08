@@ -1,5 +1,6 @@
 package com.etsisi.appquitectura.presentation.common
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
@@ -7,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
@@ -17,6 +19,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.etsisi.appquitectura.domain.model.AnswerBO
+import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.getMethodName
 import com.google.firebase.storage.StorageReference
@@ -67,6 +71,19 @@ object BindingAdapter {
     fun TextView.setDynamicText(string: String?, @StringRes res: Int?) {
         if (string != null && res != null) {
             text = context.getString(res, string)
+        }
+    }
+
+    @BindingAdapter("answersListener", "answerItem", "questionItem")
+    @JvmStatic
+    fun View.setAnswersBackground(listener: QuestionListener, answerBO: AnswerBO, questionBO: QuestionBO) {
+        setOnClickListener {
+            if (answerBO.correct) {
+                setBackgroundColor(Color.GREEN)
+            } else {
+                setBackgroundColor(Color.RED)
+            }
+            listener?.onAnswerClicked(questionBO, answerBO)
         }
     }
 }

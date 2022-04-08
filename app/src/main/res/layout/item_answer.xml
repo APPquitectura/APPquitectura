@@ -6,8 +6,12 @@
     <data>
 
         <variable
+            name="questionBO"
+            type="com.etsisi.appquitectura.domain.model.QuestionBO" />
+
+        <variable
             name="listener"
-            type="com.etsisi.appquitectura.presentation.common.OnItemClicked" />
+            type="com.etsisi.appquitectura.presentation.common.QuestionListener" />
 
         <variable
             name="answerBO"
@@ -19,7 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_44"
         android:clickable="true"
-        android:onClick="@{() -> listener.onItemClicked(answerBO)}">
+        app:answersListener="@{listener}"
+        app:answerItem="@{answerBO}"
+        app:questionItem="@{questionBO}">
 
         <ImageView
             android:id="@+id/txtItemIcon"

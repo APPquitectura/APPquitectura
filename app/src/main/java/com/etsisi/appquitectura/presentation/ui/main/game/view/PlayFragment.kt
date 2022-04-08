@@ -1,12 +1,17 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.view
 
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentPlayBinding
 import com.etsisi.appquitectura.databinding.ItemTabHeaderBinding
 import com.etsisi.appquitectura.domain.enums.GameNavType
+import com.etsisi.appquitectura.domain.model.AnswerBO
+import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
@@ -16,6 +21,7 @@ import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.concurrent.TimeUnit
 
 class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     R.layout.fragment_play,
@@ -32,6 +38,15 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             override fun onFinish() {
                 mViewModel.setNavType(GameNavType.START_GAME)
             }
+        }
+    }
+    private var handler: Handler? = Handler(Looper.getMainLooper())
+    private val nextQuestionRunnable = Runnable {
+        if (viewPager.currentItem < viewPager.adapter?.itemCount?.minus(1) ?: 0) {
+            viewPager.currentItem++
+        } else {
+            Toast.makeText(context, "${mViewModel._userGameResult.getAllCorrectAnswers()} correctas", Toast.LENGTH_SHORT).show()
+            handler = null
         }
     }
 
@@ -99,9 +114,14 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         tab?.customView?.alpha = if (selected) SELECTED_ALPHA else UNSELECTED_ALPHA
     }
 
-    override fun setNexQuestion() {
-        if (viewPager.currentItem < viewPager.adapter?.itemCount?.minus(1) ?: 0)
-            viewPager.currentItem++
+    override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, userMarkInMillis: Long) {
+        mViewModel.setGameResultAccumulated(question, answer, userMarkInMillis)
+        handler?.postDelayed(nextQuestionRunnable, 500L)
+    }
+
+    override fun onCounterTimeOut(question: QuestionBO) {
+        mViewModel.setGameResultAccumulated(question, null, 0)
+        handler?.postDelayed(nextQuestionRunnable, 500L)
     }
 
 }
