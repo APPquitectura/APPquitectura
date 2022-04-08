@@ -22,22 +22,13 @@
         android:id="@+id/cl_home_item_profile"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_44"
+        android:layout_marginHorizontal="@dimen/dimen_10"
+        android:layout_marginVertical="@dimen/dimen_10"
+        android:background="@drawable/shape_answer"
         android:clickable="true"
-        app:answersListener="@{listener}"
         app:answerItem="@{answerBO}"
+        app:answersListener="@{listener}"
         app:questionItem="@{questionBO}">
-
-        <ImageView
-            android:id="@+id/txtItemIcon"
-            android:layout_width="@dimen/dimen_24"
-            android:layout_height="@dimen/dimen_24"
-            android:layout_marginStart="@dimen/dimen_20"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/txtItemHomeProfile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/text_color_primary"
-            tools:src="@drawable/ic_settings" />
 
         <TextView
             android:id="@+id/txtItemHomeProfile"
@@ -46,20 +37,9 @@
             android:layout_marginStart="@dimen/dimen_16"
             android:text="@{answerBO.title}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/txtItemIcon"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:lineHeight="@dimen/text_18"
             tools:text="Lista de Subscripciones" />
-
-        <ImageView
-            android:id="@+id/imgItemHomeProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimen_10"
-            android:src="@drawable/ic_arrow_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

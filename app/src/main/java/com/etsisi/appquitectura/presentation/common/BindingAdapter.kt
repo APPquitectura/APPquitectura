@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.utils.TAG
@@ -79,9 +80,9 @@ object BindingAdapter {
     fun View.setAnswersBackground(listener: QuestionListener, answerBO: AnswerBO, questionBO: QuestionBO) {
         setOnClickListener {
             if (answerBO.correct) {
-                setBackgroundColor(Color.GREEN)
+                setBackgroundResource(R.drawable.shape_answer_correct)
             } else {
-                setBackgroundColor(Color.RED)
+                setBackgroundResource(R.drawable.shape_answer_incorrect)
             }
             listener?.onAnswerClicked(questionBO, answerBO)
         }
