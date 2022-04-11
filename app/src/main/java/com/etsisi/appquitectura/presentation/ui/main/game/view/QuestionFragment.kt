@@ -1,5 +1,6 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.view
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.CountDownTimer
 import android.util.Log
@@ -29,20 +30,30 @@ class QuestionFragment(
     EmptyViewModel::class
 ), QuestionListener {
     private var counterMillisUntilFinished = 0L
-    private val counter = object : CountDownTimer(10000, 1000) {
+    private var hasAlreadyAnswered = false
+    private val counter = object : CountDownTimer(COUNT_DOWN_MILLIS, COUNT_DOWN_INTERVAL) {
         override fun onTick(millisUntilFinished: Long) {
             with(mBinding) {
                 counterMillisUntilFinished = millisUntilFinished
                 progressText.text = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished).toString()
+                progressBar.progress = millisUntilFinished.toInt()
+                if (millisUntilFinished <= THREE_SECONDS) {
+                    progressText.setTextColor(Color.RED)
+                }
             }
         }
 
         override fun onFinish() {
-            gameListener?.onCounterTimeOut(questionBO)
+            if (!hasAlreadyAnswered) {
+                gameListener?.onCounterTimeOut(questionBO)
+            }
         }
     }
 
     companion object {
+        private const val COUNT_DOWN_INTERVAL = 1000L
+        private const val COUNT_DOWN_MILLIS = 10000L
+        private const val THREE_SECONDS = 3000L
         @JvmStatic
         fun newInstance(question: QuestionBO, listener: GameListener?) =
             QuestionFragment(listener, question)
@@ -54,28 +65,18 @@ class QuestionFragment(
             answersRecyclerView.adapter = AnswersAdapter(this@QuestionFragment, questionBO).also {
                 it.addDataSet(questionBO.answers.asSequence().shuffled().toList())
             }
+            progressBar.max = COUNT_DOWN_MILLIS.toInt()
             imageQuestion.apply {
                 Glide.with(this)
                     .load(questionBO.getImageFirestorageReference())
                     .centerInside()
                     .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                             Log.e(TAG, "${getMethodName(object {}.javaClass)} $e")
                             return true
                         }
 
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                             counter.start()
                             return false
                         }
@@ -90,6 +91,7 @@ class QuestionFragment(
     }
 
     override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO) {
+        hasAlreadyAnswered = true
         gameListener?.onAnswerClicked(question, answer, counterMillisUntilFinished)
     }
 }

@@ -58,11 +58,7 @@ class PlayViewModel(
         }
     }
 
-    fun setGameResultAccumulated(
-        question: QuestionBO,
-        userAnswer: AnswerBO?,
-        userMarkInMillis: Long
-    ) {
+    fun setGameResultAccumulated(question: QuestionBO, userAnswer: AnswerBO?, userMarkInMillis: Long) {
         _userGameResult.apply {
             userQuestions.add(question)
             this.userAnswer.add(userAnswer)

@@ -75,5 +75,13 @@
         <argument
             android:name="gameMode"
             app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
+        <action
+            android:id="@+id/action_playFragment_to_navigationDialog"
+            app:destination="@id/navigationDialog" />
     </fragment>
+    <dialog
+        android:id="@+id/navigationDialog"
+        android:name="com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog"
+        android:label="NavigationDialog"
+        tools:layout="@layout/dialog_navigation"/>
 </navigation>

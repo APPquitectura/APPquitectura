@@ -1,9 +1,11 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.view
 
+import android.content.Context
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.etsisi.appquitectura.R
@@ -16,12 +18,13 @@ import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.components.ZoomOutPageTransformer
+import com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog
 import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
+import com.etsisi.appquitectura.presentation.utils.hideSystemUI
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.util.concurrent.TimeUnit
 
 class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     R.layout.fragment_play,
@@ -55,6 +58,21 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         private const val UNSELECTED_ALPHA = 0.2F
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        with(requireActivity()) {
+            onBackPressedDispatcher.apply {
+                addCallback(object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        navigator.openLeavingGameDialog()
+                        Toast.makeText(this@with, "Click again to exit", Toast.LENGTH_SHORT).show()
+                        super.remove()
+                    }
+                })
+            }
+        }
+    }
+
     override fun setUpDataBinding(mBinding: FragmentPlayBinding, mViewModel: PlayViewModel) {
         with(mBinding) {
             lifecycleOwner = viewLifecycleOwner
@@ -77,6 +95,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                     .apply {
                         questionPosition.text = position.toString()
                     }.root
+                tab.view.setOnTouchListener { v, event -> true }
                 setTabAlpha(tab, false)
             }.attach()
             tabLayout.apply {

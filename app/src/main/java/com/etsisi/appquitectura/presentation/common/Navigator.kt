@@ -80,4 +80,8 @@ class Navigator (private val navController: NavController){
         }
     }
 
+    fun openLeavingGameDialog() {
+
+    }
+
 }
