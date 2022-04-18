@@ -18,11 +18,9 @@ import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.components.ZoomOutPageTransformer
-import com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog
 import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
-import com.etsisi.appquitectura.presentation.utils.hideSystemUI
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -48,8 +46,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         if (viewPager.currentItem < viewPager.adapter?.itemCount?.minus(1) ?: 0) {
             viewPager.currentItem++
         } else {
-            Toast.makeText(context, "${mViewModel._userGameResult.getAllCorrectAnswers()} correctas", Toast.LENGTH_SHORT).show()
             handler = null
+            navigator.openResultFragment(mViewModel._userGameResult)
         }
     }
 
@@ -135,11 +133,6 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
 
     override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, userMarkInMillis: Long) {
         mViewModel.setGameResultAccumulated(question, answer, userMarkInMillis)
-        handler?.postDelayed(nextQuestionRunnable, 500L)
-    }
-
-    override fun onCounterTimeOut(question: QuestionBO) {
-        mViewModel.setGameResultAccumulated(question, null, 0)
         handler?.postDelayed(nextQuestionRunnable, 500L)
     }
 

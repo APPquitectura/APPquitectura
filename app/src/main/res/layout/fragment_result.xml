@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:LuckyWheel="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.bluehomestudio.luckywheel.LuckyWheel
+            android:id="@+id/roulette"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerInParent="true"
+            LuckyWheel:background_color="@color/primary_alpha_blue"
+            LuckyWheel:layout_constraintBottom_toBottomOf="parent"
+            LuckyWheel:layout_constraintEnd_toEndOf="parent"
+            LuckyWheel:layout_constraintStart_toStartOf="parent"
+            LuckyWheel:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/rotate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="rotate"
+            LuckyWheel:layout_constraintBottom_toBottomOf="parent"
+            LuckyWheel:layout_constraintEnd_toEndOf="parent"
+            LuckyWheel:layout_constraintStart_toStartOf="parent"
+            LuckyWheel:layout_constraintTop_toBottomOf="@+id/roulette" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

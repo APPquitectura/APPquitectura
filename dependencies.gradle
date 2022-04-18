@@ -24,6 +24,7 @@ ext {
     navigationVersion = '2.5.0-alpha03'
     progressButtonVersion = '2.1.0'
     roomVersion = '2.4.2'
+    rouletteVersion = '0.3.0'
     retrofitVersion = '2.9.0'
     splashscreenVersion = '1.0.0-beta01'
     viewPager2Version = '1.0.0'
@@ -59,6 +60,8 @@ ext {
     lifecycleKtxDependency = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 
     lottieDependency = "com.airbnb.android:lottie:$lottieVersion"
+
+    rouletteDependency = "com.github.mmoamenn:LuckyWheel_Android:$rouletteVersion"
 
     materialDependency = "com.google.android.material:material:$materialVersion"
 

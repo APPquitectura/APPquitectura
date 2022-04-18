@@ -30,7 +30,6 @@ class QuestionFragment(
     EmptyViewModel::class
 ), QuestionListener {
     private var counterMillisUntilFinished = 0L
-    private var hasAlreadyAnswered = false
     private val counter = object : CountDownTimer(COUNT_DOWN_MILLIS, COUNT_DOWN_INTERVAL) {
         override fun onTick(millisUntilFinished: Long) {
             with(mBinding) {
@@ -43,11 +42,7 @@ class QuestionFragment(
             }
         }
 
-        override fun onFinish() {
-            if (!hasAlreadyAnswered) {
-                gameListener?.onCounterTimeOut(questionBO)
-            }
-        }
+        override fun onFinish() {}
     }
 
     companion object {
@@ -92,7 +87,7 @@ class QuestionFragment(
     }
 
     override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO) {
-        hasAlreadyAnswered = true
+        counter.cancel()
         gameListener?.onAnswerClicked(question, answer, counterMillisUntilFinished)
     }
 }

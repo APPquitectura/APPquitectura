@@ -27,7 +27,7 @@ class PlayViewModel(
     val navType: LiveData<GameNavType>
         get() = _navType
 
-    var _userGameResult = UserGameResultBO()
+    val _userGameResult = UserGameResultBO()
 
     val gameModes = listOf(
         ItemGameMode(R.string.game_mode_thirty, ItemGameModeAction.THIRTY_QUESTIONS),

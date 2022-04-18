@@ -29,6 +29,7 @@ import com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewMode
 import com.etsisi.appquitectura.presentation.ui.main.home.viewmodel.HomeViewModel
 import com.etsisi.appquitectura.presentation.ui.main.MainViewModel
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
+import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.ResultViewModel
 import com.etsisi.appquitectura.presentation.ui.main.settings.viewmodel.SettingsViewModel
 import com.etsisi.appquitectura.utils.NavigationTracker
 import com.google.firebase.auth.ktx.auth
@@ -46,6 +47,7 @@ val viewModelModule = module {
     viewModel { InputTextViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { PlayViewModel(get()) }
+    viewModel { ResultViewModel() }
 }
 
 val presentationModule = module {

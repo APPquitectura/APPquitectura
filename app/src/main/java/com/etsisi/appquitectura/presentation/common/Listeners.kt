@@ -20,7 +20,6 @@ fun interface SettingsItemClicked {
 
 interface GameListener {
     fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, userMarkInMillis: Long)
-    fun onCounterTimeOut(question: QuestionBO)
 }
 
 interface QuestionListener {

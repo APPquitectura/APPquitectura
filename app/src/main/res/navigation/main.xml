@@ -78,10 +78,26 @@
         <action
             android:id="@+id/action_playFragment_to_navigationDialog"
             app:destination="@id/navigationDialog" />
+        <action
+            android:id="@+id/action_playFragment_to_resultFragment"
+            app:destination="@id/resultFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"/>
     </fragment>
     <dialog
         android:id="@+id/navigationDialog"
         android:name="com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog"
         android:label="NavigationDialog"
         tools:layout="@layout/dialog_navigation"/>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.game.view.ResultFragment"
+        android:label="ResultFragment"
+        tools:layout="@layout/fragment_result">
+        <argument
+            android:name="userResult"
+            app:argType="com.etsisi.appquitectura.domain.model.UserGameResultBO" />
+    </fragment>
 </navigation>

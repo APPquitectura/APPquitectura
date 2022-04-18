@@ -37,6 +37,7 @@
             app:layout_constraintBottom_toBottomOf="@id/questionTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/questionTitle"
+            android:progress="0"
             tools:progress="20" />
 
         <TextView
