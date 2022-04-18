@@ -1,29 +1,33 @@
 package com.etsisi.appquitectura.data.model.dto
 
-import com.etsisi.appquitectura.domain.model.QuestionAge
+import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionTopic
 import com.etsisi.appquitectura.domain.model.QuestionSubject
 
 data class QuestionDTO(
-        val id: String? = null,
-        val title: String? = null,
-        val level: Int? = null,
-        val age: Int? = null,
-        val topic: Int? = null,
-        val imageRef: String? = null,
-        val answers: List<AnswerDTO>? = null
+    val id: String? = null,
+    val pregunta_texto: String? = null,
+    val pregunta_imagen: String? = null,
+    val dificultad: String? = null,
+    val asignatura: String? = null,
+    val respuestas: List<String>? = null,
+    val etiquetas: List<String>? = null
 ) {
+    private companion object {
+        const val CORRECT_ANSWER_INDEX = 0
+    }
+
     fun toDomain() =
-            QuestionBO(
-                    id = id,
-                    title = title,
-                    subject = QuestionSubject.UNKNOWN,
-                    level = QuestionLevel.parseLevel(level),
-                    age = QuestionAge.parseAge(age),
-                    topic = QuestionTopic.parseTopic(topic),
-                    imageRef = imageRef.orEmpty(),
-                    answers = answers?.map { it.toDomain() }.orEmpty()
-            )
+        QuestionBO(
+            id = id,
+            title = pregunta_texto,
+            subject = QuestionSubject.parseSubject(asignatura),
+            level = QuestionLevel.parseLevel(dificultad),
+            labels = etiquetas.orEmpty(),
+            imageRef = pregunta_imagen.orEmpty(),
+            answers = respuestas?.mapIndexed { index, s ->
+                AnswerBO(title = s, correct = index == CORRECT_ANSWER_INDEX)
+            }.orEmpty()
+        )
 }

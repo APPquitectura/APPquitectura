@@ -63,8 +63,8 @@ val useCaseModule = module {
     factory { LogOutUseCase(get()) }
     factory { CheckUserIsRegisteredUseCase(get()) }
     factory { ResetPasswordUseCase(get()) }
-    factory { UpdateQuestionsUseCase(get(), get()) }
-    factory { FetchAllQuestionsUseCase(get(), get()) }
+    factory { UpdateQuestionsUseCase(get()) }
+    factory { FetchAllQuestionsUseCase(get()) }
     factory { GetGameQuestionsUseCase(get()) }
 }
 

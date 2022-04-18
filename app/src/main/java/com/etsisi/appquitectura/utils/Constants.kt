@@ -10,8 +10,7 @@ object Constants {
 
     //Firestore
     const val users_collection = "users"
-    const val questions_composicion_collection = "questions/composicion/preguntas"
-    const val questions_introduccion_collection = "questions/introduccion/preguntas"
+    const val questions_collection = "questions"
 
     //Firebase Storage
     const val imagesRef = "images"

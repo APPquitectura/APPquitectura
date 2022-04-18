@@ -5,17 +5,17 @@ import com.etsisi.appquitectura.data.datasource.remote.QuestionsRemoteDataSource
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.utils.Constants.questions_collection
 
 class QuestionsRepositoryImp(
     private val remote: QuestionsRemoteDataSource,
     private val local: QuestionsLocalDataSource
 ) : QuestionsRepository {
 
-    override suspend fun fetchQuestions(collection: String, questionSubject: QuestionSubject): List<QuestionBO>? {
+    override suspend fun fetchQuestions(): List<QuestionBO>? {
         val localIsEmpty = local.fetchQuestions().isNullOrEmpty()
         if (localIsEmpty) {
-            remote.fetchQuestions(collection, questionSubject)?.let {
+            remote.fetchQuestions(questions_collection)?.let {
                 addAllQuestions(it)
                 it
             }

@@ -5,7 +5,7 @@ import com.etsisi.appquitectura.domain.model.QuestionLevel
 import com.etsisi.appquitectura.domain.model.QuestionSubject
 
 interface QuestionsRepository {
-    suspend fun fetchQuestions(collection: String, questionSubject: QuestionSubject): List<QuestionBO>?
+    suspend fun fetchQuestions(): List<QuestionBO>?
 
     suspend fun addAllQuestions(list: List<QuestionBO>)
 
