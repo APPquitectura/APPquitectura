@@ -25,6 +25,8 @@
         android:layout_marginHorizontal="@dimen/dimen_10"
         android:layout_marginVertical="@dimen/dimen_10"
         android:background="@drawable/shape_answer"
+        android:animateLayoutChanges="true"
+        android:stateListAnimator="@xml/button_pressed"
         android:clickable="true"
         app:answerItem="@{answerBO}"
         app:answersListener="@{listener}"

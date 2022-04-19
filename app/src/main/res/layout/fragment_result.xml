@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:LuckyWheel="http://schemas.android.com/apk/res-auto">
+    xmlns:LuckyWheel="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,20 +13,70 @@
             android:layout_height="250dp"
             android:layout_centerInParent="true"
             LuckyWheel:background_color="@color/primary_alpha_blue"
-            LuckyWheel:layout_constraintBottom_toBottomOf="parent"
-            LuckyWheel:layout_constraintEnd_toEndOf="parent"
-            LuckyWheel:layout_constraintStart_toStartOf="parent"
-            LuckyWheel:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/rotate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="rotate"
-            LuckyWheel:layout_constraintBottom_toBottomOf="parent"
-            LuckyWheel:layout_constraintEnd_toEndOf="parent"
-            LuckyWheel:layout_constraintStart_toStartOf="parent"
-            LuckyWheel:layout_constraintTop_toBottomOf="@+id/roulette" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/roulette" />
+
+        <LinearLayout
+            android:id="@+id/resultsContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="preguntas contestadas correctamente" />
+
+                <TextView
+                    android:id="@+id/correctQuestions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tiempo promedio" />
+
+                <TextView
+                    android:id="@+id/answersAverage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

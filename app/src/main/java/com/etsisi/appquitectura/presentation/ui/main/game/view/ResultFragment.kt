@@ -26,9 +26,19 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
                     roulette.rotateWheelTo(numberToRotate)
                     roulette.setLuckyWheelReachTheTarget {
                         roulette.isVisible = false
+                        rotate.isVisible = false
+                        showResults()
                     }
                 }
             }
+        }
+    }
+
+    fun showResults() {
+        mBinding.apply {
+            resultsContainer.isVisible = true
+            correctQuestions.text = args.userResult.getAllCorrectAnswers().size.toString()
+            answersAverage.text = args.userResult.averageUserMillisToAnswer.toString()
         }
     }
 }
