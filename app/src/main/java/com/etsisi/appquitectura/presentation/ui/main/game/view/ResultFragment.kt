@@ -1,5 +1,7 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.view
 
+import android.animation.AnimatorInflater
+import android.annotation.SuppressLint
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
@@ -39,6 +41,12 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
             resultsContainer.isVisible = true
             correctQuestions.text = args.userResult.getAllCorrectAnswers().size.toString()
             answersAverage.text = args.userResult.averageUserMillisToAnswer.toString()
+
+            AnimatorInflater.loadAnimator(context, R.animator.show_from_left).apply {
+                setTarget(correctQuestionsContainer)
+                setTarget(answersAverageContainer)
+                start()
+            }
         }
     }
 }
