@@ -34,11 +34,11 @@
             android:layout_width="@dimen/dimen_50"
             android:layout_height="@dimen/dimen_50"
             android:layout_marginEnd="@dimen/dimen_3"
+            android:max="10"
+            android:progress="10"
             app:layout_constraintBottom_toBottomOf="@id/questionTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/questionTitle"
-            android:progress="0"
-            tools:progress="20" />
+            app:layout_constraintTop_toTopOf="@id/questionTitle" />
 
         <TextView
             android:id="@+id/progress_text"
@@ -47,14 +47,14 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:paddingHorizontal="@dimen/dimen_3"
-            android:text="21"
             android:textColor="@color/text_color_primary"
             android:textSize="@dimen/text_16"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/progress_bar"
             app:layout_constraintEnd_toEndOf="@id/progress_bar"
             app:layout_constraintStart_toStartOf="@id/progress_bar"
-            app:layout_constraintTop_toTopOf="@id/progress_bar" />
+            app:layout_constraintTop_toTopOf="@id/progress_bar"
+            tools:text="21" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"

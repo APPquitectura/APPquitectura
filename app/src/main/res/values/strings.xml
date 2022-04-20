@@ -42,6 +42,10 @@
     <string name="game_mode_thirty">30 Questions</string>
     <string name="game_mode_sixty">60 Questions</string>
 
+    <string name="results_correct_questions">Correct answers</string>
+    <string name="results_time_average">Time average</string>
+
+    <string name="rotate_roulette">Spin the wheel</string>
     <string name="roulette_item_1">Bronze badge</string>
     <string name="roulette_item_2">Gold badge</string>
     <string name="roulette_item_3">Silver badge</string>

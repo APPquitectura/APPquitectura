@@ -2,8 +2,6 @@ package com.etsisi.appquitectura.presentation.ui.main.game.view
 
 import android.content.Context
 import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.navArgs
@@ -41,15 +39,6 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             }
         }
     }
-    private var handler: Handler? = Handler(Looper.getMainLooper())
-    private val nextQuestionRunnable = Runnable {
-        if (viewPager.currentItem < viewPager.adapter?.itemCount?.minus(1) ?: 0) {
-            viewPager.currentItem++
-        } else {
-            handler = null
-            navigator.openResultFragment(mViewModel._userGameResult)
-        }
-    }
 
     companion object {
         private const val SELECTED_ALPHA = 1.0F
@@ -64,7 +53,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                     override fun handleOnBackPressed() {
                         navigator.openLeavingGameDialog()
                         Toast.makeText(this@with, "Click again to exit", Toast.LENGTH_SHORT).show()
-                        super.remove()
+                        this.remove()
                     }
                 })
             }
@@ -131,9 +120,21 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         tab?.customView?.alpha = if (selected) SELECTED_ALPHA else UNSELECTED_ALPHA
     }
 
+    private fun setNextQuestion() {
+        with(viewPager) {
+            postDelayed({
+                if (currentItem < adapter?.itemCount?.minus(1) ?: 0) {
+                    setCurrentItem(currentItem + 1, true)
+                } else {
+                    navigator.openResultFragment(mViewModel._userGameResult)
+                }
+            }, 300L)
+        }
+    }
+
     override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, userMarkInMillis: Long) {
         mViewModel.setGameResultAccumulated(question, answer, userMarkInMillis)
-        handler?.postDelayed(nextQuestionRunnable, 500L)
+        setNextQuestion()
     }
 
 }

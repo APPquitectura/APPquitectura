@@ -6,19 +6,19 @@ import android.content.Intent
 import android.content.pm.LabeledIntent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.graphics.Insets
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import com.etsisi.appquitectura.R
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -115,5 +115,20 @@ fun Activity.showSystemUI() {
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    }
+}
+
+fun Activity.getWindowPixels(): Pair<Int, Int> { //Pair(width, height)
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        val windowMetrics = windowManager.currentWindowMetrics
+        val insets: Insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
+        //windowMetrics.bounds.width() - insets.left - insets.right
+        val width = insets.right + insets.left
+        val height = insets.top + insets.top
+        Pair(width, height)
+    } else {
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        Pair(displayMetrics.widthPixels, displayMetrics.heightPixels)
     }
 }

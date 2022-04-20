@@ -30,20 +30,7 @@ class QuestionFragment(
     EmptyViewModel::class
 ), QuestionListener {
     private var counterMillisUntilFinished = 0L
-    private val counter = object : CountDownTimer(COUNT_DOWN_MILLIS, COUNT_DOWN_INTERVAL) {
-        override fun onTick(millisUntilFinished: Long) {
-            with(mBinding) {
-                counterMillisUntilFinished = millisUntilFinished
-                progressText.text = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished).toString()
-                progressBar.progress = millisUntilFinished.toInt()
-                if (millisUntilFinished <= THREE_SECONDS) {
-                    progressText.setTextColor(Color.RED)
-                }
-            }
-        }
-
-        override fun onFinish() {}
-    }
+    private var counter: CountDownTimer? = null
 
     companion object {
         private const val COUNT_DOWN_INTERVAL = 1000L
@@ -56,11 +43,11 @@ class QuestionFragment(
 
     override fun setUpDataBinding(mBinding: FragmentQuestionBinding, mViewModel: EmptyViewModel) {
         mBinding.apply {
+            Log.e("XXX", "setUpDataBinding for question ${question?.title}")
             question = questionBO
             answersRecyclerView.adapter = AnswersAdapter(this@QuestionFragment, questionBO).also {
                 it.addDataSet(questionBO.answers.asSequence().shuffled().toList())
             }
-            progressBar.max = COUNT_DOWN_MILLIS.toInt()
             imageQuestion.apply {
                 Glide.with(this)
                     .load(questionBO.getImageFirestorageReference())
@@ -73,21 +60,39 @@ class QuestionFragment(
                         }
 
                         override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            counter.start()
                             return false
                         }
                     })
                     .into(this)
             }
+            counter = object : CountDownTimer(COUNT_DOWN_MILLIS, COUNT_DOWN_INTERVAL) {
+                override fun onTick(millisUntilFinished: Long) {
+                    Log.e("XXX", "onTick for questionId ${question?.id}")
+                    counterMillisUntilFinished = millisUntilFinished
+                    progressText.text = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished).toString()
+                    progressBar.progress -= 1
+                    if (millisUntilFinished <= THREE_SECONDS) {
+                        progressText.setTextColor(Color.RED)
+                    }
+                }
+
+                override fun onFinish() {
+                    progressBar.progress = 0
+                }
+            }
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        counter?.start()
+    }
+
     override fun observeViewModel(mViewModel: EmptyViewModel) {
-        //TODO("Not yet implemented")
     }
 
     override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO) {
-        counter.cancel()
+        counter?.cancel()
         gameListener?.onAnswerClicked(question, answer, counterMillisUntilFinished)
     }
 }

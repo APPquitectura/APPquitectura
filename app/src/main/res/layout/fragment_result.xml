@@ -7,31 +7,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.bluehomestudio.luckywheel.LuckyWheel
-            android:id="@+id/roulette"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_centerInParent="true"
-            LuckyWheel:background_color="@color/primary_alpha_blue"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/congratsAnimation"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/resultsContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/lottie_congrats" />
 
-        <Button
-            android:id="@+id/rotate"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/rouletteContainer"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="rotate"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/roulette" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.bluehomestudio.luckywheel.LuckyWheel
+                android:id="@+id/wheel"
+                android:layout_width="@dimen/dimen_300"
+                android:layout_height="@dimen/dimen_300"
+                android:layout_marginBottom="@dimen/dimen_30"
+                LuckyWheel:background_color="@color/primary_alpha_blue" />
+
+            <Button
+                android:id="@+id/spinBtn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_40"
+                android:textColor="@color/text_color_primary"
+                android:background="@drawable/shape_submit_button"
+                android:text="@string/rotate_roulette" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/resultsContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_24"
             android:divider="@drawable/divider"
             android:orientation="vertical"
             android:visibility="gone"
@@ -50,13 +70,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="preguntas contestadas correctamente" />
+                    android:text="@string/results_correct_questions"
+                    android:textSize="@dimen/text_20" />
 
                 <TextView
                     android:id="@+id/correctQuestions"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_20" />
             </LinearLayout>
 
             <LinearLayout
@@ -69,13 +91,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Tiempo promedio" />
+                    android:text="@string/results_time_average"
+                    android:textSize="@dimen/text_20" />
 
                 <TextView
                     android:id="@+id/answersAverage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:textSize="@dimen/text_20" />
             </LinearLayout>
         </LinearLayout>
 
