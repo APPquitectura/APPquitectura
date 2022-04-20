@@ -41,6 +41,7 @@
     <string name="game_mode_thirty">Partida 30</string>
     <string name="game_mode_sixty">Partida 60</string>
 
+    <string name="results_title">Resultados</string>
     <string name="results_correct_questions">Respuestas correctas</string>
     <string name="results_time_average">Tiempo promedio en responder</string>
 
