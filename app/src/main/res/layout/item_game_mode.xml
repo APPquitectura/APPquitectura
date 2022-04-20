@@ -6,7 +6,7 @@
     <data>
         <variable
             name="gameMode"
-            type="com.etsisi.appquitectura.presentation.ui.main.model.ItemGameMode" />
+            type="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode" />
     </data>
 
     <FrameLayout

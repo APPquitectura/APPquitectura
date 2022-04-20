@@ -11,12 +11,12 @@ data class UserEntity(
         @PrimaryKey @ColumnInfo(name = "id") val id: String,
         val email: String,
         val name: String,
-        val subject: Int
+        val subject: String
 ) {
     fun toDomain() = UserBO(
             id = id,
             name = name,
             email = email,
-            subject = QuestionSubject.parseQuest(subject)
+            subject = QuestionSubject.parseSubject(subject)
     )
 }

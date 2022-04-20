@@ -1,43 +1,52 @@
 package com.etsisi.appquitectura.domain.model
 
+import android.os.Parcelable
+import com.etsisi.appquitectura.data.helper.FireStorageHelper
 import com.etsisi.appquitectura.data.model.entities.QuestionEntity
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class QuestionBO(
-        val id: String?,
-        val title: String?,
-        val subject: QuestionSubject,
-        val level: QuestionLevel,
-        val age: QuestionAge,
-        val topic: QuestionTopic
-) {
+    val id: String?,
+    val title: String?,
+    val subject: QuestionSubject,
+    val level: QuestionLevel,
+    val labels: List<String>,
+    val imageRef: String,
+    val answers: List<AnswerBO>
+): Parcelable {
+
+    fun getImageFirestorageReference() = FireStorageHelper.getImageReference(imageRef)
+
     fun toEntity() = QuestionEntity(
-            id = id.orEmpty(),
-            title = title.orEmpty(),
-            subject = subject.value,
-            level = level.value,
-            age = age.value,
-            topic = topic.value
+        id = id.orEmpty(),
+        title = title.orEmpty(),
+        subject = subject.value,
+        level = level.value,
+        labels = labels.joinToString(),
+        imageRef = imageRef,
+        answers = answers
     )
 }
 
-enum class QuestionSubject(val value: Int) {
-    COMPOSICION(1),
-    INTRODUCCION(2),
-    UNKNOWN(3);
+enum class QuestionSubject(val value: String) {
+    COMPOSICION("COMPOSICIÓN"),
+    INTRODUCCION("INTRODUCCIÓN"),
+    UNKNOWN("DESCONOCIDO");
 
     companion object {
-        fun parseQuest(subject: Int) = values().find { it.value == subject } ?: UNKNOWN
+        fun parseSubject(subject: String?) = values().find { it.value.equals(subject, true) } ?: UNKNOWN
     }
 }
 
-enum class QuestionLevel(val value: Int) {
-    UNKNOWN(0),
-    EASY(1),
-    NORMAL(2),
-    DIFFICULT(3);
+enum class QuestionLevel(val value: String) {
+    UNKNOWN("D0"),
+    EASY("D1"),
+    NORMAL("D2"),
+    DIFFICULT("D3");
 
     companion object {
-        fun parseLevel(x: Int?): QuestionLevel {
+        fun parseLevel(x: String?): QuestionLevel {
             return when (x) {
                 EASY.value -> EASY
                 NORMAL.value -> NORMAL
@@ -48,15 +57,15 @@ enum class QuestionLevel(val value: Int) {
     }
 }
 
-enum class QuestionAge(val value: Int) {
-    UNKNOWN(0),
-    OLD(1),
-    MIDDLE_AGE(2),
-    MODERN_AGE(3),
-    CONTEMPORARY_AGE(4);
+enum class QuestionAge(val value: String) {
+    UNKNOWN("DESCONOCIDO"),
+    OLD("ANTIGÜEDAD"),
+    MIDDLE_AGE("EDAD MEDIA"),
+    MODERN_AGE("EDAD MODERNA"),
+    CONTEMPORARY_AGE("EDAD CONTEMPORÁNEA");
 
     companion object {
-        fun parseAge(x: Int?): QuestionAge {
+        fun parseAge(x: String?): QuestionAge {
             return when (x) {
                 OLD.value -> OLD
                 MIDDLE_AGE.value -> MIDDLE_AGE
@@ -68,31 +77,31 @@ enum class QuestionAge(val value: Int) {
     }
 }
 
-enum class QuestionTopic(val value: Int) {
-    UNKNOWN(0),
-    EGYPT(1),
-    GREECE(2),
-    ROME(3),
-    PALEOCHRISTIAN(4),
-    BYZANTINE(5),
-    PREROMANESQUE(6),
-    ROMANESQUE(7),
-    GOTHIC(8),
-    RENAISSANCE(9),
-    MANNERISM(10),
-    BAROQUE(11),
-    ILLUSTRATION(12),
-    ENGINEERING(13),
-    HISTORICISM(14),
-    ART_NOUVEAU(15),
-    VANGUARD(16),
-    MODERN(17),
-    POSTMODERNITY(18),
-    ACTUAL(19);
+enum class QuestionTopic(val value: String) {
+    UNKNOWN("DESCONOCIDO"),
+    EGYPT("EGIPTO"),
+    GREECE("GRECIA"),
+    ROME("ROMA"),
+    PALEOCHRISTIAN("PALEOCRISTIANO"),
+    BYZANTINE("BIZANTINO"),
+    PREROMANESQUE("PRERROMÁNICO"),
+    ROMANESQUE("ROMÁNICO"),
+    GOTHIC("GÓTICO"),
+    RENAISSANCE("RENACIMIENTO"),
+    MANNERISM("MANIERISMO"),
+    BAROQUE("BARROCO"),
+    ILLUSTRATION("ILUSTRACIÓN"),
+    ENGINEERING("INGENIERÍA"),
+    HISTORICISM("HISTORICISMO"),
+    ART_NOUVEAU("ART NOUVEAU"),
+    VANGUARD("VANGUARDIAS"),
+    MODERN("MODERNIDAD"),
+    POSTMODERNITY("POSMODERNIDAD"),
+    ACTUAL("ACTUAL");
 
     companion object {
-        fun parseTopic(x: Int?): QuestionTopic {
-            return values().find { it.value == x } ?: UNKNOWN
+        fun parseTopic(x: String?): QuestionTopic {
+            return values().find { it.value.equals(x, true) } ?: UNKNOWN
         }
     }
 }

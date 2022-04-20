@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel" />
+            type="com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel" />
 
         <variable
             name="listener"
@@ -74,12 +74,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:isVisible="@{viewModel.navType == GameNavType.PRE_START_GAME}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:lottie_autoPlay="false"
             app:lottie_loop="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:lottie_rawRes="@raw/lottie_start_game"
             tools:visibility="visible" />
 

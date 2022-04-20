@@ -9,11 +9,8 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import com.etsisi.appquitectura.data.repository.QuestionsRepository
-import com.etsisi.appquitectura.domain.model.QuestionSubject
 import com.etsisi.appquitectura.domain.usecase.FetchAllQuestionsUseCase
 import com.etsisi.appquitectura.presentation.utils.TAG
-import com.etsisi.appquitectura.utils.Constants.questions_composicion_collection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext

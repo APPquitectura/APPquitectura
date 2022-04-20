@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.viewmodel
+package com.etsisi.appquitectura.presentation.ui.main
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
@@ -15,6 +15,7 @@ class MainViewModel(
     signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase
 ): BaseLoginViewModel(logOutUseCase, signInWithCredentialsUseCase, sendEmailVerificationUseCase) {
+
     init {
         viewModelScope.launch {
             QuestionsWorker.fetchAllQuestions(applicationContext)

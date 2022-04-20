@@ -1,10 +1,10 @@
-package com.etsisi.appquitectura.presentation.ui.main.view
+package com.etsisi.appquitectura.presentation.ui.main.home.view
 
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentHomeBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.ui.main.adapter.HomeMenuAdapter
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel
+import com.etsisi.appquitectura.presentation.ui.main.home.viewmodel.HomeViewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     R.layout.fragment_home,

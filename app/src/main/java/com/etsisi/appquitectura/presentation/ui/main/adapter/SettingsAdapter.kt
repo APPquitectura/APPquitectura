@@ -6,7 +6,7 @@ import com.etsisi.appquitectura.databinding.ItemSettingsBinding
 import com.etsisi.appquitectura.presentation.common.BaseAdapter
 import com.etsisi.appquitectura.presentation.common.BaseHolder
 import com.etsisi.appquitectura.presentation.common.SettingsItemClicked
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemSettings
+import com.etsisi.appquitectura.presentation.ui.main.settings.model.ItemSettings
 
 class SettingsAdapter(
     private val listener: SettingsItemClicked

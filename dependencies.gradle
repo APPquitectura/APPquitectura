@@ -4,7 +4,7 @@ ext {
     appVersionPatch = 0
     appVersionCode = appVersionMajor * 100 + appVersionMinor * 10 + appVersionPatch
     appVersionName = "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"
-    databaseDebugVersion = 12
+    databaseDebugVersion = 14
     databaseReleaseVersion = 1
 
     //Versions
@@ -14,6 +14,7 @@ ext {
     coroutineVersion = '1.6.0'
     flexboxVersion = '3.0.0'
     fragmentVersion = '1.4.0'
+    firebaseUIVersion = '7.2.0'
     glideVersion = '4.12.0'
     koinVersion = '3.1.4'
     ktxCoreVersion = '1.7.0'
@@ -23,6 +24,7 @@ ext {
     navigationVersion = '2.5.0-alpha03'
     progressButtonVersion = '2.1.0'
     roomVersion = '2.4.2'
+    rouletteVersion = '0.3.0'
     retrofitVersion = '2.9.0'
     splashscreenVersion = '1.0.0-beta01'
     viewPager2Version = '1.0.0'
@@ -42,6 +44,8 @@ ext {
     dynamicLinksDependency = "com.google.firebase:firebase-dynamic-links-ktx"
 
     firestoreDependency = "com.google.firebase:firebase-firestore"
+    firebaseStorageDependency = "com.google.firebase:firebase-storage"
+    firebaseUIStorageDependency = "com.firebaseui:firebase-ui-storage:$firebaseUIVersion"
 
     fragmentKtxDependency = "androidx.fragment:fragment-ktx:$fragmentVersion"
 
@@ -56,6 +60,8 @@ ext {
     lifecycleKtxDependency = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 
     lottieDependency = "com.airbnb.android:lottie:$lottieVersion"
+
+    rouletteDependency = "com.github.mmoamenn:LuckyWheel_Android:$rouletteVersion"
 
     materialDependency = "com.google.android.material:material:$materialVersion"
 

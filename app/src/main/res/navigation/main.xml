@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.etsisi.appquitectura.presentation.ui.main.view.HomeFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.home.view.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -32,16 +32,18 @@
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
-            app:popExitAnim="@anim/exit_to_right">
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/homeFragment"
+            app:restoreState="false">
             <argument
                 android:name="gameMode"
                 android:defaultValue="UNKNOWN"
-                app:argType="com.etsisi.appquitectura.presentation.ui.main.model.ItemGameModeAction" />
+                app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
         </action>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.etsisi.appquitectura.presentation.ui.main.view.SettingsFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.settings.view.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings"></fragment>
     <activity
@@ -51,7 +53,7 @@
         tools:layout="@layout/activity_login"></activity>
     <fragment
         android:id="@+id/playFragment"
-        android:name="com.etsisi.appquitectura.presentation.ui.main.view.PlayFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.game.view.PlayFragment"
         android:label="PlayFragment"
         tools:layout="@layout/fragment_play">
         <argument
@@ -74,6 +76,32 @@
         </action>
         <argument
             android:name="gameMode"
-            app:argType="com.etsisi.appquitectura.presentation.ui.main.model.ItemGameModeAction" />
+            app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
+        <action
+            android:id="@+id/action_playFragment_to_navigationDialog"
+            app:destination="@id/navigationDialog" />
+        <action
+            android:id="@+id/action_playFragment_to_resultFragment"
+            app:destination="@id/resultFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToSaveState="false"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+    </fragment>
+    <dialog
+        android:id="@+id/navigationDialog"
+        android:name="com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog"
+        android:label="NavigationDialog"
+        tools:layout="@layout/dialog_navigation" />
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.game.view.ResultFragment"
+        android:label="ResultFragment"
+        tools:layout="@layout/fragment_result">
+        <argument
+            android:name="userResult"
+            app:argType="com.etsisi.appquitectura.domain.model.UserGameResultBO" />
     </fragment>
 </navigation>

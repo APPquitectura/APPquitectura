@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.model
+package com.etsisi.appquitectura.presentation.ui.main.game.model
 
 import androidx.annotation.StringRes
 

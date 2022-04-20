@@ -6,7 +6,7 @@ import com.etsisi.appquitectura.databinding.ItemHomeBinding
 import com.etsisi.appquitectura.presentation.common.BaseAdapter
 import com.etsisi.appquitectura.presentation.common.BaseHolder
 import com.etsisi.appquitectura.presentation.common.HomeItemClicked
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
+import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
 
 class HomeMenuAdapter(
     private val onMenuItemClickedlistener: HomeItemClicked

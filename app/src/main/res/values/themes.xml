@@ -12,7 +12,7 @@
         <!-- color de fondo de las actividades -->
         <item name="android:windowBackground">@color/white</item>
         <!-- Primary brand color.color for the app bar and other primary UI elements -->
-        <item name="colorPrimary">@color/text_color_primary</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->

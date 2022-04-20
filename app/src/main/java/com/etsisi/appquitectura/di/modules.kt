@@ -26,10 +26,11 @@ import com.etsisi.appquitectura.presentation.common.Navigator
 import com.etsisi.appquitectura.presentation.dialog.viewmodel.InputTextViewModel
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.HomeViewModel
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.MainViewModel
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.PlayViewModel
-import com.etsisi.appquitectura.presentation.ui.main.viewmodel.SettingsViewModel
+import com.etsisi.appquitectura.presentation.ui.main.home.viewmodel.HomeViewModel
+import com.etsisi.appquitectura.presentation.ui.main.MainViewModel
+import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
+import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.ResultViewModel
+import com.etsisi.appquitectura.presentation.ui.main.settings.viewmodel.SettingsViewModel
 import com.etsisi.appquitectura.utils.NavigationTracker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -46,6 +47,7 @@ val viewModelModule = module {
     viewModel { InputTextViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { PlayViewModel(get()) }
+    viewModel { ResultViewModel() }
 }
 
 val presentationModule = module {
@@ -63,8 +65,8 @@ val useCaseModule = module {
     factory { LogOutUseCase(get()) }
     factory { CheckUserIsRegisteredUseCase(get()) }
     factory { ResetPasswordUseCase(get()) }
-    factory { UpdateQuestionsUseCase(get(), get()) }
-    factory { FetchAllQuestionsUseCase(get(), get()) }
+    factory { UpdateQuestionsUseCase(get()) }
+    factory { FetchAllQuestionsUseCase(get()) }
     factory { GetGameQuestionsUseCase(get()) }
 }
 

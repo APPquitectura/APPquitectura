@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.etsisi.appquitectura.presentation.ui.main.model.ItemSettings" />
+            type="com.etsisi.appquitectura.presentation.ui.main.settings.model.ItemSettings" />
 
         <variable
             name="listener"

@@ -10,11 +10,11 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 
 class QuestionsRemoteDataSource {
 
-    suspend fun fetchQuestions(collection: String, questionsSubject: QuestionSubject): List<QuestionBO>? = suspendCancellableCoroutine { cont ->
+    suspend fun fetchQuestions(collection: String): List<QuestionBO>? = suspendCancellableCoroutine { cont ->
         FirestoreHelper
             .readDocumentsOfACollection<QuestionDTO>(collection,
                 onSuccess = { list ->
-                    val result = list.map { it.toDomain().copy(subject = questionsSubject) }
+                    val result = list.map { it.toDomain()}
                     cont.resume(result, null)
                 },
                 onError = {

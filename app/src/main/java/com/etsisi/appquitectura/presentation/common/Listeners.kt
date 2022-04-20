@@ -1,8 +1,10 @@
 package com.etsisi.appquitectura.presentation.common
 
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemGameMode
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemSettings
+import com.etsisi.appquitectura.domain.model.AnswerBO
+import com.etsisi.appquitectura.domain.model.QuestionBO
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
+import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
+import com.etsisi.appquitectura.presentation.ui.main.settings.model.ItemSettings
 
 interface GoogleSignInListener {
     fun initSignInGoogle()
@@ -14,6 +16,14 @@ fun interface HomeItemClicked {
 
 fun interface SettingsItemClicked {
     fun onSettingsItemClicked(item: ItemSettings)
+}
+
+interface GameListener {
+    fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, userMarkInMillis: Long)
+}
+
+interface QuestionListener {
+    fun onAnswerClicked(question: QuestionBO, answer: AnswerBO)
 }
 
 interface PlayFragmentListener {

@@ -6,11 +6,17 @@ import android.content.Intent
 import android.content.pm.LabeledIntent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.graphics.Insets
+import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import org.json.JSONException
@@ -19,7 +25,7 @@ import org.json.JSONObject
 val String.Companion.EMPTY: String
     get() = ""
 
-inline fun <reified T: Activity> Activity.startClearActivity(args: Bundle? = null) {
+inline fun <reified T : Activity> Activity.startClearActivity(args: Bundle? = null) {
     val intent = Intent(this, T::class.java).apply {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
@@ -63,19 +69,66 @@ fun Bundle.toJson(): JSONObject {
         try {
             json.put(key, this.get(key))
         } catch (e: JSONException) {
-            Log.e("toJson",e.toString())
+            Log.e("toJson", e.toString())
         }
     }
 
     return json
 }
 
-fun List<ResolveInfo>.toLabeledIntentArray(packageManager: PackageManager): Array<LabeledIntent> = map {
-    val packageName = it.activityInfo.packageName
-    val intent = packageManager.getLaunchIntentForPackage(packageName)
-    LabeledIntent(intent, packageName, it.loadLabel(packageManager), it.icon)
-}.toTypedArray()
+fun List<ResolveInfo>.toLabeledIntentArray(packageManager: PackageManager): Array<LabeledIntent> =
+    map {
+        val packageName = it.activityInfo.packageName
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+        LabeledIntent(intent, packageName, it.loadLabel(packageManager), it.icon)
+    }.toTypedArray()
 
 fun <T> getMethodName(clazz: Class<T>): String {
     return "${clazz.enclosingClass?.simpleName}.${clazz.enclosingMethod?.name}"
+}
+
+fun Activity.hideSystemUI() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        window.insetsController?.let {
+            it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            it.hide(WindowInsetsCompat.Type.systemBars())
+        }
+    } else {
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+        @Suppress("DEPRECATION")
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+    }
+}
+
+fun Activity.showSystemUI() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        window.setDecorFitsSystemWindows(false)
+        window.insetsController?.show(WindowInsets.Type.systemBars())
+    } else {
+        @Suppress("DEPRECATION")
+        window.decorView.systemUiVisibility = (
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    }
+}
+
+fun Activity.getWindowPixels(): Pair<Int, Int> { //Pair(width, height)
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        val windowMetrics = windowManager.currentWindowMetrics
+        val insets: Insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
+        //windowMetrics.bounds.width() - insets.left - insets.right
+        val width = insets.right + insets.left
+        val height = insets.top + insets.top
+        Pair(width, height)
+    } else {
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        Pair(displayMetrics.widthPixels, displayMetrics.heightPixels)
+    }
 }

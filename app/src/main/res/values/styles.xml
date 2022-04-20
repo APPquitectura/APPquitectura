@@ -59,4 +59,9 @@
         <item name="android:textStyle">normal</item>
         <item name="lineHeight">@dimen/text_16</item>
     </style>
+
+    <style name="CircularDeterminateProgressBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/counter</item>
+    </style>
 </resources>

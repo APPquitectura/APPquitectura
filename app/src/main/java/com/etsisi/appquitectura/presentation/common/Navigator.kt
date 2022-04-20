@@ -7,15 +7,16 @@ import android.net.Uri
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.LoginDirections
 import com.etsisi.appquitectura.MainDirections
+import com.etsisi.appquitectura.domain.model.UserGameResultBO
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemGameModeAction
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemHomeAction
-import com.etsisi.appquitectura.presentation.ui.main.view.HomeFragmentDirections
-import com.etsisi.appquitectura.presentation.ui.main.view.MainActivity
-import com.etsisi.appquitectura.presentation.ui.main.view.PlayFragmentDirections
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
+import com.etsisi.appquitectura.presentation.ui.main.MainActivity
+import com.etsisi.appquitectura.presentation.ui.main.game.view.PlayFragmentDirections
+import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
+import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHomeAction
+import com.etsisi.appquitectura.presentation.ui.main.home.view.HomeFragmentDirections
 import com.etsisi.appquitectura.presentation.utils.startClearActivity
 import com.etsisi.appquitectura.presentation.utils.toLabeledIntentArray
 
@@ -78,6 +79,14 @@ class Navigator (private val navController: NavController){
             openChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, emailApps)
             startActivity(openChooser)
         }
+    }
+
+    fun openLeavingGameDialog() {
+    }
+
+    fun openResultFragment(result: UserGameResultBO) {
+        val directions = PlayFragmentDirections.actionPlayFragmentToResultFragment(userResult = result)
+        navController.navigate(directions)
     }
 
 }

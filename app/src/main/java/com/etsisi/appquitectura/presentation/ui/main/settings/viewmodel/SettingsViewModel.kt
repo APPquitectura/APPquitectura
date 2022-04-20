@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.viewmodel
+package com.etsisi.appquitectura.presentation.ui.main.settings.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,8 +12,8 @@ import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
 import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.BaseLoginViewModel
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemSettings
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemSettingsAction
+import com.etsisi.appquitectura.presentation.ui.main.settings.model.ItemSettings
+import com.etsisi.appquitectura.presentation.ui.main.settings.model.ItemSettingsAction
 
 class SettingsViewModel(
     private val updateQuestionsUseCase: UpdateQuestionsUseCase,
@@ -52,7 +52,6 @@ class SettingsViewModel(
 
     private fun updateQuestions() {
         updateQuestionsUseCase.invoke(
-                scope = viewModelScope,
                 params = Unit
         ) {
 

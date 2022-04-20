@@ -1,11 +1,11 @@
-package com.etsisi.appquitectura.presentation.ui.main.viewmodel
+package com.etsisi.appquitectura.presentation.ui.main.home.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.etsisi.appquitectura.R
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemHome
-import com.etsisi.appquitectura.presentation.ui.main.model.ItemHomeAction
+import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
+import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHomeAction
 
 class HomeViewModel: ViewModel(){
 
