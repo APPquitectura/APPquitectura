@@ -126,7 +126,6 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 if (currentItem < adapter?.itemCount?.minus(1) ?: 0) {
                     setCurrentItem(currentItem + 1, true)
                 } else {
-                    mViewModel.updateUserScore()
                     navigator.openResultFragment(mViewModel._userGameResult)
                 }
             }, 300L)

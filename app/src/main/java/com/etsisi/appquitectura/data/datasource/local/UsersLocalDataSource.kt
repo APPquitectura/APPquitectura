@@ -19,8 +19,8 @@ class UsersLocalDataSource(
         }
     }
 
-    suspend fun updateUserDetails(userBO: UserEntity): UpdateUserDetailsUseCase.RESULT_CODES {
-       return UpdateUserDetailsUseCase.RESULT_CODES.SUCCESS
+    suspend fun updateUser(user: UserEntity) {
+       dao.update(user)
     }
 
 }

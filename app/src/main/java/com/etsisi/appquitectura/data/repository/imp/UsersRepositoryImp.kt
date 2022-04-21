@@ -44,7 +44,7 @@ class UsersRepositoryImp(
 
     override suspend fun updateUserDetails(user: UserBO): UpdateUserDetailsUseCase.RESULT_CODES {
         return remote?.updateUserDetails(user.toDTO()).also {
-            local.updateUserDetails(user.toEntity())
+            local.updateUser(user.toEntity())
         }
     }
 

@@ -18,7 +18,6 @@ import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeActi
 
 class PlayViewModel(
     private val getGameQuestionsUseCase: GetGameQuestionsUseCase,
-    private val updateUserDetailsUseCase: UpdateUserDetailsUseCase
 ) : ViewModel(), LifecycleObserver {
 
     private val _questions by lazy { MutableLiveData<List<QuestionBO>>() }
@@ -65,16 +64,6 @@ class PlayViewModel(
             userQuestions.add(question)
             this.userAnswer.add(userAnswer)
             averageUserMillisToAnswer = averageUserMillisToAnswer.plus(userMarkInMillis).div(userQuestions.size)
-        }
-    }
-
-    fun updateUserScore() {
-        updateUserDetailsUseCase.invoke(
-            params = UpdateUserDetailsUseCase.Params(
-                Pair(UpdateUserDetailsUseCase.USER_FIELD.SCORE, 10)
-            )
-        ) {
-
         }
     }
 }
