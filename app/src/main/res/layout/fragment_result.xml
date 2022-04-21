@@ -49,14 +49,17 @@
                 android:layout_width="@dimen/dimen_300"
                 android:layout_height="@dimen/dimen_300"
                 android:layout_marginBottom="@dimen/dimen_30"
+                android:backgroundTint="@null"
                 LuckyWheel:background_color="@color/primary_alpha_blue" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/spinBtn"
                 style="@style/gameBodyStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_40"
-                android:background="@drawable/shape_submit_button"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:background="@drawable/spin_btn_background"
                 android:backgroundTint="@null"
                 android:stateListAnimator="@xml/button_pressed"
                 android:text="@string/rotate_roulette" />
@@ -122,7 +125,7 @@
                     android:id="@+id/answersAverage"
                     style="@style/gameBodyStyle"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/text_20" />

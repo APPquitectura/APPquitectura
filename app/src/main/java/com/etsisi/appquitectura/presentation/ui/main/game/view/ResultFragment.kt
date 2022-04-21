@@ -34,12 +34,23 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
                     mViewModel.updateUserScore(numberToRotate - 1)
                     wheel.rotateWheelTo(numberToRotate)
                     wheel.setLuckyWheelReachTheTarget {
-                        wheel.postDelayed({
-                            congratsAnimation.playAnimation()
-                        }, 500)
                         showResults(mViewModel.rouletteItems[numberToRotate - 1])
                     }
+                    hideSpinBtn()
                 }
+            }
+        }
+    }
+
+    private fun hideSpinBtn() {
+        with(mBinding) {
+            val windowsWidth = requireActivity().getWindowPixels().first
+            val targetX = windowsWidth - spinBtn.left
+            ObjectAnimator.ofFloat(spinBtn, View.TRANSLATION_X, targetX.toFloat()).apply {
+                doOnEnd {
+                    spinBtn.isVisible = false
+                }
+                start()
             }
         }
     }
@@ -48,16 +59,17 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
         with(mBinding) {
             correctQuestions.text = args.userResult.getAllCorrectAnswers().size.toString()
             answersAverage.text = args.userResult.averageUserMillisToAnswer.toString()
+            val windowsWidth = requireActivity().getWindowPixels().first
+            val targetX = windowsWidth - rouletteContainer.left
+
             val showResultsAnimation = AnimatorInflater.loadAnimator(context, R.animator.show_from_left).apply {
                 doOnStart {
                     resultsContainer.isVisible = true
                 }
                 setTarget(resultsContainer)
             }
-            val windowsWidth = requireActivity().getWindowPixels().first
-            val targetX = windowsWidth - rouletteContainer.left
-            val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
             val obAnimatorAlpha = ObjectAnimator.ofFloat(rouletteContainer, View.ALPHA, 1F, 0F)
+            val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
             AnimatorSet().apply {
                 cancel()
                 play(obAnimatorTranslation)
@@ -65,6 +77,7 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
                     .after(showResultsAnimation)
                 doOnEnd {
                     rouletteContainer.isVisible = false
+                    congratsAnimation.playAnimation()
                 }
                 start()
             }
