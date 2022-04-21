@@ -20,4 +20,5 @@
     <color name="primary_alpha_red">#BFF34B3E</color>
     <color name="primary_alpha_yellow">#BFF8E115</color>
     <color name="primary_alpha_blue">#BF09B3C8</color>
+    <color name="primary_alpha_blue_2">#9E09B3C8</color>
 </resources>

@@ -8,7 +8,8 @@ data class ItemHome(
     val title: Int,
     @RawRes
     val icon: Int,
-    val action: ItemHomeAction
+    val action: ItemHomeAction,
+    val isBigger: Boolean = false
 )
 
 enum class ItemHomeAction { PROFILE, START_GAME, RANKING, CONFIGURATION, ANALYTICS, ABOUT }

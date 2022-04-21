@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dimen_10"
             android:layout_marginVertical="@dimen/dimen_32"
+            android:fontFamily="@font/alfa"
             android:text="@{question.title}"
             android:textSize="@dimen/text_22"
             app:layout_constraintEnd_toStartOf="@id/progress_bar"
@@ -72,6 +73,7 @@
                 android:id="@+id/imageQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="@dimen/dimen_8"
                 android:scaleType="fitXY" />
         </androidx.cardview.widget.CardView>
 

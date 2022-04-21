@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
@@ -11,6 +12,7 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
@@ -55,6 +57,17 @@ object BindingAdapter {
         res?.let {
             val drawable = ContextCompat.getDrawable(context, it)
             setImageDrawable(drawable)
+        }
+    }
+
+    @BindingAdapter("bigItemHome")
+    @JvmStatic
+    fun LottieAnimationView.setBigIcon(isBigger: Boolean) {
+        if (isBigger) {
+            updateLayoutParams<ViewGroup.LayoutParams> {
+                this.height = resources.getDimensionPixelSize(R.dimen.dimen_108)
+                this.width = resources.getDimensionPixelSize(R.dimen.dimen_108)
+            }
         }
     }
 
