@@ -19,35 +19,28 @@ class ResultViewModel(
         with(resources) {
             rouletteItems.add(ItemRoulette(
                 points = 10,
-                backgroundColor = Color.LTGRAY,
-                drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
+                backgroundColor = getColor(R.color.bronze),
+                drawable = getDrawable(R.drawable.ic_coins, null).toBitmap(),
                 title = getString(R.string.roulette_item_1)))
 
             rouletteItems.add(ItemRoulette(
                 points = 4,
-                backgroundColor = Color.BLUE,
-                drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
-                title =   getString(R.string.roulette_item_1)))
+                backgroundColor = getColor(R.color.teal_200),
+                drawable = getDrawable(R.drawable.ic_trophy, null).toBitmap(),
+                title =   getString(R.string.roulette_item_2)))
+
 
             rouletteItems.add(
                 ItemRoulette(
-                points = 5,
-                backgroundColor = Color.BLACK,
-                drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
-                title = getString(R.string.roulette_item_1))
-            )
-
-            rouletteItems.add(
-                ItemRoulette(
-                points = 2,
-                backgroundColor = Color.GRAY,
-                drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
-                title = getString(R.string.roulette_item_1))
+                points = 0,
+                backgroundColor = getColor(R.color.primary_alpha_red),
+                drawable = getDrawable(R.drawable.ic_badge, null).toBitmap(),
+                title = getString(R.string.roulette_item_4))
             )
 
             rouletteItems.add(ItemRoulette(
                 points = 7,
-                backgroundColor = Color.RED,
+                backgroundColor = getColor(R.color.primary_alpha_blue),
                 drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
                 title = getString(R.string.roulette_item_1))
             )
@@ -55,7 +48,7 @@ class ResultViewModel(
             rouletteItems.add(
                 ItemRoulette(
                 points = 8,
-                backgroundColor = Color.YELLOW,
+                backgroundColor = getColor(R.color.primary_alpha_yellow),
                 drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
                 title = getString(R.string.roulette_item_1))
             )

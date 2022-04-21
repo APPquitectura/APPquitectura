@@ -34,7 +34,9 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
                     mViewModel.updateUserScore(numberToRotate - 1)
                     wheel.rotateWheelTo(numberToRotate)
                     wheel.setLuckyWheelReachTheTarget {
-                        congratsAnimation.playAnimation()
+                        wheel.postDelayed({
+                            congratsAnimation.playAnimation()
+                        }, 500)
                         showResults(mViewModel.rouletteItems[numberToRotate - 1])
                     }
                 }

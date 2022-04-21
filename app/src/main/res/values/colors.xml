@@ -14,6 +14,8 @@
     <color name="text_color_primary">#DA5C5555</color>
     <color name="detail_image_gradient_color">#84878A</color>
     <color name="detail_image_gradient_transparent_color">#00151a20</color>
+    <color name="bronze">#BF920B</color>
+    <color name="gold">#DFCB16</color>
     <color name="primary_red">#F34B3E</color>
     <color name="primary_yellow">#F8E115</color>
     <color name="primary_blue">#09B3C8</color>

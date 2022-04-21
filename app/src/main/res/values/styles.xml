@@ -41,6 +41,14 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
+    <style name="gameTitleStyle">
+        <item name="android:fontFamily">@font/alfa</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textSize">@dimen/text_24</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/dimen_32</item>
+    </style>
+
     <style name="buttonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dimen_40</item>

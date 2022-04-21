@@ -7,6 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include layout="@layout/play_background" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/congratsAnimation"
             android:layout_width="0dp"
@@ -20,11 +22,10 @@
             app:lottie_rawRes="@raw/lottie_congrats" />
 
         <TextView
+            style="@style/gameTitleStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_20"
             android:text="@string/results_title"
-            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
