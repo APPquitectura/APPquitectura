@@ -11,6 +11,7 @@ import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.google.firebase.auth.AuthCredential
 
 class UsersRepositoryImp(
@@ -38,6 +39,12 @@ class UsersRepositoryImp(
     override suspend fun getUserById(email: String): UserBO {
         return local.getUserById(email) ?: remote.getUserById(email).also {
             local.addUsers(it)
+        }
+    }
+
+    override suspend fun updateUserDetails(user: UserBO): UpdateUserDetailsUseCase.RESULT_CODES {
+        return remote?.updateUserDetails(user.toDTO()).also {
+            local.updateUserDetails(user.toEntity())
         }
     }
 

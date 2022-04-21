@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class UserGameResultBO(
+data class UserGameScoreBO(
     val userQuestions: MutableList<QuestionBO> = mutableListOf(),
     val userAnswer: MutableList<AnswerBO?> = mutableListOf(),
     var averageUserMillisToAnswer: Long = 0

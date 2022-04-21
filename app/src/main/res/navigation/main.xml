@@ -102,6 +102,6 @@
         tools:layout="@layout/fragment_result">
         <argument
             android:name="userResult"
-            app:argType="com.etsisi.appquitectura.domain.model.UserGameResultBO" />
+            app:argType="com.etsisi.appquitectura.domain.model.UserGameScoreBO" />
     </fragment>
 </navigation>

@@ -7,7 +7,7 @@ import android.net.Uri
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.LoginDirections
 import com.etsisi.appquitectura.MainDirections
-import com.etsisi.appquitectura.domain.model.UserGameResultBO
+import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
@@ -84,8 +84,8 @@ class Navigator (private val navController: NavController){
     fun openLeavingGameDialog() {
     }
 
-    fun openResultFragment(result: UserGameResultBO) {
-        val directions = PlayFragmentDirections.actionPlayFragmentToResultFragment(userResult = result)
+    fun openResultFragment(score: UserGameScoreBO) {
+        val directions = PlayFragmentDirections.actionPlayFragmentToResultFragment(userResult = score)
         navController.navigate(directions)
     }
 

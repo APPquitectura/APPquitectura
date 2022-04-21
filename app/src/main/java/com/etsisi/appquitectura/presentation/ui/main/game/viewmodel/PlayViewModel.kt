@@ -10,13 +10,15 @@ import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.UserGameResultBO
+import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
+import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 
 class PlayViewModel(
-    private val getGameQuestionsUseCase: GetGameQuestionsUseCase
+    private val getGameQuestionsUseCase: GetGameQuestionsUseCase,
+    private val updateUserDetailsUseCase: UpdateUserDetailsUseCase
 ) : ViewModel(), LifecycleObserver {
 
     private val _questions by lazy { MutableLiveData<List<QuestionBO>>() }
@@ -27,7 +29,7 @@ class PlayViewModel(
     val navType: LiveData<GameNavType>
         get() = _navType
 
-    val _userGameResult = UserGameResultBO()
+    val _userGameResult = UserGameScoreBO()
 
     val gameModes = listOf(
         ItemGameMode(R.string.game_mode_thirty, ItemGameModeAction.THIRTY_QUESTIONS),
@@ -63,6 +65,16 @@ class PlayViewModel(
             userQuestions.add(question)
             this.userAnswer.add(userAnswer)
             averageUserMillisToAnswer = averageUserMillisToAnswer.plus(userMarkInMillis).div(userQuestions.size)
+        }
+    }
+
+    fun updateUserScore() {
+        updateUserDetailsUseCase.invoke(
+            params = UpdateUserDetailsUseCase.Params(
+                Pair(UpdateUserDetailsUseCase.USER_FIELD.SCORE, 10)
+            )
+        ) {
+
         }
     }
 }

@@ -8,15 +8,17 @@ import com.etsisi.appquitectura.domain.model.UserBO
 
 @Entity(tableName = "users")
 data class UserEntity(
-        @PrimaryKey @ColumnInfo(name = "id") val id: String,
-        val email: String,
-        val name: String,
-        val subject: String
+    @PrimaryKey @ColumnInfo(name = "id") val id: String,
+    val email: String,
+    val name: String,
+    val subject: String,
+    val scoreAccum: Int
 ) {
     fun toDomain() = UserBO(
-            id = id,
-            name = name,
-            email = email,
-            subject = QuestionSubject.parseSubject(subject)
+        id = id,
+        name = name,
+        email = email,
+        subject = QuestionSubject.parseSubject(subject),
+        scoreAccum = scoreAccum
     )
 }
