@@ -28,6 +28,10 @@ class PlayViewModel(
     val navType: LiveData<GameNavType>
         get() = _navType
 
+    private val _currentTabIndex = MutableLiveData(0)
+    val currentTabIndex: LiveData<Int>
+        get() = _currentTabIndex
+
     val _userGameResult = UserGameScoreBO()
 
     val gameModes = listOf(
@@ -37,6 +41,10 @@ class PlayViewModel(
 
     fun setNavType(navType: GameNavType) {
         _navType.value = navType
+    }
+
+    fun setTabIndex(index: Int) {
+        _currentTabIndex.value = index
     }
 
     fun fetchInitialQuestions(navType: ItemGameModeAction) {

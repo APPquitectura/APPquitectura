@@ -40,6 +40,13 @@
                 android:defaultValue="UNKNOWN"
                 app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
         </action>
+        <action
+            android:id="@+id/action_home_to_myProfile"
+            app:destination="@id/myProfileFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -104,4 +111,9 @@
             android:name="userResult"
             app:argType="com.etsisi.appquitectura.domain.model.UserGameScoreBO" />
     </fragment>
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.profile.view.MyProfileFragment"
+        android:label="MyProfileFragment"
+        tools:layout="@layout/fragment_my_profile"/>
 </navigation>

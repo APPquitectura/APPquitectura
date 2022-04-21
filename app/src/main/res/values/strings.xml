@@ -43,6 +43,8 @@
     <string name="game_mode_thirty">30 Questions</string>
     <string name="game_mode_sixty">60 Questions</string>
 
+    <string name="time">Time</string>
+
     <string name="results_title">Score</string>
     <string name="results_correct_questions">Correct answers</string>
     <string name="results_time_average">Time average</string>
@@ -52,6 +54,9 @@
     <string name="roulette_item_2">+4 points</string>
     <string name="roulette_item_3">+5 points</string>
     <string name="roulette_item_4">Oops</string>
+
+    <!-- Profile -->
+    <string name="profile_title">My profile</string>
 
     <!-- Register -->
     <string name="register_greeting">Hi %s!</string>
