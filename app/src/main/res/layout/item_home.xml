@@ -20,21 +20,24 @@
         android:layout_margin="@dimen/dimen_4"
         android:clickable="true">
 
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/imgProfile"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/dimen_80"
+            android:layout_height="@dimen/dimen_80"
             android:adjustViewBounds="true"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> listener.onMenuItemClicked(item)}"
             android:padding="@dimen/dimen_2"
+            app:customRawRes="@{item.icon}"
+            app:bigItemHome="@{item.bigger}"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcRes="@{item.icon}"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
             tools:src="@drawable/ic_profile" />
 
         <TextView

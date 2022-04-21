@@ -38,6 +38,7 @@
     <string name="item_home_play">Empezar partida</string>
 
     <!-- Play -->
+    <string name="game_mode_title">Selecciona el tipo de partida</string>
     <string name="game_mode_thirty">Partida 30</string>
     <string name="game_mode_sixty">Partida 60</string>
 
@@ -45,11 +46,11 @@
     <string name="results_correct_questions">Respuestas correctas</string>
     <string name="results_time_average">Tiempo promedio en responder</string>
 
-    <string name="rotate_roulette">Girar la ruleta</string>
-    <string name="roulette_item_1">Medalla de bronce</string>
-    <string name="roulette_item_2">Medalla de oro</string>
-    <string name="roulette_item_3">Medalla de plata</string>
-    <string name="roulette_item_4">Medalla de plástico</string>
+    <string name="rotate_roulette">Gira la ruleta</string>
+    <string name="roulette_item_1">+10 points</string>
+    <string name="roulette_item_2">+4 points</string>
+    <string name="roulette_item_3">+5 points</string>
+    <string name="roulette_item_4">Oops</string>
 
     <!-- Register -->
     <string name="register_greeting">¡Hola %s!</string>

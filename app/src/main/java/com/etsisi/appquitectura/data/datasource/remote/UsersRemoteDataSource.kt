@@ -12,6 +12,7 @@ import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
+import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.getMethodName
 import com.etsisi.appquitectura.utils.Constants
@@ -26,11 +27,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 class UsersRemoteDataSource(
-        private val auth: FirebaseAuth
+    private val auth: FirebaseAuth
 ) {
 
-    suspend fun register(email: String, password: String): RegisterUseCase.RESULT_CODES = suspendCancellableCoroutine { cont ->
-        auth
+    suspend fun register(email: String, password: String): RegisterUseCase.RESULT_CODES =
+        suspendCancellableCoroutine { cont ->
+            auth
                 .createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { result ->
                     if (result.isSuccessful) {
@@ -46,49 +48,59 @@ class UsersRemoteDataSource(
                         cont.resume(error, null)
                     }
                 }
-    }
+        }
 
     suspend fun createUserInFirestore(userBO: UserBO): RegisterUseCase.RESULT_CODES =
-            suspendCancellableCoroutine { cont ->
-                var data = userBO.toDTO()
-                FirestoreHelper
-                        .writeDocument(
-                                collection = Constants.users_collection,
-                                document = userBO.email,
-                                data = data,
-                                onSuccess = {
-                                    cont.resume(RegisterUseCase.RESULT_CODES.SUCCESS, null)
-                                },
-                                onError = {
-                                    cont.resume(RegisterUseCase.RESULT_CODES.DATABASE_ERROR, null)
-                                }
-                        )
-            }
+        suspendCancellableCoroutine { cont ->
+            var data = userBO.toDTO()
+            FirestoreHelper
+                .writeDocument(
+                    collection = Constants.users_collection,
+                    document = userBO.email,
+                    data = data,
+                    onSuccess = {
+                        cont.resume(RegisterUseCase.RESULT_CODES.SUCCESS, null)
+                    },
+                    onError = {
+                        cont.resume(RegisterUseCase.RESULT_CODES.DATABASE_ERROR, null)
+                    }
+                )
+        }
 
-    suspend fun isUserRegistered(email: String): CheckUserIsRegisteredUseCase.RESULT_CODES = suspendCancellableCoroutine { cont ->
-        FirestoreHelper
+    suspend fun isUserRegistered(email: String): CheckUserIsRegisteredUseCase.RESULT_CODES =
+        suspendCancellableCoroutine { cont ->
+            FirestoreHelper
                 .readDocument<UserDTO>(
-                        collection = Constants.users_collection,
-                        document = email,
-                        onSuccess = {
-                            cont.resume(CheckUserIsRegisteredUseCase.RESULT_CODES.SUCCESS, null)
-                        },
-                        onError = {
-                            Log.e(TAG, "${getMethodName(object {}.javaClass)} ${it?.message}")
-                            when (it) {
-                                is FirestoreNoDocumentExistsException -> {
-                                    cont.resume(CheckUserIsRegisteredUseCase.RESULT_CODES.NOT_EXISTS, null)
-                                }
-                                is FirebaseFirestoreException -> {
-                                    cont.resume(CheckUserIsRegisteredUseCase.RESULT_CODES.PERMISIONS_DENIED, null)
-                                }
-                                else -> {
-                                    cont.resume(CheckUserIsRegisteredUseCase.RESULT_CODES.GENERIC_ERROR, null)
-                                }
+                    collection = Constants.users_collection,
+                    document = email,
+                    onSuccess = {
+                        cont.resume(CheckUserIsRegisteredUseCase.RESULT_CODES.SUCCESS, null)
+                    },
+                    onError = {
+                        Log.e(TAG, "${getMethodName(object {}.javaClass)} ${it?.message}")
+                        when (it) {
+                            is FirestoreNoDocumentExistsException -> {
+                                cont.resume(
+                                    CheckUserIsRegisteredUseCase.RESULT_CODES.NOT_EXISTS,
+                                    null
+                                )
+                            }
+                            is FirebaseFirestoreException -> {
+                                cont.resume(
+                                    CheckUserIsRegisteredUseCase.RESULT_CODES.PERMISIONS_DENIED,
+                                    null
+                                )
+                            }
+                            else -> {
+                                cont.resume(
+                                    CheckUserIsRegisteredUseCase.RESULT_CODES.GENERIC_ERROR,
+                                    null
+                                )
                             }
                         }
+                    }
                 )
-    }
+        }
 
     suspend fun signInWithEmailAndPassword(
         email: String,
@@ -137,16 +149,28 @@ class UsersRemoteDataSource(
                         CurrentUser.instance?.reload()
                         cont.resume(SignInWithCredentialsUseCase.RESULT_CODES.SUCESS, null)
                     } else {
-                        Log.e(TAG, "${getMethodName(object {}.javaClass)} ${task.exception?.message}")
+                        Log.e(
+                            TAG,
+                            "${getMethodName(object {}.javaClass)} ${task.exception?.message}"
+                        )
                         when (task.exception) {
                             is FirebaseAuthInvalidUserException -> {
-                                cont.resume(SignInWithCredentialsUseCase.RESULT_CODES.INVALID_USER, null)
+                                cont.resume(
+                                    SignInWithCredentialsUseCase.RESULT_CODES.INVALID_USER,
+                                    null
+                                )
                             }
                             is FirebaseAuthInvalidCredentialsException -> {
-                                cont.resume(SignInWithCredentialsUseCase.RESULT_CODES.CREDENTIALS_MALFORMED, null)
+                                cont.resume(
+                                    SignInWithCredentialsUseCase.RESULT_CODES.CREDENTIALS_MALFORMED,
+                                    null
+                                )
                             }
                             is FirebaseAuthUserCollisionException -> {
-                                cont.resume(SignInWithCredentialsUseCase.RESULT_CODES.COLLISION, null)
+                                cont.resume(
+                                    SignInWithCredentialsUseCase.RESULT_CODES.COLLISION,
+                                    null
+                                )
                             }
                         }
                     }
@@ -169,7 +193,10 @@ class UsersRemoteDataSource(
                                 cont.resume(CheckVerificationCodeUseCase.RESULT_CODES.SUCESS, null)
                             }
                             .addOnFailureListener {
-                                cont.resume(CheckVerificationCodeUseCase.RESULT_CODES.GENERIC_ERROR, null)
+                                cont.resume(
+                                    CheckVerificationCodeUseCase.RESULT_CODES.GENERIC_ERROR,
+                                    null
+                                )
                             }
                     }
                 }
@@ -177,4 +204,19 @@ class UsersRemoteDataSource(
                     cont.resume(CheckVerificationCodeUseCase.RESULT_CODES.GENERIC_ERROR, null)
                 }
         }
-    }
+
+    suspend fun updateUserDetails(userDTO: UserDTO): UpdateUserDetailsUseCase.RESULT_CODES =
+        suspendCancellableCoroutine { cont ->
+            FirestoreHelper.writeDocument(
+                collection = Constants.users_collection,
+                document = userDTO.id,
+                data = userDTO,
+                onSuccess = {
+                    cont.resume(UpdateUserDetailsUseCase.RESULT_CODES.SUCCESS, null)
+                },
+                onError = {
+                    cont.resume(UpdateUserDetailsUseCase.RESULT_CODES.FAILED, null)
+                }
+            )
+        }
+}

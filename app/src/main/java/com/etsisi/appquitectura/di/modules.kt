@@ -21,6 +21,7 @@ import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.ResetPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.domain.usecase.UpdateQuestionsUseCase
+import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.Navigator
 import com.etsisi.appquitectura.presentation.dialog.viewmodel.InputTextViewModel
@@ -47,7 +48,7 @@ val viewModelModule = module {
     viewModel { InputTextViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { PlayViewModel(get()) }
-    viewModel { ResultViewModel() }
+    viewModel { ResultViewModel(get()) }
 }
 
 val presentationModule = module {
@@ -68,6 +69,7 @@ val useCaseModule = module {
     factory { UpdateQuestionsUseCase(get()) }
     factory { FetchAllQuestionsUseCase(get()) }
     factory { GetGameQuestionsUseCase(get()) }
+    factory { UpdateUserDetailsUseCase(get()) }
 }
 
 val repositoryModule = module {

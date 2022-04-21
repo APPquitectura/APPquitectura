@@ -31,9 +31,12 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
                 wheel.addWheelItems(list)
                 spinBtn.setOnClickListener {
                     val numberToRotate = (1..list.size).random()
+                    mViewModel.updateUserScore(numberToRotate - 1)
                     wheel.rotateWheelTo(numberToRotate)
                     wheel.setLuckyWheelReachTheTarget {
-                        congratsAnimation.playAnimation()
+                        wheel.postDelayed({
+                            congratsAnimation.playAnimation()
+                        }, 500)
                         showResults(mViewModel.rouletteItems[numberToRotate - 1])
                     }
                 }
