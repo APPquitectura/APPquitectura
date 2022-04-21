@@ -33,14 +33,14 @@ class ResultViewModel(
             rouletteItems.add(
                 ItemRoulette(
                 points = 0,
-                backgroundColor = getColor(R.color.primary_alpha_red),
+                backgroundColor = getColor(R.color.primary_red),
                 drawable = getDrawable(R.drawable.ic_badge, null).toBitmap(),
                 title = getString(R.string.roulette_item_4))
             )
 
             rouletteItems.add(ItemRoulette(
                 points = 7,
-                backgroundColor = getColor(R.color.primary_alpha_blue),
+                backgroundColor = getColor(R.color.primary_blue),
                 drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
                 title = getString(R.string.roulette_item_1))
             )
@@ -48,7 +48,7 @@ class ResultViewModel(
             rouletteItems.add(
                 ItemRoulette(
                 points = 8,
-                backgroundColor = getColor(R.color.primary_alpha_yellow),
+                backgroundColor = getColor(R.color.primary_yellow),
                 drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
                 title = getString(R.string.roulette_item_1))
             )
