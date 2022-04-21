@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -86,5 +87,11 @@ object BindingAdapter {
             }
             listener?.onAnswerClicked(questionBO, answerBO)
         }
+    }
+
+    @BindingAdapter("customRawRes")
+    @JvmStatic
+    fun LottieAnimationView.setCustomRawRes(rawRes: Int) {
+        this.setAnimation(rawRes)
     }
 }

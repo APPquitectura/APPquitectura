@@ -1,12 +1,12 @@
 package com.etsisi.appquitectura.presentation.ui.main.home.model
 
-import androidx.annotation.DrawableRes
+import androidx.annotation.RawRes
 import androidx.annotation.StringRes
 
 data class ItemHome(
     @StringRes
     val title: Int,
-    @DrawableRes
+    @RawRes
     val icon: Int,
     val action: ItemHomeAction
 )
