@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentResultBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRoulette
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.ResultViewModel
 import com.etsisi.appquitectura.presentation.utils.getWindowPixels
 
@@ -22,19 +21,20 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
     val args: ResultFragmentArgs by navArgs()
 
     override fun observeViewModel(mViewModel: ResultViewModel) {
-        //TODO("Not yet implemented")
     }
 
     override fun setUpDataBinding(mBinding: FragmentResultBinding, mViewModel: ResultViewModel) {
         mBinding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = mViewModel
             mViewModel.getRouletteItems(resources).also { list ->
                 wheel.addWheelItems(list)
                 spinBtn.setOnClickListener {
                     val numberToRotate = (1..list.size).random()
-                    mViewModel.updateUserScore(numberToRotate - 1)
+                    mViewModel.setUserScore(numberToRotate - 1, args.userResult)
                     wheel.rotateWheelTo(numberToRotate)
                     wheel.setLuckyWheelReachTheTarget {
-                        showResults(mViewModel.rouletteItems[numberToRotate - 1])
+                        showResults()
                     }
                     hideSpinBtn()
                 }
@@ -55,10 +55,8 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
         }
     }
 
-    fun showResults(wheelItem: ItemRoulette) {
+    fun showResults() {
         with(mBinding) {
-            correctQuestions.text = args.userResult.getAllCorrectAnswers().size.toString()
-            answersAverage.text = args.userResult.averageUserMillisToAnswer.toString()
             val windowsWidth = requireActivity().getWindowPixels().first
             val targetX = windowsWidth - rouletteContainer.left
 

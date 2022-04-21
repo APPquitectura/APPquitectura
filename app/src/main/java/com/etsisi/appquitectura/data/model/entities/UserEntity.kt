@@ -12,13 +12,17 @@ data class UserEntity(
     val email: String,
     val name: String,
     val subject: String,
-    val scoreAccum: Int
+    val scoreAccum: Int,
+    val totalQuestionsAnswered: Int,
+    val totalCorrectQuestionsAnswered: Int
 ) {
     fun toDomain() = UserBO(
         id = id,
         name = name,
         email = email,
         subject = QuestionSubject.parseSubject(subject),
-        scoreAccum = scoreAccum
+        scoreAccum = scoreAccum,
+        totalQuestionsAnswered = totalQuestionsAnswered,
+        totalCorrectQuestionsAnswered = totalCorrectQuestionsAnswered
     )
 }

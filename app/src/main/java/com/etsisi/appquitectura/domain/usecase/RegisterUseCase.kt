@@ -22,7 +22,9 @@ class RegisterUseCase(private val repository: UsersRepository) : UseCase<Registe
             email = params.email,
             subject = params.subject,
             password = params.password,
-            scoreAccum = 0
+            scoreAccum = 0,
+            totalQuestionsAnswered = 0,
+            totalCorrectQuestionsAnswered = 0
         )
 
         return repository.register(user)

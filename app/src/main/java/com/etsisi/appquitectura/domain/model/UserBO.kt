@@ -10,14 +10,18 @@ data class UserBO(
     val email: String,
     val password: String = String.EMPTY,
     val subject: QuestionSubject,
-    val scoreAccum: Int
+    val scoreAccum: Int,
+    val totalQuestionsAnswered: Int,
+    val totalCorrectQuestionsAnswered: Int
 ) {
     fun toDTO() = UserDTO(
         email = email,
         id= id,
         name = name,
         subject = subject.value,
-        scoreAccum = scoreAccum
+        scoreAccum = scoreAccum,
+        totalQuestionsAnswered = totalQuestionsAnswered,
+        totalCorrectQuestionsAnswered = totalCorrectQuestionsAnswered
     )
 
     fun toEntity() = UserEntity(
@@ -25,6 +29,8 @@ data class UserBO(
         name = name,
         email = email,
         subject = subject.value,
-        scoreAccum = scoreAccum
+        scoreAccum = scoreAccum,
+        totalQuestionsAnswered = totalQuestionsAnswered,
+        totalCorrectQuestionsAnswered = totalCorrectQuestionsAnswered
     )
 }

@@ -1,11 +1,13 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.viewmodel
 
 import android.content.res.Resources
-import android.graphics.Color
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluehomestudio.luckywheel.WheelItem
 import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRoulette
 
@@ -14,6 +16,14 @@ class ResultViewModel(
 ): ViewModel() {
 
     val rouletteItems = mutableListOf<ItemRoulette>()
+
+    private val _correctQuestions = MutableLiveData<String>()
+    val correctQuestions: LiveData<String>
+        get() = _correctQuestions
+
+    private val _timeAverage = MutableLiveData<String>()
+    val timeAverage: LiveData<String>
+        get() = _timeAverage
 
     fun getRouletteItems(resources: Resources): List<WheelItem> {
         with(resources) {
@@ -57,10 +67,16 @@ class ResultViewModel(
         return rouletteItems.map { it.getWidgetItem() }
     }
 
-    fun updateUserScore(itemRouletteIndex: Int) {
+    fun setUserScore(itemRouletteIndex: Int, gameScoreBO: UserGameScoreBO) {
+        _timeAverage.value = gameScoreBO.averageUserMillisToAnswer.toString()
+        _correctQuestions.value = gameScoreBO.getAllCorrectAnswers().size.toString()
         updateUserDetailsUseCase.invoke(
             params = UpdateUserDetailsUseCase.Params(
-                Pair(UpdateUserDetailsUseCase.USER_FIELD.SCORE, rouletteItems[itemRouletteIndex].points)
+                mapOf(
+                    UpdateUserDetailsUseCase.USER_FIELD.SCORE_ACCUM to rouletteItems[itemRouletteIndex].points,
+                    UpdateUserDetailsUseCase.USER_FIELD.TOTAL_ANSWERS to gameScoreBO.userQuestions.size,
+                    UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to gameScoreBO.getAllCorrectAnswers().size
+                )
             )
         ) {
 
