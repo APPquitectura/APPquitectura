@@ -9,22 +9,31 @@ class UpdateUserDetailsUseCase(
 
     enum class RESULT_CODES { SUCCESS, FAILED }
 
-    enum class USER_FIELD { PASSWORD, SCORE }
+    enum class USER_FIELD { PASSWORD, SCORE_ACCUM, TOTAL_CORRECT_ANSWERS, TOTAL_ANSWERS }
 
-    data class Params (val fied: Pair<USER_FIELD, Any>)
+    data class Params(val field: Map<USER_FIELD, Any>)
 
     override suspend fun run(params: Params): RESULT_CODES {
         return if (!CurrentUser.email.isNullOrBlank()) {
             repository.getUserById(CurrentUser.email.orEmpty())?.let { userBO ->
-                val newUser = when (params.fied.first) {
-                    USER_FIELD.SCORE -> {
-                        userBO.copy(scoreAccum = params.fied.second as Int)
-                    }
-                    USER_FIELD.PASSWORD -> {
-                        userBO.copy(password = params.fied.second as String)
+                var userUpdated = userBO
+                params.field.keys.onEach {
+                    userUpdated = when(it) {
+                        USER_FIELD.SCORE_ACCUM -> {
+                            userUpdated.copy(scoreAccum = (params.field.get(USER_FIELD.SCORE_ACCUM) as Int) + userBO.scoreAccum)
+                        }
+                        USER_FIELD.PASSWORD -> {
+                            userUpdated.copy(password = params.field.get(USER_FIELD.PASSWORD) as String)
+                        }
+                        USER_FIELD.TOTAL_CORRECT_ANSWERS -> {
+                            userUpdated.copy(totalCorrectQuestionsAnswered = (params.field.get(USER_FIELD.TOTAL_CORRECT_ANSWERS) as Int) + userBO.totalCorrectQuestionsAnswered)
+                        }
+                        USER_FIELD.TOTAL_ANSWERS -> {
+                            userUpdated.copy(totalQuestionsAnswered = (params.field.get(USER_FIELD.TOTAL_ANSWERS) as Int) + userBO.totalCorrectQuestionsAnswered)
+                        }
                     }
                 }
-                repository.updateUserDetails(newUser)
+                repository.updateUserDetails(userUpdated)
             }
         } else {
             RESULT_CODES.FAILED

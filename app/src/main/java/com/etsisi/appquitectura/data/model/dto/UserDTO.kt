@@ -9,13 +9,17 @@ data class UserDTO (
         val id: String = String.EMPTY,
         val name: String = String.EMPTY,
         val subject: String = QuestionSubject.UNKNOWN.value,
-        val scoreAccum: Int = 0
+        val scoreAccum: Int = 0,
+        val totalQuestionsAnswered: Int = 0,
+        val totalCorrectQuestionsAnswered: Int = 0
 ): FirestoreDTO() {
         fun toDomain() = UserBO(
                 email = email,
                 id = id,
                 name = name,
                 subject = QuestionSubject.parseSubject(subject),
-                scoreAccum = scoreAccum
+                scoreAccum = scoreAccum,
+                totalQuestionsAnswered = totalQuestionsAnswered,
+                totalCorrectQuestionsAnswered = totalCorrectQuestionsAnswered
         )
 }

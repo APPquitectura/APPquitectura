@@ -42,6 +42,8 @@
     <string name="game_mode_thirty">Partida 30</string>
     <string name="game_mode_sixty">Partida 60</string>
 
+    <string name="time">Tiempo</string>
+
     <string name="results_title">Resultados</string>
     <string name="results_correct_questions">Respuestas correctas</string>
     <string name="results_time_average">Tiempo promedio en responder</string>
@@ -51,6 +53,9 @@
     <string name="roulette_item_2">+4 points</string>
     <string name="roulette_item_3">+5 points</string>
     <string name="roulette_item_4">Oops</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Mi perfil</string>
 
     <!-- Register -->
     <string name="register_greeting">¡Hola %s!</string>

@@ -60,7 +60,7 @@ class Navigator (private val navController: NavController){
         val directions = when(item.action) {
             ItemHomeAction.ABOUT -> { HomeFragmentDirections.actionHomeToSettings() }
             ItemHomeAction.ANALYTICS -> { HomeFragmentDirections.actionHomeToSettings() }
-            ItemHomeAction.PROFILE -> { HomeFragmentDirections.actionHomeToSettings() }
+            ItemHomeAction.PROFILE -> { HomeFragmentDirections.actionHomeToMyProfile() }
             ItemHomeAction.RANKING -> { HomeFragmentDirections.actionHomeToSettings() }
             ItemHomeAction.CONFIGURATION -> { HomeFragmentDirections.actionHomeToSettings() }
             ItemHomeAction.START_GAME -> { HomeFragmentDirections.actionHomeToPlay() }

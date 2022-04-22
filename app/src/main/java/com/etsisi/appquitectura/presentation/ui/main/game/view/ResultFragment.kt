@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentResultBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRoulette
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.ResultViewModel
 import com.etsisi.appquitectura.presentation.utils.getWindowPixels
 
@@ -22,42 +21,53 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
     val args: ResultFragmentArgs by navArgs()
 
     override fun observeViewModel(mViewModel: ResultViewModel) {
-        //TODO("Not yet implemented")
     }
 
     override fun setUpDataBinding(mBinding: FragmentResultBinding, mViewModel: ResultViewModel) {
         mBinding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = mViewModel
             mViewModel.getRouletteItems(resources).also { list ->
                 wheel.addWheelItems(list)
                 spinBtn.setOnClickListener {
                     val numberToRotate = (1..list.size).random()
-                    mViewModel.updateUserScore(numberToRotate - 1)
+                    mViewModel.setUserScore(numberToRotate - 1, args.userResult)
                     wheel.rotateWheelTo(numberToRotate)
                     wheel.setLuckyWheelReachTheTarget {
-                        wheel.postDelayed({
-                            congratsAnimation.playAnimation()
-                        }, 500)
-                        showResults(mViewModel.rouletteItems[numberToRotate - 1])
+                        showResults()
                     }
+                    hideSpinBtn()
                 }
             }
         }
     }
 
-    fun showResults(wheelItem: ItemRoulette) {
+    private fun hideSpinBtn() {
         with(mBinding) {
-            correctQuestions.text = args.userResult.getAllCorrectAnswers().size.toString()
-            answersAverage.text = args.userResult.averageUserMillisToAnswer.toString()
+            val windowsWidth = requireActivity().getWindowPixels().first
+            val targetX = windowsWidth - spinBtn.left
+            ObjectAnimator.ofFloat(spinBtn, View.TRANSLATION_X, targetX.toFloat()).apply {
+                doOnEnd {
+                    spinBtn.isVisible = false
+                }
+                start()
+            }
+        }
+    }
+
+    fun showResults() {
+        with(mBinding) {
+            val windowsWidth = requireActivity().getWindowPixels().first
+            val targetX = windowsWidth - rouletteContainer.left
+
             val showResultsAnimation = AnimatorInflater.loadAnimator(context, R.animator.show_from_left).apply {
                 doOnStart {
                     resultsContainer.isVisible = true
                 }
                 setTarget(resultsContainer)
             }
-            val windowsWidth = requireActivity().getWindowPixels().first
-            val targetX = windowsWidth - rouletteContainer.left
-            val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
             val obAnimatorAlpha = ObjectAnimator.ofFloat(rouletteContainer, View.ALPHA, 1F, 0F)
+            val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
             AnimatorSet().apply {
                 cancel()
                 play(obAnimatorTranslation)
@@ -65,6 +75,7 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
                     .after(showResultsAnimation)
                 doOnEnd {
                     rouletteContainer.isVisible = false
+                    congratsAnimation.playAnimation()
                 }
                 start()
             }

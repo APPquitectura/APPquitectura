@@ -16,9 +16,9 @@
 
         <TextView
             android:id="@+id/questionTitle"
+            style="@style/gameTitleStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/gameTitleStyle"
             android:layout_marginHorizontal="@dimen/dimen_10"
             android:layout_marginBottom="@dimen/dimen_32"
             android:gravity="start"
@@ -28,6 +28,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Question title" />
 
+
+        <TextView
+            style="@style/gameBodyStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/time"
+            android:layout_marginEnd="@dimen/dimen_3"
+            android:textSize="@dimen/text_16"
+            app:layout_constraintBottom_toTopOf="@id/progress_bar"
+            app:layout_constraintEnd_toEndOf="@id/progress_bar"
+            app:layout_constraintStart_toStartOf="@id/progress_bar" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -43,14 +54,13 @@
 
         <TextView
             android:id="@+id/progress_text"
+            style="@style/gameBodyStyle"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_centerVertical="true"
             android:gravity="center"
             android:paddingHorizontal="@dimen/dimen_3"
-            android:textColor="@color/text_color_primary"
             android:textSize="@dimen/text_16"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/progress_bar"
             app:layout_constraintEnd_toEndOf="@id/progress_bar"
             app:layout_constraintStart_toStartOf="@id/progress_bar"

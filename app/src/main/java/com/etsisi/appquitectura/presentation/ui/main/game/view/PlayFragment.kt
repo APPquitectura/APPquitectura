@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.CountDownTimer
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.etsisi.appquitectura.R
@@ -80,7 +81,9 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.customView = ItemTabHeaderBinding.inflate(layoutInflater, tab.view, false)
                     .apply {
-                        questionPosition.text = position.toString()
+                        lifecycleOwner = viewLifecycleOwner
+                        currentTabPosition = position
+                        viewModel = mViewModel
                     }.root
                 tab.view.setOnTouchListener { v, event -> true }
                 setTabAlpha(tab, false)
@@ -117,6 +120,9 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     override fun onTabReselected(tab: TabLayout.Tab?) = setTabAlpha(tab, true)
 
     private fun setTabAlpha(tab: TabLayout.Tab?, selected: Boolean) {
+        if (selected) {
+            mViewModel.setTabIndex(tab?.position ?: 0)
+        }
         tab?.customView?.alpha = if (selected) SELECTED_ALPHA else UNSELECTED_ALPHA
     }
 
