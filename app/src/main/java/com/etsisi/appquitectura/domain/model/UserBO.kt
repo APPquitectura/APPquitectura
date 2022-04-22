@@ -14,6 +14,9 @@ data class UserBO(
     val totalQuestionsAnswered: Int,
     val totalCorrectQuestionsAnswered: Int
 ) {
+    val totalIncorrectQuestionsAnswered
+        get() = totalQuestionsAnswered - totalCorrectQuestionsAnswered
+
     fun toDTO() = UserDTO(
         email = email,
         id= id,
