@@ -3,16 +3,21 @@ package com.etsisi.appquitectura.di
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.data.datasource.local.AppDatabase
 import com.etsisi.appquitectura.data.datasource.local.QuestionsLocalDataSource
+import com.etsisi.appquitectura.data.datasource.local.ScoresLocalDataSource
 import com.etsisi.appquitectura.data.datasource.local.UsersLocalDataSource
 import com.etsisi.appquitectura.data.datasource.remote.QuestionsRemoteDataSource
+import com.etsisi.appquitectura.data.datasource.remote.ScoresRemoteDataSource
 import com.etsisi.appquitectura.data.datasource.remote.UsersRemoteDataSource
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
+import com.etsisi.appquitectura.data.repository.ScoreRepository
 import com.etsisi.appquitectura.data.repository.UsersRepository
 import com.etsisi.appquitectura.data.repository.imp.QuestionsRepositoryImp
+import com.etsisi.appquitectura.data.repository.imp.ScoreRepositoryImp
 import com.etsisi.appquitectura.data.repository.imp.UsersRepositoryImp
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FetchAllQuestionsUseCase
+import com.etsisi.appquitectura.domain.usecase.FetchScoresReferenceUseCase
 import com.etsisi.appquitectura.domain.usecase.FetchUserProfileUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
@@ -50,7 +55,7 @@ val viewModelModule = module {
     viewModel { InputTextViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { PlayViewModel(get()) }
-    viewModel { ResultViewModel(get()) }
+    viewModel { ResultViewModel(get(), get()) }
     viewModel { MyProfileViewModel(get())}
 }
 
@@ -74,30 +79,34 @@ val useCaseModule = module {
     factory { GetGameQuestionsUseCase(get()) }
     factory { UpdateUserDetailsUseCase(get()) }
     factory { FetchUserProfileUseCase(get()) }
+    factory { FetchScoresReferenceUseCase(get()) }
 }
 
 val repositoryModule = module {
     factory<QuestionsRepository> { QuestionsRepositoryImp(get(), get()) }
     factory<UsersRepository> { UsersRepositoryImp(get(), get()) }
+    factory<ScoreRepository> { ScoreRepositoryImp(get(), get()) }
 }
 
 val remoteDataSourceModule = module {
     factory { QuestionsRemoteDataSource() }
     factory { UsersRemoteDataSource(get()) }
+    factory { ScoresRemoteDataSource() }
 }
 
 val localDataSourceModule = module {
     //DAO's
     single { get<AppDatabase>().questionsDao() }
     single { get<AppDatabase>().usersDao() }
+    single { get<AppDatabase>().scoreDao() }
 
     //LocalDataSource
     factory { QuestionsLocalDataSource(get()) }
     factory { UsersLocalDataSource(get()) }
+    factory { ScoresLocalDataSource(get()) }
 }
 
 val databaseModule = module {
-    //single { Room.databaseBuilder(androidApplication(), AppDatabase::class.java, DATABASE_NAME).build() }
     single { AppDatabase.getInstance(androidApplication()) }
 }
 

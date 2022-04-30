@@ -11,6 +11,7 @@ object Constants {
     //Firestore
     const val users_collection = "users"
     const val questions_collection = "questions"
+    const val score_collection = "score"
 
     //Firebase Storage
     const val imagesRef = "images"
