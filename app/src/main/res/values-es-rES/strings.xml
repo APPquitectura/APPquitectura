@@ -39,8 +39,7 @@
 
     <!-- Play -->
     <string name="game_mode_title">Selecciona el tipo de partida</string>
-    <string name="game_mode_thirty">Partida 30</string>
-    <string name="game_mode_sixty">Partida 60</string>
+    <string name="game_mode_option">Partida de %d</string>
 
     <string name="time">Tiempo</string>
 

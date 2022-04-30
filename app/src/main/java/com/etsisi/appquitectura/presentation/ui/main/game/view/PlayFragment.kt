@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.CountDownTimer
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.etsisi.appquitectura.R
@@ -33,7 +32,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     private val viewPager: ViewPager2
         get() = mBinding.viewPager
     private val readySetGoCounter by lazy {
-        object : CountDownTimer(4000, 1000) {
+        object : CountDownTimer(READY_SET_GO_COUNT_DOWN, READY_SET_GO_COUNTER_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
                 mViewModel.setNavType(GameNavType.START_GAME)
@@ -41,9 +40,12 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         }
     }
 
-    companion object {
-        private const val SELECTED_ALPHA = 1.0F
-        private const val UNSELECTED_ALPHA = 0.2F
+    private companion object {
+        const val READY_SET_GO_COUNTER_INTERVAL = 1000L
+        const val READY_SET_GO_COUNT_DOWN = 4000L
+        const val NEXT_QUESTION_DELAY = 300L
+        const val SELECTED_ALPHA = 1.0F
+        const val UNSELECTED_ALPHA = 0.2F
     }
 
     override fun onAttach(context: Context) {
@@ -134,7 +136,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 } else {
                     navigator.openResultFragment(mViewModel._userGameResult)
                 }
-            }, 300L)
+            }, NEXT_QUESTION_DELAY)
         }
     }
 

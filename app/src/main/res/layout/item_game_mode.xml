@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="gameMode"
             type="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode" />
@@ -34,13 +35,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dimen_20"
-                android:textAlignment="center"
-                app:textRes="@{gameMode.title}"
                 android:fontFamily="@font/oxygen_bold"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@+id/lottie"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/lottie"
                 app:layout_constraintTop_toTopOf="@+id/lottie"
+                android:text="@{@string/game_mode_option(gameMode.action.totalQuestions)}"
                 tools:text="30 questions" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

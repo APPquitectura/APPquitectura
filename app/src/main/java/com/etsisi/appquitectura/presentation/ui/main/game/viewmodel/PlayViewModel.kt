@@ -5,14 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
-import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 
@@ -35,8 +33,8 @@ class PlayViewModel(
     val _userGameResult = UserGameScoreBO()
 
     val gameModes = listOf(
-        ItemGameMode(R.string.game_mode_thirty, ItemGameModeAction.THIRTY_QUESTIONS),
-        ItemGameMode(R.string.game_mode_sixty, ItemGameModeAction.SIXTY_QUESTIONS)
+        ItemGameMode(ItemGameModeAction.TWENTY_QUESTIONS),
+        ItemGameMode(ItemGameModeAction.FORTY_QUESTIONS)
     )
 
     fun setNavType(navType: GameNavType) {
@@ -47,21 +45,10 @@ class PlayViewModel(
         _currentTabIndex.value = index
     }
 
-    fun fetchInitialQuestions(navType: ItemGameModeAction) {
-        when (navType) {
-            ItemGameModeAction.THIRTY_QUESTIONS -> {
-                getGameQuestions(QuestionLevel.EASY, 30)
-            }
-            ItemGameModeAction.SIXTY_QUESTIONS -> {
-                getGameQuestions(QuestionLevel.EASY, 30)
-            }
-        }
-    }
-
-    fun getGameQuestions(level: QuestionLevel, totalQuestions: Int) {
+    fun fetchInitialQuestions(gameMode: ItemGameModeAction) {
         getGameQuestionsUseCase.invoke(
             scope = viewModelScope,
-            params = GetGameQuestionsUseCase.Params(level, totalQuestions)
+            params = GetGameQuestionsUseCase.Params(QuestionLevel.EASY, gameMode.totalQuestions)
         ) {
             _questions.value = it
         }

@@ -37,7 +37,7 @@
             app:restoreState="false">
             <argument
                 android:name="gameMode"
-                android:defaultValue="UNKNOWN"
+                android:defaultValue="NONE"
                 app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
         </action>
         <action
