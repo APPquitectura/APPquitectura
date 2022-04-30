@@ -21,6 +21,7 @@ import com.etsisi.appquitectura.presentation.ui.main.game.adapter.AnswersAdapter
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.getMethodName
 import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
 class QuestionFragment(
     private val gameListener: GameListener?,
@@ -34,8 +35,10 @@ class QuestionFragment(
 
     companion object {
         private const val COUNT_DOWN_INTERVAL = 1000L
-        private const val COUNT_DOWN_MILLIS = 10000L
+        private const val MAX_QUESTION_TIME = 30000L
         private const val THREE_SECONDS = 3000L
+        private const val GRACE_PERIOD = 5000L
+
         @JvmStatic
         fun newInstance(question: QuestionBO, listener: GameListener?) =
             QuestionFragment(listener, question)
@@ -64,11 +67,11 @@ class QuestionFragment(
                     })
                     .into(this)
             }
-            counter = object : CountDownTimer(COUNT_DOWN_MILLIS, COUNT_DOWN_INTERVAL) {
+            counter = object : CountDownTimer(MAX_QUESTION_TIME + GRACE_PERIOD, COUNT_DOWN_INTERVAL) {
                 override fun onTick(millisUntilFinished: Long) {
                     counterMillisUntilFinished = millisUntilFinished
                     progressText.text = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished).toString()
-                    progressBar.progress -= 1
+                    progressBar.progress--
                     if (millisUntilFinished <= THREE_SECONDS) {
                         progressText.setTextColor(Color.RED)
                     }
@@ -91,6 +94,6 @@ class QuestionFragment(
 
     override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO) {
         counter?.cancel()
-        gameListener?.onAnswerClicked(question, answer, counterMillisUntilFinished)
+        gameListener?.onAnswerClicked(question, answer, min(counterMillisUntilFinished, MAX_QUESTION_TIME))
     }
 }
