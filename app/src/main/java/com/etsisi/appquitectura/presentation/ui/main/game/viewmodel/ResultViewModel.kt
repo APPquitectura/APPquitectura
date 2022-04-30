@@ -1,18 +1,23 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.viewmodel
 
+import android.content.Context
 import android.content.res.Resources
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bluehomestudio.luckywheel.WheelItem
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
+import com.etsisi.appquitectura.domain.usecase.FetchScoresReferenceUseCase
 import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRoulette
 
 class ResultViewModel(
-    private val updateUserDetailsUseCase: UpdateUserDetailsUseCase
+    private val updateUserDetailsUseCase: UpdateUserDetailsUseCase,
+    private val fetchScoresReferenceUseCase: FetchScoresReferenceUseCase
 ): ViewModel() {
 
     val rouletteItems = mutableListOf<ItemRoulette>()
@@ -25,17 +30,21 @@ class ResultViewModel(
     val timeAverage: LiveData<String>
         get() = _timeAverage
 
-    fun getRouletteItems(resources: Resources): List<WheelItem> {
-        with(resources) {
+    init {
+        fetchScoresReference()
+    }
+
+    fun getRouletteItems(context: Context): List<WheelItem> {
+        with(context.resources) {
             rouletteItems.add(ItemRoulette(
                 points = 10,
-                backgroundColor = getColor(R.color.bronze),
+                backgroundColor = ContextCompat.getColor(context, R.color.bronze),
                 drawable = getDrawable(R.drawable.ic_coins, null).toBitmap(),
                 title = getString(R.string.roulette_item_1)))
 
             rouletteItems.add(ItemRoulette(
                 points = 4,
-                backgroundColor = getColor(R.color.teal_200),
+                backgroundColor = ContextCompat.getColor(context, R.color.teal_200),
                 drawable = getDrawable(R.drawable.ic_trophy, null).toBitmap(),
                 title =   getString(R.string.roulette_item_2)))
 
@@ -43,14 +52,14 @@ class ResultViewModel(
             rouletteItems.add(
                 ItemRoulette(
                 points = 0,
-                backgroundColor = getColor(R.color.primary_red),
+                backgroundColor = ContextCompat.getColor(context, R.color.primary_red),
                 drawable = getDrawable(R.drawable.ic_badge, null).toBitmap(),
                 title = getString(R.string.roulette_item_4))
             )
 
             rouletteItems.add(ItemRoulette(
                 points = 7,
-                backgroundColor = getColor(R.color.primary_blue),
+                backgroundColor = ContextCompat.getColor(context, R.color.primary_blue),
                 drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
                 title = getString(R.string.roulette_item_1))
             )
@@ -58,7 +67,7 @@ class ResultViewModel(
             rouletteItems.add(
                 ItemRoulette(
                 points = 8,
-                backgroundColor = getColor(R.color.primary_yellow),
+                backgroundColor = ContextCompat.getColor(context, R.color.primary_yellow),
                 drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
                 title = getString(R.string.roulette_item_1))
             )
@@ -81,5 +90,17 @@ class ResultViewModel(
         ) {
 
         }
+    }
+
+    private fun fetchScoresReference() {
+        fetchScoresReferenceUseCase.invoke(
+            scope = viewModelScope,
+            params = Unit,
+            onResult = {
+                if (it.isNotEmpty()) {
+
+                }
+            }
+        )
     }
 }

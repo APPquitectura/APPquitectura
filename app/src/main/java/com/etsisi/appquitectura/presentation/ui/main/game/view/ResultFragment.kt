@@ -27,7 +27,7 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
         mBinding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
-            mViewModel.getRouletteItems(resources).also { list ->
+            mViewModel.getRouletteItems(requireContext()).also { list ->
                 wheel.addWheelItems(list)
                 spinBtn.setOnClickListener {
                     val numberToRotate = (1..list.size).random()

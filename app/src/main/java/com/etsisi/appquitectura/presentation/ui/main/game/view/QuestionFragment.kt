@@ -43,7 +43,6 @@ class QuestionFragment(
 
     override fun setUpDataBinding(mBinding: FragmentQuestionBinding, mViewModel: EmptyViewModel) {
         mBinding.apply {
-            Log.e("XXX", "setUpDataBinding for question ${question?.title}")
             question = questionBO
             answersRecyclerView.adapter = AnswersAdapter(this@QuestionFragment, questionBO).also {
                 it.addDataSet(questionBO.answers.asSequence().shuffled().toList())
@@ -67,7 +66,6 @@ class QuestionFragment(
             }
             counter = object : CountDownTimer(COUNT_DOWN_MILLIS, COUNT_DOWN_INTERVAL) {
                 override fun onTick(millisUntilFinished: Long) {
-                    Log.e("XXX", "onTick for questionId ${question?.id}")
                     counterMillisUntilFinished = millisUntilFinished
                     progressText.text = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished).toString()
                     progressBar.progress -= 1
