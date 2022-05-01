@@ -54,11 +54,10 @@ class PlayViewModel(
         }
     }
 
-    fun setGameResultAccumulated(question: QuestionBO, userAnswer: AnswerBO?, userMarkInMillis: Long) {
+    fun setGameResultAccumulated(question: QuestionBO, userAnswer: AnswerBO, userMarkInMillis: Long) {
         _userGameResult.apply {
             userQuestions.add(question)
-            this.userAnswer.add(userAnswer)
-            averageUserMillisToAnswer = averageUserMillisToAnswer.plus(userMarkInMillis).div(userQuestions.size)
+            this.userAnswer.add(Pair(userAnswer, userMarkInMillis))
         }
     }
 }

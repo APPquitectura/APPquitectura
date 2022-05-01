@@ -46,6 +46,8 @@
     <string name="results_title">Resultados</string>
     <string name="results_correct_questions">Respuestas correctas</string>
     <string name="results_time_average">Tiempo promedio en responder</string>
+    <string name="results_time_average_value">%d segs</string>
+    <string name="results_experience">Experiencia adquirida</string>
 
     <string name="rotate_roulette">Gira la ruleta</string>
     <string name="roulette_item_1">+10 points</string>

@@ -35,7 +35,7 @@ class QuestionFragment(
 
     companion object {
         private const val COUNT_DOWN_INTERVAL = 1000L
-        private const val MAX_QUESTION_TIME = 30000L
+        private const val MAX_QUESTION_TIME = 25000L
         private const val THREE_SECONDS = 3000L
         private const val GRACE_PERIOD = 5000L
 

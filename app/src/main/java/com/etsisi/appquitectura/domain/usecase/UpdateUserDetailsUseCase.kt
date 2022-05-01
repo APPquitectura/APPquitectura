@@ -20,7 +20,7 @@ class UpdateUserDetailsUseCase(
                 params.field.keys.onEach {
                     userUpdated = when(it) {
                         USER_FIELD.SCORE_ACCUM -> {
-                            userUpdated.copy(scoreAccum = (params.field.get(USER_FIELD.SCORE_ACCUM) as Int) + userBO.scoreAccum)
+                            userUpdated.copy(gameExperience = (params.field.get(USER_FIELD.SCORE_ACCUM) as Int) + userBO.gameExperience)
                         }
                         USER_FIELD.PASSWORD -> {
                             userUpdated.copy(password = params.field.get(USER_FIELD.PASSWORD) as String)

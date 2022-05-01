@@ -47,6 +47,9 @@
     <string name="results_title">Score</string>
     <string name="results_correct_questions">Correct answers</string>
     <string name="results_time_average">Time average</string>
+    <string name="results_time_average_value">%d sec</string>
+    <string name="results_experience">Experience earned</string>
+    <string name="results_experience_value" translatable="false">%d XP</string>
 
     <string name="rotate_roulette">Spin the wheel</string>
     <string name="roulette_item_1">+10 points</string>

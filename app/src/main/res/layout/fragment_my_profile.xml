@@ -122,7 +122,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
-                    android:text="@{Integer.toString(viewModel.currentUser.scoreAccum)}"
+                    android:text="@{Integer.toString(viewModel.currentUser.gameExperience)}"
                     android:textSize="@dimen/text_20" />
             </LinearLayout>
 

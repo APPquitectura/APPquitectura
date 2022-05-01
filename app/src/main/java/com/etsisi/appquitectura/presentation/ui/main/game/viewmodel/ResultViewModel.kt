@@ -1,7 +1,6 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.viewmodel
 
 import android.content.Context
-import android.content.res.Resources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LiveData
@@ -26,9 +25,13 @@ class ResultViewModel(
     val correctQuestions: LiveData<String>
         get() = _correctQuestions
 
-    private val _timeAverage = MutableLiveData<String>()
-    val timeAverage: LiveData<String>
+    private val _timeAverage = MutableLiveData<Long>()
+    val timeAverage: LiveData<Long>
         get() = _timeAverage
+
+    private val _experience = MutableLiveData<Int>()
+    val experience: LiveData<Int>
+        get() = _experience
 
     init {
         fetchScoresReference()
@@ -76,19 +79,22 @@ class ResultViewModel(
         return rouletteItems.map { it.getWidgetItem() }
     }
 
-    fun setUserScore(itemRouletteIndex: Int, gameScoreBO: UserGameScoreBO) {
-        _timeAverage.value = gameScoreBO.averageUserMillisToAnswer.toString()
-        _correctQuestions.value = gameScoreBO.getAllCorrectAnswers().size.toString()
-        updateUserDetailsUseCase.invoke(
-            params = UpdateUserDetailsUseCase.Params(
-                mapOf(
-                    UpdateUserDetailsUseCase.USER_FIELD.SCORE_ACCUM to rouletteItems[itemRouletteIndex].points,
-                    UpdateUserDetailsUseCase.USER_FIELD.TOTAL_ANSWERS to gameScoreBO.userQuestions.size,
-                    UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to gameScoreBO.getAllCorrectAnswers().size
+    fun setUserScore(itemRouletteIndex: Int, gameScore: UserGameScoreBO) {
+        with(gameScore) {
+            _timeAverage.value = getAverageTime()
+            _correctQuestions.value = getAllCorrectAnswers().size.toString()
+            _experience.value = getExperience()
+            updateUserDetailsUseCase.invoke(
+                params = UpdateUserDetailsUseCase.Params(
+                    mapOf(
+                        UpdateUserDetailsUseCase.USER_FIELD.SCORE_ACCUM to rouletteItems[itemRouletteIndex].points,
+                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_ANSWERS to userQuestions.size,
+                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to getAllCorrectAnswers().size
+                    )
                 )
-            )
-        ) {
+            ) {
 
+            }
         }
     }
 

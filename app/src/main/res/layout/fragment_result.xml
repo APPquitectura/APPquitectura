@@ -136,7 +136,32 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@{viewModel.timeAverage}"
+                    android:text="@{@string/results_time_average_value(viewModel.timeAverage)}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/experienceContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/results_experience"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/experience"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{@string/results_experience_value(viewModel.experience)}"
                     android:textSize="@dimen/text_20" />
             </LinearLayout>
         </LinearLayout>
