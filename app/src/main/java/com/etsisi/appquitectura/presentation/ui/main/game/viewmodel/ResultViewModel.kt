@@ -6,17 +6,14 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.bluehomestudio.luckywheel.WheelItem
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
-import com.etsisi.appquitectura.domain.usecase.FetchScoresReferenceUseCase
 import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRoulette
 
 class ResultViewModel(
-    private val updateUserDetailsUseCase: UpdateUserDetailsUseCase,
-    private val fetchScoresReferenceUseCase: FetchScoresReferenceUseCase
+    private val updateUserDetailsUseCase: UpdateUserDetailsUseCase
 ): ViewModel() {
 
     val rouletteItems = mutableListOf<ItemRoulette>()
@@ -32,10 +29,6 @@ class ResultViewModel(
     private val _experience = MutableLiveData<Int>()
     val experience: LiveData<Int>
         get() = _experience
-
-    init {
-        fetchScoresReference()
-    }
 
     fun getRouletteItems(context: Context): List<WheelItem> {
         with(context.resources) {
@@ -83,30 +76,19 @@ class ResultViewModel(
         with(gameScore) {
             _timeAverage.value = getAverageTime()
             _correctQuestions.value = getAllCorrectAnswers().size.toString()
-            _experience.value = getExperience()
+            _experience.value = getExperience().toInt()
             updateUserDetailsUseCase.invoke(
                 params = UpdateUserDetailsUseCase.Params(
                     mapOf(
                         UpdateUserDetailsUseCase.USER_FIELD.SCORE_ACCUM to rouletteItems[itemRouletteIndex].points,
                         UpdateUserDetailsUseCase.USER_FIELD.TOTAL_ANSWERS to userQuestions.size,
-                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to getAllCorrectAnswers().size
+                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to getAllCorrectAnswers().size,
+                        UpdateUserDetailsUseCase.USER_FIELD.EXPERIENCE to getExperience()
                     )
                 )
             ) {
 
             }
         }
-    }
-
-    private fun fetchScoresReference() {
-        fetchScoresReferenceUseCase.invoke(
-            scope = viewModelScope,
-            params = Unit,
-            onResult = {
-                if (it.isNotEmpty()) {
-
-                }
-            }
-        )
     }
 }

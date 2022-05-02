@@ -9,7 +9,7 @@ class UpdateUserDetailsUseCase(
 
     enum class RESULT_CODES { SUCCESS, FAILED }
 
-    enum class USER_FIELD { PASSWORD, SCORE_ACCUM, TOTAL_CORRECT_ANSWERS, TOTAL_ANSWERS }
+    enum class USER_FIELD { PASSWORD, SCORE_ACCUM, EXPERIENCE, TOTAL_CORRECT_ANSWERS, TOTAL_ANSWERS }
 
     data class Params(val field: Map<USER_FIELD, Any>)
 
@@ -30,6 +30,9 @@ class UpdateUserDetailsUseCase(
                         }
                         USER_FIELD.TOTAL_ANSWERS -> {
                             userUpdated.copy(totalQuestionsAnswered = (params.field.get(USER_FIELD.TOTAL_ANSWERS) as Int) + userBO.totalCorrectQuestionsAnswered)
+                        }
+                        USER_FIELD.EXPERIENCE -> {
+                            userUpdated.copy(gameExperience = (params.field.get(USER_FIELD.EXPERIENCE) as Long) + userBO.gameExperience)
                         }
                     }
                 }

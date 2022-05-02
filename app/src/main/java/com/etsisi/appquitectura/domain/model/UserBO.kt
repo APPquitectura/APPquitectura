@@ -10,7 +10,7 @@ data class UserBO(
     val email: String,
     val password: String = String.EMPTY,
     val subject: QuestionSubject,
-    val gameExperience: Int,
+    val gameExperience: Long,
     val totalQuestionsAnswered: Int,
     val totalCorrectQuestionsAnswered: Int
 ) {

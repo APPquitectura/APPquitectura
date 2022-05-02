@@ -101,7 +101,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/correctQuestionsContainer"
+                android:id="@+id/experienceContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dimen_5"
@@ -112,17 +112,43 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Puntuación acumulada"
+                    android:text="@string/profile_experience"
                     android:textSize="@dimen/text_20" />
 
                 <TextView
-                    android:id="@+id/correctQuestions"
+                    android:id="@+id/experience"
                     style="@style/gameBodyStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
-                    android:text="@{Integer.toString(viewModel.currentUser.gameExperience)}"
+                    android:text="@{@string/results_experience_value(viewModel.currentUser.gameExperience)}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userLevelContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_5"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/profile_level"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/userLevel"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:text="@{viewModel.userLevel.value}"
                     android:textSize="@dimen/text_20" />
             </LinearLayout>
 

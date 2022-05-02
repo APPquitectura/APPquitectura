@@ -32,6 +32,7 @@ class QuestionFragment(
 ), QuestionListener {
     private var counterMillisUntilFinished = 0L
     private var counter: CountDownTimer? = null
+    private val counterTime = MAX_QUESTION_TIME + GRACE_PERIOD
 
     companion object {
         private const val COUNT_DOWN_INTERVAL = 1000L
@@ -67,7 +68,7 @@ class QuestionFragment(
                     })
                     .into(this)
             }
-            counter = object : CountDownTimer(MAX_QUESTION_TIME + GRACE_PERIOD, COUNT_DOWN_INTERVAL) {
+            counter = object : CountDownTimer(counterTime, COUNT_DOWN_INTERVAL) {
                 override fun onTick(millisUntilFinished: Long) {
                     counterMillisUntilFinished = millisUntilFinished
                     progressText.text = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished).toString()
@@ -94,6 +95,6 @@ class QuestionFragment(
 
     override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO) {
         counter?.cancel()
-        gameListener?.onAnswerClicked(question, answer, min(counterMillisUntilFinished, MAX_QUESTION_TIME))
+        gameListener?.onAnswerClicked(question, answer, min(counterMillisUntilFinished, MAX_QUESTION_TIME), counterTime - counterMillisUntilFinished)
     }
 }

@@ -8,7 +8,8 @@ import kotlin.math.max
 @Parcelize
 data class UserGameScoreBO(
     val userQuestions: MutableList<QuestionBO> = mutableListOf(),
-    val userAnswer: MutableList<Pair<AnswerBO, Long>> = mutableListOf()
+    val userAnswer: MutableList<Pair<AnswerBO, Long>> = mutableListOf(),
+    var totalTime: Long = 0L
 ): Parcelable  {
 
     private companion object {
@@ -29,13 +30,9 @@ data class UserGameScoreBO(
         return incorrectQuestionsList
     }
     fun getAverageTime(): Long {
-        var accum = 0L
-        userAnswer.forEach {
-            accum += it.second
-        }
-        return TimeUnit.MILLISECONDS.toSeconds(accum.div(userAnswer.size))
+        return TimeUnit.MILLISECONDS.toSeconds(totalTime.div(userAnswer.size))
     }
-    fun getExperience(): Int {
+    fun getExperience(): Long {
         var exp = 0L
         userAnswer.forEach {
             if (it.first.correct) {
@@ -45,6 +42,6 @@ data class UserGameScoreBO(
             }
         }
         exp = max(0, exp)
-        return TimeUnit.MILLISECONDS.toSeconds(exp).toInt()
+        return TimeUnit.MILLISECONDS.toSeconds(exp)
     }
 }

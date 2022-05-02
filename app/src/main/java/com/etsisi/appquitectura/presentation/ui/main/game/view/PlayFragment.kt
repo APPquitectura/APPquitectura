@@ -140,8 +140,13 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         }
     }
 
-    override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, userMarkInMillis: Long) {
-        mViewModel.setGameResultAccumulated(question, answer, userMarkInMillis)
+    override fun onAnswerClicked(
+        question: QuestionBO,
+        answer: AnswerBO,
+        points: Long,
+        userMarkInMillis: Long
+    ) {
+        mViewModel.setGameResultAccumulated(question, answer, points, userMarkInMillis)
         setNextQuestion()
     }
 

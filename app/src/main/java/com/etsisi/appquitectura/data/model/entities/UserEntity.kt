@@ -12,7 +12,7 @@ data class UserEntity(
     val email: String,
     val name: String,
     val subject: String,
-    val gameExperience: Int,
+    val gameExperience: Long,
     val totalQuestionsAnswered: Int,
     val totalCorrectQuestionsAnswered: Int
 ) {

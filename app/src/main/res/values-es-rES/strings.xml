@@ -57,6 +57,8 @@
 
     <!-- Profile -->
     <string name="profile_title">Mi perfil</string>
+    <string name="profile_experience">Experiencia</string>
+    <string name="profile_level">Nivel</string>
 
     <!-- Register -->
     <string name="register_greeting">¡Hola %s!</string>
