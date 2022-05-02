@@ -72,14 +72,14 @@ class QuestionFragment(
                 override fun onTick(millisUntilFinished: Long) {
                     counterMillisUntilFinished = millisUntilFinished
                     progressText.text = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished).toString()
-                    progressBar.progress--
+                    progress.progress--
                     if (millisUntilFinished <= THREE_SECONDS) {
                         progressText.setTextColor(Color.RED)
                     }
                 }
 
                 override fun onFinish() {
-                    progressBar.progress = 0
+                    progress.progress = 0
                 }
             }
         }

@@ -9,7 +9,7 @@ class UpdateUserDetailsUseCase(
 
     enum class RESULT_CODES { SUCCESS, FAILED }
 
-    enum class USER_FIELD { PASSWORD, SCORE_ACCUM, EXPERIENCE, TOTAL_CORRECT_ANSWERS, TOTAL_ANSWERS }
+    enum class USER_FIELD { PASSWORD, RANKING_POINTS, EXPERIENCE, TOTAL_CORRECT_ANSWERS, TOTAL_ANSWERS }
 
     data class Params(val field: Map<USER_FIELD, Any>)
 
@@ -19,8 +19,8 @@ class UpdateUserDetailsUseCase(
                 var userUpdated = userBO
                 params.field.keys.onEach {
                     userUpdated = when(it) {
-                        USER_FIELD.SCORE_ACCUM -> {
-                            userUpdated.copy(gameExperience = (params.field.get(USER_FIELD.SCORE_ACCUM) as Int) + userBO.gameExperience)
+                        USER_FIELD.RANKING_POINTS -> {
+                            userUpdated.copy(rankingPoints = (params.field.get(USER_FIELD.RANKING_POINTS) as Long) + userBO.rankingPoints)
                         }
                         USER_FIELD.PASSWORD -> {
                             userUpdated.copy(password = params.field.get(USER_FIELD.PASSWORD) as String)

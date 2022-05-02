@@ -122,7 +122,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
-                    android:text="@{@string/results_experience_value(viewModel.currentUser.gameExperience)}"
+                    android:text="@{@string/roulette_item_exp(viewModel.currentUser.gameExperience)}"
                     android:textSize="@dimen/text_20" />
             </LinearLayout>
 

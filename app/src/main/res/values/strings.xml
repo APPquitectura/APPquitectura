@@ -49,13 +49,13 @@
     <string name="results_time_average">Time average</string>
     <string name="results_time_average_value">%d sec</string>
     <string name="results_experience">Experience earned</string>
-    <string name="results_experience_value" translatable="false">%d XP</string>
+    <string name="results_points">Score</string>
+    <string name="results_points_value">Score %d. Points for the ranking %d</string>
+    <string name="results_reward">Reward</string>
 
     <string name="rotate_roulette">Spin the wheel</string>
-    <string name="roulette_item_1">+10 points</string>
-    <string name="roulette_item_2">+4 points</string>
-    <string name="roulette_item_3">+5 points</string>
-    <string name="roulette_item_4">Oops</string>
+    <string name="roulette_item_points">+%d points</string>
+    <string name="roulette_item_exp" translatable="false">+%d EXP</string>
 
     <!-- Profile -->
     <string name="profile_title">My profile</string>

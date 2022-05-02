@@ -32,16 +32,24 @@ data class UserGameScoreBO(
     fun getAverageTime(): Long {
         return TimeUnit.MILLISECONDS.toSeconds(totalTime.div(userAnswer.size))
     }
+    fun getRankingPoints(): Long {
+        var points = 0L
+        userAnswer.forEach {
+            if (it.first.correct) {
+                points += it.second
+            } else {
+                points -= INCORRECT_ANSWER_SCORE
+            }
+        }
+        return TimeUnit.MILLISECONDS.toSeconds(points)
+    }
     fun getExperience(): Long {
         var exp = 0L
         userAnswer.forEach {
             if (it.first.correct) {
                 exp += it.second
-            } else {
-                exp -= INCORRECT_ANSWER_SCORE
             }
         }
-        exp = max(0, exp)
         return TimeUnit.MILLISECONDS.toSeconds(exp)
     }
 }

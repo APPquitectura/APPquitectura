@@ -11,6 +11,7 @@ data class UserBO(
     val password: String = String.EMPTY,
     val subject: QuestionSubject,
     val gameExperience: Long,
+    val rankingPoints: Long,
     val totalQuestionsAnswered: Int,
     val totalCorrectQuestionsAnswered: Int
 ) {
@@ -23,6 +24,7 @@ data class UserBO(
         name = name,
         subject = subject.value,
         gameExperience = gameExperience,
+        rankingPoints = rankingPoints,
         totalQuestionsAnswered = totalQuestionsAnswered,
         totalCorrectQuestionsAnswered = totalCorrectQuestionsAnswered
     )
@@ -33,6 +35,7 @@ data class UserBO(
         email = email,
         subject = subject.value,
         gameExperience = gameExperience,
+        rankingPoints = rankingPoints,
         totalQuestionsAnswered = totalQuestionsAnswered,
         totalCorrectQuestionsAnswered = totalCorrectQuestionsAnswered
     )

@@ -13,6 +13,7 @@ import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
 import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.data.model.enums.ScoreLevel
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 
@@ -93,5 +94,47 @@ object BindingAdapter {
     @JvmStatic
     fun LottieAnimationView.setCustomRawRes(rawRes: Int) {
         this.setAnimation(rawRes)
+    }
+
+    @BindingAdapter("userLevel")
+    @JvmStatic
+    fun TextView.setUserLevel(scoreLevel: ScoreLevel) {
+        with(ScoreLevel) {
+            text = when(scoreLevel) {
+                ScoreLevel.LEVEL_0 -> {
+                    "Nivel 0"
+                }
+                ScoreLevel.LEVEL_1 -> {
+                    "Nivel 1"
+                }
+                ScoreLevel.LEVEL_2 -> {
+                    "Nivel 2"
+                }
+                ScoreLevel.LEVEL_3 -> {
+                    "Nivel 3"
+                }
+                ScoreLevel.LEVEL_4 -> {
+                    "Nivel 4"
+                }
+                ScoreLevel.LEVEL_5 -> {
+                    "Nivel 5"
+                }
+                ScoreLevel.LEVEL_6 -> {
+                    "Nivel 6"
+                }
+                ScoreLevel.LEVEL_7 -> {
+                    "Nivel 7"
+                }
+                ScoreLevel.LEVEL_8 -> {
+                    "Nivel 8"
+                }
+                ScoreLevel.LEVEL_9 -> {
+                    "Nivel 9"
+                }
+                ScoreLevel.LEVEL_10 -> {
+                    "Nivel 10"
+                }
+            }
+        }
     }
 }

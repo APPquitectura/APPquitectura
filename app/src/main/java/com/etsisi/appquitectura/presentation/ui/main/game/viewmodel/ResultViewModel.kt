@@ -10,62 +10,74 @@ import com.bluehomestudio.luckywheel.WheelItem
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRouletteType
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRoulette
 
 class ResultViewModel(
     private val updateUserDetailsUseCase: UpdateUserDetailsUseCase
-): ViewModel() {
+) : ViewModel() {
 
     val rouletteItems = mutableListOf<ItemRoulette>()
 
-    private val _correctQuestions = MutableLiveData<String>()
-    val correctQuestions: LiveData<String>
-        get() = _correctQuestions
+    private val _result = MutableLiveData<UserGameScoreBO>()
+    val result: LiveData<UserGameScoreBO>
+        get() = _result
 
-    private val _timeAverage = MutableLiveData<Long>()
-    val timeAverage: LiveData<Long>
-        get() = _timeAverage
-
-    private val _experience = MutableLiveData<Int>()
-    val experience: LiveData<Int>
-        get() = _experience
+    private val _regard = MutableLiveData<Pair<ItemRouletteType, Int>>()
+    val regard: LiveData<Pair<ItemRouletteType, Int>>
+        get() = _regard
 
     fun getRouletteItems(context: Context): List<WheelItem> {
         with(context.resources) {
-            rouletteItems.add(ItemRoulette(
-                points = 10,
-                backgroundColor = ContextCompat.getColor(context, R.color.bronze),
-                drawable = getDrawable(R.drawable.ic_coins, null).toBitmap(),
-                title = getString(R.string.roulette_item_1)))
-
-            rouletteItems.add(ItemRoulette(
-                points = 4,
-                backgroundColor = ContextCompat.getColor(context, R.color.teal_200),
-                drawable = getDrawable(R.drawable.ic_trophy, null).toBitmap(),
-                title =   getString(R.string.roulette_item_2)))
-
-
             rouletteItems.add(
                 ItemRoulette(
-                points = 0,
-                backgroundColor = ContextCompat.getColor(context, R.color.primary_red),
-                drawable = getDrawable(R.drawable.ic_badge, null).toBitmap(),
-                title = getString(R.string.roulette_item_4))
-            )
-
-            rouletteItems.add(ItemRoulette(
-                points = 7,
-                backgroundColor = ContextCompat.getColor(context, R.color.primary_blue),
-                drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
-                title = getString(R.string.roulette_item_1))
+                    points = 25,
+                    backgroundColor = ContextCompat.getColor(context, R.color.bronze),
+                    drawable = getDrawable(R.drawable.ic_coins, null).toBitmap(),
+                    title = getString(R.string.roulette_item_points, 25),
+                    type = ItemRouletteType.POINTS
+                )
             )
 
             rouletteItems.add(
                 ItemRoulette(
-                points = 8,
-                backgroundColor = ContextCompat.getColor(context, R.color.primary_yellow),
-                drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
-                title = getString(R.string.roulette_item_1))
+                    points = 50,
+                    backgroundColor = ContextCompat.getColor(context, R.color.teal_200),
+                    drawable = getDrawable(R.drawable.ic_trophy, null).toBitmap(),
+                    title = getString(R.string.roulette_item_exp, 50),
+                    type = ItemRouletteType.EXP
+                )
+            )
+
+
+            rouletteItems.add(
+                ItemRoulette(
+                    points = 5,
+                    backgroundColor = ContextCompat.getColor(context, R.color.primary_red),
+                    drawable = getDrawable(R.drawable.ic_badge, null).toBitmap(),
+                    title = getString(R.string.roulette_item_points, 5),
+                    type = ItemRouletteType.POINTS
+                )
+            )
+
+            rouletteItems.add(
+                ItemRoulette(
+                    points = 7,
+                    backgroundColor = ContextCompat.getColor(context, R.color.primary_blue),
+                    drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
+                    title = getString(R.string.roulette_item_exp, 25),
+                    type = ItemRouletteType.EXP
+                )
+            )
+
+            rouletteItems.add(
+                ItemRoulette(
+                    points = 0,
+                    backgroundColor = ContextCompat.getColor(context, R.color.primary_yellow),
+                    drawable = getDrawable(R.drawable.ic_about, null).toBitmap(),
+                    title = getString(R.string.generic_error_title),
+                    type = ItemRouletteType.NONE
+                )
             )
         }
 
@@ -74,16 +86,16 @@ class ResultViewModel(
 
     fun setUserScore(itemRouletteIndex: Int, gameScore: UserGameScoreBO) {
         with(gameScore) {
-            _timeAverage.value = getAverageTime()
-            _correctQuestions.value = getAllCorrectAnswers().size.toString()
-            _experience.value = getExperience().toInt()
+            val rouletteItemSelected = rouletteItems[itemRouletteIndex]
+            _result.value = gameScore
+            _regard.value = Pair(rouletteItemSelected.type, rouletteItemSelected.points)
             updateUserDetailsUseCase.invoke(
                 params = UpdateUserDetailsUseCase.Params(
                     mapOf(
-                        UpdateUserDetailsUseCase.USER_FIELD.SCORE_ACCUM to rouletteItems[itemRouletteIndex].points,
+                        UpdateUserDetailsUseCase.USER_FIELD.RANKING_POINTS to getRankingPoints().plus(rouletteItemSelected.points.takeIf { rouletteItemSelected.type == ItemRouletteType.POINTS } ?: 0),
                         UpdateUserDetailsUseCase.USER_FIELD.TOTAL_ANSWERS to userQuestions.size,
                         UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to getAllCorrectAnswers().size,
-                        UpdateUserDetailsUseCase.USER_FIELD.EXPERIENCE to getExperience()
+                        UpdateUserDetailsUseCase.USER_FIELD.EXPERIENCE to getExperience().plus(rouletteItemSelected.points.takeIf { rouletteItemSelected.type == ItemRouletteType.EXP } ?: 0)
                     )
                 )
             ) {
