@@ -43,6 +43,8 @@
     <string name="game_mode_option">%d Questions</string>
 
     <string name="time">Time</string>
+    <string name="dialog_leaving_game_title">You are leaving the game</string>
+    <string name="dialog_leaving_game_body">You will lose all the progress</string>
 
     <string name="results_title">Score</string>
     <string name="results_correct_questions">Correct answers</string>

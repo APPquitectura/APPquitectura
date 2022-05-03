@@ -22,7 +22,7 @@ import com.etsisi.appquitectura.presentation.utils.toLabeledIntentArray
 
 class Navigator (private val navController: NavController){
 
-    fun openNavigationDialog(config: DialogConfig) {
+    fun openLoginDialog(config: DialogConfig) {
         val directions = LoginDirections.navigateLoginDialog(config)
         navController.navigate(directions)
     }
@@ -48,6 +48,11 @@ class Navigator (private val navController: NavController){
 
     fun navigateFromMainToLogin() {
         val directions = MainDirections.actionMainToLogin()
+        navController.navigate(directions)
+    }
+
+    fun navigateToHome() {
+        val directions = MainDirections.actionMainToHomeFragment()
         navController.navigate(directions)
     }
 
@@ -81,7 +86,12 @@ class Navigator (private val navController: NavController){
         }
     }
 
-    fun openLeavingGameDialog() {
+    fun openNavigationDialog(config: DialogConfig, type: DialogType) {
+        val directions = PlayFragmentDirections.openNavigationDialog(
+            dialogType = type,
+            config = config
+        )
+        navController.navigate(directions)
     }
 
     fun openResultFragment(score: UserGameScoreBO) {

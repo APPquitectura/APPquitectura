@@ -26,7 +26,7 @@ class PlayViewModel(
     val navType: LiveData<GameNavType>
         get() = _navType
 
-    private val _currentTabIndex = MutableLiveData(0)
+    private val _currentTabIndex = MutableLiveData(1)
     val currentTabIndex: LiveData<Int>
         get() = _currentTabIndex
 
@@ -41,7 +41,7 @@ class PlayViewModel(
         _navType.value = navType
     }
 
-    fun setTabIndex(index: Int) {
+    fun setCurrentTabIndex(index: Int) {
         _currentTabIndex.value = index
     }
 
@@ -49,8 +49,10 @@ class PlayViewModel(
         getGameQuestionsUseCase.invoke(
             scope = viewModelScope,
             params = GetGameQuestionsUseCase.Params(QuestionLevel.EASY, gameMode.totalQuestions)
-        ) {
-            _questions.value = it
+        ) { questionsList ->
+            _questions.value = questionsList.map { question ->
+                question.copy(answers = question.answers.asSequence().shuffled().toList())
+            }
         }
     }
 

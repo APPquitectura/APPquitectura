@@ -92,8 +92,8 @@ object BindingAdapter {
 
     @BindingAdapter("customRawRes")
     @JvmStatic
-    fun LottieAnimationView.setCustomRawRes(rawRes: Int) {
-        this.setAnimation(rawRes)
+    fun LottieAnimationView.setCustomRawRes(rawRes: Int?) {
+        rawRes?.let { this.setAnimation(it) }
     }
 
     @BindingAdapter("userLevel")

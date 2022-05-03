@@ -42,6 +42,8 @@
     <string name="game_mode_option">Partida de %d</string>
 
     <string name="time">Tiempo</string>
+    <string name="dialog_leaving_game_title">Estás abandonando la partida</string>
+    <string name="dialog_leaving_game_body">Perderás todo el progreso hasta ahora</string>
 
     <string name="results_title">Resultados</string>
     <string name="results_correct_questions">Respuestas correctas</string>

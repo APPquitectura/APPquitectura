@@ -2,7 +2,6 @@ package com.etsisi.appquitectura.presentation.ui.main.game.view
 
 import android.content.Context
 import android.os.CountDownTimer
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -16,6 +15,8 @@ import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.components.ZoomOutPageTransformer
+import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
+import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
@@ -52,11 +53,18 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         super.onAttach(context)
         with(requireActivity()) {
             onBackPressedDispatcher.apply {
-                addCallback(object : OnBackPressedCallback(true) {
+                addCallback(this@PlayFragment, object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-                        navigator.openLeavingGameDialog()
-                        Toast.makeText(this@with, "Click again to exit", Toast.LENGTH_SHORT).show()
-                        this.remove()
+                        if (args.navType == GameNavType.GAME_MODE) {
+                            onBackPressed()
+                        } else {
+                            this.remove()
+                            isEnabled = false
+                            navigator.openNavigationDialog(
+                                type = DialogType.WARNING_LEAVING_GAME,
+                                config = DialogConfig(title = R.string.dialog_leaving_game_title, body = R.string.dialog_leaving_game_body)
+                            )
+                        }
                     }
                 })
             }
@@ -84,7 +92,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 tab.customView = ItemTabHeaderBinding.inflate(layoutInflater, tab.view, false)
                     .apply {
                         lifecycleOwner = viewLifecycleOwner
-                        currentTabPosition = position
+                        questionIndex = position + 1
                         viewModel = mViewModel
                     }.root
                 tab.view.setOnTouchListener { v, event -> true }
@@ -123,7 +131,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
 
     private fun setTabAlpha(tab: TabLayout.Tab?, selected: Boolean) {
         if (selected) {
-            mViewModel.setTabIndex(tab?.position ?: 0)
+            mViewModel.setCurrentTabIndex(tab?.position?.plus(1) ?: 1)
         }
         tab?.customView?.alpha = if (selected) SELECTED_ALPHA else UNSELECTED_ALPHA
     }

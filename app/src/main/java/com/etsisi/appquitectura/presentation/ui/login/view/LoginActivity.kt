@@ -58,7 +58,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
         with(mViewModel) {
             // String default_web_client_id is auto-generated
             onError.observe(this@LoginActivity, LiveEventObserver { dialogConfig ->
-                navigator.openNavigationDialog(dialogConfig)
+                navigator.openLoginDialog(dialogConfig)
             })
             onCodeVerified.observe(this@LoginActivity, LiveEventObserver {
                 navigator.navigateFromLoginToMain(this@LoginActivity)

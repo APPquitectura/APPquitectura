@@ -41,15 +41,14 @@ class QuestionFragment(
         private const val GRACE_PERIOD = 5000L
 
         @JvmStatic
-        fun newInstance(question: QuestionBO, listener: GameListener?) =
-            QuestionFragment(listener, question)
+        fun newInstance(question: QuestionBO, listener: GameListener?) = QuestionFragment(listener, question)
     }
 
     override fun setUpDataBinding(mBinding: FragmentQuestionBinding, mViewModel: EmptyViewModel) {
         mBinding.apply {
             question = questionBO
             answersRecyclerView.adapter = AnswersAdapter(this@QuestionFragment, questionBO).also {
-                it.addDataSet(questionBO.answers.asSequence().shuffled().toList())
+                it.addDataSet(questionBO.answers)
             }
             imageQuestion.apply {
                 Glide.with(this)

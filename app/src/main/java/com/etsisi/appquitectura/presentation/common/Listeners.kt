@@ -30,3 +30,8 @@ interface PlayFragmentListener {
     fun onGameMode(item: ItemGameMode)
 }
 
+interface DialogListener {
+    fun onPositiveButtonClicked()
+    fun onNegativeButtonClicked()
+}
+
