@@ -1,33 +1,21 @@
 package com.etsisi.appquitectura.presentation.common
 
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
 import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.data.model.enums.ScoreLevel
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.presentation.utils.TAG
-import com.etsisi.appquitectura.presentation.utils.getMethodName
-import com.google.firebase.storage.StorageReference
 
 object BindingAdapter {
 
@@ -104,7 +92,49 @@ object BindingAdapter {
 
     @BindingAdapter("customRawRes")
     @JvmStatic
-    fun LottieAnimationView.setCustomRawRes(rawRes: Int) {
-        this.setAnimation(rawRes)
+    fun LottieAnimationView.setCustomRawRes(rawRes: Int?) {
+        rawRes?.let { this.setAnimation(it) }
+    }
+
+    @BindingAdapter("userLevel")
+    @JvmStatic
+    fun TextView.setUserLevel(scoreLevel: ScoreLevel) {
+        with(ScoreLevel) {
+            text = when(scoreLevel) {
+                ScoreLevel.LEVEL_0 -> {
+                    "Nivel 0"
+                }
+                ScoreLevel.LEVEL_1 -> {
+                    "Nivel 1"
+                }
+                ScoreLevel.LEVEL_2 -> {
+                    "Nivel 2"
+                }
+                ScoreLevel.LEVEL_3 -> {
+                    "Nivel 3"
+                }
+                ScoreLevel.LEVEL_4 -> {
+                    "Nivel 4"
+                }
+                ScoreLevel.LEVEL_5 -> {
+                    "Nivel 5"
+                }
+                ScoreLevel.LEVEL_6 -> {
+                    "Nivel 6"
+                }
+                ScoreLevel.LEVEL_7 -> {
+                    "Nivel 7"
+                }
+                ScoreLevel.LEVEL_8 -> {
+                    "Nivel 8"
+                }
+                ScoreLevel.LEVEL_9 -> {
+                    "Nivel 9"
+                }
+                ScoreLevel.LEVEL_10 -> {
+                    "Nivel 10"
+                }
+            }
+        }
     }
 }

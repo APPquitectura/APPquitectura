@@ -4,7 +4,7 @@ ext {
     appVersionPatch = 0
     appVersionCode = appVersionMajor * 100 + appVersionMinor * 10 + appVersionPatch
     appVersionName = "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"
-    databaseDebugVersion = 17
+    databaseDebugVersion = 20
     databaseReleaseVersion = 1
 
     //Versions

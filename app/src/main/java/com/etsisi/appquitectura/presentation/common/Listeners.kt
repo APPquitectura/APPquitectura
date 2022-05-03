@@ -19,7 +19,7 @@ fun interface SettingsItemClicked {
 }
 
 interface GameListener {
-    fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, userMarkInMillis: Long)
+    fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, points: Long, userMarkInMillis: Long)
 }
 
 interface QuestionListener {
@@ -28,5 +28,10 @@ interface QuestionListener {
 
 interface PlayFragmentListener {
     fun onGameMode(item: ItemGameMode)
+}
+
+interface DialogListener {
+    fun onPositiveButtonClicked()
+    fun onNegativeButtonClicked()
 }
 

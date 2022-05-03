@@ -55,8 +55,8 @@ val viewModelModule = module {
     viewModel { InputTextViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
     viewModel { PlayViewModel(get()) }
-    viewModel { ResultViewModel(get(), get()) }
-    viewModel { MyProfileViewModel(get())}
+    viewModel { ResultViewModel(get()) }
+    viewModel { MyProfileViewModel(get(), get())}
 }
 
 val presentationModule = module {

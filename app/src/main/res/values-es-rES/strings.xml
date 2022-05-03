@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Dialog -->
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+
     <!-- Generic Error -->
     <string name="generic_error_body">Ha ocurrido un error, contacte con el equipo de soporte</string>
 
@@ -39,23 +43,28 @@
 
     <!-- Play -->
     <string name="game_mode_title">Selecciona el tipo de partida</string>
-    <string name="game_mode_thirty">Partida 30</string>
-    <string name="game_mode_sixty">Partida 60</string>
+    <string name="game_mode_option">Partida de %d</string>
 
     <string name="time">Tiempo</string>
+    <string name="dialog_leaving_game_title">Estás abandonando la partida</string>
+    <string name="dialog_leaving_game_body">Perderás todo el progreso hasta ahora</string>
 
     <string name="results_title">Resultados</string>
     <string name="results_correct_questions">Respuestas correctas</string>
     <string name="results_time_average">Tiempo promedio en responder</string>
+    <string name="results_time_average_value">%d segs</string>
+    <string name="results_experience">Experiencia adquirida</string>
+    <string name="results_points">Puntuación</string>
+    <string name="results_points_value">Puntaje %d. Puntos para el ranking %d</string>
+    <string name="results_reward">Premio</string>
 
     <string name="rotate_roulette">Gira la ruleta</string>
-    <string name="roulette_item_1">+10 points</string>
-    <string name="roulette_item_2">+4 points</string>
-    <string name="roulette_item_3">+5 points</string>
-    <string name="roulette_item_4">Oops</string>
+    <string name="roulette_item_points">+%d puntos</string>
 
     <!-- Profile -->
     <string name="profile_title">Mi perfil</string>
+    <string name="profile_experience">Experiencia</string>
+    <string name="profile_level">Nivel</string>
 
     <!-- Register -->
     <string name="register_greeting">¡Hola %s!</string>
@@ -75,7 +84,6 @@
     <string name="done">Completado</string>
 
     <!-- Reset Password -->
-    <string name="accept">Aceptar</string>
     <string name="reset_password">Restablecer contraseña</string>
     <string name="type_email">Escribe tu email para recuperar tu contraseña</string>
 

@@ -9,6 +9,7 @@
         <variable
             name="viewModel"
             type="com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.ResultViewModel" />
+        <import type="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRouletteType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,7 +78,7 @@
             android:id="@+id/resultsContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dimen_24"
+            android:layout_marginHorizontal="@dimen/dimen_10"
             android:divider="@drawable/divider"
             android:orientation="vertical"
             android:visibility="gone"
@@ -110,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@{viewModel.correctQuestions}"
+                    android:text="@{Long.toString(viewModel.result.allCorrectAnswers.size)}"
                     android:textSize="@dimen/text_20" />
             </LinearLayout>
 
@@ -136,7 +137,84 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@{viewModel.timeAverage}"
+                    android:text="@{@string/results_time_average_value(viewModel.result.averageTime)}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/experienceContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/results_experience"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/experience"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{@string/roulette_item_exp(viewModel.result.experience)}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pointsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/results_points"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/points"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{@string/results_points_value(viewModel.result.rankingPoints, Math.max(viewModel.result.rankingPoints, 0))}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/rewardContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/results_reward"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/reward"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{viewModel.regard.first == ItemRouletteType.EXP ? @string/roulette_item_exp(viewModel.regard.second) : @string/roulette_item_points(viewModel.regard.second)}"
                     android:textSize="@dimen/text_20" />
             </LinearLayout>
         </LinearLayout>

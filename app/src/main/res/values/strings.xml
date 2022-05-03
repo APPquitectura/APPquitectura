@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">APPquitectura</string>
 
+    <!-- Dialog -->
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+
     <!-- Generic Error -->
     <string name="generic_error_title" translatable="false">Oops!</string>
     <string name="generic_error_body">An error has occurred, please contact with the support team</string>
@@ -40,23 +44,29 @@
 
     <!-- Play -->
     <string name="game_mode_title">Selecciona el tipo de partida</string>
-    <string name="game_mode_thirty">30 Questions</string>
-    <string name="game_mode_sixty">60 Questions</string>
+    <string name="game_mode_option">%d Questions</string>
 
     <string name="time">Time</string>
+    <string name="dialog_leaving_game_title">You are leaving the game</string>
+    <string name="dialog_leaving_game_body">You will lose all the progress</string>
 
     <string name="results_title">Score</string>
     <string name="results_correct_questions">Correct answers</string>
     <string name="results_time_average">Time average</string>
+    <string name="results_time_average_value">%d sec</string>
+    <string name="results_experience">Experience earned</string>
+    <string name="results_points">Score</string>
+    <string name="results_points_value">Score %d. Points for the ranking %d</string>
+    <string name="results_reward">Reward</string>
 
     <string name="rotate_roulette">Spin the wheel</string>
-    <string name="roulette_item_1">+10 points</string>
-    <string name="roulette_item_2">+4 points</string>
-    <string name="roulette_item_3">+5 points</string>
-    <string name="roulette_item_4">Oops</string>
+    <string name="roulette_item_points">+%d points</string>
+    <string name="roulette_item_exp" translatable="false">+%d EXP</string>
 
     <!-- Profile -->
     <string name="profile_title">My profile</string>
+    <string name="profile_experience">Experience</string>
+    <string name="profile_level">Level</string>
 
     <!-- Register -->
     <string name="register_greeting">Hi %s!</string>
@@ -76,7 +86,6 @@
     <string name="done">Done</string>
 
     <!-- Reset Password -->
-    <string name="accept">Accept</string>
     <string name="reset_password">Reset password</string>
     <string name="type_email">Write yor email to recover your password</string>
 

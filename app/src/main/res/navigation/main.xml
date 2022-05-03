@@ -14,6 +14,16 @@
         app:popUpToSaveState="false"
         app:restoreState="false" />
 
+    <action
+        android:id="@+id/action_main_to_homeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/homeFragment"
+        app:popUpToInclusive="true"
+        app:enterAnim="@anim/enter_from_right"
+        app:exitAnim="@anim/exit_to_left"
+        app:popEnterAnim="@anim/enter_from_left"
+        app:popExitAnim="@anim/exit_to_right"/>
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.etsisi.appquitectura.presentation.ui.main.home.view.HomeFragment"
@@ -37,7 +47,7 @@
             app:restoreState="false">
             <argument
                 android:name="gameMode"
-                android:defaultValue="UNKNOWN"
+                android:defaultValue="NONE"
                 app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
         </action>
         <action
@@ -85,7 +95,7 @@
             android:name="gameMode"
             app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
         <action
-            android:id="@+id/action_playFragment_to_navigationDialog"
+            android:id="@+id/open_navigationDialog"
             app:destination="@id/navigationDialog" />
         <action
             android:id="@+id/action_playFragment_to_resultFragment"
@@ -101,7 +111,14 @@
         android:id="@+id/navigationDialog"
         android:name="com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog"
         android:label="NavigationDialog"
-        tools:layout="@layout/dialog_navigation" />
+        tools:layout="@layout/dialog_navigation" >
+        <argument
+            android:name="dialogType"
+            app:argType="com.etsisi.appquitectura.presentation.dialog.enums.DialogType" />
+        <argument
+            android:name="config"
+            app:argType="com.etsisi.appquitectura.presentation.dialog.model.DialogConfig" />
+    </dialog>
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.etsisi.appquitectura.presentation.ui.main.game.view.ResultFragment"

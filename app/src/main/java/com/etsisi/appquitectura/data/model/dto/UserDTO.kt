@@ -9,7 +9,8 @@ data class UserDTO (
         val id: String = String.EMPTY,
         val name: String = String.EMPTY,
         val subject: String = QuestionSubject.UNKNOWN.value,
-        val scoreAccum: Int = 0,
+        val gameExperience: Long = 0,
+        val rankingPoints: Long = 0,
         val totalQuestionsAnswered: Int = 0,
         val totalCorrectQuestionsAnswered: Int = 0
 ): FirestoreDTO() {
@@ -18,7 +19,8 @@ data class UserDTO (
                 id = id,
                 name = name,
                 subject = QuestionSubject.parseSubject(subject),
-                scoreAccum = scoreAccum,
+                gameExperience = gameExperience,
+                rankingPoints = rankingPoints,
                 totalQuestionsAnswered = totalQuestionsAnswered,
                 totalCorrectQuestionsAnswered = totalCorrectQuestionsAnswered
         )

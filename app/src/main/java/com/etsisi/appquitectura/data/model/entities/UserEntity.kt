@@ -12,7 +12,8 @@ data class UserEntity(
     val email: String,
     val name: String,
     val subject: String,
-    val scoreAccum: Int,
+    val gameExperience: Long,
+    val rankingPoints: Long,
     val totalQuestionsAnswered: Int,
     val totalCorrectQuestionsAnswered: Int
 ) {
@@ -21,7 +22,8 @@ data class UserEntity(
         name = name,
         email = email,
         subject = QuestionSubject.parseSubject(subject),
-        scoreAccum = scoreAccum,
+        gameExperience = gameExperience,
+        rankingPoints = rankingPoints,
         totalQuestionsAnswered = totalQuestionsAnswered,
         totalCorrectQuestionsAnswered = totalCorrectQuestionsAnswered
     )

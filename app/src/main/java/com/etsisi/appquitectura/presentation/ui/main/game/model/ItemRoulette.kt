@@ -7,7 +7,10 @@ data class ItemRoulette(
     val points: Int,
     val drawable: Bitmap,
     val title: String,
-    val backgroundColor: Int
+    val backgroundColor: Int,
+    val type: ItemRouletteType
 ) {
    fun getWidgetItem() = WheelItem(backgroundColor, drawable, title)
 }
+
+enum class ItemRouletteType { NONE, EXP, POINTS }
