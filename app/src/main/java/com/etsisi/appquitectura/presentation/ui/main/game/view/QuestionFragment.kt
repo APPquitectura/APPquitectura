@@ -95,6 +95,7 @@ class QuestionFragment(
 
     override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO) {
         counter?.cancel()
+        (mBinding.answersRecyclerView.adapter as? AnswersAdapter)?.showCorrectAnswer()
         gameListener?.onAnswerClicked(question, answer, min(counterMillisUntilFinished, MAX_QUESTION_TIME), counterTime - counterMillisUntilFinished)
     }
 }
