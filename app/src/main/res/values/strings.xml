@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">APPquitectura</string>
 
+    <!-- Dialog -->
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+
     <!-- Generic Error -->
     <string name="generic_error_title" translatable="false">Oops!</string>
     <string name="generic_error_body">An error has occurred, please contact with the support team</string>
@@ -82,7 +86,6 @@
     <string name="done">Done</string>
 
     <!-- Reset Password -->
-    <string name="accept">Accept</string>
     <string name="reset_password">Reset password</string>
     <string name="type_email">Write yor email to recover your password</string>
 

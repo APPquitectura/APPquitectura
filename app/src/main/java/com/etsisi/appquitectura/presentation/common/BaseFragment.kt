@@ -11,6 +11,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
+import com.etsisi.appquitectura.presentation.ui.main.MainActivity
+import com.etsisi.appquitectura.presentation.utils.hideSystemBars
 import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -66,4 +68,12 @@ abstract class BaseFragment<binding: ViewDataBinding, viewModel: ViewModel>(
     abstract fun observeViewModel(mViewModel: viewModel)
 
     abstract fun setUpDataBinding(mBinding: binding, mViewModel: viewModel)
+
+    protected fun hideSystemBars() {
+        with(requireActivity()) {
+            (this as? BaseActivity<*,*>)?.getFragmentContainer()?.let { container ->
+                hideSystemBars(container)
+            }
+        }
+    }
 }

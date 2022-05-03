@@ -9,16 +9,16 @@
         <item name="android:layout_marginTop">@dimen/dimen_20</item>
         <item name="android:textSize">@dimen/text_20</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
         <item name="android:textStyle">normal</item>
         <item name="android:letterSpacing">-0.01</item>
         <item name="android:lineSpacingExtra">2sp</item>
         <item name="android:textAlignment">textStart</item>
+        <item name="android:fontFamily">@font/alfa</item>
     </style>
 
     <style name="dialog_body">
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/oxygen_bold</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginTop">@dimen/dimen_20</item>
         <item name="android:layout_marginStart">@dimen/dimen_28</item>

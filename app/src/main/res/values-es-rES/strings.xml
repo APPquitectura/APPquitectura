@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Dialog -->
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+
     <!-- Generic Error -->
     <string name="generic_error_body">Ha ocurrido un error, contacte con el equipo de soporte</string>
 
@@ -80,7 +84,6 @@
     <string name="done">Completado</string>
 
     <!-- Reset Password -->
-    <string name="accept">Aceptar</string>
     <string name="reset_password">Restablecer contraseña</string>
     <string name="type_email">Escribe tu email para recuperar tu contraseña</string>
 

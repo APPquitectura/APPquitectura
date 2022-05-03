@@ -16,8 +16,12 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import org.json.JSONException
 import org.json.JSONObject
@@ -87,34 +91,21 @@ fun <T> getMethodName(clazz: Class<T>): String {
     return "${clazz.enclosingClass?.simpleName}.${clazz.enclosingMethod?.name}"
 }
 
-fun Activity.hideSystemUI() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        window.insetsController?.let {
-            it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            it.hide(WindowInsetsCompat.Type.systemBars())
+fun Activity.hideSystemBars(mainContaier: View) {
+    window?.apply {
+        ViewCompat.getWindowInsetsController(mainContaier)?.let { controller ->
+            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+            controller.hide(WindowInsetsCompat.Type.systemBars())
         }
-    } else {
-        @Suppress("DEPRECATION")
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_FULLSCREEN
-                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-        @Suppress("DEPRECATION")
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
     }
 }
 
-fun Activity.showSystemUI() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        window.setDecorFitsSystemWindows(false)
-        window.insetsController?.show(WindowInsets.Type.systemBars())
-    } else {
-        @Suppress("DEPRECATION")
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+fun Activity.showNavigationBar(mainContaier: View) {
+    window?.apply {
+        WindowCompat.setDecorFitsSystemWindows(this, true)
+        ViewCompat.getWindowInsetsController(mainContaier)?.let { controller ->
+            controller.show(WindowInsetsCompat.Type.navigationBars())
+        }
     }
 }
 
@@ -122,7 +113,6 @@ fun Activity.getWindowPixels(): Pair<Int, Int> { //Pair(width, height)
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         val windowMetrics = windowManager.currentWindowMetrics
         val insets: Insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
-        //windowMetrics.bounds.width() - insets.left - insets.right
         val width = insets.right + insets.left
         val height = insets.top + insets.top
         Pair(width, height)

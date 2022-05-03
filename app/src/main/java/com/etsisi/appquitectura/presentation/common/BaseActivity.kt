@@ -1,6 +1,7 @@
 package com.etsisi.appquitectura.presentation.common
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
@@ -59,9 +60,9 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
         }
     }
 
-    private fun getNavController(fragmentContainer:() -> Int): NavController? {
+    private fun getNavController(fragmentContainer:() -> View): NavController? {
         val result = runCatching {
-            (supportFragmentManager.findFragmentById(fragmentContainer()) as? NavHost)?.navController
+            (supportFragmentManager.findFragmentById(fragmentContainer().id) as? NavHost)?.navController
         }.getOrNull()
         return result
     }
@@ -86,5 +87,5 @@ abstract class BaseActivity<binding: ViewDataBinding, viewModel: ViewModel>(
 
     abstract fun setUpDataBinding(mBinding: binding, mViewModel: viewModel)
 
-    abstract fun getFragmentContainer(): Int
+    abstract fun getFragmentContainer(): View
 }

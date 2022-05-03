@@ -17,6 +17,7 @@ import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.components.ZoomOutPageTransformer
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
+import com.etsisi.appquitectura.presentation.ui.main.MainActivity
 import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
@@ -78,6 +79,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             viewModel = mViewModel
             mViewModel.setNavType(args.navType)
             if (args.navType == GameNavType.PRE_START_GAME) {
+                hideSystemBars()
                 readySetGoCounter.start().also {
                     readyToStartGame.playAnimation()
                 }

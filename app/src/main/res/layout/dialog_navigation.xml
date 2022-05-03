@@ -7,6 +7,7 @@
         <variable
             name="config"
             type="com.etsisi.appquitectura.presentation.dialog.model.DialogConfig" />
+
         <variable
             name="buttonsListener"
             type="com.etsisi.appquitectura.presentation.common.DialogListener" />
@@ -28,9 +29,10 @@
             android:layout_marginTop="@dimen/dimen_20"
             android:layout_marginEnd="@dimen/dimen_20"
             android:scaleType="centerInside"
+            app:customRawRes="@{config.lottieRes}"
+            app:isVisible="@{config.lottieRes != null}"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:customRawRes="@{config.lottieRes}" />
+            app:lottie_loop="true" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/dialog_title"
@@ -46,18 +48,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <androidx.appcompat.widget.AppCompatButton
+                style="@style/buttonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Aceptar"
-                android:onClick="@{() -> buttonsListener.onPositiveButtonClicked()}"/>
+                android:elevation="@dimen/dimen_0"
+                android:layout_margin="@dimen/dimen_0"
+                android:onClick="@{() -> buttonsListener.onPositiveButtonClicked()}"
+                android:text="@string/accept" />
+
             <androidx.appcompat.widget.AppCompatButton
+                style="@style/buttonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Cancelar"
-                android:onClick="@{() -> buttonsListener.onNegativeButtonClicked()}" />
+                android:elevation="@dimen/dimen_0"
+                android:layout_margin="@dimen/dimen_0"
+                android:onClick="@{() -> buttonsListener.onNegativeButtonClicked()}"
+                android:text="@string/cancel" />
         </LinearLayout>
 
     </LinearLayout>

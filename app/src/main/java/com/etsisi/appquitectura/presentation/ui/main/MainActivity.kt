@@ -41,8 +41,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         }
     }
 
-    override fun getFragmentContainer(): Int {
-        return mBinding.mainContainer.id
+    override fun getFragmentContainer(): View {
+        return mBinding.mainContainer
     }
 
     override fun setUpDataBinding(mBinding: ActivityMainBinding, mViewModel: MainViewModel) {

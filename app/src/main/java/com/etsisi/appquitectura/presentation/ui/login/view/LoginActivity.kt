@@ -1,6 +1,7 @@
 package com.etsisi.appquitectura.presentation.ui.login.view
 
 import android.util.Log
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.ActivityLoginBinding
@@ -66,7 +67,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
         }
     }
 
-    override fun getFragmentContainer(): Int = mBinding.navHostLogin.id
+    override fun getFragmentContainer(): View = mBinding.navHostLogin
 
     override fun initSignInGoogle() {
         googleSignInLauncher.launch(mViewModel.googleClient.signInIntent)
