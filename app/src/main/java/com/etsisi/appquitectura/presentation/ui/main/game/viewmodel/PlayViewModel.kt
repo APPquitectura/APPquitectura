@@ -49,10 +49,14 @@ class PlayViewModel(
         getGameQuestionsUseCase.invoke(
             scope = viewModelScope,
             params = GetGameQuestionsUseCase.Params(QuestionLevel.EASY, gameMode.totalQuestions)
-        ) { questionsList ->
-            _questions.value = questionsList.map { question ->
-                question.copy(answers = question.answers.asSequence().shuffled().toList())
-            }
+        ) {
+            setQuestions(it)
+        }
+    }
+
+    fun setQuestions(questionsList: List<QuestionBO>) {
+        _questions.value = questionsList.map { question ->
+            question.copy(answers = question.answers.asSequence().shuffled().toList())
         }
     }
 

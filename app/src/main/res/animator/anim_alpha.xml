@@ -7,11 +7,6 @@
 
     <objectAnimator
         android:duration="@android:integer/config_mediumAnimTime"
-        android:propertyName="translationX"
-        android:valueTo="100F" />
-
-    <objectAnimator
-        android:duration="@android:integer/config_mediumAnimTime"
         android:propertyName="alpha"
         android:valueFrom="0f"
         android:valueTo="1f" />

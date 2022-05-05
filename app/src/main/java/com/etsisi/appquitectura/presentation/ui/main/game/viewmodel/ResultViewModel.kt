@@ -84,22 +84,25 @@ class ResultViewModel(
         return rouletteItems.map { it.getWidgetItem() }
     }
 
-    fun setUserScore(itemRouletteIndex: Int, gameScore: UserGameScoreBO) {
+    fun setUserScore(itemRouletteIndex: Int, gameScore: UserGameScoreBO, isRepeatingMode: Boolean) {
         with(gameScore) {
             val rouletteItemSelected = rouletteItems[itemRouletteIndex]
             _result.value = gameScore
-            _regard.value = Pair(rouletteItemSelected.type, rouletteItemSelected.points)
-            updateUserDetailsUseCase.invoke(
-                params = UpdateUserDetailsUseCase.Params(
-                    mapOf(
-                        UpdateUserDetailsUseCase.USER_FIELD.RANKING_POINTS to getRankingPoints().plus(rouletteItemSelected.points.takeIf { rouletteItemSelected.type == ItemRouletteType.POINTS } ?: 0),
-                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_ANSWERS to userQuestions.size,
-                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to getAllCorrectAnswers().size,
-                        UpdateUserDetailsUseCase.USER_FIELD.EXPERIENCE to getExperience().plus(rouletteItemSelected.points.takeIf { rouletteItemSelected.type == ItemRouletteType.EXP } ?: 0)
-                    )
-                )
-            ) {
 
+            if (isRepeatingMode == false) {
+                _regard.value = Pair(rouletteItemSelected.type, rouletteItemSelected.points)
+                updateUserDetailsUseCase.invoke(
+                    params = UpdateUserDetailsUseCase.Params(
+                        mapOf(
+                            UpdateUserDetailsUseCase.USER_FIELD.RANKING_POINTS to getRankingPoints().plus(rouletteItemSelected.points.takeIf { rouletteItemSelected.type == ItemRouletteType.POINTS } ?: 0),
+                            UpdateUserDetailsUseCase.USER_FIELD.TOTAL_ANSWERS to userQuestions.size,
+                            UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to getAllCorrectAnswers().size,
+                            UpdateUserDetailsUseCase.USER_FIELD.EXPERIENCE to getExperience().plus(rouletteItemSelected.points.takeIf { rouletteItemSelected.type == ItemRouletteType.EXP } ?: 0)
+                        )
+                    )
+                ) {
+
+                }
             }
         }
     }
