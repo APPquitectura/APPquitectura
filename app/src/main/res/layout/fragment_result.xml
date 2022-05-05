@@ -77,10 +77,9 @@
 
         <LinearLayout
             android:id="@+id/resultsContainer"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dimen_10"
-            android:divider="@drawable/divider"
+            android:paddingHorizontal="@dimen/dimen_10"
             android:orientation="vertical"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

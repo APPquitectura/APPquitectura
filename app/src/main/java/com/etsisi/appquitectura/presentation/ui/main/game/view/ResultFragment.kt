@@ -70,10 +70,13 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
             val windowsWidth = requireActivity().getWindowPixels().first
             val targetX = windowsWidth - rouletteContainer.left
 
-            val showResultsAnimation = AnimatorInflater.loadAnimator(context, R.animator.show_from_left).apply {
+            val showResultsAnimation = AnimatorInflater.loadAnimator(context, R.animator.anim_alpha).apply {
                 doOnStart {
                     repeatGameBtn.isVisible = !args.userResult.getAllIncorrectQuestions().isEmpty()
-                    resultsContainer.isVisible = true
+                    resultsContainer.apply {
+                        invalidate()
+                        isVisible = true
+                    }
                 }
                 setTarget(resultsContainer)
             }
