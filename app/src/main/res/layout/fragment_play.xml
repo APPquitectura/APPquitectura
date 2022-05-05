@@ -84,7 +84,7 @@
             android:id="@+id/ready_to_start_game"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:isVisible="@{viewModel.navType == GameNavType.PRE_START_GAME}"
+            app:isVisible="@{viewModel.navType == GameNavType.PRE_START_GAME || viewModel.navType == GameNavType.REPEAT_INCORRECT_ANSWERS}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

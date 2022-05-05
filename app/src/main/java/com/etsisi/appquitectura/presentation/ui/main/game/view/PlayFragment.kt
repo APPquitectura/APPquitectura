@@ -17,7 +17,6 @@ import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.components.ZoomOutPageTransformer
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
-import com.etsisi.appquitectura.presentation.ui.main.MainActivity
 import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
@@ -57,15 +56,15 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 addCallback(this@PlayFragment, object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
                         if (args.navType == GameNavType.GAME_MODE) {
-                            onBackPressed()
+                            navigator.onBackPressed()
                         } else {
-                            this.remove()
-                            isEnabled = false
                             navigator.openNavigationDialog(
                                 type = DialogType.WARNING_LEAVING_GAME,
                                 config = DialogConfig(title = R.string.dialog_leaving_game_title, body = R.string.dialog_leaving_game_body)
                             )
                         }
+                        this.remove()
+                        isEnabled = false
                     }
                 })
             }
@@ -78,7 +77,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             lifecycle.addObserver(mViewModel)
             viewModel = mViewModel
             mViewModel.setNavType(args.navType)
-            if (args.navType == GameNavType.PRE_START_GAME) {
+            if (args.navType == GameNavType.PRE_START_GAME || args.navType == GameNavType.REPEAT_INCORRECT_ANSWERS) {
                 hideSystemBars()
                 readySetGoCounter.start().also {
                     readyToStartGame.playAnimation()
@@ -113,6 +112,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             navType.observe(viewLifecycleOwner) {
                 if (it == GameNavType.PRE_START_GAME) {
                     fetchInitialQuestions(args.gameMode)
+                } else if (it == GameNavType.REPEAT_INCORRECT_ANSWERS) {
+                    args.lastScore?.getAllIncorrectQuestions()?.let { setQuestions(it) }
                 }
             }
             questions.observe(viewLifecycleOwner) {
@@ -144,7 +145,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 if (currentItem < adapter?.itemCount?.minus(1) ?: 0) {
                     setCurrentItem(currentItem + 1, true)
                 } else {
-                    navigator.openResultFragment(mViewModel._userGameResult)
+                    navigator.openResultFragment(mViewModel._userGameResult, args.lastScore != null)
                 }
             }, NEXT_QUESTION_DELAY)
         }

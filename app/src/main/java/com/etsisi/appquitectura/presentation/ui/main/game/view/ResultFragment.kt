@@ -20,26 +20,36 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
 ) {
     val args: ResultFragmentArgs by navArgs()
 
-    override fun observeViewModel(mViewModel: ResultViewModel) {
-    }
-
     override fun setUpDataBinding(mBinding: FragmentResultBinding, mViewModel: ResultViewModel) {
         mBinding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
             mViewModel.getRouletteItems(requireContext()).also { list ->
                 wheel.addWheelItems(list)
-                spinBtn.setOnClickListener {
-                    val numberToRotate = (1..list.size).random()
-                    mViewModel.setUserScore(numberToRotate - 1, args.userResult)
-                    wheel.rotateWheelTo(numberToRotate)
-                    wheel.setLuckyWheelReachTheTarget {
-                        showResults()
+
+                if (args.isRepeatingMode) {
+                    rouletteContainer.isVisible = false
+                    showResults()
+                } else {
+                    spinBtn.setOnClickListener {
+                        val numberToRotate = (1..list.size).random()
+                        mViewModel.setUserScore(numberToRotate - 1, args.userResult, args.isRepeatingMode)
+                        wheel.rotateWheelTo(numberToRotate)
+                        wheel.setLuckyWheelReachTheTarget {
+                            showResults()
+                        }
+                        hideSpinBtn()
                     }
-                    hideSpinBtn()
+                }
+
+                repeatGameBtn.setOnClickListener {
+                    navigator.repeatIncorrectAnswers(args.userResult)
                 }
             }
         }
+    }
+
+    override fun observeViewModel(mViewModel: ResultViewModel) {
     }
 
     private fun hideSpinBtn() {
@@ -55,29 +65,35 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
         }
     }
 
-    fun showResults() {
+    private fun showResults() {
         with(mBinding) {
             val windowsWidth = requireActivity().getWindowPixels().first
             val targetX = windowsWidth - rouletteContainer.left
 
             val showResultsAnimation = AnimatorInflater.loadAnimator(context, R.animator.show_from_left).apply {
                 doOnStart {
+                    repeatGameBtn.isVisible = !args.userResult.getAllIncorrectQuestions().isEmpty()
                     resultsContainer.isVisible = true
                 }
                 setTarget(resultsContainer)
             }
-            val obAnimatorAlpha = ObjectAnimator.ofFloat(rouletteContainer, View.ALPHA, 1F, 0F)
-            val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
-            AnimatorSet().apply {
-                cancel()
-                play(obAnimatorTranslation)
-                    .with(obAnimatorAlpha)
-                    .after(showResultsAnimation)
-                doOnEnd {
-                    rouletteContainer.isVisible = false
-                    congratsAnimation.playAnimation()
+
+            if (args.isRepeatingMode == false) {
+                val obAnimatorAlpha = ObjectAnimator.ofFloat(rouletteContainer, View.ALPHA, 1F, 0F)
+                val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
+                AnimatorSet().apply {
+                    cancel()
+                    play(obAnimatorTranslation)
+                        .with(obAnimatorAlpha)
+                        .after(showResultsAnimation)
+                    doOnEnd {
+                        rouletteContainer.isVisible = false
+                        congratsAnimation.playAnimation()
+                    }
+                    start()
                 }
-                start()
+            } else {
+                showResultsAnimation.start()
             }
         }
     }
