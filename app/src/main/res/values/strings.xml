@@ -85,6 +85,9 @@
     <string name="loading">Loading</string>
     <string name="done">Done</string>
 
+    <!-- Ranking -->
+    <string name="ranking_title" translatable="false">Ranking</string>
+
     <!-- Reset Password -->
     <string name="reset_password">Reset password</string>
     <string name="type_email">Write yor email to recover your password</string>

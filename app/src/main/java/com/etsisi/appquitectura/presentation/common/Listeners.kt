@@ -6,6 +6,11 @@ import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
 import com.etsisi.appquitectura.presentation.ui.main.settings.model.ItemSettings
 
+interface DialogListener {
+    fun onPositiveButtonClicked()
+    fun onNegativeButtonClicked()
+}
+
 interface GoogleSignInListener {
     fun initSignInGoogle()
 }
@@ -28,10 +33,5 @@ interface QuestionListener {
 
 interface PlayFragmentListener {
     fun onGameMode(item: ItemGameMode)
-}
-
-interface DialogListener {
-    fun onPositiveButtonClicked()
-    fun onNegativeButtonClicked()
 }
 

@@ -32,13 +32,13 @@ class UsersRepositoryImp(
     }
 
     override suspend fun createUser(userBO: UserBO): RegisterUseCase.RESULT_CODES {
-        local.addUsers(userBO)
-        return remote.createUserInFirestore(userBO)
+        local.addUsers(userBO.toEntity())
+        return remote.createUserInFirestore(userBO.toDTO())
     }
 
     override suspend fun getUserById(email: String): UserBO {
-        return local.getUserById(email) ?: remote.getUserById(email).also {
-            local.addUsers(it)
+        return local.getUserById(email)?.toDomain() ?: remote.getUserById(email).toDomain().also {
+            local.addUsers(it.toEntity())
         }
     }
 
@@ -75,5 +75,12 @@ class UsersRepositoryImp(
 
     override suspend fun checkVerificationCode(code: String): CheckVerificationCodeUseCase.RESULT_CODES {
         return remote.checkVerificationCode(code)
+    }
+
+    override suspend fun getAllUsers(): List<UserBO> {
+        val allUsers = local.getAllUsers().takeIf { it.isNotEmpty() }?.map { it.toDomain() } ?: remote.getAllUsers().map { it.toDomain() }.also { remoteList ->
+            local.addAllUsers(remoteList.map { it.toEntity() })
+        }
+        return allUsers
     }
 }

@@ -17,6 +17,7 @@ import com.etsisi.appquitectura.data.repository.imp.UsersRepositoryImp
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FetchAllQuestionsUseCase
+import com.etsisi.appquitectura.domain.usecase.FetchRankingUseCase
 import com.etsisi.appquitectura.domain.usecase.FetchScoresReferenceUseCase
 import com.etsisi.appquitectura.domain.usecase.FetchUserProfileUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
@@ -58,7 +59,7 @@ val viewModelModule = module {
     viewModel { PlayViewModel(get()) }
     viewModel { ResultViewModel(get()) }
     viewModel { MyProfileViewModel(get(), get())}
-    viewModel { RankingViewModel() }
+    viewModel { RankingViewModel(get()) }
 }
 
 val presentationModule = module {
@@ -82,6 +83,7 @@ val useCaseModule = module {
     factory { UpdateUserDetailsUseCase(get()) }
     factory { FetchUserProfileUseCase(get()) }
     factory { FetchScoresReferenceUseCase(get()) }
+    factory { FetchRankingUseCase(get()) }
 }
 
 val repositoryModule = module {

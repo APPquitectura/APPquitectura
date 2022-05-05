@@ -6,7 +6,6 @@ import com.etsisi.appquitectura.data.helper.FirestoreHelper
 import com.etsisi.appquitectura.data.helper.FirestoreNoDocumentExistsException
 import com.etsisi.appquitectura.data.model.dto.UserDTO
 import com.etsisi.appquitectura.domain.model.CurrentUser
-import com.etsisi.appquitectura.domain.model.UserBO
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
@@ -50,13 +49,13 @@ class UsersRemoteDataSource(
                 }
         }
 
-    suspend fun createUserInFirestore(userBO: UserBO): RegisterUseCase.RESULT_CODES =
+    suspend fun createUserInFirestore(userDTO: UserDTO): RegisterUseCase.RESULT_CODES =
         suspendCancellableCoroutine { cont ->
-            var data = userBO.toDTO()
+            var data = userDTO
             FirestoreHelper
                 .writeDocument(
                     collection = Constants.users_collection,
-                    document = userBO.email,
+                    document = userDTO.email,
                     data = data,
                     onSuccess = {
                         cont.resume(RegisterUseCase.RESULT_CODES.SUCCESS, null)
@@ -123,13 +122,13 @@ class UsersRemoteDataSource(
             }
     }
 
-    suspend fun getUserById(email: String): UserBO = suspendCancellableCoroutine { cont ->
+    suspend fun getUserById(email: String): UserDTO = suspendCancellableCoroutine { cont ->
         FirestoreHelper
             .readDocument<UserDTO>(
                 collection = Constants.users_collection,
                 document = email,
                 onSuccess = {
-                    cont.resume(it.toDomain(), null)
+                    cont.resume(it, null)
                 },
                 onError = {
                     Log.e(TAG, "${getMethodName(object {}.javaClass)} ${it.message}")
@@ -219,4 +218,16 @@ class UsersRemoteDataSource(
                 }
             )
         }
+
+    suspend fun getAllUsers(): List<UserDTO> = suspendCancellableCoroutine { cont ->
+        FirestoreHelper.readDocumentsOfACollection<UserDTO>(
+            collection = Constants.users_collection,
+            onSuccess = {
+                cont.resume(it, null)
+            },
+            onError = {
+                cont.resume(emptyList(), null)
+            }
+        )
+    }
 }
