@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.adapter
+package com.etsisi.appquitectura.presentation.ui.main.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
