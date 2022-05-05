@@ -1,4 +1,4 @@
-package com.etsisi.appquitectura.presentation.ui.main.adapter
+package com.etsisi.appquitectura.presentation.ui.main.game.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

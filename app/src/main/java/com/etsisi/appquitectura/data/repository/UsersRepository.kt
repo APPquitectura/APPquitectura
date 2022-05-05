@@ -19,4 +19,5 @@ interface UsersRepository {
     suspend fun signInWithEmailAndPassword(email: String, password: String): SignInWithEmailAndPasswordUseCase.RESULT_CODES
     suspend fun signInWithCredentials(credential: AuthCredential, context: FragmentActivity): SignInWithCredentialsUseCase.RESULT_CODES
     suspend fun checkVerificationCode(code: String): CheckVerificationCodeUseCase.RESULT_CODES
+    suspend fun getAllUsers(): List<UserBO>
 }

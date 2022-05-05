@@ -5,7 +5,7 @@ import com.etsisi.appquitectura.databinding.FragmentSettingsBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity
-import com.etsisi.appquitectura.presentation.ui.main.adapter.SettingsAdapter
+import com.etsisi.appquitectura.presentation.ui.main.settings.adapter.SettingsAdapter
 import com.etsisi.appquitectura.presentation.ui.main.settings.viewmodel.SettingsViewModel
 import com.etsisi.appquitectura.presentation.utils.startClearActivity
 

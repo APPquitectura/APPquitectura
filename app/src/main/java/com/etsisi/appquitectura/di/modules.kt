@@ -17,6 +17,7 @@ import com.etsisi.appquitectura.data.repository.imp.UsersRepositoryImp
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
 import com.etsisi.appquitectura.domain.usecase.FetchAllQuestionsUseCase
+import com.etsisi.appquitectura.domain.usecase.FetchRankingUseCase
 import com.etsisi.appquitectura.domain.usecase.FetchScoresReferenceUseCase
 import com.etsisi.appquitectura.domain.usecase.FetchUserProfileUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
@@ -38,6 +39,7 @@ import com.etsisi.appquitectura.presentation.ui.main.MainViewModel
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.ResultViewModel
 import com.etsisi.appquitectura.presentation.ui.main.profile.viewmodel.MyProfileViewModel
+import com.etsisi.appquitectura.presentation.ui.main.ranking.viewmodel.RankingViewModel
 import com.etsisi.appquitectura.presentation.ui.main.settings.viewmodel.SettingsViewModel
 import com.etsisi.appquitectura.utils.NavigationTracker
 import com.google.firebase.auth.ktx.auth
@@ -57,6 +59,7 @@ val viewModelModule = module {
     viewModel { PlayViewModel(get()) }
     viewModel { ResultViewModel(get()) }
     viewModel { MyProfileViewModel(get(), get())}
+    viewModel { RankingViewModel(get()) }
 }
 
 val presentationModule = module {
@@ -80,6 +83,7 @@ val useCaseModule = module {
     factory { UpdateUserDetailsUseCase(get()) }
     factory { FetchUserProfileUseCase(get()) }
     factory { FetchScoresReferenceUseCase(get()) }
+    factory { FetchRankingUseCase(get()) }
 }
 
 val repositoryModule = module {

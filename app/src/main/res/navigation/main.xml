@@ -57,6 +57,13 @@
             app:exitAnim="@anim/exit_to_left"
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_home_to_rankingFragment"
+            app:destination="@id/rankingFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -154,4 +161,9 @@
         android:name="com.etsisi.appquitectura.presentation.ui.main.profile.view.MyProfileFragment"
         android:label="MyProfileFragment"
         tools:layout="@layout/fragment_my_profile" />
+    <fragment
+        android:id="@+id/rankingFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.ranking.view.RankingFragment"
+        android:label="RankingFragment"
+        tools:layout="@layout/fragment_ranking"/>
 </navigation>

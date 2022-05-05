@@ -17,7 +17,7 @@ import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.components.ZoomOutPageTransformer
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
-import com.etsisi.appquitectura.presentation.ui.main.adapter.QuestionsViewPagerAdapter
+import com.etsisi.appquitectura.presentation.ui.main.game.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
 import com.google.android.material.tabs.TabLayout
