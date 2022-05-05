@@ -83,6 +83,9 @@
     <string name="loading">Cargando</string>
     <string name="done">Completado</string>
 
+    <!-- Ranking -->
+    <string name="ranking_points_value">%d puntos</string>
+
     <!-- Reset Password -->
     <string name="reset_password">Restablecer contraseña</string>
     <string name="type_email">Escribe tu email para recuperar tu contraseña</string>

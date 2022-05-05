@@ -98,9 +98,9 @@ object BindingAdapter {
 
     @BindingAdapter("userLevel")
     @JvmStatic
-    fun TextView.setUserLevel(scoreLevel: ScoreLevel) {
-        with(ScoreLevel) {
-            text = when(scoreLevel) {
+    fun TextView.setUserLevel(scoreLevel: ScoreLevel?) {
+        scoreLevel?.let {
+            text = when(it) {
                 ScoreLevel.LEVEL_0 -> {
                     "Nivel 0"
                 }

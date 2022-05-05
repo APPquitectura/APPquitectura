@@ -87,6 +87,7 @@
 
     <!-- Ranking -->
     <string name="ranking_title" translatable="false">Ranking</string>
+    <string name="ranking_points_value">%d points</string>
 
     <!-- Reset Password -->
     <string name="reset_password">Reset password</string>
