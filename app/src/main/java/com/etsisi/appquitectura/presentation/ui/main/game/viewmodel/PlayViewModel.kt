@@ -9,10 +9,13 @@ import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
+import com.etsisi.appquitectura.domain.model.QuestionTopic
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
+import com.etsisi.appquitectura.presentation.ui.main.game.model.QuestionTopics
 
 class PlayViewModel(
     private val getGameQuestionsUseCase: GetGameQuestionsUseCase,
@@ -32,6 +35,11 @@ class PlayViewModel(
 
     val _userGameResult = UserGameScoreBO()
 
+    val labelsList = QuestionTopic.values()
+        .filter { it != QuestionTopic.UNKNOWN }
+        .map {
+            ItemLabel(it)
+        }
     val gameModes = listOf(
         ItemGameMode(ItemGameModeAction.TWENTY_QUESTIONS),
         ItemGameMode(ItemGameModeAction.FORTY_QUESTIONS)
@@ -45,7 +53,15 @@ class PlayViewModel(
         _currentTabIndex.value = index
     }
 
-    fun fetchInitialQuestions(gameMode: ItemGameModeAction) {
+    fun getLabelsToFilter(indexOfLabels: List<Int>): QuestionTopics {
+        val array = QuestionTopics()
+        indexOfLabels.forEach {
+            array.add(labelsList[it].topic)
+        }
+        return array
+    }
+
+    fun fetchInitialQuestions(gameMode: ItemGameModeAction, quiestionsTopics: QuestionTopics?) {
         getGameQuestionsUseCase.invoke(
             scope = viewModelScope,
             params = GetGameQuestionsUseCase.Params(QuestionLevel.EASY, gameMode.totalQuestions)

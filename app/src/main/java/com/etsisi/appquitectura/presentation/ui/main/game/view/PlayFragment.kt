@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentPlayBinding
+import com.etsisi.appquitectura.databinding.ItemLabelBinding
 import com.etsisi.appquitectura.databinding.ItemTabHeaderBinding
 import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.domain.model.AnswerBO
@@ -20,6 +21,7 @@ import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -30,8 +32,10 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
 
     val args: PlayFragmentArgs by navArgs()
     private val questionsAdapter by lazy { QuestionsViewPagerAdapter(this) }
-    private val viewPager: ViewPager2
+    private val viewPagerView: ViewPager2
         get() = mBinding.viewPager
+    private val labelsView: ChipGroup
+        get() = mBinding.labels
     private val readySetGoCounter by lazy {
         object : CountDownTimer(READY_SET_GO_COUNT_DOWN, READY_SET_GO_COUNTER_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {}
@@ -76,15 +80,10 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             lifecycleOwner = viewLifecycleOwner
             lifecycle.addObserver(mViewModel)
             viewModel = mViewModel
-            mViewModel.setNavType(args.navType)
-            if (args.navType == GameNavType.PRE_START_GAME || args.navType == GameNavType.REPEAT_INCORRECT_ANSWERS) {
-                hideSystemBars()
-                readySetGoCounter.start().also {
-                    readyToStartGame.playAnimation()
-                }
-            }
             listener = this@PlayFragment
-            this@PlayFragment.viewPager.apply {
+            mViewModel.setNavType(args.navType)
+
+            viewPager.apply {
                 adapter = questionsAdapter
                 isUserInputEnabled = false
                 setPageTransformer(ZoomOutPageTransformer())
@@ -110,10 +109,33 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     override fun observeViewModel(mViewModel: PlayViewModel) {
         with(mViewModel) {
             navType.observe(viewLifecycleOwner) {
-                if (it == GameNavType.PRE_START_GAME) {
-                    fetchInitialQuestions(args.gameMode)
-                } else if (it == GameNavType.REPEAT_INCORRECT_ANSWERS) {
-                    args.lastScore?.getAllIncorrectQuestions()?.let { setQuestions(it) }
+                with(mBinding) {
+                    when(it) {
+                        GameNavType.PRE_START_GAME -> {
+                            hideSystemBars()
+                            readySetGoCounter.start().also { readyToStartGame.playAnimation() }
+                            fetchInitialQuestions(args.gameMode, args.quiestionTopics)
+                        }
+                        GameNavType.REPEAT_INCORRECT_ANSWERS -> {
+                            hideSystemBars()
+                            readySetGoCounter.start().also { readyToStartGame.playAnimation() }
+                            args.lastScore?.getAllIncorrectQuestions()?.let { setQuestions(it) }
+                        }
+                        GameNavType.GAME_MODE -> {
+                            labels.apply {
+                                labelsList.mapIndexed { index, itemLabel ->
+                                    addView(
+                                        ItemLabelBinding.inflate(layoutInflater, this, false).apply {
+                                                this.label = itemLabel
+                                            }.root, index
+                                    )
+                                }
+                            }
+                        }
+                        else -> {
+
+                        }
+                    }
                 }
             }
             questions.observe(viewLifecycleOwner) {
@@ -123,7 +145,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     }
 
     override fun onGameMode(item: ItemGameMode) {
-        navigator.startGame(item.action)
+        val topics = mViewModel.getLabelsToFilter(labelsView.checkedChipIds)
+        navigator.startGame(item.action, topics)
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) = setTabAlpha(tab, true)
@@ -140,7 +163,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     }
 
     private fun setNextQuestion() {
-        with(viewPager) {
+        with(viewPagerView) {
             postDelayed({
                 if (currentItem < adapter?.itemCount?.minus(1) ?: 0) {
                     setCurrentItem(currentItem + 1, true)

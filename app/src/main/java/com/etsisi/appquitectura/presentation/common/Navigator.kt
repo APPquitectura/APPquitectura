@@ -11,12 +11,14 @@ import androidx.navigation.NavController
 import com.etsisi.appquitectura.LoginDirections
 import com.etsisi.appquitectura.MainDirections
 import com.etsisi.appquitectura.domain.model.QuestionBO
+import com.etsisi.appquitectura.domain.model.QuestionTopic
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 import com.etsisi.appquitectura.presentation.ui.main.MainActivity
+import com.etsisi.appquitectura.presentation.ui.main.game.model.QuestionTopics
 import com.etsisi.appquitectura.presentation.ui.main.game.view.PlayFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.game.view.ResultFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
@@ -61,8 +63,8 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun startGame(gameMode: ItemGameModeAction) {
-        val directions = PlayFragmentDirections.actionGameModeToPlay(gameMode = gameMode)
+    fun startGame(gameMode: ItemGameModeAction, topics: QuestionTopics) {
+        val directions = PlayFragmentDirections.actionGameModeToPlay(gameMode = gameMode, quiestionTopics = topics)
         navController.navigate(directions)
     }
 

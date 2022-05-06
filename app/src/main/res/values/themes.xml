@@ -3,8 +3,7 @@
     <style name="Theme.Appquitectura" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
-
-
+        <item name="chipStyle">@style/Widget.AppQuitectura.Chip</item>
         <!--   a darker variant of the primary color, used for
                the status bar (on Android 5.0+) and contextual app bars -->
         <item name="colorPrimaryDark">#303F9F</item>
@@ -48,5 +47,25 @@
 
     <style name="ModalBottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+    </style>
+
+
+    <style name="Widget.AppQuitectura.Chip" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/purple_200</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipIconTint">@color/white</item>
+        <item name="chipStrokeColor">@color/label</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+        <item name="ensureMinTouchTargetSize">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.BodyMedium</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+
+    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">@font/oxygen_bold</item>
+        <item name="android:fontFamily">@font/oxygen_bold</item>
     </style>
 </resources>

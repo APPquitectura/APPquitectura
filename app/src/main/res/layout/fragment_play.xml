@@ -34,6 +34,7 @@
             tools:visibility="visible">
 
             <TextView
+                android:id="@+id/title"
                 style="@style/gameTitleStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -41,6 +42,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <HorizontalScrollView
+                android:id="@+id/labels_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:isVisible="@{viewModel.navType == GameNavType.GAME_MODE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    app:chipSpacingHorizontal="@dimen/dimen_4"
+                    app:singleLine="true"
+                    app:singleSelection="false" />
+
+            </HorizontalScrollView>
 
             <include
                 android:id="@+id/include"
