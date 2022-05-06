@@ -48,17 +48,6 @@ object BindingAdapter {
         }
     }
 
-    @BindingAdapter("bigItemHome")
-    @JvmStatic
-    fun LottieAnimationView.setBigIcon(isBigger: Boolean) {
-        if (isBigger) {
-            updateLayoutParams<ViewGroup.LayoutParams> {
-                this.height = resources.getDimensionPixelSize(R.dimen.dimen_108)
-                this.width = resources.getDimensionPixelSize(R.dimen.dimen_108)
-            }
-        }
-    }
-
     @BindingAdapter("imageUrl")
     @JvmStatic
     fun ImageView.setImageUrl(url: String?) {
