@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="classicGameModeItem"
+            type="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
+    </data>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_login"
+        style="@style/buttonStyle"
+        android:text="hola" />
+</layout>

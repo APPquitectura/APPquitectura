@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="listener"
+            type="com.etsisi.appquitectura.presentation.ui.main.game.adapter.GameModeAdapter.OnGameModeSelected" />
         <variable
             name="gameMode"
             type="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode" />
@@ -16,7 +18,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{() -> listener.onClicked(gameMode)}">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie"
@@ -41,7 +46,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/lottie"
                 app:layout_constraintTop_toTopOf="@+id/lottie"
-                android:text="@{@string/game_mode_option(gameMode.action.totalQuestions)}"
+                app:gameMode="@{gameMode}"
                 tools:text="30 questions" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

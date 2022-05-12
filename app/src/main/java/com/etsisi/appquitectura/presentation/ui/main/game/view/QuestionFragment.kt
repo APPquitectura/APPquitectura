@@ -14,6 +14,7 @@ import com.etsisi.appquitectura.databinding.FragmentQuestionBinding
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.common.BaseFragment
+import com.etsisi.appquitectura.presentation.common.BindingAdapter.setImageUrl
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.common.QuestionListener
@@ -50,6 +51,7 @@ class QuestionFragment(
             answersRecyclerView.adapter = AnswersAdapter(this@QuestionFragment, questionBO).also {
                 it.addDataSet(questionBO.answers)
             }
+            imageQuestion.setImageUrl(questionBO.getImageFirestorageReference())
             imageQuestion.apply {
                 Glide.with(this)
                     .load(questionBO.getImageFirestorageReference())

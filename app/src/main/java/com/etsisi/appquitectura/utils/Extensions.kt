@@ -13,13 +13,13 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
-import android.view.WindowInsetsController
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -43,18 +43,29 @@ inline val <reified T> T.TAG: String
     get() = T::class.java.canonicalName ?: T::class.simpleName ?: T::class.java.simpleName
 
 fun Context.showKeyboard(view: View) {
-    if (view.requestFocus()) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    //The view will have to be the container
+    val isKeyboardVisible = ViewCompat.getRootWindowInsets(view)?.isVisible(WindowInsetsCompat.Type.ime())
+    if (isKeyboardVisible == false) {
+        ViewCompat.setOnApplyWindowInsetsListener(view, object : OnApplyWindowInsetsListener {
+            override fun onApplyWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
+                val imeWindow = insets.getInsets(WindowInsetsCompat.Type.ime())
+                v.updatePadding(left = imeWindow.left, right = imeWindow.right, bottom = imeWindow.bottom)
+                return insets
+            }
+        })
+        ViewCompat.getWindowInsetsController(view)?.let { controller ->
+            controller.show(WindowInsetsCompat.Type.ime())
+        }
     }
 }
 
 fun Context.hideKeyboard(view: View) {
-    if (view.hasFocus()) {
-        view.clearFocus()
+    val isKeyboardVisible = ViewCompat.getRootWindowInsets(view)?.isVisible(WindowInsetsCompat.Type.ime())
+    if (isKeyboardVisible == false) {
+        ViewCompat.getWindowInsetsController(view)?.let { controller ->
+            controller.hide(WindowInsetsCompat.Type.ime())
+        }
     }
-    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun FragmentActivity.checkDialogOpened(): Boolean {
@@ -93,9 +104,14 @@ fun <T> getMethodName(clazz: Class<T>): String {
 
 fun Activity.hideSystemBars(mainContaier: View) {
     window?.apply {
-        ViewCompat.getWindowInsetsController(mainContaier)?.let { controller ->
-            controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
-            controller.hide(WindowInsetsCompat.Type.systemBars())
+        val systemBarIsVisible = ViewCompat.getRootWindowInsets(mainContaier)?.let { insets ->
+            insets?.isVisible(WindowInsetsCompat.Type.systemBars())
+        }
+        if (systemBarIsVisible == true) {
+            ViewCompat.getWindowInsetsController(mainContaier)?.let { controller ->
+                controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+                controller.hide(WindowInsetsCompat.Type.systemBars())
+            }
         }
     }
 }
@@ -121,4 +137,5 @@ fun Activity.getWindowPixels(): Pair<Int, Int> { //Pair(width, height)
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         Pair(displayMetrics.widthPixels, displayMetrics.heightPixels)
     }
+
 }

@@ -12,6 +12,7 @@ import com.etsisi.appquitectura.domain.model.QuestionLevel
 import com.etsisi.appquitectura.domain.model.QuestionTopic
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ClassicGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
@@ -25,6 +26,10 @@ class PlayViewModel(
     val questions: LiveData<List<QuestionBO>>
         get() = _questions
 
+    private val _gameModes by lazy { MutableLiveData<List<ItemGameMode>>() }
+    val gameModes: LiveData<List<ItemGameMode>>
+    get() = _gameModes
+
     private val _navType = MutableLiveData<GameNavType>()
     val navType: LiveData<GameNavType>
         get() = _navType
@@ -35,14 +40,16 @@ class PlayViewModel(
 
     val _userGameResult = UserGameScoreBO()
 
-    val labelsList = QuestionTopic.values()
-        .filter { it != QuestionTopic.UNKNOWN }
-        .map {
-            ItemLabel(it)
-        }
-    val gameModes = listOf(
-        ItemGameMode(ItemGameModeAction.TWENTY_QUESTIONS),
-        ItemGameMode(ItemGameModeAction.FORTY_QUESTIONS)
+    private val labelsList = QuestionTopics().apply {
+        QuestionTopic.values()
+            .filter { it != QuestionTopic.UNKNOWN }
+            .onEach { add(it) }
+    }
+
+    private val mGameModes = listOf(
+        ItemGameMode(ItemGameModeAction.WeeklyGame),
+        ItemGameMode(ItemGameModeAction.ClassicGame(ClassicGameMode.TWENTY_QUESTIONS, ClassicGameMode.FORTY_QUESTIONS)),
+        ItemGameMode(ItemGameModeAction.TestGame(20, labelsList))
     )
 
     fun setNavType(navType: GameNavType) {
@@ -53,18 +60,14 @@ class PlayViewModel(
         _currentTabIndex.value = index
     }
 
-    fun getLabelsToFilter(indexOfLabels: List<Int>): QuestionTopics {
-        val array = QuestionTopics()
-        indexOfLabels.forEach {
-            array.add(labelsList[it].topic)
-        }
-        return array
+    fun getGameModes(): List<ItemGameMode> {
+        return mGameModes.also { _gameModes.value = it }
     }
 
-    fun fetchInitialQuestions(gameMode: ItemGameModeAction, quiestionsTopics: QuestionTopics?) {
+    fun fetchInitialQuestions(gameMode: ItemGameMode) {
         getGameQuestionsUseCase.invoke(
             scope = viewModelScope,
-            params = GetGameQuestionsUseCase.Params(QuestionLevel.EASY, gameMode.totalQuestions)
+            params = GetGameQuestionsUseCase.Params(QuestionLevel.EASY, 20)
         ) {
             setQuestions(it)
         }

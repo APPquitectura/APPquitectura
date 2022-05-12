@@ -7,35 +7,46 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentPlayBinding
-import com.etsisi.appquitectura.databinding.ItemLabelBinding
 import com.etsisi.appquitectura.databinding.ItemTabHeaderBinding
 import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
+import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.GameListener
-import com.etsisi.appquitectura.presentation.common.PlayFragmentListener
 import com.etsisi.appquitectura.presentation.components.ZoomOutPageTransformer
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
+import com.etsisi.appquitectura.presentation.ui.main.game.adapter.GameModeAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     R.layout.fragment_play,
     PlayViewModel::class
-), PlayFragmentListener, TabLayout.OnTabSelectedListener, GameListener {
+), TabLayout.OnTabSelectedListener, GameListener {
 
     val args: PlayFragmentArgs by navArgs()
-    private val questionsAdapter by lazy { QuestionsViewPagerAdapter(this) }
-    private val viewPagerView: ViewPager2
+
+    private val questionsAdapter: QuestionsViewPagerAdapter?
+        get() = questionsViewPager.adapter as? QuestionsViewPagerAdapter
+
+    private val gameModesAdapter: GameModeAdapter?
+        get() = mBinding.gameModesRv.adapter as? GameModeAdapter
+
+    private val questionsViewPager: ViewPager2
         get() = mBinding.viewPager
-    private val labelsView: ChipGroup
-        get() = mBinding.labels
+
+    private val currentNavType: GameNavType
+        get() = args.navType
+    private val lastScoreByUser: UserGameScoreBO?
+        get() = args.lastScore
+    private val gameModeSelected: ItemGameMode?
+        get() = args.gameModeIndex.takeIf { it != -1 }?.let { mViewModel.getGameModes()[it] }
+
     private val readySetGoCounter by lazy {
         object : CountDownTimer(READY_SET_GO_COUNT_DOWN, READY_SET_GO_COUNTER_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {}
@@ -59,7 +70,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             onBackPressedDispatcher.apply {
                 addCallback(this@PlayFragment, object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-                        if (args.navType == GameNavType.GAME_MODE) {
+                        if (currentNavType == GameNavType.GAME_MODE) {
                             navigator.onBackPressed()
                         } else {
                             navigator.openNavigationDialog(
@@ -80,11 +91,12 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             lifecycleOwner = viewLifecycleOwner
             lifecycle.addObserver(mViewModel)
             viewModel = mViewModel
-            listener = this@PlayFragment
-            mViewModel.setNavType(args.navType)
+            mViewModel.setNavType(currentNavType)
+
+            gameModesRv.adapter = GameModeAdapter(this@PlayFragment)
 
             viewPager.apply {
-                adapter = questionsAdapter
+                adapter = QuestionsViewPagerAdapter(this@PlayFragment)
                 isUserInputEnabled = false
                 setPageTransformer(ZoomOutPageTransformer())
             }
@@ -114,23 +126,17 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                         GameNavType.PRE_START_GAME -> {
                             hideSystemBars()
                             readySetGoCounter.start().also { readyToStartGame.playAnimation() }
-                            fetchInitialQuestions(args.gameMode, args.quiestionTopics)
+                            gameModeSelected?.let {
+                                fetchInitialQuestions(it)
+                            }
                         }
                         GameNavType.REPEAT_INCORRECT_ANSWERS -> {
                             hideSystemBars()
                             readySetGoCounter.start().also { readyToStartGame.playAnimation() }
-                            args.lastScore?.getAllIncorrectQuestions()?.let { setQuestions(it) }
+                            lastScoreByUser?.getAllIncorrectQuestions()?.let { setQuestions(it) }
                         }
                         GameNavType.GAME_MODE -> {
-                            labels.apply {
-                                labelsList.mapIndexed { index, itemLabel ->
-                                    addView(
-                                        ItemLabelBinding.inflate(layoutInflater, this, false).apply {
-                                                this.label = itemLabel
-                                            }.root, index
-                                    )
-                                }
-                            }
+                            getGameModes()
                         }
                         else -> {
 
@@ -139,14 +145,12 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 }
             }
             questions.observe(viewLifecycleOwner) {
-                questionsAdapter.addData(it, mBinding.tabLayout.selectedTabPosition)
+                questionsAdapter?.addData(it, mBinding.tabLayout.selectedTabPosition)
+            }
+            gameModes.observe(viewLifecycleOwner) {
+                gameModesAdapter?.addDataSet(it)
             }
         }
-    }
-
-    override fun onGameMode(item: ItemGameMode) {
-        val topics = mViewModel.getLabelsToFilter(labelsView.checkedChipIds)
-        navigator.startGame(item.action, topics)
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) = setTabAlpha(tab, true)
@@ -163,12 +167,12 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     }
 
     private fun setNextQuestion() {
-        with(viewPagerView) {
+        with(questionsViewPager) {
             postDelayed({
                 if (currentItem < adapter?.itemCount?.minus(1) ?: 0) {
                     setCurrentItem(currentItem + 1, true)
                 } else {
-                    navigator.openResultFragment(mViewModel._userGameResult, args.lastScore != null)
+                    navigator.openResultFragment(mViewModel._userGameResult, lastScoreByUser != null)
                 }
             }, NEXT_QUESTION_DELAY)
         }
@@ -182,6 +186,10 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     ) {
         mViewModel.setGameResultAccumulated(question, answer, points, userMarkInMillis)
         setNextQuestion()
+    }
+
+    override fun onGameModeSelected(gameModeIndex: Int, totalQuestions: Int) {
+        navigator.startGame(gameModeIndex)
     }
 
 }

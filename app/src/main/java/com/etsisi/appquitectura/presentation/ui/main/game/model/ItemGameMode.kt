@@ -4,8 +4,13 @@ data class ItemGameMode(
     val action: ItemGameModeAction
 )
 
-enum class ItemGameModeAction(val totalQuestions: Int) {
-    NONE(0),
+sealed class ItemGameModeAction {
+    object WeeklyGame: ItemGameModeAction()
+    class ClassicGame(vararg modes: ClassicGameMode): ItemGameModeAction()
+    class TestGame(val numberOfQuestions: Int, val questionTopics: QuestionTopics): ItemGameModeAction()
+}
+
+enum class ClassicGameMode(val numberOfQuestions: Int) {
     TWENTY_QUESTIONS(20),
     FORTY_QUESTIONS(40)
 }
