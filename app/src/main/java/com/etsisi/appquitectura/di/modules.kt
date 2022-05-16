@@ -3,16 +3,16 @@ package com.etsisi.appquitectura.di
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.data.datasource.local.AppDatabase
 import com.etsisi.appquitectura.data.datasource.local.QuestionsLocalDataSource
-import com.etsisi.appquitectura.data.datasource.local.ScoresLocalDataSource
+import com.etsisi.appquitectura.data.datasource.local.RankingLocalDataSource
 import com.etsisi.appquitectura.data.datasource.local.UsersLocalDataSource
 import com.etsisi.appquitectura.data.datasource.remote.QuestionsRemoteDataSource
-import com.etsisi.appquitectura.data.datasource.remote.ScoresRemoteDataSource
+import com.etsisi.appquitectura.data.datasource.remote.RankingRemoteDataSource
 import com.etsisi.appquitectura.data.datasource.remote.UsersRemoteDataSource
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
-import com.etsisi.appquitectura.data.repository.ScoreRepository
+import com.etsisi.appquitectura.data.repository.RankingRepository
 import com.etsisi.appquitectura.data.repository.UsersRepository
 import com.etsisi.appquitectura.data.repository.imp.QuestionsRepositoryImp
-import com.etsisi.appquitectura.data.repository.imp.ScoreRepositoryImp
+import com.etsisi.appquitectura.data.repository.imp.RankingRepositoryImp
 import com.etsisi.appquitectura.data.repository.imp.UsersRepositoryImp
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
@@ -89,25 +89,25 @@ val useCaseModule = module {
 val repositoryModule = module {
     factory<QuestionsRepository> { QuestionsRepositoryImp(get(), get()) }
     factory<UsersRepository> { UsersRepositoryImp(get(), get()) }
-    factory<ScoreRepository> { ScoreRepositoryImp(get(), get()) }
+    factory<RankingRepository> { RankingRepositoryImp(get(), get()) }
 }
 
 val remoteDataSourceModule = module {
     factory { QuestionsRemoteDataSource() }
     factory { UsersRemoteDataSource(get()) }
-    factory { ScoresRemoteDataSource() }
+    factory { RankingRemoteDataSource() }
 }
 
 val localDataSourceModule = module {
     //DAO's
     single { get<AppDatabase>().questionsDao() }
     single { get<AppDatabase>().usersDao() }
-    single { get<AppDatabase>().scoreDao() }
+    single { get<AppDatabase>().rankingDAO() }
 
     //LocalDataSource
     factory { QuestionsLocalDataSource(get()) }
     factory { UsersLocalDataSource(get()) }
-    factory { ScoresLocalDataSource(get()) }
+    factory { RankingLocalDataSource(get()) }
 }
 
 val databaseModule = module {

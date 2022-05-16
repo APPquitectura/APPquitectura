@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.etsisi.appquitectura.data.model.entities.ScoreEntity
 
 @Dao
-interface ScoreDAO: BaseDAO<ScoreEntity> {
+interface RankingDAO: BaseDAO<ScoreEntity> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(scores: List<ScoreEntity>)

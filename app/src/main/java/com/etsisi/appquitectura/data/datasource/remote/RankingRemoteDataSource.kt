@@ -7,7 +7,7 @@ import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.utils.Constants
 import kotlinx.coroutines.suspendCancellableCoroutine
 
-class ScoresRemoteDataSource {
+class RankingRemoteDataSource {
     suspend fun fetchScoresReference(): ScoreDTO? = suspendCancellableCoroutine { cont ->
         FirestoreHelper
             .readDocument<ScoreDTO>(

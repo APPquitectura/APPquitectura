@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.etsisi.appquitectura.application.BaseApplication
 import com.etsisi.appquitectura.data.datasource.local.dao.QuestionsDAO
-import com.etsisi.appquitectura.data.datasource.local.dao.ScoreDAO
+import com.etsisi.appquitectura.data.datasource.local.dao.RankingDAO
 import com.etsisi.appquitectura.data.datasource.local.dao.UsersDAO
 import com.etsisi.appquitectura.data.model.entities.QuestionEntity
 import com.etsisi.appquitectura.data.model.entities.ScoreEntity
@@ -20,7 +20,7 @@ import com.etsisi.appquitectura.utils.Constants.DATABASE_NAME
 abstract class AppDatabase: RoomDatabase() {
     abstract fun questionsDao(): QuestionsDAO
     abstract fun usersDao(): UsersDAO
-    abstract fun scoreDao(): ScoreDAO
+    abstract fun rankingDAO(): RankingDAO
 
     companion object {
         @Volatile private var instance: AppDatabase? = null
