@@ -1,11 +1,18 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.model
 
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
+
 data class ItemGameMode(
     val action: ItemGameModeAction
 )
 
-enum class ItemGameModeAction(val totalQuestions: Int) {
-    NONE(0),
+sealed class ItemGameModeAction {
+    object WeeklyGame: ItemGameModeAction()
+    class ClassicGame(val classicType: ClassicGameMode): ItemGameModeAction()
+    class TestGame(val numberOfQuestions: Int, val questionTopics: List<QuestionTopic>): ItemGameModeAction()
+}
+
+enum class ClassicGameMode(val numberOfQuestions: Int) {
     TWENTY_QUESTIONS(20),
     FORTY_QUESTIONS(40)
 }

@@ -44,12 +44,7 @@
             app:popEnterAnim="@anim/enter_from_left"
             app:popExitAnim="@anim/exit_to_right"
             app:popUpTo="@id/homeFragment"
-            app:restoreState="false">
-            <argument
-                android:name="gameMode"
-                android:defaultValue="NONE"
-                app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
-        </action>
+            app:restoreState="false"/>
         <action
             android:id="@+id/action_home_to_myProfile"
             app:destination="@id/myProfileFragment"
@@ -85,11 +80,17 @@
             android:defaultValue="GAME_MODE"
             app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
         <argument
-            android:name="gameMode"
-            app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
+            android:name="gameModeIndex"
+            app:argType="integer"
+            android:defaultValue="-1" />
         <argument
             android:name="lastScore"
             app:argType="com.etsisi.appquitectura.domain.model.UserGameScoreBO"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="topicsIdSelected"
+            app:argType="integer[]"
             app:nullable="true"
             android:defaultValue="@null" />
         <action
@@ -147,10 +148,6 @@
                 android:name="navType"
                 android:defaultValue="REPEAT_INCORRECT_ANSWERS"
                 app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
-            <argument
-                android:name="gameMode"
-                android:defaultValue="TWENTY_QUESTIONS"
-                app:argType="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction" />
         </action>
         <argument
             android:name="isRepeatingMode"

@@ -2,6 +2,7 @@ package com.etsisi.appquitectura.domain.model
 
 import com.etsisi.appquitectura.data.model.dto.UserDTO
 import com.etsisi.appquitectura.data.model.entities.UserEntity
+import com.etsisi.appquitectura.domain.enums.QuestionSubject
 import com.etsisi.appquitectura.presentation.utils.EMPTY
 
 data class UserBO(

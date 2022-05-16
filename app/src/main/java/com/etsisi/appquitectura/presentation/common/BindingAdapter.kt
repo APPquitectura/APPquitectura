@@ -1,21 +1,29 @@
 package com.etsisi.appquitectura.presentation.common
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
 import com.airbnb.lottie.LottieAnimationView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.data.model.enums.ScoreLevel
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
+import com.etsisi.appquitectura.presentation.utils.TAG
+import com.etsisi.appquitectura.presentation.utils.getMethodName
 
 object BindingAdapter {
 
@@ -48,23 +56,34 @@ object BindingAdapter {
         }
     }
 
-    @BindingAdapter("bigItemHome")
+    @BindingAdapter("imageUrl", "fallbackDrawable", requireAll = false)
     @JvmStatic
-    fun LottieAnimationView.setBigIcon(isBigger: Boolean) {
-        if (isBigger) {
-            updateLayoutParams<ViewGroup.LayoutParams> {
-                this.height = resources.getDimensionPixelSize(R.dimen.dimen_108)
-                this.width = resources.getDimensionPixelSize(R.dimen.dimen_108)
-            }
-        }
-    }
-
-    @BindingAdapter("imageUrl")
-    @JvmStatic
-    fun ImageView.setImageUrl(url: String?) {
-        if (!url.isNullOrEmpty()) {
+    fun ImageView.setImageUrl(url: Any?, drawable: Int? = null) {
+        if (url != null) {
             Glide.with(this)
                 .load(url)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        Log.e(TAG, "${getMethodName(object {}.javaClass)} $e")
+                        drawable?.let { setImageResource(it) }
+                        return true                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+
+                })
                 .into(this)
         }
     }
@@ -98,41 +117,22 @@ object BindingAdapter {
 
     @BindingAdapter("userLevel")
     @JvmStatic
-    fun TextView.setUserLevel(scoreLevel: ScoreLevel) {
-        with(ScoreLevel) {
-            text = when(scoreLevel) {
-                ScoreLevel.LEVEL_0 -> {
-                    "Nivel 0"
-                }
-                ScoreLevel.LEVEL_1 -> {
-                    "Nivel 1"
-                }
-                ScoreLevel.LEVEL_2 -> {
-                    "Nivel 2"
-                }
-                ScoreLevel.LEVEL_3 -> {
-                    "Nivel 3"
-                }
-                ScoreLevel.LEVEL_4 -> {
-                    "Nivel 4"
-                }
-                ScoreLevel.LEVEL_5 -> {
-                    "Nivel 5"
-                }
-                ScoreLevel.LEVEL_6 -> {
-                    "Nivel 6"
-                }
-                ScoreLevel.LEVEL_7 -> {
-                    "Nivel 7"
-                }
-                ScoreLevel.LEVEL_8 -> {
-                    "Nivel 8"
-                }
-                ScoreLevel.LEVEL_9 -> {
-                    "Nivel 9"
-                }
-                ScoreLevel.LEVEL_10 -> {
-                    "Nivel 10"
+    fun TextView.setUserLevel(scoreLevel: ScoreLevel?) {
+        scoreLevel?.let {
+            text = context.getString(R.string.profile_level_value, it.number)
+        }
+    }
+
+    @BindingAdapter("gameMode")
+    @JvmStatic
+    fun TextView.setGameMode(gameMode: ItemGameMode) {
+        with(context) {
+            text = when(val action = gameMode.action) {
+                ItemGameModeAction.WeeklyGame -> getString(R.string.game_mode_weekly)
+                is ItemGameModeAction.TestGame -> getString(R.string.game_mode_test)
+                else -> {
+                    val total = (action as? ItemGameModeAction.ClassicGame)?.classicType?.numberOfQuestions
+                    getString(R.string.game_mode_classic, total)
                 }
             }
         }

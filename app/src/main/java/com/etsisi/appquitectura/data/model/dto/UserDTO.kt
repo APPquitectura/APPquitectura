@@ -1,6 +1,6 @@
 package com.etsisi.appquitectura.data.model.dto
 
-import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.domain.enums.QuestionSubject
 import com.etsisi.appquitectura.domain.model.UserBO
 import com.etsisi.appquitectura.presentation.utils.EMPTY
 

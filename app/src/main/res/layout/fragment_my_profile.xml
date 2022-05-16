@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/dimen_150"
             android:layout_height="@dimen/dimen_0"
@@ -22,7 +23,10 @@
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:strokeColor="@color/white"
+            app:strokeWidth="1dp" />
 
         <ImageView
             android:layout_width="0dp"
@@ -46,16 +50,32 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/dimen_15"
-            android:layout_marginHorizontal="@dimen/dimen_6"
-            android:orientation="vertical"
             android:divider="@drawable/divider"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/dimen_14"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgProfile">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_5">
+                <TextView
+                    android:id="@+id/infoSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Datos personales" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/infoSubtitle"
+                    android:background="@drawable/divider" />
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_5"
+                android:layout_marginVertical="@dimen/dimen_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -63,7 +83,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Nombre"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/name"
                     android:textSize="@dimen/text_20" />
 
                 <TextView
@@ -72,14 +93,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen_5"
                     android:text="@{viewModel.currentUser.name}"
-                    android:textSize="@dimen/text_20" />
+                    tools:text="Pepe" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_5"
+                android:layout_marginVertical="@dimen/dimen_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -87,7 +109,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Correo"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/hint_email"
                     android:textSize="@dimen/text_20" />
 
                 <TextView
@@ -96,15 +119,33 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen_5"
                     android:text="@{viewModel.currentUser.email}"
-                    android:textSize="@dimen/text_20" />
+                    tools:text="a@aaaaaaaaaaaaaaaaaaa.com" />
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_5">
+
+                <TextView
+                    android:id="@+id/scoreSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Puntuación" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/scoreSubtitle"
+                    android:background="@drawable/divider" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/experienceContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_5"
+                android:layout_marginVertical="@dimen/dimen_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -112,6 +153,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
                     android:text="@string/profile_experience"
                     android:textSize="@dimen/text_20" />
 
@@ -122,15 +164,16 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen_5"
                     android:text="@{@string/roulette_item_exp(viewModel.currentUser.gameExperience)}"
-                    android:textSize="@dimen/text_20" />
+                    tools:text="15" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/userLevelContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_5"
+                android:layout_marginVertical="@dimen/dimen_10"
                 android:orientation="horizontal">
 
                 <TextView
@@ -138,6 +181,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
                     android:text="@string/profile_level"
                     android:textSize="@dimen/text_20" />
 
@@ -148,8 +192,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
-                    android:text="@{viewModel.userLevel.value}"
-                    android:textSize="@dimen/text_20" />
+                    android:paddingStart="@dimen/dimen_5"
+                    app:userLevel="@{viewModel.userLevel}" />
             </LinearLayout>
 
         </LinearLayout>

@@ -14,6 +14,7 @@ import com.etsisi.appquitectura.databinding.FragmentQuestionBinding
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.common.BaseFragment
+import com.etsisi.appquitectura.presentation.common.BindingAdapter.setImageUrl
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.common.QuestionListener
@@ -50,23 +51,7 @@ class QuestionFragment(
             answersRecyclerView.adapter = AnswersAdapter(this@QuestionFragment, questionBO).also {
                 it.addDataSet(questionBO.answers)
             }
-            imageQuestion.apply {
-                Glide.with(this)
-                    .load(questionBO.getImageFirestorageReference())
-                    .centerInside()
-                    .listener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                            Log.e(TAG, "${getMethodName(object {}.javaClass)} $e")
-                            setImageResource(R.drawable.etsam)
-                            return true
-                        }
-
-                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            return false
-                        }
-                    })
-                    .into(this)
-            }
+            imageQuestion.setImageUrl(questionBO.getImageFirestorageReference(), R.drawable.etsam)
             counter = object : CountDownTimer(counterTime, COUNT_DOWN_INTERVAL) {
                 override fun onTick(millisUntilFinished: Long) {
                     counterMillisUntilFinished = millisUntilFinished

@@ -19,7 +19,7 @@ class AnswersAdapter(
     private var mRecyclerView: RecyclerView? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerHolder {
-        val view= ItemAnswerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view = ItemAnswerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AnswerHolder(view)
     }
 

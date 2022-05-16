@@ -3,8 +3,9 @@ package com.etsisi.appquitectura.data.repository.imp
 import com.etsisi.appquitectura.data.datasource.local.QuestionsLocalDataSource
 import com.etsisi.appquitectura.data.datasource.remote.QuestionsRemoteDataSource
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.QuestionLevel
 import com.etsisi.appquitectura.utils.Constants.questions_collection
 
 class QuestionsRepositoryImp(
@@ -16,7 +17,7 @@ class QuestionsRepositoryImp(
         val localIsEmpty = local.fetchQuestions().isNullOrEmpty()
         if (localIsEmpty) {
             remote.fetchQuestions(questions_collection)?.let {
-                addAllQuestions(it)
+                addAllQuestions(it.map { it.toDomain() })
                 it
             }
         }
@@ -24,15 +25,19 @@ class QuestionsRepositoryImp(
     }
 
     override suspend fun addAllQuestions(list: List<QuestionBO>) {
-        local.addAll(list)
+        local.addAll(list.map { it.toEntity() })
     }
 
     override suspend fun deleteAllLocalQuestions() {
         local.deleteAll()
     }
 
-    override suspend fun getGameQuestions(level: QuestionLevel, totalCount: Int): List<QuestionBO>? {
-        return local.getCustomQuestions(level, totalCount)
+    override suspend fun getGameQuestions(
+        level: QuestionLevel,
+        totalCount: Int,
+        topics: List<QuestionTopic>?
+    ): List<QuestionBO>? {
+        return local.getCustomQuestions(level, totalCount, topics)
     }
 
 }

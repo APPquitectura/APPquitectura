@@ -8,6 +8,9 @@
     <color name="teal_200">#CE91DA3E</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="dark_two">#212831</color>
+    <color name="dark_three">#2f3946</color>
+    <color name="dark_secondary">#22272d</color>
     <color name="red_error">#FB3022</color>
     <color name="red_error_50">#85FB3022</color>
     <color name="white">#FFFFFFFF</color>

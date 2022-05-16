@@ -1,12 +1,10 @@
 package com.etsisi.appquitectura.data.datasource.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.etsisi.appquitectura.data.model.entities.QuestionEntity
-import com.etsisi.appquitectura.domain.model.QuestionLevel
 
 @Dao
 interface QuestionsDAO: BaseDAO<QuestionEntity> {

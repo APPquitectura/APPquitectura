@@ -1,7 +1,7 @@
 package com.etsisi.appquitectura.domain.usecase
 
 import com.etsisi.appquitectura.data.repository.UsersRepository
-import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.domain.enums.QuestionSubject
 import com.etsisi.appquitectura.domain.model.UserBO
 
 class RegisterUseCase(private val repository: UsersRepository) : UseCase<RegisterUseCase.Params, RegisterUseCase.RESULT_CODES>() {

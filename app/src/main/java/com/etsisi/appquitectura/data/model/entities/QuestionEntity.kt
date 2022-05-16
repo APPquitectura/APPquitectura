@@ -3,11 +3,11 @@ package com.etsisi.appquitectura.data.model.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
+import com.etsisi.appquitectura.domain.enums.QuestionSubject
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionTopic
-import com.etsisi.appquitectura.domain.model.QuestionSubject
 
 @Entity(tableName = "questions")
 data class QuestionEntity(
@@ -24,7 +24,7 @@ data class QuestionEntity(
         title = title,
         subject = QuestionSubject.parseSubject(subject),
         level = QuestionLevel.parseLevel(level),
-        labels = labels.split(",").map { it.trim() },
+        labels = labels.split(",").map { QuestionTopic.parseTopic(it.trim()) },
         imageRef = imageRef,
         answers = answers
     )

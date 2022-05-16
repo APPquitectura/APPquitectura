@@ -43,6 +43,9 @@
     <string name="item_home_play">Start game</string>
 
     <!-- Play -->
+    <string name="game_mode_classic">%d Questions</string>
+    <string name="game_mode_weekly">Weekly game</string>
+    <string name="game_mode_test">Demo</string>
     <string name="game_mode_title">Selecciona el tipo de partida</string>
     <string name="game_mode_option">%d Questions</string>
 
@@ -63,10 +66,13 @@
     <string name="roulette_item_points">+%d points</string>
     <string name="roulette_item_exp" translatable="false">+%d EXP</string>
 
+    <string name="dialog_topic_picker_title">Select topics you are interested in</string>
+
     <!-- Profile -->
     <string name="profile_title">My profile</string>
     <string name="profile_experience">Experience</string>
     <string name="profile_level">Level</string>
+    <string name="profile_level_value">Level %d</string>
 
     <!-- Register -->
     <string name="register_greeting">Hi %s!</string>
@@ -87,6 +93,7 @@
 
     <!-- Ranking -->
     <string name="ranking_title" translatable="false">Ranking</string>
+    <string name="ranking_points_value">%d points</string>
 
     <!-- Reset Password -->
     <string name="reset_password">Reset password</string>

@@ -46,9 +46,22 @@
             android:gravity="center"
             android:text="@{user.name}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rankingPoints"
             app:layout_constraintStart_toEndOf="@+id/picture"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Name" />
+
+        <TextView
+            android:id="@+id/rankingPoints"
+            style="@style/gameBodyStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/dimen_15"
+            android:gravity="center"
+            android:text="@{@string/ranking_points_value(user.rankingPoints)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

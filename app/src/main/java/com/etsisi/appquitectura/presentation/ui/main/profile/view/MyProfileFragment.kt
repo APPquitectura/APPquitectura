@@ -22,7 +22,7 @@ class MyProfileFragment: BaseFragment<FragmentMyProfileBinding, MyProfileViewMod
        mBinding.apply {
            lifecycleOwner = viewLifecycleOwner
            viewModel = mViewModel
-           CurrentUser.photoUrl?.let { imgProfile.setImageUrl(it.toString()) }
+           imgProfile.setImageUrl(CurrentUser.photoUrl.toString())
        }
     }
 }

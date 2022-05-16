@@ -1,8 +1,8 @@
 package com.etsisi.appquitectura.data.repository
 
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionSubject
 
 interface QuestionsRepository {
     suspend fun fetchQuestions(): List<QuestionBO>?
@@ -11,5 +11,9 @@ interface QuestionsRepository {
 
     suspend fun deleteAllLocalQuestions()
 
-    suspend fun getGameQuestions(level: QuestionLevel, totalCount: Int): List<QuestionBO>?
+    suspend fun getGameQuestions(
+        level: QuestionLevel,
+        totalCount: Int,
+        topics: List<QuestionTopic>?
+    ): List<QuestionBO>?
 }
