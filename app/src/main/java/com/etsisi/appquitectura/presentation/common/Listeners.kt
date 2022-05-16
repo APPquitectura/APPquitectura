@@ -18,8 +18,10 @@ fun interface HomeItemClicked {
     fun onMenuItemClicked(item: ItemHome)
 }
 
-fun interface SettingsItemClicked {
+interface SettingsListener {
     fun onSettingsItemClicked(item: ItemSettings)
+    fun onRepeatModeSwitch(enabled: Boolean)
+    fun isRepeatModeEnabled(): Boolean
 }
 
 interface GameListener {

@@ -47,6 +47,7 @@
     <string name="game_mode_test">Partida de prueba</string>
     <string name="game_mode_title">Selecciona el tipo de partida</string>
     <string name="game_mode_option">Partida de %d</string>
+    <string name="game_mode_repeat">Repitiendo preguntas incorrectas</string>
 
     <string name="time">Tiempo</string>
     <string name="dialog_leaving_game_title">Estás abandonando la partida</string>
@@ -99,6 +100,7 @@
     <!-- Settings -->
     <string name="item_settings_log_out">Cerrar sesión</string>
     <string name="item_settings_update_questions">Actualizar preguntas</string>
+    <string name="item_settings_repeat_mode">Repetir preguntas incorrectas</string>
     <string name="version_info">Versión %s</string>
 
     <!-- Verify -->

@@ -86,7 +86,6 @@ class PlayViewModel(
         return mGameModes.also { _gameModes.value = it }
     }
 
-
     fun handleGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?) {
         when(getGameModes()[gameModeIndex].action) {
             is ItemGameModeAction.WeeklyGame -> {

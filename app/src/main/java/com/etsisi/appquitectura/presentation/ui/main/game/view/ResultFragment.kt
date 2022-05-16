@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentResultBinding
+import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.ResultViewModel
 import com.etsisi.appquitectura.presentation.utils.getWindowPixels
@@ -20,6 +21,9 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
 ) {
     val args: ResultFragmentArgs by navArgs()
 
+    private val userScore: UserGameScoreBO
+        get() = args.userResult
+
     override fun setUpDataBinding(mBinding: FragmentResultBinding, mViewModel: ResultViewModel) {
         mBinding.apply {
             lifecycleOwner = viewLifecycleOwner
@@ -29,7 +33,7 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
 
                 spinBtn.setOnClickListener {
                     val numberToRotate = (1..list.size).random()
-                    mViewModel.setUserScore(numberToRotate - 1, args.userResult, false)
+                    mViewModel.setUserScore(numberToRotate - 1, userScore)
                     wheel.rotateWheelTo(numberToRotate)
                     wheel.setLuckyWheelReachTheTarget {
                         showResults()
@@ -38,7 +42,7 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
                 }
 
                 repeatGameBtn.setOnClickListener {
-                    navigator.repeatIncorrectAnswers(args.userResult)
+                    navigator.repeatIncorrectAnswers(userScore)
                 }
             }
         }
@@ -69,7 +73,6 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
                 doOnStart {
                     repeatGameBtn.isVisible = !args.userResult.getAllIncorrectQuestions().isEmpty()
                     resultsContainer.apply {
-                        invalidate()
                         isVisible = true
                     }
                 }

@@ -12,4 +12,4 @@ data class ItemSettings (
     val hasArrow: Boolean
     )
 
-enum class ItemSettingsAction { LOG_OUT, UPDATE_QUESTIONS }
+enum class ItemSettingsAction { LOG_OUT, UPDATE_QUESTIONS, ENABLE_REPEATING_MODE }

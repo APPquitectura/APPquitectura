@@ -48,6 +48,7 @@
     <string name="game_mode_test">Demo</string>
     <string name="game_mode_title">Selecciona el tipo de partida</string>
     <string name="game_mode_option">%d Questions</string>
+    <string name="game_mode_repeat">Repeating incorrect questions</string>
 
     <string name="time">Time</string>
     <string name="dialog_leaving_game_title">You are leaving the game</string>
@@ -102,6 +103,7 @@
     <!-- Settings -->
     <string name="item_settings_log_out">Log out</string>
     <string name="item_settings_update_questions">Update questions</string>
+    <string name="item_settings_repeat_mode">Repeat wrong questions</string>
     <string name="version_info">Version %s</string>
 
     <!-- Verify -->

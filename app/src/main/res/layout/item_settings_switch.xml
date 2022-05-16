@@ -2,22 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
 
         <variable
             name="item"
             type="com.etsisi.appquitectura.presentation.ui.main.settings.model.ItemSettings" />
-
-        <variable
-            name="listener"
-            type="com.etsisi.appquitectura.presentation.common.SettingsListener" />
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_44"
-        android:onClick="@{() -> listener.onSettingsItemClicked(item)}"
         android:foreground="?android:attr/selectableItemBackground">
 
         <ImageView
@@ -26,7 +19,7 @@
             android:layout_height="@dimen/dimen_24"
             android:layout_marginStart="@dimen/dimen_20"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/title"
+            app:layout_constraintEnd_toStartOf="@id/txtItemHomeProfile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcRes="@{item.icon}"
@@ -34,7 +27,7 @@
             app:tint="@color/text_color_primary" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/txtItemHomeProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_16"
@@ -45,15 +38,13 @@
             app:lineHeight="@dimen/text_18"
             tools:text="Lista de Subscripciones" />
 
-        <ImageView
+        <Switch
+            android:id="@+id/rememberSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen_10"
-            android:src="@drawable/ic_arrow_24"
-            app:isVisible="@{item.hasArrow}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/white" />
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

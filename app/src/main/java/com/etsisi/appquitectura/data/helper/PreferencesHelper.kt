@@ -44,6 +44,10 @@ object PreferencesHelper: KoinComponent {
         }
     }
 
+    fun read(preferenceKey: PreferenceKeys, defaultValue: Boolean): Boolean {
+        return sharedPreferences.getBoolean(preferenceKey.key, defaultValue)
+    }
+
     fun clear() {
         with(sharedPreferences.edit()) {
             clear()
