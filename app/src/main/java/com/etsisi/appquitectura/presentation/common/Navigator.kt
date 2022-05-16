@@ -62,8 +62,8 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun openSection(item: ItemHome) {
-        val directions = when(item.action) {
+    fun openSection(action: ItemHomeAction) {
+        val directions = when(action) {
             ItemHomeAction.ABOUT -> { HomeFragmentDirections.actionHomeToSettings() }
             ItemHomeAction.ANALYTICS -> { HomeFragmentDirections.actionHomeToSettings() }
             ItemHomeAction.PROFILE -> { HomeFragmentDirections.actionHomeToMyProfile() }

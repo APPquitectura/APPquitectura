@@ -43,6 +43,9 @@
     <string name="item_home_play">Start game</string>
 
     <!-- Play -->
+    <string name="game_mode_classic">%d Questions</string>
+    <string name="game_mode_weekly">Weekly game</string>
+    <string name="game_mode_test">Demo</string>
     <string name="game_mode_title">Selecciona el tipo de partida</string>
     <string name="game_mode_option">%d Questions</string>
 
@@ -69,6 +72,7 @@
     <string name="profile_title">My profile</string>
     <string name="profile_experience">Experience</string>
     <string name="profile_level">Level</string>
+    <string name="profile_level_value">Level %d</string>
 
     <!-- Register -->
     <string name="register_greeting">Hi %s!</string>

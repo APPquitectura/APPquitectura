@@ -1,6 +1,7 @@
 package com.etsisi.appquitectura.presentation.common
 
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,6 +22,8 @@ import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
+import com.etsisi.appquitectura.presentation.utils.TAG
+import com.etsisi.appquitectura.presentation.utils.getMethodName
 
 object BindingAdapter {
 
@@ -66,8 +69,9 @@ object BindingAdapter {
                         target: Target<Drawable>?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        TODO("Not yet implemented")
-                    }
+                        Log.e(TAG, "${getMethodName(object {}.javaClass)} $e")
+                        drawable?.let { setImageResource(it) }
+                        return true                    }
 
                     override fun onResourceReady(
                         resource: Drawable?,
@@ -76,7 +80,7 @@ object BindingAdapter {
                         dataSource: DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        TODO("Not yet implemented")
+                        return false
                     }
 
                 })
@@ -115,52 +119,21 @@ object BindingAdapter {
     @JvmStatic
     fun TextView.setUserLevel(scoreLevel: ScoreLevel?) {
         scoreLevel?.let {
-            text = when(it) {
-                ScoreLevel.LEVEL_0 -> {
-                    "Nivel 0"
-                }
-                ScoreLevel.LEVEL_1 -> {
-                    "Nivel 1"
-                }
-                ScoreLevel.LEVEL_2 -> {
-                    "Nivel 2"
-                }
-                ScoreLevel.LEVEL_3 -> {
-                    "Nivel 3"
-                }
-                ScoreLevel.LEVEL_4 -> {
-                    "Nivel 4"
-                }
-                ScoreLevel.LEVEL_5 -> {
-                    "Nivel 5"
-                }
-                ScoreLevel.LEVEL_6 -> {
-                    "Nivel 6"
-                }
-                ScoreLevel.LEVEL_7 -> {
-                    "Nivel 7"
-                }
-                ScoreLevel.LEVEL_8 -> {
-                    "Nivel 8"
-                }
-                ScoreLevel.LEVEL_9 -> {
-                    "Nivel 9"
-                }
-                ScoreLevel.LEVEL_10 -> {
-                    "Nivel 10"
-                }
-            }
+            text = context.getString(R.string.profile_level_value, it.number)
         }
     }
 
     @BindingAdapter("gameMode")
     @JvmStatic
     fun TextView.setGameMode(gameMode: ItemGameMode) {
-        text = when(val action = gameMode.action) {
-            ItemGameModeAction.WeeklyGame -> "Partida semanal"
-            is ItemGameModeAction.TestGame -> "Partida de prueba"
-            else -> {
-                (action as? ItemGameModeAction.ClassicGame)?.classicType?.numberOfQuestions.toString()
+        with(context) {
+            text = when(val action = gameMode.action) {
+                ItemGameModeAction.WeeklyGame -> getString(R.string.game_mode_weekly)
+                is ItemGameModeAction.TestGame -> getString(R.string.game_mode_test)
+                else -> {
+                    val total = (action as? ItemGameModeAction.ClassicGame)?.classicType?.numberOfQuestions
+                    getString(R.string.game_mode_classic, total)
+                }
             }
         }
     }

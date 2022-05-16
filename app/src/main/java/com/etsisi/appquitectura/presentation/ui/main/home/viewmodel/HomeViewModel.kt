@@ -20,8 +20,7 @@ class HomeViewModel: ViewModel(){
             ItemHome(R.string.item_home_play, R.raw.lottie_play, ItemHomeAction.START_GAME),
             ItemHome(R.string.item_home_ranking, R.raw.lottie_ranking, ItemHomeAction.RANKING),
             ItemHome(R.string.item_home_configuration, R.raw.lottie_settings, ItemHomeAction.CONFIGURATION),
-            ItemHome(R.string.item_home_analytics, R.raw.lottie_settings, ItemHomeAction.ANALYTICS),
-            ItemHome(R.string.item_home_about, R.raw.lottie_settings, ItemHomeAction.ABOUT)
+            ItemHome(R.string.item_home_analytics, R.raw.lottie_settings, ItemHomeAction.ANALYTICS)
         )
     }
 }

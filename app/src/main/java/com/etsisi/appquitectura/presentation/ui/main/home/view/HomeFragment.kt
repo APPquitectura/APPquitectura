@@ -4,6 +4,7 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentHomeBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.ui.main.home.adapter.HomeMenuAdapter
+import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHomeAction
 import com.etsisi.appquitectura.presentation.ui.main.home.viewmodel.HomeViewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
@@ -20,9 +21,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
             lifecycleOwner = viewLifecycleOwner
             rvMenu.adapter = HomeMenuAdapter(
                 onMenuItemClickedlistener = { item ->
-                    navigator.openSection(item)
+                    navigator.openSection(item.action)
                 }
             )
+            btnInfo.setOnClickListener {
+                navigator.openSection(ItemHomeAction.ABOUT)
+            }
             executePendingBindings()
         }
     }

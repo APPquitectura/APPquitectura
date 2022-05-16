@@ -19,6 +19,8 @@ import com.etsisi.appquitectura.presentation.ui.main.game.model.ClassicGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
+import java.util.Calendar
+import kotlin.random.Random
 
 class PlayViewModel(
     private val getGameQuestionsUseCase: GetGameQuestionsUseCase,
@@ -56,9 +58,9 @@ class PlayViewModel(
 
 
     private val mGameModes = listOf(
-        ItemGameMode(ItemGameModeAction.WeeklyGame),
         ItemGameMode(ItemGameModeAction.ClassicGame(ClassicGameMode.TWENTY_QUESTIONS)),
         ItemGameMode(ItemGameModeAction.ClassicGame(ClassicGameMode.FORTY_QUESTIONS)),
+        ItemGameMode(ItemGameModeAction.WeeklyGame),
         ItemGameMode(ItemGameModeAction.TestGame(20, labelsList))
     )
 
@@ -97,22 +99,28 @@ class PlayViewModel(
     }
 
     fun fetchInitialQuestions(gameMode: ItemGameMode, topicsSelected: List<QuestionTopic>?) {
-        val params = when (val mode = gameMode.action) {
+        var topicList: List<QuestionTopic>? = null
+        var totalQuestions = 20
+        var level = QuestionLevel.EASY
+        when (val mode = gameMode.action) {
              is ItemGameModeAction.WeeklyGame -> {
-                GetGameQuestionsUseCase.Params(QuestionLevel.EASY, 20)
+                 topicList = weeklyQuestionsGenerator()
             }
             is ItemGameModeAction.TestGame -> {
-                val total = mode.numberOfQuestions
-                GetGameQuestionsUseCase.Params(QuestionLevel.EASY, total, topicsSelected)
+                totalQuestions = mode.numberOfQuestions
+                topicList = topicsSelected
             }
             is ItemGameModeAction.ClassicGame -> {
-                val total = mode.classicType.numberOfQuestions
-                GetGameQuestionsUseCase.Params(QuestionLevel.EASY, total)
+                totalQuestions = mode.classicType.numberOfQuestions
             }
         }
         getGameQuestionsUseCase.invoke(
             scope = viewModelScope,
-            params = params
+            params = GetGameQuestionsUseCase.Params(
+                topics = topicList,
+                totalCount = totalQuestions,
+                level = level
+            )
         ) {
             setQuestions(it)
         }
@@ -135,5 +143,10 @@ class PlayViewModel(
             this.userAnswer.add(Pair(userAnswer, points))
             totalTime += userMarkInMillis
         }
+    }
+
+    fun weeklyQuestionsGenerator(): List<QuestionTopic> {
+        val topicIndex = Random(seed = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)).nextInt(labelsList.size)
+        return listOf (labelsList[topicIndex])
     }
 }
