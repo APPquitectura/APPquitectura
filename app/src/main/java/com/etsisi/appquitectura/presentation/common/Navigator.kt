@@ -95,13 +95,13 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun openResultFragment(score: UserGameScoreBO, isRepeatingMode: Boolean) {
-        val directions = PlayFragmentDirections.actionPlayFragmentToResultFragment(score, isRepeatingMode)
+    fun openResultFragment(score: UserGameScoreBO) {
+        val directions = PlayFragmentDirections.actionPlayFragmentToResultFragment(score)
         navController.navigate(directions)
     }
 
     fun repeatIncorrectAnswers(lastScore: UserGameScoreBO) {
-        val directions = ResultFragmentDirections.actionRepeatIncorrectAnswers(lastScore = lastScore)
+        val directions = PlayFragmentDirections.actionRepeatIncorrectAnswers(lastScore = lastScore)
         navController.navigate(directions)
     }
 

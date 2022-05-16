@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.etsisi.appquitectura.data.helper.PreferencesHelper
+import com.etsisi.appquitectura.data.model.enums.PreferenceKeys
 import com.etsisi.appquitectura.domain.enums.GameNavType
 import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.domain.enums.QuestionTopic
@@ -41,6 +43,14 @@ class PlayViewModel(
     private val _startGame by lazy { MutableLiveEvent<Int>() }
     val startGame: LiveEvent<Int>
         get() = _startGame
+
+    private val _repeatIncorrectAnswers by lazy { MutableLiveEvent<UserGameScoreBO>() }
+    val repeatIncorrectAnswers: LiveEvent<UserGameScoreBO>
+        get() = _repeatIncorrectAnswers
+
+    private val _showResults by lazy { MutableLiveEvent<UserGameScoreBO>() }
+    val showResults: LiveEvent<UserGameScoreBO>
+        get() = _showResults
 
     private val _navType = MutableLiveData<GameNavType>()
     val navType: LiveData<GameNavType>
@@ -148,5 +158,28 @@ class PlayViewModel(
     fun weeklyQuestionsGenerator(): List<QuestionTopic> {
         val topicIndex = Random(seed = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)).nextInt(labelsList.size)
         return listOf (labelsList[topicIndex])
+    }
+
+    fun onGameFinished(currentNavType: GameNavType) {
+        with(_userGameResult.getAllIncorrectQuestions()) {
+            when (currentNavType) {
+                GameNavType.REPEAT_INCORRECT_ANSWERS -> {
+                    if (isEmpty()) {
+                        PreferencesHelper.readObject<UserGameScoreBO>(PreferenceKeys.USER_SCORE)
+                            ?.let { _showResults.value = Event(it) }
+                    } else {
+                        _repeatIncorrectAnswers.value = Event(_userGameResult)
+                    }
+                }
+                else -> {
+                    PreferencesHelper.writeObject(PreferenceKeys.USER_SCORE, _userGameResult)
+                    if (isEmpty()) {
+                        _showResults.value = Event(_userGameResult)
+                    } else {
+                        _repeatIncorrectAnswers.value = Event(_userGameResult)
+                    }
+                }
+            }
+        }
     }
 }

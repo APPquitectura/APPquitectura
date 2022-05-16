@@ -167,6 +167,12 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             startGame.observe(viewLifecycleOwner, LiveEventObserver {
                 navigator.startGame(it, _labelsSelectedIndex)
             })
+            repeatIncorrectAnswers.observe(viewLifecycleOwner, LiveEventObserver {
+                navigator.repeatIncorrectAnswers(it)
+            })
+            showResults.observe(viewLifecycleOwner, LiveEventObserver {
+                navigator.openResultFragment(it)
+            })
         }
     }
 
@@ -189,7 +195,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 if (currentItem < adapter?.itemCount?.minus(1) ?: 0) {
                     setCurrentItem(currentItem + 1, true)
                 } else {
-                    navigator.openResultFragment(mViewModel._userGameResult, lastScoreByUser != null)
+                    mViewModel.onGameFinished(currentNavType)
                 }
             }, NEXT_QUESTION_DELAY)
         }

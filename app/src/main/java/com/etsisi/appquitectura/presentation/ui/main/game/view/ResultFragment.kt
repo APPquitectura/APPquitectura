@@ -27,19 +27,14 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
             mViewModel.getRouletteItems(requireContext()).also { list ->
                 wheel.addWheelItems(list)
 
-                if (args.isRepeatingMode) {
-                    rouletteContainer.isVisible = false
-                    showResults()
-                } else {
-                    spinBtn.setOnClickListener {
-                        val numberToRotate = (1..list.size).random()
-                        mViewModel.setUserScore(numberToRotate - 1, args.userResult, args.isRepeatingMode)
-                        wheel.rotateWheelTo(numberToRotate)
-                        wheel.setLuckyWheelReachTheTarget {
-                            showResults()
-                        }
-                        hideSpinBtn()
+                spinBtn.setOnClickListener {
+                    val numberToRotate = (1..list.size).random()
+                    mViewModel.setUserScore(numberToRotate - 1, args.userResult, false)
+                    wheel.rotateWheelTo(numberToRotate)
+                    wheel.setLuckyWheelReachTheTarget {
+                        showResults()
                     }
+                    hideSpinBtn()
                 }
 
                 repeatGameBtn.setOnClickListener {
@@ -80,23 +75,18 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
                 }
                 setTarget(resultsContainer)
             }
-
-            if (args.isRepeatingMode == false) {
-                val obAnimatorAlpha = ObjectAnimator.ofFloat(rouletteContainer, View.ALPHA, 1F, 0F)
-                val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
-                AnimatorSet().apply {
-                    cancel()
-                    play(obAnimatorTranslation)
-                        .with(obAnimatorAlpha)
-                        .after(showResultsAnimation)
-                    doOnEnd {
-                        rouletteContainer.isVisible = false
-                        congratsAnimation.playAnimation()
-                    }
-                    start()
+            val obAnimatorAlpha = ObjectAnimator.ofFloat(rouletteContainer, View.ALPHA, 1F, 0F)
+            val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
+            AnimatorSet().apply {
+                cancel()
+                play(obAnimatorTranslation)
+                    .with(obAnimatorAlpha)
+                    .after(showResultsAnimation)
+                doOnEnd {
+                    rouletteContainer.isVisible = false
+                    congratsAnimation.playAnimation()
                 }
-            } else {
-                showResultsAnimation.start()
+                start()
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.etsisi.appquitectura.di
 
+import android.content.Context
 import androidx.navigation.NavController
+import com.etsisi.appquitectura.BuildConfig
 import com.etsisi.appquitectura.data.datasource.local.AppDatabase
 import com.etsisi.appquitectura.data.datasource.local.QuestionsLocalDataSource
 import com.etsisi.appquitectura.data.datasource.local.RankingLocalDataSource
@@ -46,7 +48,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
+const val FILE_NAME = "${BuildConfig.APPLICATION_ID}.preferences"
 
 val viewModelModule = module {
     viewModel { LoginViewModel(get(), get(), get(), get(), get(), get()) }
@@ -112,5 +116,9 @@ val localDataSourceModule = module {
 
 val databaseModule = module {
     single { AppDatabase.getInstance(androidApplication()) }
+}
+
+val preferencesModule = module {
+single { androidApplication().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE) }
 }
 

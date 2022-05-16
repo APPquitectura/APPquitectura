@@ -119,6 +119,19 @@
             app:popExitAnim="@anim/exit_to_right"
             app:popUpTo="@id/homeFragment"
             app:popUpToSaveState="false" />
+        <action
+            android:id="@+id/action_repeat_incorrect_answers"
+            app:destination="@id/playFragment"
+            app:popUpTo="@id/homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right">
+            <argument
+                android:name="navType"
+                android:defaultValue="REPEAT_INCORRECT_ANSWERS"
+                app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
+        </action>
     </fragment>
     <dialog
         android:id="@+id/navigationDialog"
@@ -140,18 +153,6 @@
         <argument
             android:name="userResult"
             app:argType="com.etsisi.appquitectura.domain.model.UserGameScoreBO" />
-        <action
-            android:id="@+id/action_repeat_incorrect_answers"
-            app:destination="@id/playFragment"
-            app:popUpTo="@id/homeFragment">
-            <argument
-                android:name="navType"
-                android:defaultValue="REPEAT_INCORRECT_ANSWERS"
-                app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
-        </action>
-        <argument
-            android:name="isRepeatingMode"
-            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/myProfileFragment"

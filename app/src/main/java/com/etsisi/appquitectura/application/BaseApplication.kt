@@ -4,6 +4,7 @@ import android.app.Application
 import com.etsisi.appquitectura.BuildConfig
 import com.etsisi.appquitectura.di.databaseModule
 import com.etsisi.appquitectura.di.localDataSourceModule
+import com.etsisi.appquitectura.di.preferencesModule
 import com.etsisi.appquitectura.di.presentationModule
 import com.etsisi.appquitectura.di.remoteDataSourceModule
 import com.etsisi.appquitectura.di.repositoryModule
@@ -20,9 +21,7 @@ class BaseApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        //initialize di
         initKoin()
-        //initialize preferences
     }
 
     private fun initKoin() {
@@ -36,7 +35,8 @@ class BaseApplication: Application() {
                     repositoryModule,
                     remoteDataSourceModule,
                     localDataSourceModule,
-                    databaseModule
+                    databaseModule,
+                    preferencesModule
                 )
             )
         }
