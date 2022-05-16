@@ -57,8 +57,8 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun startGame(gameModeIndex: Int) {
-        val directions = PlayFragmentDirections.actionGameModeToPlay(gameModeIndex = gameModeIndex)
+    fun startGame(gameModeIndex: Int, labelsSelectedIndex: IntArray?) {
+        val directions = PlayFragmentDirections.actionGameModeToPlay(gameModeIndex = gameModeIndex, topicsIdSelected = labelsSelectedIndex)
         navController.navigate(directions)
     }
 

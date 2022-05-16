@@ -1,9 +1,8 @@
 package com.etsisi.appquitectura.data.repository
 
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionSubject
-import com.etsisi.appquitectura.domain.model.QuestionTopic
 
 interface QuestionsRepository {
     suspend fun fetchQuestions(): List<QuestionBO>?

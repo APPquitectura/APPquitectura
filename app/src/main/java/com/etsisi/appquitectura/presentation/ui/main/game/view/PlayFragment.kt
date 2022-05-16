@@ -9,18 +9,23 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentPlayBinding
 import com.etsisi.appquitectura.databinding.ItemTabHeaderBinding
 import com.etsisi.appquitectura.domain.enums.GameNavType
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.GameListener
+import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.components.ZoomOutPageTransformer
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
+import com.etsisi.appquitectura.presentation.dialog.view.TopicPickerDialog
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.GameModeAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
+import com.etsisi.appquitectura.presentation.utils.TAG
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -46,6 +51,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         get() = args.lastScore
     private val gameModeSelected: ItemGameMode?
         get() = args.gameModeIndex.takeIf { it != -1 }?.let { mViewModel.getGameModes()[it] }
+    private val topicsSelected: List<QuestionTopic>?
+        get() = args.topicsIdSelected?.map { mViewModel.labelsList[it] }
 
     private val readySetGoCounter by lazy {
         object : CountDownTimer(READY_SET_GO_COUNT_DOWN, READY_SET_GO_COUNTER_INTERVAL) {
@@ -127,7 +134,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                             hideSystemBars()
                             readySetGoCounter.start().also { readyToStartGame.playAnimation() }
                             gameModeSelected?.let {
-                                fetchInitialQuestions(it)
+                                fetchInitialQuestions(it, topicsSelected)
                             }
                         }
                         GameNavType.REPEAT_INCORRECT_ANSWERS -> {
@@ -150,6 +157,16 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             gameModes.observe(viewLifecycleOwner) {
                 gameModesAdapter?.addDataSet(it)
             }
+            onShowTopicPicker.observe(viewLifecycleOwner, LiveEventObserver {
+                TopicPickerDialog.newInstance(
+                    it,
+                    getGameModes().indexOfFirst { it.action is ItemGameModeAction.TestGame },
+                    this@PlayFragment
+                ).show(childFragmentManager, TopicPickerDialog.TAG)
+            })
+            startGame.observe(viewLifecycleOwner, LiveEventObserver {
+                navigator.startGame(it, _labelsSelectedIndex)
+            })
         }
     }
 
@@ -188,8 +205,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         setNextQuestion()
     }
 
-    override fun onGameModeSelected(gameModeIndex: Int) {
-        navigator.startGame(gameModeIndex)
+    override fun onGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?) {
+        mViewModel.handleGameModeSelected(gameModeIndex, topicsIdSelected)
     }
 
 }

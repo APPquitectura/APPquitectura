@@ -1,9 +1,9 @@
 package com.etsisi.appquitectura.domain.usecase
 
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionTopic
 
 class GetGameQuestionsUseCase(
     private val questionsRepository: QuestionsRepository

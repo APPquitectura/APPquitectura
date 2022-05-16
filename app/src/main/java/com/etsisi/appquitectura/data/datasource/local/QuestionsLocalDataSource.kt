@@ -1,9 +1,10 @@
 package com.etsisi.appquitectura.data.datasource.local
 
 import com.etsisi.appquitectura.data.datasource.local.dao.QuestionsDAO
+import com.etsisi.appquitectura.data.model.entities.QuestionEntity
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionTopic
 
 class QuestionsLocalDataSource(
     private val dao: QuestionsDAO
@@ -12,9 +13,8 @@ class QuestionsLocalDataSource(
 
     suspend fun deleteAll() = dao.deleteAll()
 
-    suspend fun addAll(questions: List<QuestionBO>) {
-        val questionsList = questions.mapNotNull { it.toEntity() }
-        dao.insertAll(questionsList)
+    suspend fun addAll(questions: List<QuestionEntity>) {
+        dao.insertAll(questions)
     }
 
     suspend fun getCustomQuestions(

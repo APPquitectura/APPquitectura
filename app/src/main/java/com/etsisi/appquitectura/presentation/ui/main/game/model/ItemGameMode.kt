@@ -1,6 +1,6 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.model
 
-import com.etsisi.appquitectura.domain.model.QuestionTopic
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 
 data class ItemGameMode(
     val action: ItemGameModeAction

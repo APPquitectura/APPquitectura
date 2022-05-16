@@ -1,10 +1,10 @@
 package com.etsisi.appquitectura.data.model.dto
 
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
+import com.etsisi.appquitectura.domain.enums.QuestionSubject
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionSubject
-import com.etsisi.appquitectura.domain.model.QuestionTopic
 
 data class QuestionDTO(
     val id: String? = null,
@@ -25,7 +25,7 @@ data class QuestionDTO(
             title = pregunta_texto,
             subject = QuestionSubject.parseSubject(asignatura),
             level = QuestionLevel.parseLevel(dificultad),
-            labels = etiquetas?.map { QuestionTopic.parseTopic(it) }.orEmpty(),
+            labels = etiquetas?.map { QuestionTopic.parseTopic(it.trim()) }.orEmpty(),
             imageRef = pregunta_imagen.orEmpty(),
             answers = respuestas?.mapIndexed { index, s ->
                 AnswerBO(title = s, correct = index == CORRECT_ANSWER_INDEX)

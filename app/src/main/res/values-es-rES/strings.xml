@@ -61,6 +61,8 @@
     <string name="rotate_roulette">Gira la ruleta</string>
     <string name="roulette_item_points">+%d puntos</string>
 
+    <string name="dialog_topic_picker_title">Selecciona tus temas de interés</string>
+
     <!-- Profile -->
     <string name="profile_title">Mi perfil</string>
     <string name="profile_experience">Experiencia</string>

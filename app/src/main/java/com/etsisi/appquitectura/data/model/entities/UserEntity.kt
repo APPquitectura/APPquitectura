@@ -3,7 +3,7 @@ package com.etsisi.appquitectura.data.model.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.domain.enums.QuestionSubject
 import com.etsisi.appquitectura.domain.model.UserBO
 
 @Entity(tableName = "users")

@@ -6,15 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.domain.enums.GameNavType
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
+import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.QuestionLevel
-import com.etsisi.appquitectura.domain.model.QuestionTopic
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
+import com.etsisi.appquitectura.presentation.common.Event
+import com.etsisi.appquitectura.presentation.common.LiveEvent
+import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ClassicGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
 
 class PlayViewModel(
     private val getGameQuestionsUseCase: GetGameQuestionsUseCase,
@@ -26,7 +30,15 @@ class PlayViewModel(
 
     private val _gameModes by lazy { MutableLiveData<List<ItemGameMode>>() }
     val gameModes: LiveData<List<ItemGameMode>>
-    get() = _gameModes
+        get() = _gameModes
+
+    private val _onShowTopicPicker by lazy { MutableLiveEvent<List<ItemLabel>>() }
+    val onShowTopicPicker: LiveEvent<List<ItemLabel>>
+        get() = _onShowTopicPicker
+
+    private val _startGame by lazy { MutableLiveEvent<Int>() }
+    val startGame: LiveEvent<Int>
+        get() = _startGame
 
     private val _navType = MutableLiveData<GameNavType>()
     val navType: LiveData<GameNavType>
@@ -36,9 +48,10 @@ class PlayViewModel(
     val currentTabIndex: LiveData<Int>
         get() = _currentTabIndex
 
-    val _userGameResult = UserGameScoreBO()
+    val _userGameResult by lazy { UserGameScoreBO() }
+    var _labelsSelectedIndex: IntArray? = null
 
-    private val labelsList = QuestionTopic.values()
+    val labelsList = QuestionTopic.values()
             .filter { it != QuestionTopic.UNKNOWN }
 
 
@@ -61,14 +74,36 @@ class PlayViewModel(
         return mGameModes.also { _gameModes.value = it }
     }
 
-    fun fetchInitialQuestions(gameMode: ItemGameMode) {
+
+    fun handleGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?) {
+        when(getGameModes()[gameModeIndex].action) {
+            is ItemGameModeAction.WeeklyGame -> {
+                _startGame.value = Event(gameModeIndex)
+            }
+            is ItemGameModeAction.TestGame -> {
+                if (topicsIdSelected != null) {
+                    _labelsSelectedIndex = topicsIdSelected
+                    _startGame.value = Event(gameModeIndex)
+                } else {
+                    _onShowTopicPicker.value = Event(
+                        labelsList.map { ItemLabel(it) }
+                    )
+                }
+            }
+            is ItemGameModeAction.ClassicGame -> {
+                _startGame.value = Event(gameModeIndex)
+            }
+        }
+    }
+
+    fun fetchInitialQuestions(gameMode: ItemGameMode, topicsSelected: List<QuestionTopic>?) {
         val params = when (val mode = gameMode.action) {
              is ItemGameModeAction.WeeklyGame -> {
                 GetGameQuestionsUseCase.Params(QuestionLevel.EASY, 20)
             }
             is ItemGameModeAction.TestGame -> {
                 val total = mode.numberOfQuestions
-                GetGameQuestionsUseCase.Params(QuestionLevel.EASY, total, mode.questionTopics)
+                GetGameQuestionsUseCase.Params(QuestionLevel.EASY, total, topicsSelected)
             }
             is ItemGameModeAction.ClassicGame -> {
                 val total = mode.classicType.numberOfQuestions

@@ -25,7 +25,7 @@
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/red_error</item>
 
-        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
+        <item name="bottomSheetDialogTheme">@style/Widget.AppQuitectura.BottomSheetDialog</item>
     </style>
 
     <style name="Theme.Appquitectura.Splash" parent="Theme.SplashScreen">
@@ -41,12 +41,14 @@
     </style>
 
     <!-- Bottomsheet -->
-    <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
-        <!-- Apply attributes here -->
+    <style name="Widget.AppQuitectura.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
     </style>
 
-    <style name="ModalBottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+    <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 
 

@@ -7,7 +7,7 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentRegisterBinding
-import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.domain.enums.QuestionSubject
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError

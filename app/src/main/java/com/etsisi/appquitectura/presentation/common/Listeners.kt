@@ -24,7 +24,7 @@ fun interface SettingsItemClicked {
 
 interface GameListener {
     fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, points: Long, userMarkInMillis: Long)
-    fun onGameModeSelected(gameModeIndex: Int)
+    fun onGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?)
 }
 
 interface QuestionListener {
