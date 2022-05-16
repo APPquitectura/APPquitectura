@@ -188,7 +188,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         setNextQuestion()
     }
 
-    override fun onGameModeSelected(gameModeIndex: Int, totalQuestions: Int) {
+    override fun onGameModeSelected(gameModeIndex: Int) {
         navigator.startGame(gameModeIndex)
     }
 

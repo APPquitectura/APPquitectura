@@ -24,7 +24,7 @@ data class QuestionEntity(
         title = title,
         subject = QuestionSubject.parseSubject(subject),
         level = QuestionLevel.parseLevel(level),
-        labels = labels.split(",").map { it.trim() },
+        labels = labels.split(",").map { QuestionTopic.parseTopic(it.trim()) },
         imageRef = imageRef,
         answers = answers
     )

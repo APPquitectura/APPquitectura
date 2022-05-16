@@ -11,7 +11,7 @@ data class QuestionBO(
     val title: String?,
     val subject: QuestionSubject,
     val level: QuestionLevel,
-    val labels: List<String>,
+    val labels: List<QuestionTopic>,
     val imageRef: String,
     val answers: List<AnswerBO>
 ): Parcelable {
@@ -23,7 +23,7 @@ data class QuestionBO(
         title = title.orEmpty(),
         subject = subject.value,
         level = level.value,
-        labels = labels.joinToString(),
+        labels = labels.joinToString(","),
         imageRef = imageRef,
         answers = answers
     )
@@ -78,29 +78,33 @@ enum class QuestionAge(val value: String) {
 }
 
 enum class QuestionTopic(val value: String) {
-    UNKNOWN("DESCONOCIDO"),
-    EGYPT("EGIPTO"),
-    GREECE("GRECIA"),
-    ROME("ROMA"),
-    PALEOCHRISTIAN("PALEOCRISTIANO"),
+    ACTUAL("ACTUAL"),
+    ART_NOUVEAU("ART NOUVEAU"),
+    BAROQUE("BARROCO"),
     BYZANTINE("BIZANTINO"),
+    CONCEPTS("CONCEPTOS"),
+    EGYPT("EGIPTO"),
+    ENGINEERING("INGENIERÍA"),
+    GOTHIC("GÓTICO"),
+    GREECE("GRECIA"),
+    HISTORICISM("HISTORICISMO"),
+    ILLUSTRATION("ILUSTRACIÓN"),
+    MANNERISM("MANIERISMO"),
+    MIDDLE_AGE("EDAD MEDIA"),
+    MODERN("MODERNIDAD"),
+    PALEOCHRISTIAN("PALEOCRISTIANO"),
+    POSTMODERNITY("POSMODERNIDAD"),
     PREROMANESQUE("PRERROMÁNICO"),
     ROMANESQUE("ROMÁNICO"),
-    GOTHIC("GÓTICO"),
+    ROME("ROMA"),
     RENAISSANCE("RENACIMIENTO"),
-    MANNERISM("MANIERISMO"),
-    BAROQUE("BARROCO"),
-    ILLUSTRATION("ILUSTRACIÓN"),
-    ENGINEERING("INGENIERÍA"),
-    HISTORICISM("HISTORICISMO"),
-    ART_NOUVEAU("ART NOUVEAU"),
-    VANGUARD("VANGUARDIAS"),
-    MODERN("MODERNIDAD"),
-    POSTMODERNITY("POSMODERNIDAD"),
-    ACTUAL("ACTUAL");
+    SANTIAGO_COMPOSTELA("SANTIAGO DE COMPOSTELA"),
+    SPAIN("ESPAÑA"),
+    UNKNOWN("DESCONOCIDO"),
+    VANGUARD("VANGUARDIAS");
 
     companion object {
-        fun parseTopic(x: String?): QuestionTopic {
+        fun parseTopic(x: String): QuestionTopic {
             return values().find { it.value.equals(x, true) } ?: UNKNOWN
         }
     }

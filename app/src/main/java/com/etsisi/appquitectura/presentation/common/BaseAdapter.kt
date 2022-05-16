@@ -8,6 +8,7 @@ abstract class BaseAdapter<item: Any, holder: BaseHolder<item,*>>: RecyclerView.
     protected var dataSet = mutableListOf<item>()
 
     fun addDataSet(items: List<item>) {
+        dataSet.clear()
         dataSet.addAll(items)
         notifyDataSetChanged()
     }

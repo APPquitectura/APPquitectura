@@ -156,10 +156,12 @@ object BindingAdapter {
     @BindingAdapter("gameMode")
     @JvmStatic
     fun TextView.setGameMode(gameMode: ItemGameMode) {
-        text = when(gameMode.action) {
+        text = when(val action = gameMode.action) {
             ItemGameModeAction.WeeklyGame -> "Partida semanal"
             is ItemGameModeAction.TestGame -> "Partida de prueba"
-            is ItemGameModeAction.ClassicGame -> "Partida clásica"
+            else -> {
+                (action as? ItemGameModeAction.ClassicGame)?.classicType?.numberOfQuestions.toString()
+            }
         }
     }
 }

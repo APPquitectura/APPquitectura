@@ -4,6 +4,7 @@ import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.QuestionLevel
 import com.etsisi.appquitectura.domain.model.QuestionSubject
+import com.etsisi.appquitectura.domain.model.QuestionTopic
 
 data class QuestionDTO(
     val id: String? = null,
@@ -24,7 +25,7 @@ data class QuestionDTO(
             title = pregunta_texto,
             subject = QuestionSubject.parseSubject(asignatura),
             level = QuestionLevel.parseLevel(dificultad),
-            labels = etiquetas.orEmpty(),
+            labels = etiquetas?.map { QuestionTopic.parseTopic(it) }.orEmpty(),
             imageRef = pregunta_imagen.orEmpty(),
             answers = respuestas?.mapIndexed { index, s ->
                 AnswerBO(title = s, correct = index == CORRECT_ANSWER_INDEX)

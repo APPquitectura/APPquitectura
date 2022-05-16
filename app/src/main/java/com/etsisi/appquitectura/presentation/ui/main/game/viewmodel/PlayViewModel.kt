@@ -15,8 +15,6 @@ import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ClassicGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
-import com.etsisi.appquitectura.presentation.ui.main.game.model.QuestionTopics
 
 class PlayViewModel(
     private val getGameQuestionsUseCase: GetGameQuestionsUseCase,
@@ -40,15 +38,14 @@ class PlayViewModel(
 
     val _userGameResult = UserGameScoreBO()
 
-    private val labelsList = QuestionTopics().apply {
-        QuestionTopic.values()
+    private val labelsList = QuestionTopic.values()
             .filter { it != QuestionTopic.UNKNOWN }
-            .onEach { add(it) }
-    }
+
 
     private val mGameModes = listOf(
         ItemGameMode(ItemGameModeAction.WeeklyGame),
-        ItemGameMode(ItemGameModeAction.ClassicGame(ClassicGameMode.TWENTY_QUESTIONS, ClassicGameMode.FORTY_QUESTIONS)),
+        ItemGameMode(ItemGameModeAction.ClassicGame(ClassicGameMode.TWENTY_QUESTIONS)),
+        ItemGameMode(ItemGameModeAction.ClassicGame(ClassicGameMode.FORTY_QUESTIONS)),
         ItemGameMode(ItemGameModeAction.TestGame(20, labelsList))
     )
 
@@ -65,9 +62,22 @@ class PlayViewModel(
     }
 
     fun fetchInitialQuestions(gameMode: ItemGameMode) {
+        val params = when (val mode = gameMode.action) {
+             is ItemGameModeAction.WeeklyGame -> {
+                GetGameQuestionsUseCase.Params(QuestionLevel.EASY, 20)
+            }
+            is ItemGameModeAction.TestGame -> {
+                val total = mode.numberOfQuestions
+                GetGameQuestionsUseCase.Params(QuestionLevel.EASY, total, mode.questionTopics)
+            }
+            is ItemGameModeAction.ClassicGame -> {
+                val total = mode.classicType.numberOfQuestions
+                GetGameQuestionsUseCase.Params(QuestionLevel.EASY, total)
+            }
+        }
         getGameQuestionsUseCase.invoke(
             scope = viewModelScope,
-            params = GetGameQuestionsUseCase.Params(QuestionLevel.EASY, 20)
+            params = params
         ) {
             setQuestions(it)
         }
