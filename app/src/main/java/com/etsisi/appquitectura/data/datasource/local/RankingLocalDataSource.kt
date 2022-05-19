@@ -1,16 +1,23 @@
 package com.etsisi.appquitectura.data.datasource.local
 
-import com.etsisi.appquitectura.data.datasource.local.dao.RankingDAO
+import com.etsisi.appquitectura.data.datasource.local.dao.ScoreDAO
+import com.etsisi.appquitectura.data.datasource.local.dao.UsersDAO
 import com.etsisi.appquitectura.data.model.entities.ScoreEntity
+import com.etsisi.appquitectura.data.model.entities.UserEntity
 
 class RankingLocalDataSource(
-    private val dao: RankingDAO
-) {
+    private val scoreDao: ScoreDAO,
+    private val usersDAO: UsersDAO
+    ) {
     suspend fun fetchScoresReference(): List<ScoreEntity> {
-        return dao.fetchScoresReference()
+        return scoreDao.fetchScoresReference()
     }
 
     suspend fun addScoresReference(scores: List<ScoreEntity>) {
-        dao.insertAll(scores)
+        scoreDao.insertAll(scores)
+    }
+
+    suspend fun getRankingUserById(id: String): UserEntity? {
+        return usersDAO.getUserById(id)
     }
 }

@@ -29,6 +29,9 @@ import org.json.JSONObject
 val String.Companion.EMPTY: String
     get() = ""
 
+val String.Companion.SLASH: String
+    get() = "/"
+
 inline fun <reified T : Activity> Activity.startClearActivity(args: Bundle? = null) {
     val intent = Intent(this, T::class.java).apply {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

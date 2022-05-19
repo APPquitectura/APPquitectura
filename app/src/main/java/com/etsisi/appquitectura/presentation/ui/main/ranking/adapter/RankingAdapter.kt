@@ -2,7 +2,9 @@ package com.etsisi.appquitectura.presentation.ui.main.ranking.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.ItemRankingBinding
+import com.etsisi.appquitectura.domain.enums.RankingType
 import com.etsisi.appquitectura.presentation.common.BaseAdapter
 import com.etsisi.appquitectura.presentation.common.BaseHolder
 import com.etsisi.appquitectura.presentation.ui.main.ranking.model.ItemRanking
@@ -17,8 +19,8 @@ class RankingAdapter : BaseAdapter<ItemRanking, RankingAdapter.RankingHolder>() 
     class RankingHolder(view: ItemRankingBinding): BaseHolder<ItemRanking, ItemRankingBinding>(view) {
         override fun bind(item: ItemRanking) {
             view.apply {
-                user = item.userBO
-                position.text = item.position.toString()
+                itemRanking = item
+                rankingPoints.text = root.context.getString(R.string.ranking_points_value, item.rankingPoints[RankingType.GENERAL] ?: 0)
             }
         }
     }

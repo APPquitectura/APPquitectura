@@ -25,7 +25,13 @@ class RankingViewModel(
             params = Unit,
             onResult = {
                 if (it.isNotEmpty()) {
-                    _ranking.value = it.mapIndexed { index, userBO -> ItemRanking(userBO, index+1) }
+                    _ranking.value = it.mapIndexed { index, rankingBO ->
+                        ItemRanking(
+                            position = index + 1,
+                            rankingPoints = rankingBO.rankingPoints,
+                            name = rankingBO.user.name
+                        )
+                    }
                 }
             }
         )

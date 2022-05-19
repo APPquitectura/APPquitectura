@@ -12,6 +12,7 @@ object Constants {
     const val users_collection = "users"
     const val questions_collection = "questions"
     const val score_collection = "score"
+    const val general_ranking_collection = "score" + "/" + "ranking" + "/" + "general"
 
     //Firebase Storage
     const val imagesRef = "images"

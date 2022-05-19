@@ -48,7 +48,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 const val FILE_NAME = "${BuildConfig.APPLICATION_ID}.preferences"
 
@@ -106,12 +105,12 @@ val localDataSourceModule = module {
     //DAO's
     single { get<AppDatabase>().questionsDao() }
     single { get<AppDatabase>().usersDao() }
-    single { get<AppDatabase>().rankingDAO() }
+    single { get<AppDatabase>().scoreDAO() }
 
     //LocalDataSource
     factory { QuestionsLocalDataSource(get()) }
     factory { UsersLocalDataSource(get()) }
-    factory { RankingLocalDataSource(get()) }
+    factory { RankingLocalDataSource(get(), get()) }
 }
 
 val databaseModule = module {
