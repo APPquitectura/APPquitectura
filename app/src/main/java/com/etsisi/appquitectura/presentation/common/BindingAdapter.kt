@@ -21,7 +21,7 @@ import com.etsisi.appquitectura.data.model.enums.ScoreLevel
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
+import com.etsisi.appquitectura.domain.enums.GameType
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.getMethodName
 
@@ -128,10 +128,10 @@ object BindingAdapter {
     fun TextView.setGameMode(gameMode: ItemGameMode) {
         with(context) {
             text = when(val action = gameMode.action) {
-                ItemGameModeAction.WeeklyGame -> getString(R.string.game_mode_weekly)
-                is ItemGameModeAction.TestGame -> getString(R.string.game_mode_test)
+                GameType.WeeklyGame -> getString(R.string.game_mode_weekly)
+                is GameType.TestGame -> getString(R.string.game_mode_test)
                 else -> {
-                    val total = (action as? ItemGameModeAction.ClassicGame)?.classicType?.numberOfQuestions
+                    val total = (action as? GameType.ClassicGame)?.classicType?.numberOfQuestions
                     getString(R.string.game_mode_classic, total)
                 }
             }

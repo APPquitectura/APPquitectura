@@ -23,7 +23,7 @@ import com.etsisi.appquitectura.presentation.dialog.view.TopicPickerDialog
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.GameModeAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
+import com.etsisi.appquitectura.domain.enums.GameType
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.google.android.material.tabs.TabLayout
@@ -160,7 +160,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             onShowTopicPicker.observe(viewLifecycleOwner, LiveEventObserver {
                 TopicPickerDialog.newInstance(
                     it,
-                    getGameModes().indexOfFirst { it.action is ItemGameModeAction.TestGame },
+                    getGameModes().indexOfFirst { it.action is GameType.TestGame },
                     this@PlayFragment
                 ).show(childFragmentManager, TopicPickerDialog.TAG)
             })

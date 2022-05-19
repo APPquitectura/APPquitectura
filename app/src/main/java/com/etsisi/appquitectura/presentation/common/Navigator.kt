@@ -11,11 +11,8 @@ import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 import com.etsisi.appquitectura.presentation.ui.main.MainActivity
 import com.etsisi.appquitectura.presentation.ui.main.game.view.PlayFragmentDirections
-import com.etsisi.appquitectura.presentation.ui.main.game.view.ResultFragmentDirections
-import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
 import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHomeAction
 import com.etsisi.appquitectura.presentation.ui.main.home.view.HomeFragmentDirections
 import com.etsisi.appquitectura.presentation.utils.startClearActivity

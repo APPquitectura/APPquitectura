@@ -17,9 +17,9 @@ import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
 import com.etsisi.appquitectura.presentation.common.Event
 import com.etsisi.appquitectura.presentation.common.LiveEvent
 import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ClassicGameMode
+import com.etsisi.appquitectura.domain.enums.ClassicGameType
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
+import com.etsisi.appquitectura.domain.enums.GameType
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
 import java.util.Calendar
 import kotlin.random.Random
@@ -68,10 +68,10 @@ class PlayViewModel(
 
 
     private val mGameModes = listOf(
-        ItemGameMode(ItemGameModeAction.ClassicGame(ClassicGameMode.TWENTY_QUESTIONS)),
-        ItemGameMode(ItemGameModeAction.ClassicGame(ClassicGameMode.FORTY_QUESTIONS)),
-        ItemGameMode(ItemGameModeAction.WeeklyGame),
-        ItemGameMode(ItemGameModeAction.TestGame(20, labelsList))
+        ItemGameMode(GameType.ClassicGame(ClassicGameType.TWENTY_QUESTIONS)),
+        ItemGameMode(GameType.ClassicGame(ClassicGameType.FORTY_QUESTIONS)),
+        ItemGameMode(GameType.WeeklyGame),
+        ItemGameMode(GameType.TestGame(20, labelsList))
     )
 
     fun setNavType(navType: GameNavType) {
@@ -88,10 +88,10 @@ class PlayViewModel(
 
     fun handleGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?) {
         when(getGameModes()[gameModeIndex].action) {
-            is ItemGameModeAction.WeeklyGame -> {
+            is GameType.WeeklyGame -> {
                 _startGame.value = Event(gameModeIndex)
             }
-            is ItemGameModeAction.TestGame -> {
+            is GameType.TestGame -> {
                 if (topicsIdSelected != null) {
                     _labelsSelectedIndex = topicsIdSelected
                     _startGame.value = Event(gameModeIndex)
@@ -101,7 +101,7 @@ class PlayViewModel(
                     )
                 }
             }
-            is ItemGameModeAction.ClassicGame -> {
+            is GameType.ClassicGame -> {
                 _startGame.value = Event(gameModeIndex)
             }
         }
@@ -112,14 +112,14 @@ class PlayViewModel(
         var totalQuestions = 20
         var level = QuestionLevel.EASY
         when (val mode = gameMode.action) {
-             is ItemGameModeAction.WeeklyGame -> {
+             is GameType.WeeklyGame -> {
                  topicList = weeklyQuestionsGenerator()
             }
-            is ItemGameModeAction.TestGame -> {
+            is GameType.TestGame -> {
                 totalQuestions = mode.numberOfQuestions
                 topicList = topicsSelected
             }
-            is ItemGameModeAction.ClassicGame -> {
+            is GameType.ClassicGame -> {
                 totalQuestions = mode.classicType.numberOfQuestions
             }
         }
