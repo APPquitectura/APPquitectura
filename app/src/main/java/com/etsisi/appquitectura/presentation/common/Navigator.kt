@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.LoginDirections
 import com.etsisi.appquitectura.MainDirections
+import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
@@ -97,8 +98,8 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun repeatIncorrectAnswers(lastScore: UserGameScoreBO) {
-        val directions = PlayFragmentDirections.actionRepeatIncorrectAnswers(lastScore = lastScore)
+    fun repeatIncorrectAnswers(incorrectQuestionsArray: Array<QuestionBO>) {
+        val directions = PlayFragmentDirections.actionRepeatIncorrectAnswers(incorrectQuestions = incorrectQuestionsArray)
         navController.navigate(directions)
     }
 

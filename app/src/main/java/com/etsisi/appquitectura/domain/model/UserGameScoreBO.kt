@@ -1,6 +1,7 @@
 package com.etsisi.appquitectura.domain.model
 
 import android.os.Parcelable
+import com.etsisi.appquitectura.domain.enums.RankingType
 import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
 
@@ -8,6 +9,7 @@ import java.util.concurrent.TimeUnit
 data class UserGameScoreBO(
     val userQuestions: MutableList<QuestionBO> = mutableListOf(),
     val userAnswer: MutableList<Pair<AnswerBO, Long>> = mutableListOf(),
+    val rankingType: RankingType? = null,
     var totalTime: Long = 0L
 ): Parcelable  {
 

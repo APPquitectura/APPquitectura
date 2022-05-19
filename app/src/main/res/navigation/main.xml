@@ -84,8 +84,8 @@
             app:argType="integer"
             android:defaultValue="-1" />
         <argument
-            android:name="lastScore"
-            app:argType="com.etsisi.appquitectura.domain.model.UserGameScoreBO"
+            android:name="incorrectQuestions"
+            app:argType="com.etsisi.appquitectura.domain.model.QuestionBO[]"
             app:nullable="true"
             android:defaultValue="@null" />
         <argument

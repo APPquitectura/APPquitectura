@@ -47,8 +47,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
 
     private val currentNavType: GameNavType
         get() = args.navType
-    private val lastScoreByUser: UserGameScoreBO?
-        get() = args.lastScore
+    private val questionsToRepeat: List<QuestionBO>?
+        get() = args.incorrectQuestions?.toList()
     private val gameModeSelected: ItemGameMode?
         get() = args.gameModeIndex.takeIf { it != -1 }?.let { mViewModel.getGameModes()[it] }
     private val topicsSelected: List<QuestionTopic>?
@@ -140,7 +140,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                         GameNavType.REPEAT_INCORRECT_ANSWERS -> {
                             hideSystemBars()
                             readySetGoCounter.start().also { readyToStartGame.playAnimation() }
-                            lastScoreByUser?.getAllIncorrectQuestions()?.let { setQuestions(it) }
+                            questionsToRepeat?.let { setQuestions(it) }
                         }
                         GameNavType.GAME_MODE -> {
                             getGameModes()

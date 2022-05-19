@@ -20,6 +20,7 @@ import com.etsisi.appquitectura.presentation.common.MutableLiveEvent
 import com.etsisi.appquitectura.domain.enums.ClassicGameType
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.domain.enums.GameType
+import com.etsisi.appquitectura.domain.enums.RankingType
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
 import java.util.Calendar
 import kotlin.random.Random
@@ -44,8 +45,8 @@ class PlayViewModel(
     val startGame: LiveEvent<Int>
         get() = _startGame
 
-    private val _repeatIncorrectAnswers by lazy { MutableLiveEvent<UserGameScoreBO>() }
-    val repeatIncorrectAnswers: LiveEvent<UserGameScoreBO>
+    private val _repeatIncorrectAnswers by lazy { MutableLiveEvent<Array<QuestionBO>>() }
+    val repeatIncorrectAnswers: LiveEvent<Array<QuestionBO>>
         get() = _repeatIncorrectAnswers
 
     private val _showResults by lazy { MutableLiveEvent<Boolean>() }
@@ -60,11 +61,10 @@ class PlayViewModel(
     val currentTabIndex: LiveData<Int>
         get() = _currentTabIndex
 
-    val _userGameResult by lazy { UserGameScoreBO() }
+    var rankingType: RankingType? = null
     var _labelsSelectedIndex: IntArray? = null
-
-    val labelsList = QuestionTopic.values()
-            .filter { it != QuestionTopic.UNKNOWN }
+    val _userGameResult by lazy { UserGameScoreBO(rankingType = rankingType) }
+    val labelsList = QuestionTopic.values().filter { it != QuestionTopic.UNKNOWN }
 
 
     private val mGameModes = listOf(
@@ -113,13 +113,16 @@ class PlayViewModel(
         var level = QuestionLevel.EASY
         when (val mode = gameMode.action) {
              is GameType.WeeklyGame -> {
+                 rankingType = RankingType.WEEKLY
                  topicList = weeklyQuestionsGenerator()
             }
             is GameType.TestGame -> {
+                rankingType = RankingType.UNKOWN
                 totalQuestions = mode.numberOfQuestions
                 topicList = topicsSelected
             }
             is GameType.ClassicGame -> {
+                rankingType = RankingType.GENERAL
                 totalQuestions = mode.classicType.numberOfQuestions
             }
         }
@@ -166,7 +169,7 @@ class PlayViewModel(
                     if (isEmpty()) {
                         _showResults.value = Event(true)
                     } else {
-                        _repeatIncorrectAnswers.value = Event(_userGameResult)
+                        _repeatIncorrectAnswers.value = Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
                     }
                 }
                 else -> {
@@ -174,7 +177,7 @@ class PlayViewModel(
                     if (isEmpty()) {
                         _showResults.value = Event(true)
                     } else {
-                        _repeatIncorrectAnswers.value = Event(_userGameResult)
+                        _repeatIncorrectAnswers.value = Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
                     }
                 }
             }

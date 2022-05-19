@@ -1,8 +1,11 @@
 package com.etsisi.appquitectura.domain.enums
 
+import android.os.Parcelable
 import com.etsisi.appquitectura.presentation.utils.EMPTY
+import kotlinx.parcelize.Parcelize
 
-enum class RankingType(val field: String){
+@Parcelize
+enum class RankingType(val field: String) : Parcelable {
     UNKOWN(String.EMPTY),
     GENERAL("general"),
     WEEKLY("weekly");
