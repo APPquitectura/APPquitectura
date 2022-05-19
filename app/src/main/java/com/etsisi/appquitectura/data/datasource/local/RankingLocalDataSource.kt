@@ -17,7 +17,7 @@ class RankingLocalDataSource(
         scoreDao.insertAll(scores)
     }
 
-    suspend fun getRankingUserById(id: String): UserEntity? {
+    suspend fun getUserById(id: String): UserEntity? {
         return usersDAO.getUserById(id)
     }
 }

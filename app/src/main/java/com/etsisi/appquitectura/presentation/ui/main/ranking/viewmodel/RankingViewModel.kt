@@ -29,7 +29,7 @@ class RankingViewModel(
                         ItemRanking(
                             position = index + 1,
                             rankingPoints = rankingBO.rankingPoints,
-                            name = rankingBO.user.name
+                            name = rankingBO.user?.name.orEmpty()
                         )
                     }
                 }

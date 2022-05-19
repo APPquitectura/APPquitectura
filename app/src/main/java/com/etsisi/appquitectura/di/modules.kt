@@ -25,11 +25,14 @@ import com.etsisi.appquitectura.domain.usecase.FetchUserProfileUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
+import com.etsisi.appquitectura.domain.usecase.GetQuestionTopicsUseCase
+import com.etsisi.appquitectura.domain.usecase.GetWeeklyQuestionTopicUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.ResetPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.domain.usecase.UpdateQuestionsUseCase
+import com.etsisi.appquitectura.domain.usecase.UpdateRankingPointsUseCase
 import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.Navigator
@@ -59,8 +62,8 @@ val viewModelModule = module {
     viewModel { HomeViewModel() }
     viewModel { InputTextViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
-    viewModel { PlayViewModel(get()) }
-    viewModel { ResultViewModel(get()) }
+    viewModel { PlayViewModel(get(), get(), get()) }
+    viewModel { ResultViewModel(get(), get(), get(), get()) }
     viewModel { MyProfileViewModel(get(), get())}
     viewModel { RankingViewModel(get()) }
 }
@@ -87,6 +90,9 @@ val useCaseModule = module {
     factory { FetchUserProfileUseCase(get()) }
     factory { FetchScoresReferenceUseCase(get()) }
     factory { FetchRankingUseCase(get()) }
+    factory { GetWeeklyQuestionTopicUseCase() }
+    factory { GetQuestionTopicsUseCase() }
+    factory { UpdateRankingPointsUseCase(get()) }
 }
 
 val repositoryModule = module {

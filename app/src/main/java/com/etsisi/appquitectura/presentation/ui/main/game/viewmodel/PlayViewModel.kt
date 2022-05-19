@@ -21,12 +21,16 @@ import com.etsisi.appquitectura.domain.enums.ClassicGameType
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.domain.enums.GameType
 import com.etsisi.appquitectura.domain.enums.RankingType
+import com.etsisi.appquitectura.domain.usecase.GetQuestionTopicsUseCase
+import com.etsisi.appquitectura.domain.usecase.GetWeeklyQuestionTopicUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
 import java.util.Calendar
 import kotlin.random.Random
 
 class PlayViewModel(
     private val getGameQuestionsUseCase: GetGameQuestionsUseCase,
+    private val getQuestionTopicsUseCase: GetQuestionTopicsUseCase,
+    private val getWeeklyQuestionTopicUseCase: GetWeeklyQuestionTopicUseCase
 ) : ViewModel(), LifecycleObserver {
 
     private val _questions by lazy { MutableLiveData<List<QuestionBO>>() }
@@ -64,7 +68,7 @@ class PlayViewModel(
     var rankingType: RankingType? = null
     var _labelsSelectedIndex: IntArray? = null
     val _userGameResult by lazy { UserGameScoreBO(rankingType = rankingType) }
-    val labelsList = QuestionTopic.values().filter { it != QuestionTopic.UNKNOWN }
+    val labelsList by lazy { getQuestionTopicsUseCase.invoke().filter { it != QuestionTopic.UNKNOWN } }
 
 
     private val mGameModes = listOf(
@@ -158,8 +162,11 @@ class PlayViewModel(
     }
 
     fun weeklyQuestionsGenerator(): List<QuestionTopic> {
-        val topicIndex = Random(seed = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)).nextInt(labelsList.size)
-        return listOf (labelsList[topicIndex])
+        return getWeeklyQuestionTopicUseCase
+            .invoke(GetWeeklyQuestionTopicUseCase.Params(topics = labelsList))
+            .let {
+                listOf(it)
+            }
     }
 
     fun onGameFinished(currentNavType: GameNavType) {

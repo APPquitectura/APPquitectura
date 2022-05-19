@@ -11,7 +11,7 @@ data class RankingDTO(
     val rankingPoints: Map<String, Int> = mapOf(),
     val weeklyTopic: String? = null
 ) {
-    fun toDomain(userBO: UserBO): RankingBO {
+    fun toDomain(userBO: UserBO? = null): RankingBO {
         val points = mutableMapOf<RankingType, Int>()
         rankingPoints.mapKeys {
             points.put(RankingType.parse(it.key), it.value)

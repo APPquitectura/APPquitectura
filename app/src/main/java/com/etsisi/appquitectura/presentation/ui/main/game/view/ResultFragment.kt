@@ -27,7 +27,7 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
 
                 spinBtn.setOnClickListener {
                     val numberToRotate = (1..list.size).random()
-                    mViewModel.setUserScore(numberToRotate - 1)
+                    mViewModel.updateUserScore(numberToRotate - 1)
                     wheel.rotateWheelTo(numberToRotate)
                     wheel.setLuckyWheelReachTheTarget {
                         showResults()
