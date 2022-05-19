@@ -48,8 +48,8 @@ class PlayViewModel(
     val repeatIncorrectAnswers: LiveEvent<UserGameScoreBO>
         get() = _repeatIncorrectAnswers
 
-    private val _showResults by lazy { MutableLiveEvent<UserGameScoreBO>() }
-    val showResults: LiveEvent<UserGameScoreBO>
+    private val _showResults by lazy { MutableLiveEvent<Boolean>() }
+    val showResults: LiveEvent<Boolean>
         get() = _showResults
 
     private val _navType = MutableLiveData<GameNavType>()
@@ -164,8 +164,7 @@ class PlayViewModel(
             when (currentNavType) {
                 GameNavType.REPEAT_INCORRECT_ANSWERS -> {
                     if (isEmpty()) {
-                        PreferencesHelper.readObject<UserGameScoreBO>(PreferenceKeys.USER_SCORE)
-                            ?.let { _showResults.value = Event(it) }
+                        _showResults.value = Event(true)
                     } else {
                         _repeatIncorrectAnswers.value = Event(_userGameResult)
                     }
@@ -173,7 +172,7 @@ class PlayViewModel(
                 else -> {
                     PreferencesHelper.writeObject(PreferenceKeys.USER_SCORE, _userGameResult)
                     if (isEmpty()) {
-                        _showResults.value = Event(_userGameResult)
+                        _showResults.value = Event(true)
                     } else {
                         _repeatIncorrectAnswers.value = Event(_userGameResult)
                     }

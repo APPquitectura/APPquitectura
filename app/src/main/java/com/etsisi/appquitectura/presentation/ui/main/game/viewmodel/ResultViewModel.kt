@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluehomestudio.luckywheel.WheelItem
 import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.data.helper.PreferencesHelper
+import com.etsisi.appquitectura.data.model.enums.PreferenceKeys
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRouletteType
@@ -17,7 +19,9 @@ class ResultViewModel(
     private val updateUserDetailsUseCase: UpdateUserDetailsUseCase
 ) : ViewModel() {
 
-    val rouletteItems = mutableListOf<ItemRoulette>()
+    private val rouletteItems = mutableListOf<ItemRoulette>()
+
+    private val gameScore = PreferencesHelper.readObject<UserGameScoreBO>(PreferenceKeys.USER_SCORE)
 
     private val _result = MutableLiveData<UserGameScoreBO>()
     val result: LiveData<UserGameScoreBO>
@@ -84,19 +88,18 @@ class ResultViewModel(
         return rouletteItems.map { it.getWidgetItem() }
     }
 
-    fun setUserScore(itemRouletteIndex: Int, gameScore: UserGameScoreBO) {
-        with(gameScore) {
+    fun setUserScore(itemRouletteIndex: Int) {
+        gameScore?.let { score ->
             val rouletteItemSelected = rouletteItems[itemRouletteIndex]
-            _result.value = gameScore
+            _result.value = score
 
             _regard.value = Pair(rouletteItemSelected.type, rouletteItemSelected.points)
             updateUserDetailsUseCase.invoke(
                 params = UpdateUserDetailsUseCase.Params(
                     mapOf(
-                        UpdateUserDetailsUseCase.USER_FIELD.RANKING_POINTS to getRankingPoints().plus(rouletteItemSelected.points.takeIf { rouletteItemSelected.type == ItemRouletteType.POINTS } ?: 0),
-                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_ANSWERS to userQuestions.size,
-                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to getAllCorrectAnswers().size,
-                        UpdateUserDetailsUseCase.USER_FIELD.EXPERIENCE to getExperience().plus(rouletteItemSelected.points.takeIf { rouletteItemSelected.type == ItemRouletteType.EXP } ?: 0)
+                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_ANSWERS to score.userQuestions.size,
+                        UpdateUserDetailsUseCase.USER_FIELD.TOTAL_CORRECT_ANSWERS to score.getAllCorrectAnswers().size,
+                        UpdateUserDetailsUseCase.USER_FIELD.EXPERIENCE to score.getExperience().plus(rouletteItemSelected.points.takeIf { rouletteItemSelected.type == ItemRouletteType.EXP } ?: 0)
                     )
                 )
             ) {

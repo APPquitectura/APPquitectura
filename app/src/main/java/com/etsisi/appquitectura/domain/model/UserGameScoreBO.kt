@@ -1,6 +1,7 @@
 package com.etsisi.appquitectura.domain.model
 
 import android.os.Parcelable
+import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
 import kotlin.math.max

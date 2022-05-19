@@ -7,10 +7,8 @@ import android.view.View
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
-import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentResultBinding
-import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.ResultViewModel
 import com.etsisi.appquitectura.presentation.utils.getWindowPixels
@@ -19,10 +17,6 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
     R.layout.fragment_result,
     ResultViewModel::class
 ) {
-    val args: ResultFragmentArgs by navArgs()
-
-    private val userScore: UserGameScoreBO
-        get() = args.userResult
 
     override fun setUpDataBinding(mBinding: FragmentResultBinding, mViewModel: ResultViewModel) {
         mBinding.apply {
@@ -33,16 +27,12 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
 
                 spinBtn.setOnClickListener {
                     val numberToRotate = (1..list.size).random()
-                    mViewModel.setUserScore(numberToRotate - 1, userScore)
+                    mViewModel.setUserScore(numberToRotate - 1)
                     wheel.rotateWheelTo(numberToRotate)
                     wheel.setLuckyWheelReachTheTarget {
                         showResults()
                     }
                     hideSpinBtn()
-                }
-
-                repeatGameBtn.setOnClickListener {
-                    navigator.repeatIncorrectAnswers(userScore)
                 }
             }
         }
@@ -71,7 +61,6 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
 
             val showResultsAnimation = AnimatorInflater.loadAnimator(context, R.animator.anim_alpha).apply {
                 doOnStart {
-                    repeatGameBtn.isVisible = !args.userResult.getAllIncorrectQuestions().isEmpty()
                     resultsContainer.apply {
                         isVisible = true
                     }

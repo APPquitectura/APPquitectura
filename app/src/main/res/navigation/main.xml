@@ -149,11 +149,7 @@
         android:id="@+id/resultFragment"
         android:name="com.etsisi.appquitectura.presentation.ui.main.game.view.ResultFragment"
         android:label="ResultFragment"
-        tools:layout="@layout/fragment_result">
-        <argument
-            android:name="userResult"
-            app:argType="com.etsisi.appquitectura.domain.model.UserGameScoreBO" />
-    </fragment>
+        tools:layout="@layout/fragment_result"/>
     <fragment
         android:id="@+id/myProfileFragment"
         android:name="com.etsisi.appquitectura.presentation.ui.main.profile.view.MyProfileFragment"

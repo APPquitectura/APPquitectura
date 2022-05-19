@@ -171,7 +171,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 navigator.repeatIncorrectAnswers(it)
             })
             showResults.observe(viewLifecycleOwner, LiveEventObserver {
-                navigator.openResultFragment(it)
+                navigator.openResultFragment()
             })
         }
     }
