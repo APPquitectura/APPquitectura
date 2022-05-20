@@ -32,11 +32,11 @@ class RankingAdapter : BaseAdapter<ItemRanking, RankingAdapter.RankingHolder>(),
             view.apply {
                 when(this) {
                     is ItemRankingHeaderBinding -> {
-
+                        itemRanking = item
                     }
                     is ItemRankingBinding -> {
                         itemRanking = item
-                        rankingPoints.text = root.context.getString(R.string.ranking_points_value, item.rankingPoints[RankingType.GENERAL] ?: 0)
+                        rankingPoints.text = root.context.getString(R.string.ranking_points_value, item.rankingPoints)
                     }
                 }
             }

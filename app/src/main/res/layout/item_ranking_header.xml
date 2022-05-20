@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <data>
+
+        <variable
+            name="itemRanking"
+            type="com.etsisi.appquitectura.presentation.ui.main.ranking.model.ItemRanking" />
+    </data>
 
         <TextView
+            style="@style/dialog_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="hola"
-            tools:ignore="MissingConstraints" />
+            android:layout_height="@dimen/dimen_50"
+            android:layout_marginTop="@dimen/dimen_0"
+            android:text="@{itemRanking.name}"
+            tools:text="Ranking" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

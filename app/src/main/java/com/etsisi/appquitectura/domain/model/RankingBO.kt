@@ -22,4 +22,15 @@ data class RankingBO(
             weeklyTopic = weeklyTopic.value
         )
     }
+
+    fun getWeeklyRankingPoints(): Int {
+        return rankingPoints[RankingType.WEEKLY] ?: 0
+    }
+    fun getWeeklyRankingPoints(weeklyTopic: QuestionTopic): Int? {
+        return rankingPoints[RankingType.WEEKLY].takeIf { weeklyTopic == this.weeklyTopic }
+    }
+
+    fun getGeneralRankingPoints(): Int? {
+        return rankingPoints[RankingType.GENERAL]
+    }
 }

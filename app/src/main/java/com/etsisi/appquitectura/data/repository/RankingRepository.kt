@@ -9,10 +9,5 @@ import com.etsisi.appquitectura.domain.model.UserBO
 interface RankingRepository {
     suspend fun fetchScoresReference(): List<ScoreBO>
     suspend fun fetchRanking(): List<RankingBO>
-    suspend fun updateRanking(
-        id: String,
-        points: Int,
-        rankingType: RankingType,
-        weeklyTopic: QuestionTopic
-    )
+    suspend fun updateRanking(id: String, points: Int, rankingType: RankingType, weeklyTopic: QuestionTopic)
 }

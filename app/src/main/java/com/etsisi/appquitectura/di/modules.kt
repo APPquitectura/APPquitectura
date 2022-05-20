@@ -65,7 +65,7 @@ val viewModelModule = module {
     viewModel { PlayViewModel(get(), get(), get()) }
     viewModel { ResultViewModel(get(), get(), get(), get()) }
     viewModel { MyProfileViewModel(get(), get())}
-    viewModel { RankingViewModel(get()) }
+    viewModel { RankingViewModel(get(), get(), get()) }
 }
 
 val presentationModule = module {
