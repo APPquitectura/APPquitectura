@@ -10,12 +10,26 @@
             type="com.etsisi.appquitectura.presentation.ui.main.ranking.model.ItemRanking" />
     </data>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <TextView
             style="@style/dialog_title"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_0"
+            android:gravity="center"
             android:text="@{itemRanking.name}"
             tools:text="Ranking" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcRes="@{itemRanking.icon}"
+            tools:src="@drawable/ic_badge" />
+    </LinearLayout>
 
 </layout>

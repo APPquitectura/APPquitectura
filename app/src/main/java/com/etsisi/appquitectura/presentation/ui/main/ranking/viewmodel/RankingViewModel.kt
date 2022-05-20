@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.usecase.FetchRankingUseCase
 import com.etsisi.appquitectura.domain.usecase.GetQuestionTopicsUseCase
@@ -40,12 +41,34 @@ class RankingViewModel(
 
                     _ranking.value = buildList {
                         if (weeklyRanking.isNotEmpty()) {
+                            if (generalRanking.isNotEmpty()) {
+                                add(
+                                    ItemRanking(
+                                        name = "RANKING GENERAL",
+                                        rankingPoints = 0,
+                                        position = 0,
+                                        icon = R.drawable.ic_badge,
+                                        viewType = RankingViewType.HEADER
+                                    )
+                                )
+                                addAll(
+                                    generalRanking.mapIndexed { index, rankingBO ->
+                                        ItemRanking(
+                                            name = rankingBO.user?.name.orEmpty(),
+                                            rankingPoints = rankingBO.getGeneralRankingPoints() ?: 0,
+                                            position = index + 1,
+                                            viewType = RankingViewType.ITEM
+                                        )
+                                    }
+                                )
+                            }
                             add(
                                 ItemRanking(
                                     name = "RANKING SEMANAL",
                                     rankingPoints = 0,
                                     position = 0,
-                                    viewType = RankingViewType.HEADER
+                                    viewType = RankingViewType.HEADER,
+                                    icon = R.drawable.ic_trophy
                                 )
                             )
                             addAll(
@@ -53,26 +76,6 @@ class RankingViewModel(
                                     ItemRanking(
                                         name = rankingBO.user?.name.orEmpty(),
                                         rankingPoints = rankingBO.getWeeklyRankingPoints(),
-                                        position = index + 1,
-                                        viewType = RankingViewType.ITEM
-                                    )
-                                }
-                            )
-                        }
-                        if (generalRanking.isNotEmpty()) {
-                            add(
-                                ItemRanking(
-                                    name = "RANKING GENERAL",
-                                    rankingPoints = 0,
-                                    position = 0,
-                                    viewType = RankingViewType.HEADER
-                                )
-                            )
-                            addAll(
-                                generalRanking.mapIndexed { index, rankingBO ->
-                                    ItemRanking(
-                                        name = rankingBO.user?.name.orEmpty(),
-                                        rankingPoints = rankingBO.getGeneralRankingPoints() ?: 0,
                                         position = index + 1,
                                         viewType = RankingViewType.ITEM
                                     )

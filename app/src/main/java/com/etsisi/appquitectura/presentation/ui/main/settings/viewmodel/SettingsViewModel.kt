@@ -34,10 +34,10 @@ class SettingsViewModel(
 
     init {
         _sections.value = listOf(
-                ItemSettings(R.string.item_settings_log_out, R.drawable.ic_settings, ItemSettingsAction.LOG_OUT, true),
                 ItemSettings(R.string.item_settings_update_questions, R.drawable.ic_settings, ItemSettingsAction.UPDATE_QUESTIONS, false),
-                ItemSettings(R.string.item_settings_repeat_mode, R.drawable.ic_settings, ItemSettingsAction.ENABLE_REPEATING_MODE, false)
-        )
+                ItemSettings(R.string.item_settings_repeat_mode, R.drawable.ic_settings, ItemSettingsAction.ENABLE_REPEATING_MODE, false),
+                ItemSettings(R.string.item_settings_log_out, R.drawable.ic_settings, ItemSettingsAction.LOG_OUT, true)
+            )
     }
 
     fun handleSettings(item: ItemSettings) {
