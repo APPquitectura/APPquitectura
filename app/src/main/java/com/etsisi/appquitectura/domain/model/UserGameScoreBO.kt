@@ -1,7 +1,9 @@
 package com.etsisi.appquitectura.domain.model
 
 import android.os.Parcelable
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.domain.enums.RankingType
+import com.etsisi.appquitectura.presentation.utils.penultimate
 import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
 
@@ -52,5 +54,19 @@ data class UserGameScoreBO(
             }
         }
         return TimeUnit.MILLISECONDS.toSeconds(exp)
+    }
+    fun getLevelOfNextQuestion(): QuestionLevel {
+        var lastQuestionsCorrect = 0
+        var i = userAnswer.size - 1
+
+        while (i >= 0  && i > userAnswer.size - 3 && userAnswer[i].first.correct) {
+            lastQuestionsCorrect++
+            i--
+        }
+        return when {
+            lastQuestionsCorrect >= 2 -> QuestionLevel.DIFFICULT
+            lastQuestionsCorrect == 1 -> QuestionLevel.NORMAL
+            else -> QuestionLevel.EASY
+        }
     }
 }

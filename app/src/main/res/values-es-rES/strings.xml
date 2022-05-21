@@ -75,7 +75,13 @@
 
     <!-- Register -->
     <string name="register_greeting">¡Hola %s!</string>
+    <string name="age">Edad</string>
+    <string name="course">Asignatura</string>
+    <string name="genre">Género</string>
+    <string name="group">Grupo</string>
     <string name="name">Nombre</string>
+    <string name="surname">Apellidos</string>
+    <string name="number_academic_record">Nº expediente</string>
     <string name="error_code_verification">No hemos podido verificar su correo electrónico, contacte con soporte</string>
     <string name="error_email_already_exists">El correo electrónico ya existe</string>
     <string name="error_email_malformed">Correo electrónico incorrecto</string>

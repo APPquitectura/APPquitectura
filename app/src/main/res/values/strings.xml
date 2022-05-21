@@ -77,7 +77,13 @@
 
     <!-- Register -->
     <string name="register_greeting">Hi %s!</string>
+    <string name="age">Age</string>
+    <string name="course">Course</string>
+    <string name="genre">Genre</string>
+    <string name="group">Group</string>
     <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="number_academic_record">Academic record</string>
     <string name="error_code_verification">We are experiencing technical difficulties verifying your email. Contact with our support team</string>
     <string name="error_email_already_exists">Email already exists</string>
     <string name="error_email_malformed">Email malformed</string>

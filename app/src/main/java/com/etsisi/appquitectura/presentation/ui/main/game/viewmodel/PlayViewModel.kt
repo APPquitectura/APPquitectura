@@ -24,8 +24,6 @@ import com.etsisi.appquitectura.domain.enums.RankingType
 import com.etsisi.appquitectura.domain.usecase.GetQuestionTopicsUseCase
 import com.etsisi.appquitectura.domain.usecase.GetWeeklyQuestionTopicUseCase
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
-import java.util.Calendar
-import kotlin.random.Random
 
 class PlayViewModel(
     private val getGameQuestionsUseCase: GetGameQuestionsUseCase,
@@ -65,10 +63,17 @@ class PlayViewModel(
     val currentTabIndex: LiveData<Int>
         get() = _currentTabIndex
 
+    var levelOfNextQuestions: QuestionLevel? = null
+    var gameModeSelected: ItemGameMode? = null
+    var topicsSelectedToFilter: List<QuestionTopic>? = null
     var rankingType: RankingType? = null
     var _labelsSelectedIndex: IntArray? = null
     val _userGameResult by lazy { UserGameScoreBO(rankingType = rankingType) }
     val labelsList by lazy { getQuestionTopicsUseCase.invoke().filter { it != QuestionTopic.UNKNOWN } }
+
+    private companion object {
+        const val DEFAULT_INITIAL_QUESTIONS_COUNT = 20
+    }
 
 
     private val mGameModes = listOf(
@@ -77,6 +82,16 @@ class PlayViewModel(
         ItemGameMode(GameType.WeeklyGame),
         ItemGameMode(GameType.TestGame(20, labelsList))
     )
+
+    fun setTopicsSelected(topicsIndexList: List<Int>?) {
+        topicsSelectedToFilter = topicsIndexList?.map { labelsList[it] }
+    }
+
+    fun setGameModeSelected(gameModeIndex: Int) {
+        if (gameModeIndex > -1) {
+            gameModeSelected = getGameModes()[gameModeIndex]
+        }
+    }
 
     fun setNavType(navType: GameNavType) {
         _navType.value = navType
@@ -111,34 +126,55 @@ class PlayViewModel(
         }
     }
 
-    fun fetchInitialQuestions(gameMode: ItemGameMode, topicsSelected: List<QuestionTopic>?) {
+    fun fetchInitialQuestions() {
         var topicList: List<QuestionTopic>? = null
-        var totalQuestions = 20
-        var level = QuestionLevel.EASY
-        when (val mode = gameMode.action) {
-             is GameType.WeeklyGame -> {
-                 rankingType = RankingType.WEEKLY
-                 topicList = weeklyQuestionsGenerator()
+        var totalQuestions = DEFAULT_INITIAL_QUESTIONS_COUNT
+        val initialLevel = QuestionLevel.EASY
+        gameModeSelected?.let { mode ->
+            when (mode.action) {
+                is GameType.WeeklyGame -> {
+                    rankingType = RankingType.WEEKLY
+                    topicList = weeklyQuestionsGenerator()
+                }
+                is GameType.TestGame -> {
+                    rankingType = RankingType.UNKOWN
+                    totalQuestions = mode.action.numberOfQuestions
+                    topicList = topicsSelectedToFilter
+                }
+                is GameType.ClassicGame -> {
+                    rankingType = RankingType.GENERAL
+                    totalQuestions = mode.action.classicType.numberOfQuestions
+                }
             }
-            is GameType.TestGame -> {
-                rankingType = RankingType.UNKOWN
-                totalQuestions = mode.numberOfQuestions
-                topicList = topicsSelected
-            }
-            is GameType.ClassicGame -> {
-                rankingType = RankingType.GENERAL
-                totalQuestions = mode.classicType.numberOfQuestions
+            getGameQuestionsUseCase.invoke(
+                scope = viewModelScope,
+                params = GetGameQuestionsUseCase.Params(
+                    topics = topicList,
+                    totalCount = totalQuestions,
+                    level = initialLevel
+                )
+            ) {
+                setQuestions(it)
             }
         }
+    }
+
+    fun fetchNextQuestion(smoothNextPage: () -> Unit) {
         getGameQuestionsUseCase.invoke(
             scope = viewModelScope,
             params = GetGameQuestionsUseCase.Params(
-                topics = topicList,
-                totalCount = totalQuestions,
-                level = level
+                topics = topicsSelectedToFilter,
+                totalCount = 1,
+                level = levelOfNextQuestions ?: _userGameResult.getLevelOfNextQuestion()
             )
         ) {
-            setQuestions(it)
+            _questions.value?.let { questionsUntilNow ->
+                val new = mutableListOf<QuestionBO>()
+                new.addAll(questionsUntilNow)
+                new.set(index = currentTabIndex.value ?: 0, element = it.first { !new.contains(it) })
+                _questions.value = new
+            }
+            smoothNextPage()
         }
     }
 
@@ -148,25 +184,21 @@ class PlayViewModel(
         }
     }
 
-    fun setGameResultAccumulated(
-        question: QuestionBO,
-        userAnswer: AnswerBO,
-        points: Long,
-        userMarkInMillis: Long
-    ) {
-        _userGameResult.apply {
-            userQuestions.add(question)
-            this.userAnswer.add(Pair(userAnswer, points))
-            totalTime += userMarkInMillis
-        }
-    }
-
-    fun weeklyQuestionsGenerator(): List<QuestionTopic> {
-        return getWeeklyQuestionTopicUseCase
-            .invoke(GetWeeklyQuestionTopicUseCase.Params(topics = labelsList))
-            .let {
-                listOf(it)
+    fun setGameResultAccumulated(question: QuestionBO, userAnswer: AnswerBO, points: Long, userMarkInMillis: Long, isGameFinished: Boolean, smoothNextPage: () -> Unit) {
+        _navType.value?.let { currentNavType ->
+            if (currentNavType == GameNavType.START_GAME) {
+                _userGameResult.apply {
+                    userQuestions.add(question)
+                    this.userAnswer.add(Pair(userAnswer, points))
+                    totalTime += userMarkInMillis
+                }
             }
+            if (isGameFinished) {
+                onGameFinished(currentNavType)
+            } else {
+                fetchNextQuestion(smoothNextPage)
+            }
+        }
     }
 
     fun onGameFinished(currentNavType: GameNavType) {
@@ -189,5 +221,13 @@ class PlayViewModel(
                 }
             }
         }
+    }
+
+    private fun weeklyQuestionsGenerator(): List<QuestionTopic> {
+        return getWeeklyQuestionTopicUseCase
+            .invoke(GetWeeklyQuestionTopicUseCase.Params(topics = labelsList))
+            .let {
+                listOf(it)
+            }
     }
 }

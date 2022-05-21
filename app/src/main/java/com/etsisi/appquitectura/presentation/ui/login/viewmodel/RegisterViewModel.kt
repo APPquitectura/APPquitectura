@@ -40,6 +40,26 @@ class RegisterViewModel(
     val name: MutableLiveData<String>
         get() = _name
 
+    private val _surname = MutableLiveData<String>()
+    val surname: MutableLiveData<String>
+        get() = _surname
+
+    private val _academicRecord = MutableLiveData<String>()
+    val academicRecord: MutableLiveData<String>
+        get() = _academicRecord
+
+    private val _academicGroup = MutableLiveData<String>()
+    val academicGroup: MutableLiveData<String>
+        get() = _academicGroup
+
+    private val _age = MutableLiveData<String>()
+    val age: MutableLiveData<String>
+        get() = _age
+
+    private val _genre = MutableLiveData<String>()
+    val genre: MutableLiveData<String>
+        get() = _genre
+
     var spinnerOption: QuestionSubject? = null
 
     fun initRegister() {

@@ -9,10 +9,8 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentPlayBinding
 import com.etsisi.appquitectura.databinding.ItemTabHeaderBinding
 import com.etsisi.appquitectura.domain.enums.GameNavType
-import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
-import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
@@ -22,7 +20,6 @@ import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.dialog.view.TopicPickerDialog
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.GameModeAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.QuestionsViewPagerAdapter
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.domain.enums.GameType
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
 import com.etsisi.appquitectura.presentation.utils.TAG
@@ -49,10 +46,6 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         get() = args.navType
     private val questionsToRepeat: List<QuestionBO>?
         get() = args.incorrectQuestions?.toList()
-    private val gameModeSelected: ItemGameMode?
-        get() = args.gameModeIndex.takeIf { it != -1 }?.let { mViewModel.getGameModes()[it] }
-    private val topicsSelected: List<QuestionTopic>?
-        get() = args.topicsIdSelected?.map { mViewModel.labelsList[it] }
 
     private val readySetGoCounter by lazy {
         object : CountDownTimer(READY_SET_GO_COUNT_DOWN, READY_SET_GO_COUNTER_INTERVAL) {
@@ -69,6 +62,13 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         const val NEXT_QUESTION_DELAY = 300L
         const val SELECTED_ALPHA = 1.0F
         const val UNSELECTED_ALPHA = 0.2F
+    }
+
+    override fun getFragmentArgs(mBinding: FragmentPlayBinding) {
+        with(mViewModel) {
+            setGameModeSelected(args.gameModeIndex)
+            setTopicsSelected(args.topicsIdSelected?.toList())
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -133,9 +133,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                         GameNavType.PRE_START_GAME -> {
                             hideSystemBars()
                             readySetGoCounter.start().also { readyToStartGame.playAnimation() }
-                            gameModeSelected?.let {
-                                fetchInitialQuestions(it, topicsSelected)
-                            }
+                            fetchInitialQuestions()
                         }
                         GameNavType.REPEAT_INCORRECT_ANSWERS -> {
                             hideSystemBars()
@@ -152,7 +150,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 }
             }
             questions.observe(viewLifecycleOwner) {
-                questionsAdapter?.addData(it, mBinding.tabLayout.selectedTabPosition)
+                questionsAdapter?.addData(it, mBinding.tabLayout.selectedTabPosition.takeIf { it > -1 } ?: 0)
             }
             gameModes.observe(viewLifecycleOwner) {
                 gameModesAdapter?.addDataSet(it)
@@ -189,26 +187,20 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         tab?.customView?.alpha = if (selected) SELECTED_ALPHA else UNSELECTED_ALPHA
     }
 
-    private fun setNextQuestion() {
+    override fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, points: Long, userMarkInMillis: Long) {
         with(questionsViewPager) {
-            postDelayed({
-                if (currentItem < adapter?.itemCount?.minus(1) ?: 0) {
+            mViewModel.setGameResultAccumulated(
+                question = question,
+                userAnswer = answer,
+                points = points,
+                userMarkInMillis = userMarkInMillis,
+                isGameFinished = currentItem == adapter?.itemCount?.minus(1)
+            ) {
+                postDelayed({
                     setCurrentItem(currentItem + 1, true)
-                } else {
-                    mViewModel.onGameFinished(currentNavType)
-                }
-            }, NEXT_QUESTION_DELAY)
+                }, NEXT_QUESTION_DELAY)
+            }
         }
-    }
-
-    override fun onAnswerClicked(
-        question: QuestionBO,
-        answer: AnswerBO,
-        points: Long,
-        userMarkInMillis: Long
-    ) {
-        mViewModel.setGameResultAccumulated(question, answer, points, userMarkInMillis)
-        setNextQuestion()
     }
 
     override fun onGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?) {
