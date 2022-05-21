@@ -149,6 +149,11 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                     }
                 }
             }
+            questionsLoaded.observe(viewLifecycleOwner) {
+                if (it) {
+                    setInitialQuestions()
+                }
+            }
             questions.observe(viewLifecycleOwner) {
                 questionsAdapter?.addData(it, mBinding.tabLayout.selectedTabPosition.takeIf { it > -1 } ?: 0)
             }

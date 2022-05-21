@@ -1,10 +1,13 @@
 package com.etsisi.appquitectura.data.datasource.local
 
+import android.util.Log
 import com.etsisi.appquitectura.data.datasource.local.dao.QuestionsDAO
 import com.etsisi.appquitectura.data.model.entities.QuestionEntity
 import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.QuestionBO
+import com.etsisi.appquitectura.presentation.utils.TAG
+import java.lang.Exception
 
 class QuestionsLocalDataSource(
     private val dao: QuestionsDAO
@@ -17,12 +20,8 @@ class QuestionsLocalDataSource(
         dao.insertAll(questions)
     }
 
-    suspend fun getCustomQuestions(
-        level: QuestionLevel,
-        totalCount: Int,
-        topics: List<QuestionTopic>?
-    ): List<QuestionBO> {
-        return dao.getCustomQuestions(level.value, totalCount).map { entity ->
+    suspend fun getQuestionsByTopics(level: QuestionLevel, topics: List<QuestionTopic>?): List<QuestionBO> {
+        return dao.getQuestionsByLevel(level.value).map { entity ->
             entity.toDomain().takeIf { questionBO ->
                 topics?.let { questionBO.labels.intersect(topics).isNotEmpty() } ?: true
             }

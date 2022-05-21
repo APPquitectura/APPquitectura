@@ -7,6 +7,7 @@ import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.domain.enums.QuestionTopic
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.utils.Constants.questions_collection
+import kotlin.math.min
 
 class QuestionsRepositoryImp(
     private val remote: QuestionsRemoteDataSource,
@@ -32,12 +33,10 @@ class QuestionsRepositoryImp(
         local.deleteAll()
     }
 
-    override suspend fun getGameQuestions(
-        level: QuestionLevel,
-        totalCount: Int,
-        topics: List<QuestionTopic>?
-    ): List<QuestionBO>? {
-        return local.getCustomQuestions(level, totalCount, topics)
+    override suspend fun getGameQuestions(level: QuestionLevel, totalCount: Int, topics: List<QuestionTopic>?): List<QuestionBO>? {
+        return local.getQuestionsByTopics(level, topics).shuffled().let { list ->
+            list.subList(fromIndex = 0, toIndex = maxOf(0, min(totalCount, list.size-1)))
+        }
     }
 
 }

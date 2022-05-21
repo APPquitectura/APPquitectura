@@ -9,12 +9,12 @@ class GetGameQuestionsUseCase(
     private val questionsRepository: QuestionsRepository
 ): UseCase<GetGameQuestionsUseCase.Params, List<QuestionBO>>() {
     data class Params(
-        val level: QuestionLevel,
+        val questionLevel: QuestionLevel,
         val totalCount: Int,
         val topics: List<QuestionTopic>? = null
     )
 
     override suspend fun run(params: Params): List<QuestionBO> {
-        return questionsRepository.getGameQuestions(params.level, params.totalCount, params.topics) ?: emptyList()
+        return questionsRepository.getGameQuestions(params.questionLevel, params.totalCount, params.topics).orEmpty()
     }
 }

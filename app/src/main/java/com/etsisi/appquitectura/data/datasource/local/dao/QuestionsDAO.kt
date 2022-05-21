@@ -18,7 +18,7 @@ interface QuestionsDAO: BaseDAO<QuestionEntity> {
     @Query("SELECT * FROM questions")
     suspend fun getQuestions(): List<QuestionEntity>
 
-    @Query("SELECT * FROM questions WHERE level = :level LIMIT :totalCount")
-    suspend fun getCustomQuestions(level: String, totalCount: Int): List<QuestionEntity>
+    @Query("SELECT * FROM questions WHERE level = :level")
+    suspend fun getQuestionsByLevel(level: String): List<QuestionEntity>
 
 }

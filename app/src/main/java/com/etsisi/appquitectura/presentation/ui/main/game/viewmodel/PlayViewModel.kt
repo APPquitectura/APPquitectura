@@ -2,6 +2,7 @@ package com.etsisi.appquitectura.presentation.ui.main.game.viewmodel
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,6 +31,10 @@ class PlayViewModel(
     private val getQuestionTopicsUseCase: GetQuestionTopicsUseCase,
     private val getWeeklyQuestionTopicUseCase: GetWeeklyQuestionTopicUseCase
 ) : ViewModel(), LifecycleObserver {
+
+    private val _questionsLoaded = MediatorLiveData<Boolean>()
+    val questionsLoaded: MediatorLiveData<Boolean>
+        get() = _questionsLoaded
 
     private val _questions by lazy { MutableLiveData<List<QuestionBO>>() }
     val questions: LiveData<List<QuestionBO>>
@@ -63,6 +68,14 @@ class PlayViewModel(
     val currentTabIndex: LiveData<Int>
         get() = _currentTabIndex
 
+    private val _difficultQuestionsLoaded = MutableLiveData(false)
+    private val _normalQuestionsLoaded = MutableLiveData(false)
+    private val _easyQuestionsLoaded = MutableLiveData(false)
+
+    private var difficultQuestionsList = mutableListOf<QuestionBO>()
+    private var normalQuestionsList = mutableListOf<QuestionBO>()
+    private var easyQuestionsList = mutableListOf<QuestionBO>()
+
     var levelOfNextQuestions: QuestionLevel? = null
     var gameModeSelected: ItemGameMode? = null
     var topicsSelectedToFilter: List<QuestionTopic>? = null
@@ -75,13 +88,29 @@ class PlayViewModel(
         const val DEFAULT_INITIAL_QUESTIONS_COUNT = 20
     }
 
-
     private val mGameModes = listOf(
         ItemGameMode(GameType.ClassicGame(ClassicGameType.TWENTY_QUESTIONS)),
         ItemGameMode(GameType.ClassicGame(ClassicGameType.FORTY_QUESTIONS)),
         ItemGameMode(GameType.WeeklyGame),
         ItemGameMode(GameType.TestGame(20, labelsList))
     )
+
+    init {
+        _questionsLoaded.addSource(_difficultQuestionsLoaded) { isLoaded ->
+            checkLoadFinished()
+        }
+        _questionsLoaded.addSource(_normalQuestionsLoaded) {isLoaded ->
+            checkLoadFinished()
+        }
+        _questionsLoaded.addSource(_easyQuestionsLoaded) {isLoaded ->
+            checkLoadFinished()
+        }
+    }
+
+    private fun checkLoadFinished() {
+        _questionsLoaded.value =
+            _difficultQuestionsLoaded.value == true && _normalQuestionsLoaded.value == true && _easyQuestionsLoaded.value == true
+    }
 
     fun setTopicsSelected(topicsIndexList: List<Int>?) {
         topicsSelectedToFilter = topicsIndexList?.map { labelsList[it] }
@@ -151,29 +180,69 @@ class PlayViewModel(
                 params = GetGameQuestionsUseCase.Params(
                     topics = topicList,
                     totalCount = totalQuestions,
-                    level = initialLevel
+                    questionLevel = QuestionLevel.DIFFICULT
                 )
             ) {
-                setQuestions(it)
+                difficultQuestionsList = it.toMutableList()
+                _difficultQuestionsLoaded.value = true
+            }
+            getGameQuestionsUseCase.invoke(
+                scope = viewModelScope,
+                params = GetGameQuestionsUseCase.Params(
+                    topics = topicList,
+                    totalCount = totalQuestions,
+                    questionLevel = QuestionLevel.NORMAL
+                )
+            ) {
+                normalQuestionsList = it.toMutableList()
+                _normalQuestionsLoaded.value = true
+            }
+            getGameQuestionsUseCase.invoke(
+                scope = viewModelScope,
+                params = GetGameQuestionsUseCase.Params(
+                    topics = topicList,
+                    totalCount = totalQuestions,
+                    questionLevel = initialLevel
+                )
+            ) {
+                easyQuestionsList = it.toMutableList()
+                _easyQuestionsLoaded.value = true
             }
         }
     }
 
+    fun setInitialQuestions() {
+        setQuestions(easyQuestionsList)
+        easyQuestionsList.removeAt(0)
+        _questionsLoaded.removeSource(_easyQuestionsLoaded)
+        _questionsLoaded.removeSource(_normalQuestionsLoaded)
+        _questionsLoaded.removeSource(_difficultQuestionsLoaded)
+    }
+
     fun fetchNextQuestion(smoothNextPage: () -> Unit) {
-        getGameQuestionsUseCase.invoke(
-            scope = viewModelScope,
-            params = GetGameQuestionsUseCase.Params(
-                topics = topicsSelectedToFilter,
-                totalCount = 1,
-                level = levelOfNextQuestions ?: _userGameResult.getLevelOfNextQuestion()
-            )
-        ) {
-            _questions.value?.let { questionsUntilNow ->
-                val new = mutableListOf<QuestionBO>()
-                new.addAll(questionsUntilNow)
-                new.set(index = currentTabIndex.value ?: 0, element = it.first { !new.contains(it) })
-                _questions.value = new
+        _questions.value?.toMutableList()?.let { actualQuestionList ->
+            when (_userGameResult.getLevelOfNextQuestion()) {
+                QuestionLevel.EASY -> {
+                    easyQuestionsList.firstOrNull()?.let {
+                        actualQuestionList.set(_currentTabIndex.value ?: 0, it)
+                    }
+                    runCatching { easyQuestionsList.removeAt(0) }
+                }
+                QuestionLevel.NORMAL -> {
+                    normalQuestionsList.firstOrNull()?.let {
+                        actualQuestionList.set(_currentTabIndex.value ?: 0, it)
+                    }
+                    runCatching { normalQuestionsList.removeAt(0) }
+                }
+                QuestionLevel.DIFFICULT -> {
+                    //There is no difficult questions
+                    normalQuestionsList.firstOrNull()?.let {
+                        actualQuestionList.set(_currentTabIndex.value ?: 0, it)
+                    }
+                    runCatching { normalQuestionsList.removeAt(0) }
+                }
             }
+            _questions.value = actualQuestionList
             smoothNextPage()
         }
     }
