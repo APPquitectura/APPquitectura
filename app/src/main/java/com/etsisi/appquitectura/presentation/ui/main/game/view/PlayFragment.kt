@@ -31,7 +31,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     PlayViewModel::class
 ), TabLayout.OnTabSelectedListener, GameListener {
 
-    val args: PlayFragmentArgs by navArgs()
+    private val args: PlayFragmentArgs by navArgs()
 
     private val questionsAdapter: QuestionsViewPagerAdapter?
         get() = questionsViewPager.adapter as? QuestionsViewPagerAdapter

@@ -7,9 +7,9 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentRegisterBinding
-import com.etsisi.appquitectura.domain.enums.QuestionSubject
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
+import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel
 import com.etsisi.appquitectura.presentation.utils.hideKeyboard
@@ -60,7 +60,7 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
             }
 
             onError.observe(viewLifecycleOwner, LiveEventObserver { dialogConfig ->
-                navigator.openLoginDialog(dialogConfig)
+                navigator.openLoginDialog(dialogConfig, DialogType.LOGIN_ERROR)
             })
         }
     }

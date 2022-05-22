@@ -57,6 +57,9 @@
         <argument
             android:name="config"
             app:argType="com.etsisi.appquitectura.presentation.dialog.model.DialogConfig" />
+        <argument
+            android:name="dialogType"
+            app:argType="com.etsisi.appquitectura.presentation.dialog.enums.DialogType" />
     </dialog>
     <fragment
         android:id="@+id/register_form_fragment"

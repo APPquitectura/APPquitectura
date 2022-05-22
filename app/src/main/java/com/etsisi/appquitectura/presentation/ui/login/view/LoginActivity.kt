@@ -8,6 +8,7 @@ import com.etsisi.appquitectura.databinding.ActivityLoginBinding
 import com.etsisi.appquitectura.presentation.common.BaseActivity
 import com.etsisi.appquitectura.presentation.common.GoogleSignInListener
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
+import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.utils.Constants
@@ -59,7 +60,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(
         with(mViewModel) {
             // String default_web_client_id is auto-generated
             onError.observe(this@LoginActivity, LiveEventObserver { dialogConfig ->
-                navigator.openLoginDialog(dialogConfig)
+                navigator.openLoginDialog(dialogConfig,DialogType.LOGIN_ERROR)
             })
             onCodeVerified.observe(this@LoginActivity, LiveEventObserver {
                 navigator.navigateFromLoginToMain(this@LoginActivity)

@@ -21,8 +21,8 @@ import com.etsisi.appquitectura.presentation.utils.toLabeledIntentArray
 
 class Navigator (private val navController: NavController){
 
-    fun openLoginDialog(config: DialogConfig) {
-        val directions = LoginDirections.navigateLoginDialog(config)
+    fun openLoginDialog(config: DialogConfig, type: DialogType) {
+        val directions = LoginDirections.navigateLoginDialog(config, type)
         navController.navigate(directions)
     }
     fun openEditTextDialog(config: DialogConfig, dialogType: DialogType) {
