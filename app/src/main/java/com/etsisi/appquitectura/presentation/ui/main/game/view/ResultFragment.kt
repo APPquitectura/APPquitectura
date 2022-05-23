@@ -7,7 +7,6 @@ import android.view.View
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
-import androidx.navigation.fragment.navArgs
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentResultBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
@@ -18,7 +17,6 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
     R.layout.fragment_result,
     ResultViewModel::class
 ) {
-    val args: ResultFragmentArgs by navArgs()
 
     override fun setUpDataBinding(mBinding: FragmentResultBinding, mViewModel: ResultViewModel) {
         mBinding.apply {
@@ -27,23 +25,14 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
             mViewModel.getRouletteItems(requireContext()).also { list ->
                 wheel.addWheelItems(list)
 
-                if (args.isRepeatingMode) {
-                    rouletteContainer.isVisible = false
-                    showResults()
-                } else {
-                    spinBtn.setOnClickListener {
-                        val numberToRotate = (1..list.size).random()
-                        mViewModel.setUserScore(numberToRotate - 1, args.userResult, args.isRepeatingMode)
-                        wheel.rotateWheelTo(numberToRotate)
-                        wheel.setLuckyWheelReachTheTarget {
-                            showResults()
-                        }
-                        hideSpinBtn()
+                spinBtn.setOnClickListener {
+                    val numberToRotate = (1..list.size).random()
+                    mViewModel.updateUserScore(numberToRotate - 1)
+                    wheel.rotateWheelTo(numberToRotate)
+                    wheel.setLuckyWheelReachTheTarget {
+                        showResults()
                     }
-                }
-
-                repeatGameBtn.setOnClickListener {
-                    navigator.repeatIncorrectAnswers(args.userResult)
+                    hideSpinBtn()
                 }
             }
         }
@@ -72,31 +61,24 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
 
             val showResultsAnimation = AnimatorInflater.loadAnimator(context, R.animator.anim_alpha).apply {
                 doOnStart {
-                    repeatGameBtn.isVisible = !args.userResult.getAllIncorrectQuestions().isEmpty()
                     resultsContainer.apply {
-                        invalidate()
                         isVisible = true
                     }
                 }
                 setTarget(resultsContainer)
             }
-
-            if (args.isRepeatingMode == false) {
-                val obAnimatorAlpha = ObjectAnimator.ofFloat(rouletteContainer, View.ALPHA, 1F, 0F)
-                val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
-                AnimatorSet().apply {
-                    cancel()
-                    play(obAnimatorTranslation)
-                        .with(obAnimatorAlpha)
-                        .after(showResultsAnimation)
-                    doOnEnd {
-                        rouletteContainer.isVisible = false
-                        congratsAnimation.playAnimation()
-                    }
-                    start()
+            val obAnimatorAlpha = ObjectAnimator.ofFloat(rouletteContainer, View.ALPHA, 1F, 0F)
+            val obAnimatorTranslation = ObjectAnimator.ofFloat(rouletteContainer, View.TRANSLATION_X, targetX.toFloat())
+            AnimatorSet().apply {
+                cancel()
+                play(obAnimatorTranslation)
+                    .with(obAnimatorAlpha)
+                    .after(showResultsAnimation)
+                doOnEnd {
+                    rouletteContainer.isVisible = false
+                    congratsAnimation.playAnimation()
                 }
-            } else {
-                showResultsAnimation.start()
+                start()
             }
         }
     }

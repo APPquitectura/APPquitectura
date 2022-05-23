@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.data.helper.PreferencesHelper
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
@@ -115,6 +116,7 @@ open class BaseLoginViewModel(
         logOutUseCase.invoke(
             params = LogOutUseCase.Params(googleClient),
             onResult = {
+                PreferencesHelper.clear()
                 callback()
             }
         )

@@ -1,18 +1,20 @@
 package com.etsisi.appquitectura.di
 
+import android.content.Context
 import androidx.navigation.NavController
+import com.etsisi.appquitectura.BuildConfig
 import com.etsisi.appquitectura.data.datasource.local.AppDatabase
 import com.etsisi.appquitectura.data.datasource.local.QuestionsLocalDataSource
-import com.etsisi.appquitectura.data.datasource.local.ScoresLocalDataSource
+import com.etsisi.appquitectura.data.datasource.local.RankingLocalDataSource
 import com.etsisi.appquitectura.data.datasource.local.UsersLocalDataSource
 import com.etsisi.appquitectura.data.datasource.remote.QuestionsRemoteDataSource
-import com.etsisi.appquitectura.data.datasource.remote.ScoresRemoteDataSource
+import com.etsisi.appquitectura.data.datasource.remote.RankingRemoteDataSource
 import com.etsisi.appquitectura.data.datasource.remote.UsersRemoteDataSource
 import com.etsisi.appquitectura.data.repository.QuestionsRepository
-import com.etsisi.appquitectura.data.repository.ScoreRepository
+import com.etsisi.appquitectura.data.repository.RankingRepository
 import com.etsisi.appquitectura.data.repository.UsersRepository
 import com.etsisi.appquitectura.data.repository.imp.QuestionsRepositoryImp
-import com.etsisi.appquitectura.data.repository.imp.ScoreRepositoryImp
+import com.etsisi.appquitectura.data.repository.imp.RankingRepositoryImp
 import com.etsisi.appquitectura.data.repository.imp.UsersRepositoryImp
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
 import com.etsisi.appquitectura.domain.usecase.CheckVerificationCodeUseCase
@@ -23,11 +25,14 @@ import com.etsisi.appquitectura.domain.usecase.FetchUserProfileUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithEmailAndPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.GetGameQuestionsUseCase
+import com.etsisi.appquitectura.domain.usecase.GetQuestionTopicsUseCase
+import com.etsisi.appquitectura.domain.usecase.GetWeeklyQuestionTopicUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.RegisterUseCase
 import com.etsisi.appquitectura.domain.usecase.ResetPasswordUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
 import com.etsisi.appquitectura.domain.usecase.UpdateQuestionsUseCase
+import com.etsisi.appquitectura.domain.usecase.UpdateRankingPointsUseCase
 import com.etsisi.appquitectura.domain.usecase.UpdateUserDetailsUseCase
 import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.Navigator
@@ -47,6 +52,7 @@ import com.google.firebase.ktx.Firebase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+const val FILE_NAME = "${BuildConfig.APPLICATION_ID}.preferences"
 
 val viewModelModule = module {
     viewModel { LoginViewModel(get(), get(), get(), get(), get(), get()) }
@@ -56,10 +62,10 @@ val viewModelModule = module {
     viewModel { HomeViewModel() }
     viewModel { InputTextViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get()) }
-    viewModel { PlayViewModel(get()) }
-    viewModel { ResultViewModel(get()) }
+    viewModel { PlayViewModel(get(), get(), get()) }
+    viewModel { ResultViewModel(get(), get(), get(), get()) }
     viewModel { MyProfileViewModel(get(), get())}
-    viewModel { RankingViewModel(get()) }
+    viewModel { RankingViewModel(get(), get(), get()) }
 }
 
 val presentationModule = module {
@@ -84,33 +90,40 @@ val useCaseModule = module {
     factory { FetchUserProfileUseCase(get()) }
     factory { FetchScoresReferenceUseCase(get()) }
     factory { FetchRankingUseCase(get()) }
+    factory { GetWeeklyQuestionTopicUseCase() }
+    factory { GetQuestionTopicsUseCase() }
+    factory { UpdateRankingPointsUseCase(get()) }
 }
 
 val repositoryModule = module {
     factory<QuestionsRepository> { QuestionsRepositoryImp(get(), get()) }
     factory<UsersRepository> { UsersRepositoryImp(get(), get()) }
-    factory<ScoreRepository> { ScoreRepositoryImp(get(), get()) }
+    factory<RankingRepository> { RankingRepositoryImp(get(), get()) }
 }
 
 val remoteDataSourceModule = module {
     factory { QuestionsRemoteDataSource() }
     factory { UsersRemoteDataSource(get()) }
-    factory { ScoresRemoteDataSource() }
+    factory { RankingRemoteDataSource() }
 }
 
 val localDataSourceModule = module {
     //DAO's
     single { get<AppDatabase>().questionsDao() }
     single { get<AppDatabase>().usersDao() }
-    single { get<AppDatabase>().scoreDao() }
+    single { get<AppDatabase>().scoreDAO() }
 
     //LocalDataSource
     factory { QuestionsLocalDataSource(get()) }
     factory { UsersLocalDataSource(get()) }
-    factory { ScoresLocalDataSource(get()) }
+    factory { RankingLocalDataSource(get(), get()) }
 }
 
 val databaseModule = module {
     single { AppDatabase.getInstance(androidApplication()) }
+}
+
+val preferencesModule = module {
+single { androidApplication().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE) }
 }
 

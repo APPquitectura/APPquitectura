@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="user"
-            type="com.etsisi.appquitectura.domain.model.UserBO" />
+            name="itemRanking"
+            type="com.etsisi.appquitectura.presentation.ui.main.ranking.model.ItemRanking" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +44,7 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="@dimen/dimen_6"
             android:gravity="center"
-            android:text="@{user.name}"
+            android:text="@{itemRanking.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/rankingPoints"
             app:layout_constraintStart_toEndOf="@+id/picture"
@@ -58,7 +58,6 @@
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/dimen_15"
             android:gravity="center"
-            android:text="@{@string/ranking_points_value(user.rankingPoints)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

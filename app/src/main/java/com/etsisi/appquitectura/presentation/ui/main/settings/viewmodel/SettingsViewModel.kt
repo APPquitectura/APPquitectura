@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.data.helper.PreferencesHelper
+import com.etsisi.appquitectura.data.model.enums.PreferenceKeys
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
 import com.etsisi.appquitectura.domain.usecase.LogOutUseCase
 import com.etsisi.appquitectura.domain.usecase.SendEmailVerificationUseCase
@@ -22,7 +24,7 @@ class SettingsViewModel(
     logOutUseCase: LogOutUseCase
 ) : BaseLoginViewModel(logOutUseCase, signInWithCredentialsUseCase, sendEmailVerificationUseCase) {
 
-    val _sections = MutableLiveData<List<ItemSettings>>()
+    private val _sections = MutableLiveData<List<ItemSettings>>()
     val sections: LiveData<List<ItemSettings>>
         get() = _sections
 
@@ -32,9 +34,10 @@ class SettingsViewModel(
 
     init {
         _sections.value = listOf(
-                ItemSettings(R.string.item_settings_log_out, R.drawable.ic_settings, ItemSettingsAction.LOG_OUT, true),
-                ItemSettings(R.string.item_settings_update_questions, R.drawable.ic_settings, ItemSettingsAction.UPDATE_QUESTIONS, false)
-        )
+                ItemSettings(R.string.item_settings_update_questions, R.drawable.ic_settings, ItemSettingsAction.UPDATE_QUESTIONS, false),
+                ItemSettings(R.string.item_settings_repeat_mode, R.drawable.ic_settings, ItemSettingsAction.ENABLE_REPEATING_MODE, false),
+                ItemSettings(R.string.item_settings_log_out, R.drawable.ic_settings, ItemSettingsAction.LOG_OUT, true)
+            )
     }
 
     fun handleSettings(item: ItemSettings) {
@@ -47,6 +50,9 @@ class SettingsViewModel(
             ItemSettingsAction.UPDATE_QUESTIONS -> {
                 updateQuestions()
             }
+            ItemSettingsAction.ENABLE_REPEATING_MODE -> {
+
+            }
         }
     }
 
@@ -57,5 +63,9 @@ class SettingsViewModel(
 
         }
     }
+
+    fun isRepeatModeEnabled() = PreferencesHelper.read(PreferenceKeys.REPEAT_WRONG_QUESTIONS, false)
+
+    fun enableDisableRepeatMode(enabled: Boolean) = PreferencesHelper.write(PreferenceKeys.REPEAT_WRONG_QUESTIONS, enabled)
 
 }

@@ -1,12 +1,12 @@
 package com.etsisi.appquitectura.domain.usecase
 
-import com.etsisi.appquitectura.data.repository.UsersRepository
-import com.etsisi.appquitectura.domain.model.UserBO
+import com.etsisi.appquitectura.data.repository.RankingRepository
+import com.etsisi.appquitectura.domain.model.RankingBO
 
-class FetchRankingUseCase(private val repository: UsersRepository): UseCase<Unit, List<UserBO>>() {
+class FetchRankingUseCase(private val repository: RankingRepository): UseCase<Unit, List<RankingBO>>() {
 
-    override suspend fun run(params: Unit): List<UserBO> {
-        return repository.getAllUsers().sortedByDescending { it.rankingPoints }
+    override suspend fun run(params: Unit): List<RankingBO> {
+        return repository.fetchRanking()
     }
 
 }

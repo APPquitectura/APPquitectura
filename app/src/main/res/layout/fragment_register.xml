@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="com.etsisi.appquitectura.R"/>
+        <import type="com.etsisi.appquitectura.R" />
 
         <variable
             name="viewModel"
@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+
                 <TextView
                     android:id="@+id/register_title"
                     android:layout_width="wrap_content"
@@ -44,27 +45,159 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:dynamicText="@{viewModel.name}"
                     app:dynamicRes="@{R.string.register_greeting}"
-                    app:isVisible="@{!viewModel.name.empty}"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:cursorVisible="false"
-                    android:maxLines="1"
-                    android:inputType="textPersonName"
-                    android:imeOptions="actionNext"
-                    android:hint="@string/name"
-                    android:text="@={viewModel.name}"
-                    android:textColor="@color/text_color_primary" />
+                    app:dynamicText="@{viewModel.name}"
+                    app:isVisible="@{!viewModel.name.empty}" />
 
                 <include
                     android:id="@+id/form"
                     layout="@layout/login_form"
+                    android:layout_marginVertical="@dimen/dimen_10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:viewModel="@{viewModel}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:cursorVisible="false"
+                        android:hint="@string/name"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:text="@={viewModel.name}"
+                        android:textColor="@color/text_color_primary" />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:cursorVisible="false"
+                        android:hint="@string/surname"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:text="@={viewModel.surname}"
+                        android:textColor="@color/text_color_primary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_3"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:cursorVisible="false"
+                        android:hint="@string/number_academic_record"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="@={viewModel.academicRecord}"
+                        android:textColor="@color/text_color_primary" />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:cursorVisible="false"
+                        android:hint="@string/group"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="@={viewModel.academicGroup}"
+                        android:textColor="@color/text_color_primary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_10"
+                        android:layout_weight="1"
+                        android:cursorVisible="false"
+                        android:hint="@string/age"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:text="@={viewModel.age}"
+                        android:textColor="@color/text_color_primary" />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_10"
+                        android:layout_weight="1"
+                        android:cursorVisible="false"
+                        android:hint="@string/genre"
+                        android:imeOptions="actionNext"
+                        android:inputType="textAutoComplete"
+                        android:maxLines="1"
+                        android:text="@={viewModel.genre}"
+                        android:textColor="@color/text_color_primary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/dimen_10"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen_4"
+                            android:layout_weight="1"
+                            android:text="@string/course" />
+
+                        <Spinner
+                            android:id="@+id/course_spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dimen_4"
+                            android:layout_weight="1"
+                            android:text="Año de carrera" />
+
+                        <Spinner
+                            android:id="@+id/year_spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:dropDownWidth="@dimen/dimen_15" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -73,17 +206,7 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/dimen_4"
-                        android:text="Año de carrera" />
 
-                    <Spinner
-                        android:id="@+id/year_spinner"
-                        android:dropDownWidth="@dimen/dimen_15"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -94,8 +217,9 @@
                     android:text="@string/register_btn_text" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="You will need to verify your email after this step" />
             </LinearLayout>
 

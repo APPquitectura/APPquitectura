@@ -1,14 +1,7 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.view
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.CountDownTimer
-import android.util.Log
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentQuestionBinding
 import com.etsisi.appquitectura.domain.model.AnswerBO
@@ -19,8 +12,6 @@ import com.etsisi.appquitectura.presentation.common.EmptyViewModel
 import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.common.QuestionListener
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.AnswersAdapter
-import com.etsisi.appquitectura.presentation.utils.TAG
-import com.etsisi.appquitectura.presentation.utils.getMethodName
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 

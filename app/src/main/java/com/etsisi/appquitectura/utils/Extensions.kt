@@ -29,6 +29,9 @@ import org.json.JSONObject
 val String.Companion.EMPTY: String
     get() = ""
 
+val String.Companion.SLASH: String
+    get() = "/"
+
 inline fun <reified T : Activity> Activity.startClearActivity(args: Bundle? = null) {
     val intent = Intent(this, T::class.java).apply {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -41,6 +44,10 @@ inline fun <reified T : Activity> Activity.startClearActivity(args: Bundle? = nu
 
 inline val <reified T> T.TAG: String
     get() = T::class.java.canonicalName ?: T::class.simpleName ?: T::class.java.simpleName
+
+fun <T> List<T>.penultimate(): T? {
+    return kotlin.runCatching { this[size - 2] }.getOrNull()
+}
 
 fun Context.showKeyboard(view: View) {
     //The view will have to be the container

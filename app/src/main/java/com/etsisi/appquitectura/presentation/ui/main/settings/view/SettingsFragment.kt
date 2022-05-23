@@ -4,15 +4,17 @@ import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentSettingsBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
+import com.etsisi.appquitectura.presentation.common.SettingsListener
 import com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity
 import com.etsisi.appquitectura.presentation.ui.main.settings.adapter.SettingsAdapter
+import com.etsisi.appquitectura.presentation.ui.main.settings.model.ItemSettings
 import com.etsisi.appquitectura.presentation.ui.main.settings.viewmodel.SettingsViewModel
 import com.etsisi.appquitectura.presentation.utils.startClearActivity
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel>(
     R.layout.fragment_settings,
     SettingsViewModel::class
-) {
+), SettingsListener {
 
     private val adapter: SettingsAdapter?
         get() = mBinding.rvSettings.adapter as? SettingsAdapter
@@ -23,11 +25,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
     ) {
         with(mBinding) {
             lifecycleOwner = viewLifecycleOwner
-            rvSettings.adapter = SettingsAdapter(
-                listener = {
-                    mViewModel.handleSettings(it)
-                }
-            )
+            rvSettings.adapter = SettingsAdapter(this@SettingsFragment)
             executePendingBindings()
         }
     }
@@ -43,4 +41,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding, SettingsViewModel
             })
         }
     }
+
+    override fun onSettingsItemClicked(item: ItemSettings) {
+        mViewModel.handleSettings(item)
+    }
+
+    override fun onRepeatModeSwitch(enabled: Boolean) {
+        mViewModel.enableDisableRepeatMode(enabled)
+    }
+
+    override fun isRepeatModeEnabled() = mViewModel.isRepeatModeEnabled()
 }

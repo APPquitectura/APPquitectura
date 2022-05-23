@@ -224,20 +224,6 @@
                     android:textSize="@dimen/text_20" />
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/repeatGameBtn"
-                style="@style/gameBodyStyle"
-                android:layout_width="@dimen/dimen_300"
-                android:layout_height="@dimen/dimen_40"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dimen_20"
-                android:background="@drawable/spin_btn_background"
-                android:backgroundTint="@null"
-                android:gravity="center"
-                android:stateListAnimator="@xml/button_pressed"
-                android:text="Repetir preguntas erroneas"
-                android:textColor="@color/white" />
-
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

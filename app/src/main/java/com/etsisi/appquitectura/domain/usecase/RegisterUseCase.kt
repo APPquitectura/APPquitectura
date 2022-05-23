@@ -23,7 +23,6 @@ class RegisterUseCase(private val repository: UsersRepository) : UseCase<Registe
             subject = params.subject,
             password = params.password,
             gameExperience = 0,
-            rankingPoints = 0,
             totalQuestionsAnswered = 0,
             totalCorrectQuestionsAnswered = 0
         )

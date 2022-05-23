@@ -2,26 +2,27 @@ package com.etsisi.appquitectura.domain.usecase
 
 import com.etsisi.appquitectura.data.repository.UsersRepository
 import com.etsisi.appquitectura.domain.model.CurrentUser
+import com.etsisi.appquitectura.domain.model.UserBO
 
 class UpdateUserDetailsUseCase(
     private val repository: UsersRepository
-): UseCase<UpdateUserDetailsUseCase.Params, UpdateUserDetailsUseCase.RESULT_CODES>() {
+): UseCase<UpdateUserDetailsUseCase.Params, UserBO?>() {
 
     enum class RESULT_CODES { SUCCESS, FAILED }
 
-    enum class USER_FIELD { PASSWORD, RANKING_POINTS, EXPERIENCE, TOTAL_CORRECT_ANSWERS, TOTAL_ANSWERS }
+    enum class USER_FIELD { PASSWORD, EXPERIENCE, TOTAL_CORRECT_ANSWERS, TOTAL_ANSWERS }
 
-    data class Params(val field: Map<USER_FIELD, Any>)
+    data class Params(
+        val id: String?,
+        val field: Map<USER_FIELD, Any>
+        )
 
-    override suspend fun run(params: Params): RESULT_CODES {
-        return if (!CurrentUser.email.isNullOrBlank()) {
+    override suspend fun run(params: Params): UserBO? {
+        return params.id?.let {
             repository.getUserById(CurrentUser.email.orEmpty())?.let { userBO ->
                 var userUpdated = userBO
-                params.field.keys.onEach {
+                params.field.keys.forEach {
                     userUpdated = when(it) {
-                        USER_FIELD.RANKING_POINTS -> {
-                            userUpdated.copy(rankingPoints = (params.field.get(USER_FIELD.RANKING_POINTS) as Long) + userBO.rankingPoints)
-                        }
                         USER_FIELD.PASSWORD -> {
                             userUpdated.copy(password = params.field.get(USER_FIELD.PASSWORD) as String)
                         }
@@ -36,10 +37,8 @@ class UpdateUserDetailsUseCase(
                         }
                     }
                 }
-                repository.updateUserDetails(userUpdated)
+                userUpdated.takeIf { repository.updateUserDetails(userUpdated) == RESULT_CODES.SUCCESS }
             }
-        } else {
-            RESULT_CODES.FAILED
         }
     }
 }

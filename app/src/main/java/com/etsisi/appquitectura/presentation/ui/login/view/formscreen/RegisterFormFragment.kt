@@ -7,9 +7,9 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentRegisterBinding
-import com.etsisi.appquitectura.domain.enums.QuestionSubject
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
+import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel
 import com.etsisi.appquitectura.presentation.utils.hideKeyboard
@@ -27,7 +27,7 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
             lifecycleOwner = viewLifecycleOwner
             lifecycle.addObserver(mViewModel)
             ArrayAdapter.createFromResource(
-                requireContext(), R.array.years_array,
+                requireContext(), R.array.course_array,
                 android.R.layout.simple_spinner_item
             ).also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -60,16 +60,16 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
             }
 
             onError.observe(viewLifecycleOwner, LiveEventObserver { dialogConfig ->
-                navigator.openLoginDialog(dialogConfig)
+                navigator.openLoginDialog(dialogConfig, DialogType.LOGIN_ERROR)
             })
         }
     }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-        mViewModel.spinnerOption = when(parent.getItemAtPosition(position).toString().toInt()){
+        /*mViewModel.spinnerOption = when(parent.getItemAtPosition(position).toString().toInt()){
             1,2 -> QuestionSubject.INTRODUCCION
             else -> QuestionSubject.COMPOSICION
-        }
+        }*/
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

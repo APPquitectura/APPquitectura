@@ -20,7 +20,7 @@ import com.etsisi.appquitectura.utils.Constants.DATABASE_NAME
 abstract class AppDatabase: RoomDatabase() {
     abstract fun questionsDao(): QuestionsDAO
     abstract fun usersDao(): UsersDAO
-    abstract fun scoreDao(): ScoreDAO
+    abstract fun scoreDAO(): ScoreDAO
 
     companion object {
         @Volatile private var instance: AppDatabase? = null

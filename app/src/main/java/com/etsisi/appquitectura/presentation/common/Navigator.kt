@@ -7,15 +7,13 @@ import android.net.Uri
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.LoginDirections
 import com.etsisi.appquitectura.MainDirections
+import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
-import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameModeAction
 import com.etsisi.appquitectura.presentation.ui.main.MainActivity
 import com.etsisi.appquitectura.presentation.ui.main.game.view.PlayFragmentDirections
-import com.etsisi.appquitectura.presentation.ui.main.game.view.ResultFragmentDirections
-import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
 import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHomeAction
 import com.etsisi.appquitectura.presentation.ui.main.home.view.HomeFragmentDirections
 import com.etsisi.appquitectura.presentation.utils.startClearActivity
@@ -23,8 +21,8 @@ import com.etsisi.appquitectura.presentation.utils.toLabeledIntentArray
 
 class Navigator (private val navController: NavController){
 
-    fun openLoginDialog(config: DialogConfig) {
-        val directions = LoginDirections.navigateLoginDialog(config)
+    fun openLoginDialog(config: DialogConfig, type: DialogType) {
+        val directions = LoginDirections.navigateLoginDialog(config, type)
         navController.navigate(directions)
     }
     fun openEditTextDialog(config: DialogConfig, dialogType: DialogType) {
@@ -95,13 +93,13 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun openResultFragment(score: UserGameScoreBO, isRepeatingMode: Boolean) {
-        val directions = PlayFragmentDirections.actionPlayFragmentToResultFragment(score, isRepeatingMode)
+    fun openResultFragment() {
+        val directions = PlayFragmentDirections.actionPlayFragmentToResultFragment()
         navController.navigate(directions)
     }
 
-    fun repeatIncorrectAnswers(lastScore: UserGameScoreBO) {
-        val directions = ResultFragmentDirections.actionRepeatIncorrectAnswers(lastScore = lastScore)
+    fun repeatIncorrectAnswers(incorrectQuestionsArray: Array<QuestionBO>) {
+        val directions = PlayFragmentDirections.actionRepeatIncorrectAnswers(incorrectQuestions = incorrectQuestionsArray)
         navController.navigate(directions)
     }
 

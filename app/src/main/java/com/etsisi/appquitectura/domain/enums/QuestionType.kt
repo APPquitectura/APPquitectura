@@ -28,26 +28,6 @@ enum class QuestionLevel(val value: String) {
     }
 }
 
-enum class QuestionAge(val value: String) {
-    UNKNOWN("DESCONOCIDO"),
-    OLD("ANTIGÜEDAD"),
-    MIDDLE_AGE("EDAD MEDIA"),
-    MODERN_AGE("EDAD MODERNA"),
-    CONTEMPORARY_AGE("EDAD CONTEMPORÁNEA");
-
-    companion object {
-        fun parseAge(x: String?): QuestionAge {
-            return when (x) {
-                OLD.value -> OLD
-                MIDDLE_AGE.value -> MIDDLE_AGE
-                MODERN_AGE.value -> MODERN_AGE
-                CONTEMPORARY_AGE.value -> CONTEMPORARY_AGE
-                else -> UNKNOWN
-            }
-        }
-    }
-}
-
 enum class QuestionTopic(val value: String) {
     ACTUAL("ACTUAL"),
     AUTHOR("ID_AUTOR"),
@@ -62,6 +42,7 @@ enum class QuestionTopic(val value: String) {
     CENTURY_XV("SIGLO XV"),
     CENTURY_XX("SIGLO XX"),
     CONCEPTS("CONCEPTOS"),
+    CONTEMPORARY_AGE("EDAD CONTEMPORÁNEA"),
     EGYPT("EGIPTO"),
     ENGINEERING("INGENIERÍA"),
     GOTHIC("GÓTICO"),
@@ -71,7 +52,9 @@ enum class QuestionTopic(val value: String) {
     ITALY("ITALIA"),
     MANNERISM("MANIERISMO"),
     MIDDLE_AGE("EDAD MEDIA"),
+    MODERN_AGE("EDAD MODERNA"),
     MODERN("MODERNIDAD"),
+    OLD("ANTIGÜEDAD"),
     PALEOCHRISTIAN("PALEOCRISTIANO"),
     POSTMODERNITY("POSMODERNIDAD"),
     PREROMANESQUE("PRERROMÁNICO"),

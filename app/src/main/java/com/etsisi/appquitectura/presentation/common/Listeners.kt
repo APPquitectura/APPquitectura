@@ -1,5 +1,6 @@
 package com.etsisi.appquitectura.presentation.common
 
+import android.view.View
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
@@ -18,8 +19,10 @@ fun interface HomeItemClicked {
     fun onMenuItemClicked(item: ItemHome)
 }
 
-fun interface SettingsItemClicked {
+interface SettingsListener {
     fun onSettingsItemClicked(item: ItemSettings)
+    fun onRepeatModeSwitch(enabled: Boolean)
+    fun isRepeatModeEnabled(): Boolean
 }
 
 interface GameListener {
@@ -29,5 +32,12 @@ interface GameListener {
 
 interface QuestionListener {
     fun onAnswerClicked(question: QuestionBO, answer: AnswerBO)
+}
+
+interface StickyHeaderListener {
+    fun getHeaderPositionForItem(itemPosition: Int): Int
+    fun getHeaderLayout(headerPosition: Int): Int
+    fun bindHeaderData(header: View?, headerPosition: Int)
+    fun isHeader(itemPosition: Int): Boolean
 }
 

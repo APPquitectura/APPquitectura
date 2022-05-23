@@ -29,6 +29,7 @@ class NavigationDialog: BaseDialog<DialogNavigationBinding, EmptyViewModel>(
                         DialogType.WARNING_LEAVING_GAME -> {
                             navigator.navigateToHome()
                         }
+                        else -> dismiss()
                     }
                 }
 

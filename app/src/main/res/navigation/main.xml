@@ -84,8 +84,8 @@
             app:argType="integer"
             android:defaultValue="-1" />
         <argument
-            android:name="lastScore"
-            app:argType="com.etsisi.appquitectura.domain.model.UserGameScoreBO"
+            android:name="incorrectQuestions"
+            app:argType="com.etsisi.appquitectura.domain.model.QuestionBO[]"
             app:nullable="true"
             android:defaultValue="@null" />
         <argument
@@ -119,6 +119,19 @@
             app:popExitAnim="@anim/exit_to_right"
             app:popUpTo="@id/homeFragment"
             app:popUpToSaveState="false" />
+        <action
+            android:id="@+id/action_repeat_incorrect_answers"
+            app:destination="@id/playFragment"
+            app:popUpTo="@id/homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right">
+            <argument
+                android:name="navType"
+                android:defaultValue="REPEAT_INCORRECT_ANSWERS"
+                app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
+        </action>
     </fragment>
     <dialog
         android:id="@+id/navigationDialog"
@@ -136,23 +149,7 @@
         android:id="@+id/resultFragment"
         android:name="com.etsisi.appquitectura.presentation.ui.main.game.view.ResultFragment"
         android:label="ResultFragment"
-        tools:layout="@layout/fragment_result">
-        <argument
-            android:name="userResult"
-            app:argType="com.etsisi.appquitectura.domain.model.UserGameScoreBO" />
-        <action
-            android:id="@+id/action_repeat_incorrect_answers"
-            app:destination="@id/playFragment"
-            app:popUpTo="@id/homeFragment">
-            <argument
-                android:name="navType"
-                android:defaultValue="REPEAT_INCORRECT_ANSWERS"
-                app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
-        </action>
-        <argument
-            android:name="isRepeatingMode"
-            app:argType="boolean" />
-    </fragment>
+        tools:layout="@layout/fragment_result"/>
     <fragment
         android:id="@+id/myProfileFragment"
         android:name="com.etsisi.appquitectura.presentation.ui.main.profile.view.MyProfileFragment"

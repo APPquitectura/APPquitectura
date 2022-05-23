@@ -8,11 +8,12 @@ import com.etsisi.appquitectura.presentation.ui.main.game.view.QuestionFragment
 
 class QuestionsViewPagerAdapter(val fragment: Fragment): FragmentStateAdapter(fragment) {
 
-    private var questionsList: List<QuestionBO> = emptyList()
+    private var questionsList = mutableListOf<QuestionBO>()
 
 
     fun addData(list: List<QuestionBO>, positionStart: Int) {
-        questionsList = list
+        questionsList.clear()
+        questionsList.addAll(list)
         notifyItemRangeChanged(positionStart, itemCount)
     }
 
