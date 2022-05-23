@@ -41,7 +41,7 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
                 setOnItemClickListener { parent, view, position, id ->
                     mViewModel.setCourseSelected(position)
                 }
-                setSelection(0)
+                setText(adapter.getItem(0).toString(), false)
             }
             (genreSpinnerView as? AutoCompleteTextView)?.apply {
                 setAdapter(ArrayAdapter(
@@ -52,7 +52,7 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
                 setOnItemClickListener { parent, view, position, id ->
                     mViewModel.setGenreSelected(position)
                 }
-                setSelection(0)
+                setText(adapter.getItem(0).toString(), false)
             }
             etAge.apply {
                 setOnClickListener {

@@ -22,6 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:isScrollContainer="true"
+            android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,12 +68,13 @@
                         android:layout_weight="1"
                         android:hint="@string/name"
                         android:imeOptions="actionNext">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
                             android:maxLines="1"
-                            android:text="@={viewModel.name}"/>
+                            android:text="@={viewModel.name}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,12 +84,13 @@
                         android:layout_weight="1"
                         android:hint="@string/surname"
                         android:imeOptions="actionNext">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
                             android:maxLines="1"
-                            android:text="@={viewModel.surname}"/>
+                            android:text="@={viewModel.surname}" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -103,12 +106,13 @@
                         android:layout_weight="1"
                         android:hint="@string/number_academic_record"
                         android:imeOptions="actionNext">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:text="@={viewModel.academicRecord}"/>
+                            android:text="@={viewModel.academicRecord}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -117,12 +121,13 @@
                         android:layout_weight="1"
                         android:hint="@string/group"
                         android:imeOptions="actionNext">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
                             android:maxLines="1"
-                            android:text="@={viewModel.academicGroup}"/>
+                            android:text="@={viewModel.academicGroup}" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -139,22 +144,24 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:importantForAutofill="no"
-                        android:hint="@string/age">
+                        android:hint="@string/age"
+                        android:importantForAutofill="no">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_age"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="date"
-                            android:text="@{viewModel.age}"/>
+                            android:text="@{viewModel.age}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/genre_spinner"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                         android:layout_width="@dimen/dimen_0"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                        android:layout_weight="1">
+
                         <AutoCompleteTextView
                             android:id="@+id/genre_spinner_view"
                             android:layout_width="match_parent"
@@ -177,19 +184,20 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            style="@style/TextAppearance.App.BodyMedium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            style="@style/TextAppearance.App.BodyMedium"
                             android:layout_marginEnd="@dimen/dimen_4"
                             android:layout_weight="1"
+                            android:gravity="center_vertical"
                             android:text="@string/course" />
 
                         <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                             android:layout_width="@dimen/dimen_0"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+                            android:layout_weight="2">
+
                             <AutoCompleteTextView
                                 android:id="@+id/course_spinner_view"
                                 android:layout_width="match_parent"
