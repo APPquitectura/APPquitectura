@@ -19,7 +19,7 @@ data class QuestionBO(
     val answers: List<AnswerBO>
 ): Parcelable {
 
-    fun getImageFirestorageReference() = FireStorageHelper.getImageReference(imageRef)
+    fun getImageFirestorageReference() = runCatching { FireStorageHelper.getImageReference(imageRef) }.getOrElse { null }
 
     fun toEntity() = QuestionEntity(
         id = id.orEmpty(),
