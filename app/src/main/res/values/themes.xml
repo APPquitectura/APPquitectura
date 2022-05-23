@@ -11,7 +11,7 @@
         <!-- color de fondo de las actividades -->
         <item name="android:windowBackground">@color/white</item>
         <!-- Primary brand color.color for the app bar and other primary UI elements -->
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/text_color_primary</item>
         <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -25,7 +25,9 @@
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/red_error</item>
 
+        <item name="textInputStyle">@style/Widget.AppQuitectura.TextInputLayout</item>
         <item name="bottomSheetDialogTheme">@style/Widget.AppQuitectura.BottomSheetDialog</item>
+        <item name="android:datePickerDialogTheme">@style/DatePickerStyle</item>
     </style>
 
     <style name="Theme.Appquitectura.Splash" parent="Theme.SplashScreen">
@@ -65,9 +67,24 @@
         <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
     </style>
 
+    <style name="Widget.AppQuitectura.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:textAppearance">@style/TextAppearance.App.BodyMedium</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="boxStrokeColor">@color/primary_blue</item>
+        <item name="boxStrokeErrorColor">@color/red_error</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textColorHint">@color/text_color_primary</item>
+        <item name="hintTextColor">@color/primary_blue</item>
+    </style>
 
     <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/text_color_primary</item>
         <item name="fontFamily">@font/oxygen_bold</item>
         <item name="android:fontFamily">@font/oxygen_bold</item>
+    </style>
+
+    <style name="DatePickerStyle" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorPrimary">@color/primary_alpha_blue</item>
+        <item name="colorSecondary">@color/primary_alpha_blue</item>
     </style>
 </resources>

@@ -1,38 +1,64 @@
 package com.etsisi.appquitectura.presentation.ui.login.view.formscreen
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.graphics.drawable.Drawable
-import android.view.View
-import android.widget.AdapterView
+import android.os.Build
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.DatePicker
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import java.time.LocalDate
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentRegisterBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
-import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError
+import com.etsisi.appquitectura.presentation.dialog.view.AgePickerDialog
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel
 import com.etsisi.appquitectura.presentation.utils.hideKeyboard
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showDrawable
+import java.time.format.DateTimeFormatter
 
 class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel>(
     R.layout.fragment_register,
     RegisterViewModel::class
-), AdapterView.OnItemSelectedListener {
+) {
 
     override fun setUpDataBinding(mBinding: FragmentRegisterBinding, mViewModel: RegisterViewModel) {
         mBinding.apply {
             viewModel = mViewModel
             lifecycleOwner = viewLifecycleOwner
             lifecycle.addObserver(mViewModel)
-            ArrayAdapter.createFromResource(
-                requireContext(), R.array.course_array,
-                android.R.layout.simple_spinner_item
-            ).also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                yearSpinner.adapter = adapter
-                yearSpinner.onItemSelectedListener = this@RegisterFormFragment
+            (courseSpinnerView as? AutoCompleteTextView)?.apply {
+                setAdapter(ArrayAdapter(
+                    requireContext(),
+                    R.layout.item_array,
+                    mViewModel.courseOptions
+                ))
+                setOnItemClickListener { parent, view, position, id ->
+                    mViewModel.setCourseSelected(position)
+                }
+                setSelection(0)
+            }
+            (genreSpinnerView as? AutoCompleteTextView)?.apply {
+                setAdapter(ArrayAdapter(
+                    requireContext(),
+                    R.layout.item_array,
+                    mViewModel.getGenreOptions(requireContext())
+                ))
+                setOnItemClickListener { parent, view, position, id ->
+                    mViewModel.setGenreSelected(position)
+                }
+                setSelection(0)
+            }
+            etAge.apply {
+                setOnClickListener {
+                    showDatePickerDialog()
+                }
+                isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
             }
             executePendingBindings()
         }
@@ -65,23 +91,19 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
         }
     }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-        /*mViewModel.spinnerOption = when(parent.getItemAtPosition(position).toString().toInt()){
-            1,2 -> QuestionSubject.INTRODUCCION
-            else -> QuestionSubject.COMPOSICION
-        }*/
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        with(mViewModel) {
-            spinnerOption = null
-            setError(RegisterError.YEAR_UNSELECTED.value)
-        }
-    }
-
     private fun  btnDrawable(): Drawable = ContextCompat
         .getDrawable(requireContext(), R.drawable.ic_check_round_selected)
         ?.apply {
             setBounds(0, 0, 50, 50)
         }!!
+
+
+    private fun showDatePickerDialog() {
+        AgePickerDialog.newInstance(listener = object : DatePickerDialog.OnDateSetListener {
+            @SuppressLint("NewApi")
+            override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+                mViewModel.setDateField(LocalDate.of(year, month, dayOfMonth).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+            }
+        }).show(requireActivity().supportFragmentManager, AgePickerDialog.TAG)
+    }
 }

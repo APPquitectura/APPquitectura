@@ -38,7 +38,9 @@
             app:restoreState="false" />
         <action
             android:id="@+id/open_input_text_dialog"
-            app:destination="@id/input_text_dialog" />
+            app:destination="@id/input_text_dialog"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down"/>
     </fragment>
     <fragment
         android:id="@+id/email_verification_fragment"

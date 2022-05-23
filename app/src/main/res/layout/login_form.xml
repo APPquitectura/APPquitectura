@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dimen_4"
+                app:startIconDrawable="@drawable/ic_mail"
                 android:hint="@string/hint_email"
                 android:minHeight="@dimen/input_text_height"
                 app:endIconMode="clear_text"
@@ -46,6 +47,7 @@
                 android:layout_marginBottom="@dimen/dimen_4"
                 android:hint="@string/hint_password"
                 android:minHeight="@dimen/input_text_height"
+                app:counterEnabled="true"
                 app:passwordToggleEnabled="true"
                 app:hintAnimationEnabled="true">
 
