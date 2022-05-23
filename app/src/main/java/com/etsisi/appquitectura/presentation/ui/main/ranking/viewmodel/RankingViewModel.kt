@@ -17,7 +17,7 @@ class RankingViewModel(
     private val getQuestionTopicsUseCase: GetQuestionTopicsUseCase,
     private val getWeeklyQuestionTopicUseCase: GetWeeklyQuestionTopicUseCase,
     private val fetchRankingUseCase: FetchRankingUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _ranking = MutableLiveData<List<ItemRanking>>()
     val ranking: LiveData<List<ItemRanking>>
@@ -36,32 +36,33 @@ class RankingViewModel(
             params = Unit,
             onResult = { rankingList ->
                 if (rankingList.isNotEmpty()) {
-                    val weeklyRanking = rankingList.filter { it.getWeeklyRankingPoints(weeklyTopic) != null }
+                    val weeklyRanking =
+                        rankingList.filter { it.getWeeklyRankingPoints(weeklyTopic) != null }
                     val generalRanking = rankingList.filter { it.getGeneralRankingPoints() != null }
 
                     _ranking.value = buildList {
-                        if (weeklyRanking.isNotEmpty()) {
-                            if (generalRanking.isNotEmpty()) {
-                                add(
+                        if (generalRanking.isNotEmpty()) {
+                            add(
+                                ItemRanking(
+                                    name = "RANKING GENERAL",
+                                    rankingPoints = 0,
+                                    position = 0,
+                                    icon = R.drawable.ic_badge,
+                                    viewType = RankingViewType.HEADER
+                                )
+                            )
+                            addAll(
+                                generalRanking.mapIndexed { index, rankingBO ->
                                     ItemRanking(
-                                        name = "RANKING GENERAL",
-                                        rankingPoints = 0,
-                                        position = 0,
-                                        icon = R.drawable.ic_badge,
-                                        viewType = RankingViewType.HEADER
+                                        name = rankingBO.user?.name.orEmpty(),
+                                        rankingPoints = rankingBO.getGeneralRankingPoints() ?: 0,
+                                        position = index + 1,
+                                        viewType = RankingViewType.ITEM
                                     )
-                                )
-                                addAll(
-                                    generalRanking.mapIndexed { index, rankingBO ->
-                                        ItemRanking(
-                                            name = rankingBO.user?.name.orEmpty(),
-                                            rankingPoints = rankingBO.getGeneralRankingPoints() ?: 0,
-                                            position = index + 1,
-                                            viewType = RankingViewType.ITEM
-                                        )
-                                    }
-                                )
-                            }
+                                }
+                            )
+                        }
+                        if (weeklyRanking.isNotEmpty()) {
                             add(
                                 ItemRanking(
                                     name = "RANKING SEMANAL",
@@ -89,7 +90,11 @@ class RankingViewModel(
     }
 
     private fun getWeeklyQuestionTopic(): QuestionTopic {
-         return getWeeklyQuestionTopicUseCase.invoke(GetWeeklyQuestionTopicUseCase.Params(getQuestionTopics()))
+        return getWeeklyQuestionTopicUseCase.invoke(
+            GetWeeklyQuestionTopicUseCase.Params(
+                getQuestionTopics()
+            )
+        )
     }
 
     private fun getQuestionTopics(): List<QuestionTopic> {
