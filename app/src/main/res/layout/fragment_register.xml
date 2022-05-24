@@ -39,23 +39,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginVertical="@dimen/dimen_32"
-                    android:text="@string/register_btn_text"
+                    android:text="@string/register_title"
                     android:textSize="@dimen/text_22" />
 
                 <TextView
+                    style="@style/TextAppearance.App.BodyMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     app:dynamicRes="@{R.string.register_greeting}"
                     app:dynamicText="@{viewModel.name}"
                     app:isVisible="@{!viewModel.name.empty}" />
-
-                <include
-                    android:id="@+id/form"
-                    layout="@layout/login_form"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/dimen_10"
-                    app:viewModel="@{viewModel}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,10 +57,12 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/name_layout"
                         android:layout_width="@dimen/dimen_0"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="@string/name"
+                        app:errorEnabled="true"
                         android:imeOptions="actionNext">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -79,6 +75,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/surname_layout"
                         android:layout_width="@dimen/dimen_0"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -101,6 +98,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/academic_record_layout"
                         android:layout_width="@dimen/dimen_0"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -116,6 +114,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/academic_group_layout"
                         android:layout_width="@dimen/dimen_0"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -137,37 +136,40 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/age_layout"
                         android:layout_width="@dimen/dimen_0"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:clickable="true"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:hint="@string/age"
-                        android:importantForAutofill="no">
+                        android:hint="@string/age">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_age"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:cursorVisible="false"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
                             android:inputType="date"
                             android:text="@{viewModel.age}" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/genre_spinner"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                        android:id="@+id/city_layout"
                         android:layout_width="@dimen/dimen_0"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:hint="@string/city"
+                        android:imeOptions="actionNext">
 
-                        <AutoCompleteTextView
-                            android:id="@+id/genre_spinner_view"
+                        <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none" />
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:text="@={viewModel.city}" />
                     </com.google.android.material.textfield.TextInputLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -207,16 +209,58 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <EditText
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:cursorVisible="false"
-                    android:hint="@string/city"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:text="@={viewModel.city}"
-                    android:textColor="@color/text_color_primary" />
+                    android:layout_marginVertical="@dimen/dimen_10"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextAppearance.App.BodyMedium"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/dimen_4"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/gender" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/genre_spinner"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                        android:layout_width="@dimen/dimen_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/gender_spinner_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/form"
+                    layout="@layout/login_form"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/dimen_10"
+                    app:viewModel="@{viewModel}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    app:isVisible="@{viewModel.email != null &amp;&amp; !viewModel.email.empty}"
+                    android:text="@string/register_need_verification_msg" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_register"
@@ -224,12 +268,6 @@
                     android:layout_margin="@dimen/dimen_40"
                     android:onClick="@{() -> viewModel.initRegister()}"
                     android:text="@string/register_btn_text" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="You will need to verify your email after this step" />
             </LinearLayout>
 
         </ScrollView>

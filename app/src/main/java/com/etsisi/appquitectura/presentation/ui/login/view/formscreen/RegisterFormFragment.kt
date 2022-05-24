@@ -16,7 +16,10 @@ import com.etsisi.appquitectura.presentation.common.BaseFragment
 import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.view.AgePickerDialog
+import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError
 import com.etsisi.appquitectura.presentation.ui.login.viewmodel.RegisterViewModel
+import com.etsisi.appquitectura.presentation.utils.EMPTY
+import com.etsisi.appquitectura.presentation.utils.ERROR
 import com.etsisi.appquitectura.presentation.utils.hideKeyboard
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showDrawable
@@ -43,7 +46,7 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
                 }
                 setText(adapter.getItem(0).toString(), false)
             }
-            (genreSpinnerView as? AutoCompleteTextView)?.apply {
+            (genderSpinnerView as? AutoCompleteTextView)?.apply {
                 setAdapter(ArrayAdapter(
                     requireContext(),
                     R.layout.item_array,
@@ -59,6 +62,9 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
                     showDatePickerDialog()
                 }
                 isVisible = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                if (!isVisible) {
+                   setText(String.EMPTY)
+                }
             }
             executePendingBindings()
         }
@@ -66,6 +72,19 @@ class RegisterFormFragment : BaseFragment<FragmentRegisterBinding, RegisterViewM
 
     override fun observeViewModel(mViewModel: RegisterViewModel) {
         with(mViewModel){
+            inputDataError.observe(viewLifecycleOwner, LiveEventObserver {
+                with(mBinding) {
+                    when(it) {
+                        RegisterError.EMPTY_NAME -> nameLayout.error = String.ERROR
+                        RegisterError.EMPTY_SURNAME -> surnameLayout.error = String.ERROR
+                        RegisterError.EMPTY_ACADEMIC_RECORD -> academicRecordLayout.error = String.ERROR
+                        RegisterError.EMPTY_ACADEMIC_GROUP -> academicGroupLayout.error = String.ERROR
+                        RegisterError.EMPTY_CITY -> cityLayout.error = String.ERROR
+                        RegisterError.EMPTY_AGE -> ageLayout.error = String.ERROR
+                    }
+                }
+            })
+
             loaded.observe(viewLifecycleOwner){ loaded ->
                 if (loaded) {
                     requireContext().hideKeyboard(mBinding.form.etPassword)

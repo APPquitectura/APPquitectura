@@ -62,6 +62,10 @@ class RegisterViewModel(
     val age: LiveData<String>
         get() = _age
 
+    private val _inputDataError = MutableLiveEvent<RegisterError>()
+    val inputDataError: LiveEvent<RegisterError>
+        get() = _inputDataError
+
     val genderOptions: List<UserGender> = listOf(UserGender.MALE, UserGender.FEMALE)
     val courseOptions: List<QuestionSubject> =
         listOf(QuestionSubject.COMPOSICION, QuestionSubject.INTRODUCCION)
@@ -129,27 +133,6 @@ class RegisterViewModel(
                     RegisterUseCase.RESULT_CODES.SUCCESS -> onSuccessRegister()
                 }
             }
-        } else {
-            val config = DialogConfig(
-                title = R.string.generic_error_title,
-                body = R.string.error_email_password_malformed,
-                lottieRes = R.raw.lottie_404
-            )
-            _onError.value = Event(config)
-        }
-    }
-
-    fun setError(errorCode: Int) {
-        when (errorCode) {
-            RegisterError.YEAR_UNSELECTED.value -> {
-                _onError.value = Event(
-                    DialogConfig(
-                        title = R.string.generic_error_title,
-                        body = R.string.error_unselected_year,
-                        lottieRes = R.raw.lottie_404
-                    )
-                )
-            }
         }
     }
 
@@ -189,38 +172,50 @@ class RegisterViewModel(
     }
 
     private fun allValuesAreFilled(): Boolean {
+        val config = DialogConfig(
+            title = R.string.generic_error_title,
+            body = R.string.error_email_password_malformed,
+            lottieRes = R.raw.lottie_404
+        )
         return when {
-            _email.value?.isNullOrBlank() == true || _email.value?.let { emailValid(it) } != true -> {
+            _name.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_NAME)
                 false
             }
-            _password.value?.isNullOrBlank() == true || _password.value?.let { passwordValid(it) } != true -> {
+            _surname.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_SURNAME)
                 false
             }
-            _name.value?.isNullOrBlank() == true -> {
+            _academicGroup.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_ACADEMIC_GROUP)
                 false
             }
-            _academicGroup.value?.isNullOrBlank() == true -> {
+            _age.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_AGE)
                 false
             }
-            _name.value?.isNullOrBlank() == true -> {
+            _academicRecord.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_ACADEMIC_RECORD)
                 false
             }
-            _surname.value?.isNullOrBlank() == true -> {
+            _city.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_CITY)
                 false
             }
-            _academicGroup.value?.isNullOrBlank() == true -> {
+            _email.value?.isNullOrBlank() != false -> {
+                _onError.value = Event(config)
                 false
             }
-            _academicRecord.value?.isNullOrBlank() == true -> {
+            _email.value?.let { emailValid(it) } ?: false == false -> {
+                _onError.value = Event(config)
                 false
             }
-            _age.value?.isNullOrBlank() == true -> {
+            _password.value?.isNullOrBlank() != false -> {
+                _onError.value = Event(config)
                 false
             }
-            _city.value?.isNullOrBlank() == true -> {
-                false
-            }
-            _city.value?.isNullOrBlank() == true -> {
+            _password.value?.let { passwordValid(it) } ?: false == false -> {
+                _onError.value = Event(config)
                 false
             }
             else -> true

@@ -28,6 +28,7 @@
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+    <string name="btn_register">Sign up</string>
     <string name="login_btn_txt">Access</string>
     <string name="sign_in">Sign in</string>
 
@@ -76,7 +77,9 @@
     <string name="profile_level_value">Level %d</string>
 
     <!-- Register -->
+    <string name="register_title">Welcome!</string>
     <string name="register_greeting">Hi %s!</string>
+    <string name="register_need_verification_msg">You will need to confirm your account</string>
     <string name="age">Date of birth</string>
     <string name="city">City</string>
     <string name="course">Course</string>
@@ -97,7 +100,7 @@
     <string name="error_unselected_year">Select the year of the degree</string>
 
 
-    <string name="register_btn_text">Register</string>
+    <string name="register_btn_text">Let\'s start</string>
     <string name="loading">Loading</string>
     <string name="done">Done</string>
 

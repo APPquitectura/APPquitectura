@@ -27,6 +27,7 @@
 
     <string name="hint_email">Correo</string>
     <string name="hint_password">Contraseña</string>
+    <string name="btn_register">No tengo cuenta</string>
     <string name="sign_in">Iniciar sesión</string>
     <string name="login_btn_txt">Acceder</string>
 
@@ -74,7 +75,9 @@
     <string name="profile_level_value">Nivel %d</string>
 
     <!-- Register -->
+    <string name="register_title">¡Bienvenido!</string>
     <string name="register_greeting">¡Hola %s!</string>
+    <string name="register_need_verification_msg">Tendrás que confirmar que eres tú</string>
     <string name="age">Fecha de nacimiento</string>
     <string name="city">Ciudad de origen</string>
     <string name="course">Asignatura</string>
@@ -95,7 +98,7 @@
 
     <string name="error_register_database">Estamos teniendo problemas técnicos con la base de datos</string>
 
-    <string name="register_btn_text">Registrarse</string>
+    <string name="register_btn_text">Empecemos</string>
     <string name="loading">Cargando</string>
     <string name="done">Completado</string>
 
