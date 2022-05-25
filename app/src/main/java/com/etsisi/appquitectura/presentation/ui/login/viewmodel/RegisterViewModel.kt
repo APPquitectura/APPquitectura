@@ -1,10 +1,12 @@
 package com.etsisi.appquitectura.presentation.ui.login.viewmodel
 
+import android.content.Context
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.etsisi.appquitectura.R
+import com.etsisi.appquitectura.data.model.enums.UserGender
 import com.etsisi.appquitectura.domain.enums.QuestionSubject
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.SignInWithCredentialsUseCase
@@ -52,23 +54,40 @@ class RegisterViewModel(
     val academicGroup: MutableLiveData<String>
         get() = _academicGroup
 
+    private val _city = MutableLiveData<String>()
+    val city: MutableLiveData<String>
+        get() = _city
+
     private val _age = MutableLiveData<String>()
-    val age: MutableLiveData<String>
+    val age: LiveData<String>
         get() = _age
 
-    private val _genre = MutableLiveData<String>()
-    val genre: MutableLiveData<String>
-        get() = _genre
+    private val _inputDataError = MutableLiveEvent<RegisterError>()
+    val inputDataError: LiveEvent<RegisterError>
+        get() = _inputDataError
 
-    var spinnerOption: QuestionSubject? = null
+    val genderOptions: List<UserGender> = listOf(UserGender.MALE, UserGender.FEMALE)
+    val courseOptions: List<QuestionSubject> =
+        listOf(QuestionSubject.COMPOSICION, QuestionSubject.INTRODUCCION)
+
+    private var courseSelected = courseOptions.first()
+    private var genderSelected = genderOptions.first()
 
     fun initRegister() {
-        val email = _email.value.orEmpty()
-        val password = _password.value.orEmpty()
-        if (emailValid(email) && passwordValid(password) && spinnerOption != null && nameValid()) {
+        if (allValuesAreFilled()) {
             registerUseCase.invoke(
                 scope = viewModelScope,
-                params = RegisterUseCase.Params(_name.value, email, password, spinnerOption!!)
+                params = RegisterUseCase.Params(
+                    name = _name.value.orEmpty(),
+                    email = _email.value.orEmpty(),
+                    password = _password.value.orEmpty(),
+                    course = courseSelected!!,
+                    gender = genderSelected,
+                    surname = _surname.value.orEmpty(),
+                    city = _city.value.orEmpty(),
+                    academicGroup = _academicGroup.value.orEmpty(),
+                    academicRecord = _academicRecord.value.orEmpty()
+                )
             ) { resultCode ->
                 when (resultCode) {
                     RegisterUseCase.RESULT_CODES.WEAK_PASSWORD -> {
@@ -114,21 +133,37 @@ class RegisterViewModel(
                     RegisterUseCase.RESULT_CODES.SUCCESS -> onSuccessRegister()
                 }
             }
-        } else {
-            val config = DialogConfig(
-                title = R.string.generic_error_title,
-                body = R.string.error_email_password_malformed,
-                lottieRes = R.raw.lottie_404
-            )
-            _onError.value = Event(config)
+        }
+    }
+
+    fun setGenreSelected(index: Int) {
+        genderSelected = genderOptions[index]
+    }
+
+    fun setCourseSelected(index: Int) {
+        courseSelected = courseOptions[index]
+    }
+
+    fun setDateField(date: String?) {
+        date?.let {
+            _age.value = it
+        }
+    }
+
+    fun getGenreOptions(context: Context): List<String> = genderOptions.map {
+        with(context) {
+            if (it == UserGender.MALE) {
+                getString(R.string.gender_male)
+            } else {
+                getString(R.string.gender_female)
+            }
         }
     }
 
     private fun emailValid(email: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches()
     private fun passwordValid(password: String) = password.length > 6
-    private fun nameValid() = _name.value?.isNotBlank() == true
 
-    fun onSuccessRegister() {
+    private fun onSuccessRegister() {
         if (CurrentUser.isEmailVerfied) {
             _onSuccessRegister.value = Event(true)
         } else {
@@ -136,17 +171,54 @@ class RegisterViewModel(
         }
     }
 
-    fun setError(errorCode: Int) {
-        when (errorCode) {
-            RegisterError.YEAR_UNSELECTED.value -> {
-                _onError.value = Event(
-                    DialogConfig(
-                        title = R.string.generic_error_title,
-                        body = R.string.error_unselected_year,
-                        lottieRes = R.raw.lottie_404
-                    )
-                )
+    private fun allValuesAreFilled(): Boolean {
+        val config = DialogConfig(
+            title = R.string.generic_error_title,
+            body = R.string.error_email_password_malformed,
+            lottieRes = R.raw.lottie_404
+        )
+        return when {
+            _name.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_NAME)
+                false
             }
+            _surname.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_SURNAME)
+                false
+            }
+            _academicGroup.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_ACADEMIC_GROUP)
+                false
+            }
+            _age.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_AGE)
+                false
+            }
+            _academicRecord.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_ACADEMIC_RECORD)
+                false
+            }
+            _city.value?.isNullOrBlank() != false -> {
+                _inputDataError.value = Event(RegisterError.EMPTY_CITY)
+                false
+            }
+            _email.value?.isNullOrBlank() != false -> {
+                _onError.value = Event(config)
+                false
+            }
+            _email.value?.let { emailValid(it) } ?: false == false -> {
+                _onError.value = Event(config)
+                false
+            }
+            _password.value?.isNullOrBlank() != false -> {
+                _onError.value = Event(config)
+                false
+            }
+            _password.value?.let { passwordValid(it) } ?: false == false -> {
+                _onError.value = Event(config)
+                false
+            }
+            else -> true
         }
     }
 }

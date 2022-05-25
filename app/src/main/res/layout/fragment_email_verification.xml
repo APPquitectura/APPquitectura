@@ -4,25 +4,29 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/dimen_12">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/dimen_50"
             app:layout_constraintDimensionRatio="W, 1:1"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_rawRes="@raw/lottie_signed_up"
             app:lottie_autoPlay="true"
-            app:lottie_loop="true"/>
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_signed_up" />
 
         <TextView
             android:id="@+id/msg"
-            android:layout_width="wrap_content"
+            style="@style/TextAppearance.App.BodyMedium"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_22"
+            android:gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/btn_go_to_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -12,6 +12,8 @@ import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
 import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragmentDirections
+import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.RegisterFormFragment
+import com.etsisi.appquitectura.presentation.ui.login.view.formscreen.RegisterFormFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.MainActivity
 import com.etsisi.appquitectura.presentation.ui.main.game.view.PlayFragmentDirections
 import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHomeAction
@@ -29,6 +31,7 @@ class Navigator (private val navController: NavController){
         val directions = LoginFormFragmentDirections.openInputTextDialog(dialogType,config)
         navController.navigate(directions)
     }
+
     fun openRegisterFragment() {
         val directions = LoginFormFragmentDirections.navigateToRegisterFormFragment()
         navController.navigate(directions)

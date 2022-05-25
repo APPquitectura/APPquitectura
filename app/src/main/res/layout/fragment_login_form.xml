@@ -80,7 +80,7 @@
                     style="@style/buttonStyle"
                     android:layout_margin="@dimen/dimen_40"
                     android:onClick="@{() -> viewModel.onRegister()}"
-                    android:text="@string/register_btn_text" />
+                    android:text="@string/btn_register" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_reset_password"

@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         applicationId "com.etsisi.appquitectura"
-        minSdk 21
+        minSdk 24
         targetSdk 31
         versionCode rootProject.ext.appVersionCode
         versionName rootProject.ext.appVersionName
