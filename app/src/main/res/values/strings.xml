@@ -56,6 +56,10 @@
     <string name="dialog_leaving_game_title">You are leaving the game</string>
     <string name="dialog_leaving_game_body">You will lose all the progress</string>
 
+    <string name="level_easy">Fácil</string>
+    <string name="level_normal">Normal</string>
+    <string name="level_difficult">Difícil</string>
+
     <string name="results_title">Score</string>
     <string name="results_correct_questions">Correct answers</string>
     <string name="results_time_average">Time average</string>

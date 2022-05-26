@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.fragment.app.DialogFragment
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.DialogPickerTopicBinding
 import com.etsisi.appquitectura.databinding.ItemLabelBinding
+import com.etsisi.appquitectura.databinding.ItemLevelBinding
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.presentation.common.GameListener
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -23,7 +24,8 @@ class TopicPickerDialog(
     private val items: List<ItemLabel>
 ): BottomSheetDialogFragment() {
     private lateinit var mBinding: DialogPickerTopicBinding
-
+    private val levels: List<QuestionLevel>
+        get() = QuestionLevel.values().filter { it != QuestionLevel.UNKNOWN }
 
     companion object {
         fun newInstance(topics: List<ItemLabel>, gameModeIndex: Int, listener: GameListener) = TopicPickerDialog(listener, gameModeIndex, topics)
@@ -34,7 +36,6 @@ class TopicPickerDialog(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.Widget_AppQuitectura_BottomSheetDialog)
         val view = inflater.inflate(R.layout.dialog_picker_topic, container, false)
         setUpDataBinding(view)
         return view
@@ -65,6 +66,17 @@ class TopicPickerDialog(
                         id = index
                     }
                     addView(view , index)
+                }
+            }
+            questionLevel.apply {
+                levels.mapIndexed { index, questionLevel ->
+                    val view = (ItemLevelBinding.inflate(layoutInflater, this, false).apply {
+                        level = questionLevel
+                    }.root as Chip).apply {
+                        id = index
+                        isSelected = questionLevel == QuestionLevel.EASY
+                    }
+                    addView(view)
                 }
             }
             startGame.setOnClickListener {

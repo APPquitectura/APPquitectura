@@ -22,8 +22,10 @@ import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemGameMode
 import com.etsisi.appquitectura.domain.enums.GameType
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.etsisi.appquitectura.presentation.utils.getMethodName
+import com.google.android.material.chip.Chip
 
 object BindingAdapter {
 
@@ -120,6 +122,16 @@ object BindingAdapter {
     fun TextView.setUserLevel(scoreLevel: ScoreLevel?) {
         scoreLevel?.let {
             text = context.getString(R.string.profile_level_value, it.number)
+        }
+    }
+
+    @BindingAdapter("questionLevel")
+    @JvmStatic
+    fun Chip.setQuestionLevel(questionLevel: QuestionLevel) {
+        text = when(questionLevel) {
+            QuestionLevel.DIFFICULT -> context.getString(R.string.level_difficult)
+            QuestionLevel.NORMAL -> context.getString(R.string.level_normal)
+            else -> context.getString(R.string.level_easy)
         }
     }
 
