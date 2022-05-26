@@ -39,6 +39,14 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
     }
 
     override fun observeViewModel(mViewModel: ResultViewModel) {
+        with(mViewModel) {
+            showRoulette.observe(viewLifecycleOwner) { show ->
+                if (!show) {
+                    hideSpinBtn()
+                    showResults()
+                }
+            }
+        }
     }
 
     private fun hideSpinBtn() {

@@ -242,7 +242,7 @@ class PlayViewModel(
                     runCatching { normalQuestionsList.removeAt(0) }
                 }
             }
-            _questions.value = actualQuestionList
+            setQuestions(actualQuestionList)
             smoothNextPage()
         }
     }
