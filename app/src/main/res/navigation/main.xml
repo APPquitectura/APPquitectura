@@ -109,7 +109,10 @@
         </action>
         <action
             android:id="@+id/open_navigationDialog"
-            app:destination="@id/navigationDialog" />
+            app:destination="@id/navigationDialog"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down"
+            />
         <action
             android:id="@+id/action_playFragment_to_resultFragment"
             app:destination="@id/resultFragment"

@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.data.helper.PreferencesHelper
 import com.etsisi.appquitectura.data.model.enums.PreferenceKeys
 import com.etsisi.appquitectura.domain.enums.GameNavType
@@ -24,6 +25,7 @@ import com.etsisi.appquitectura.domain.enums.GameType
 import com.etsisi.appquitectura.domain.enums.RankingType
 import com.etsisi.appquitectura.domain.usecase.GetQuestionTopicsUseCase
 import com.etsisi.appquitectura.domain.usecase.GetWeeklyQuestionTopicUseCase
+import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
 
 class PlayViewModel(
@@ -60,6 +62,10 @@ class PlayViewModel(
     val showResults: LiveEvent<Boolean>
         get() = _showResults
 
+    private val _showError by lazy { MutableLiveEvent<DialogConfig>() }
+    val showError: LiveEvent<DialogConfig>
+        get() = _showError
+
     private val _navType = MutableLiveData<GameNavType>()
     val navType: LiveData<GameNavType>
         get() = _navType
@@ -76,7 +82,6 @@ class PlayViewModel(
     private var normalQuestionsList = mutableListOf<QuestionBO>()
     private var easyQuestionsList = mutableListOf<QuestionBO>()
 
-    var levelOfNextQuestions: QuestionLevel? = null
     var gameModeSelected: ItemGameMode? = null
     var topicsSelectedToFilter: List<QuestionTopic>? = null
     var rankingType: RankingType? = null
@@ -212,11 +217,29 @@ class PlayViewModel(
     }
 
     fun setInitialQuestions() {
-        setQuestions(easyQuestionsList)
-        easyQuestionsList.removeAt(0)
-        _questionsLoaded.removeSource(_easyQuestionsLoaded)
-        _questionsLoaded.removeSource(_normalQuestionsLoaded)
-        _questionsLoaded.removeSource(_difficultQuestionsLoaded)
+        val initialQuestions =
+            easyQuestionsList.takeIf { it.isNotEmpty() }
+            ?: normalQuestionsList.takeIf { it.isNotEmpty() }
+            ?: difficultQuestionsList.takeIf { it.isNotEmpty() }
+
+        if (initialQuestions == null) {
+            _showError.value = Event(
+                DialogConfig(
+                    title = R.string.generic_error_title,
+                    body = R.string.error_no_questions_found,
+                    lottieRes = R.raw.message_alert,
+                    showNegativeButton = false
+                )
+            )
+        } else {
+            setQuestions(initialQuestions)
+            runCatching { easyQuestionsList.removeAt(0) }.getOrNull()
+                ?: runCatching { normalQuestionsList.removeAt(0) }.getOrNull()
+                ?: runCatching { difficultQuestionsList.removeAt(0) }
+            _questionsLoaded.removeSource(_easyQuestionsLoaded)
+            _questionsLoaded.removeSource(_normalQuestionsLoaded)
+            _questionsLoaded.removeSource(_difficultQuestionsLoaded)
+        }
     }
 
     fun fetchNextQuestion(smoothNextPage: () -> Unit) {

@@ -176,6 +176,12 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             showResults.observe(viewLifecycleOwner, LiveEventObserver {
                 navigator.openResultFragment()
             })
+            showError.observe(viewLifecycleOwner, LiveEventObserver {
+                navigator.openNavigationDialog(
+                    config = it,
+                    type = DialogType.NO_QUESTIONS_FOUND
+                )
+            })
         }
     }
 

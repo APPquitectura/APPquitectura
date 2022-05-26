@@ -44,6 +44,7 @@
     <string name="item_home_play">Start game</string>
 
     <!-- Play -->
+    <string name="error_no_questions_found">We are experiencing technical difficulties</string>
     <string name="game_mode_classic">%d Questions</string>
     <string name="game_mode_weekly">Weekly game</string>
     <string name="game_mode_test">Demo</string>
