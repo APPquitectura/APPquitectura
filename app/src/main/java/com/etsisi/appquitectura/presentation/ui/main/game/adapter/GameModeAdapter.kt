@@ -37,7 +37,8 @@ class GameModeAdapter(
                     override fun onClicked(item: ItemGameMode) {
                         this@GameModeAdapter.listener.onGameModeSelected(
                             gameModeIndex = dataSet.indexOf(item),
-                            topicsIdSelected = null
+                            topicsIdSelected = null,
+                            levelSelected = null
                         )
                     }
                 }

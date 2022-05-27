@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.navigation.NavController
 import com.etsisi.appquitectura.LoginDirections
 import com.etsisi.appquitectura.MainDirections
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.domain.model.UserGameScoreBO
 import com.etsisi.appquitectura.presentation.dialog.enums.DialogType
@@ -58,8 +59,12 @@ class Navigator (private val navController: NavController){
         navController.navigate(directions)
     }
 
-    fun startGame(gameModeIndex: Int, labelsSelectedIndex: IntArray?) {
-        val directions = PlayFragmentDirections.actionGameModeToPlay(gameModeIndex = gameModeIndex, topicsIdSelected = labelsSelectedIndex)
+    fun startGame(
+        gameModeIndex: Int,
+        labelsSelectedIndex: IntArray?,
+        levelSelected: QuestionLevel
+    ) {
+        val directions = PlayFragmentDirections.actionGameModeToPlay(gameModeIndex = gameModeIndex, topicsIdSelected = labelsSelectedIndex, levelSelected = levelSelected)
         navController.navigate(directions)
     }
 

@@ -1,6 +1,7 @@
 package com.etsisi.appquitectura.presentation.common
 
 import android.view.View
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.domain.model.AnswerBO
 import com.etsisi.appquitectura.domain.model.QuestionBO
 import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHome
@@ -27,7 +28,7 @@ interface SettingsListener {
 
 interface GameListener {
     fun onAnswerClicked(question: QuestionBO, answer: AnswerBO, points: Long, userMarkInMillis: Long)
-    fun onGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?)
+    fun onGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?, levelSelected: QuestionLevel?)
 }
 
 interface QuestionListener {

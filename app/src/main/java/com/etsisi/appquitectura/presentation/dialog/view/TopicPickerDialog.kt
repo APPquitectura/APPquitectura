@@ -81,7 +81,7 @@ class TopicPickerDialog(
             }
             startGame.setOnClickListener {
                 dismiss()
-                listener.onGameModeSelected(gameModeIndex, labels.checkedChipIds.toIntArray().takeIf { it.isNotEmpty() })
+                listener.onGameModeSelected(gameModeIndex, labels.checkedChipIds.toIntArray().takeIf { it.isNotEmpty() }, levels[questionLevel.checkedChipId])
             }
         }
     }

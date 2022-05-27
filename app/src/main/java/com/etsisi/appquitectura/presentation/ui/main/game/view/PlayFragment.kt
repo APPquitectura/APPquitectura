@@ -21,6 +21,7 @@ import com.etsisi.appquitectura.presentation.dialog.view.TopicPickerDialog
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.GameModeAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.domain.enums.GameType
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.google.android.material.tabs.TabLayout
@@ -68,6 +69,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         with(mViewModel) {
             setGameModeSelected(args.gameModeIndex)
             setTopicsSelected(args.topicsIdSelected?.toList())
+            setLevelSelected(args.levelSelected)
         }
     }
 
@@ -168,7 +170,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 ).show(childFragmentManager, TopicPickerDialog.TAG)
             })
             startGame.observe(viewLifecycleOwner, LiveEventObserver {
-                navigator.startGame(it, _labelsSelectedIndex)
+                navigator.startGame(it, _labelsSelectedIndex, _levelSelected ?: QuestionLevel.UNKNOWN)
             })
             repeatIncorrectAnswers.observe(viewLifecycleOwner, LiveEventObserver {
                 navigator.repeatIncorrectAnswers(it)
@@ -214,8 +216,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         }
     }
 
-    override fun onGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?) {
-        mViewModel.handleGameModeSelected(gameModeIndex, topicsIdSelected)
+    override fun onGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?, levelSelected: QuestionLevel?) {
+        mViewModel.handleGameModeSelected(gameModeIndex, topicsIdSelected, levelSelected)
     }
 
 }

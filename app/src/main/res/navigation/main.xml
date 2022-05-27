@@ -135,6 +135,10 @@
                 android:defaultValue="REPEAT_INCORRECT_ANSWERS"
                 app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
         </action>
+        <argument
+            android:name="levelSelected"
+            app:argType="com.etsisi.appquitectura.domain.enums.QuestionLevel"
+            android:defaultValue="UNKNOWN" />
     </fragment>
     <dialog
         android:id="@+id/navigationDialog"
