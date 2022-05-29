@@ -3,6 +3,7 @@ package com.etsisi.appquitectura.presentation.ui.main.settings.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.etsisi.analytics.IFirebaseAnalytics
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.data.helper.PreferencesHelper
 import com.etsisi.appquitectura.data.model.enums.PreferenceKeys
@@ -19,10 +20,11 @@ import com.etsisi.appquitectura.presentation.ui.main.settings.model.ItemSettings
 
 class SettingsViewModel(
     private val updateQuestionsUseCase: UpdateQuestionsUseCase,
+    analytics: IFirebaseAnalytics,
     signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     logOutUseCase: LogOutUseCase
-) : BaseLoginViewModel(logOutUseCase, signInWithCredentialsUseCase, sendEmailVerificationUseCase) {
+) : BaseLoginViewModel(analytics, logOutUseCase, signInWithCredentialsUseCase, sendEmailVerificationUseCase) {
 
     private val _sections = MutableLiveData<List<ItemSettings>>()
     val sections: LiveData<List<ItemSettings>>

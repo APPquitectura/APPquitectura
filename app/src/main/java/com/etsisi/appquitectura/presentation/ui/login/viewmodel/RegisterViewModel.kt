@@ -5,6 +5,7 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.etsisi.analytics.IFirebaseAnalytics
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.data.model.enums.UserGender
 import com.etsisi.appquitectura.domain.enums.QuestionSubject
@@ -20,11 +21,13 @@ import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.login.enums.RegisterError
 
 class RegisterViewModel(
+    analytics: IFirebaseAnalytics,
     logOutUseCase: LogOutUseCase,
     signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase,
     private val registerUseCase: RegisterUseCase
 ) : BaseLoginViewModel(
+    analytics,
     logOutUseCase,
     signInWithCredentialsUseCase,
     sendEmailVerificationUseCase

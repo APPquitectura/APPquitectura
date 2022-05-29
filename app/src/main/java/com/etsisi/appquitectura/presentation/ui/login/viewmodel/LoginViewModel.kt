@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.etsisi.analytics.IFirebaseAnalytics
+import com.etsisi.analytics.enums.LoginType
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.model.CurrentUser
 import com.etsisi.appquitectura.domain.usecase.CheckUserIsRegisteredUseCase
@@ -26,10 +28,12 @@ class LoginViewModel(
     logOutUseCase: LogOutUseCase,
     signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase,
+    private val analytics: IFirebaseAnalytics,
     private val checkUserIsRegisteredUseCase: CheckUserIsRegisteredUseCase,
     private val signInWithEmailAndPasswordUseCase: SignInWithEmailAndPasswordUseCase,
     private val checkVerificationCodeUseCase: CheckVerificationCodeUseCase
 ) : BaseLoginViewModel(
+    analytics,
     logOutUseCase,
     signInWithCredentialsUseCase,
     sendEmailVerificationUseCase
@@ -181,8 +185,7 @@ class LoginViewModel(
                 params = CheckVerificationCodeUseCase.Params(pendingDynamicLinkData)
             ) { resultCode ->
                 showLoading(false)
-                _onCodeVerified.value =
-                    Event(resultCode == CheckVerificationCodeUseCase.RESULT_CODES.SUCESS)
+                _onCodeVerified.value = Event(resultCode == CheckVerificationCodeUseCase.RESULT_CODES.SUCESS)
             }
         }
     }
@@ -190,6 +193,7 @@ class LoginViewModel(
     fun onSuccessLogin() {
         _loaded.value = true
         if (CurrentUser.isEmailVerfied) {
+            analytics.onLogin(LoginType.EMAIL_PASSWORD)
             _onSuccessLogin.value = Event(true)
         } else {
             showLoading(true)

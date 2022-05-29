@@ -1,6 +1,7 @@
 package com.etsisi.appquitectura.application
 
 import android.app.Application
+import com.etsisi.analytics.di.analyticsModule
 import com.etsisi.appquitectura.BuildConfig
 import com.etsisi.appquitectura.di.databaseModule
 import com.etsisi.appquitectura.di.localDataSourceModule
@@ -29,6 +30,7 @@ class BaseApplication: Application() {
             androidContext(this@BaseApplication)
             modules(
                 listOf(
+                    analyticsModule,
                     viewModelModule,
                     presentationModule,
                     useCaseModule,

@@ -55,13 +55,13 @@ import org.koin.dsl.module
 const val FILE_NAME = "${BuildConfig.APPLICATION_ID}.preferences"
 
 val viewModelModule = module {
-    viewModel { LoginViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { RegisterViewModel(get(), get(), get(), get()) }
-    viewModel { MainViewModel(androidApplication(), get(), get(), get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { RegisterViewModel(get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(androidApplication(), get(), get(), get(), get()) }
     viewModel { EmptyViewModel() }
     viewModel { HomeViewModel() }
     viewModel { InputTextViewModel(get()) }
-    viewModel { SettingsViewModel(get(), get(), get(), get()) }
+    viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
     viewModel { PlayViewModel(get(), get(), get()) }
     viewModel { ResultViewModel(get(), get(), get(), get()) }
     viewModel { MyProfileViewModel(get(), get())}

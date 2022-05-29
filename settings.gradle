@@ -11,3 +11,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "APPquitectura"
 include ':app'
+include ':analytics'

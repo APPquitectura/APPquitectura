@@ -43,6 +43,7 @@ ext {
 
     dynamicLinksDependency = "com.google.firebase:firebase-dynamic-links-ktx"
 
+    firebaseAnalyticsDependency = "com.google.firebase:firebase-analytics-ktx"
     firestoreDependency = "com.google.firebase:firebase-firestore"
     firebaseStorageDependency = "com.google.firebase:firebase-storage"
     firebaseUIStorageDependency = "com.firebaseui:firebase-ui-storage:$firebaseUIVersion"
