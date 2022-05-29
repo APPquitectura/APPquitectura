@@ -113,16 +113,9 @@ fun <T> getMethodName(clazz: Class<T>): String {
 }
 
 fun Activity.hideSystemBars(mainContaier: View) {
-    window?.apply {
-        val systemBarIsVisible = ViewCompat.getRootWindowInsets(mainContaier)?.let { insets ->
-            insets?.isVisible(WindowInsetsCompat.Type.systemBars())
-        }
-        if (systemBarIsVisible == true) {
-            ViewCompat.getWindowInsetsController(mainContaier)?.let { controller ->
-                controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
-                controller.hide(WindowInsetsCompat.Type.systemBars())
-            }
-        }
+    ViewCompat.getWindowInsetsController(mainContaier)?.let { controller ->
+        controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_BARS_BY_SWIPE
+        controller.hide(WindowInsetsCompat.Type.systemBars())
     }
 }
 
