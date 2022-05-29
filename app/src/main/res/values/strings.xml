@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">APPquitectura</string>
+    <string name="app_name" translatable="false">AppQuitectura</string>
 
     <!-- Dialog -->
     <string name="accept">Accept</string>
