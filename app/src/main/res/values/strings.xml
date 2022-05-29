@@ -66,7 +66,7 @@
     <string name="results_time_average_value">%d sec</string>
     <string name="results_experience">Experience earned</string>
     <string name="results_points">Score</string>
-    <string name="results_points_value">Score %d. Points for the ranking %d</string>
+    <string name="results_points_value">Score %d</string>
     <string name="results_reward">Reward</string>
 
     <string name="rotate_roulette">Spin the wheel</string>
@@ -74,6 +74,7 @@
     <string name="roulette_item_exp" translatable="false">+%d EXP</string>
 
     <string name="dialog_topic_picker_title">Select topics you are interested in</string>
+    <string name="dialog_topic_picker_error_no_selection">Select the difficulty and one topic at least</string>
 
     <!-- Profile -->
     <string name="profile_title">My profile</string>

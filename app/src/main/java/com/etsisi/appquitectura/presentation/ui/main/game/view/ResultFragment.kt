@@ -27,7 +27,7 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
 
                 spinBtn.setOnClickListener {
                     val numberToRotate = (1..list.size).random()
-                    mViewModel.updateUserScore(numberToRotate - 1)
+                    mViewModel.setUserScore(numberToRotate - 1)
                     wheel.rotateWheelTo(numberToRotate)
                     wheel.setLuckyWheelReachTheTarget {
                         showResults()
@@ -42,6 +42,7 @@ class ResultFragment: BaseFragment<FragmentResultBinding, ResultViewModel>(
         with(mViewModel) {
             showRoulette.observe(viewLifecycleOwner) { show ->
                 if (!show) {
+                    showUserScore()
                     hideSpinBtn()
                     showResults()
                 }

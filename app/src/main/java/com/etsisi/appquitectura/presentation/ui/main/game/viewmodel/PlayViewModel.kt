@@ -88,7 +88,9 @@ class PlayViewModel(
     var rankingType: RankingType? = null
     var _labelsSelectedIndex: IntArray? = null
     val _userGameResult by lazy { UserGameScoreBO(rankingType = rankingType) }
-    val labelsList by lazy { getQuestionTopicsUseCase.invoke().filter { it != QuestionTopic.UNKNOWN } }
+    val labelsList by lazy {
+        getQuestionTopicsUseCase.invoke().filter { it != QuestionTopic.UNKNOWN }
+    }
 
     private companion object {
         const val DEFAULT_INITIAL_QUESTIONS_COUNT = 20
@@ -105,10 +107,10 @@ class PlayViewModel(
         _questionsLoaded.addSource(_difficultQuestionsLoaded) { isLoaded ->
             checkLoadFinished()
         }
-        _questionsLoaded.addSource(_normalQuestionsLoaded) {isLoaded ->
+        _questionsLoaded.addSource(_normalQuestionsLoaded) { isLoaded ->
             checkLoadFinished()
         }
-        _questionsLoaded.addSource(_easyQuestionsLoaded) {isLoaded ->
+        _questionsLoaded.addSource(_easyQuestionsLoaded) { isLoaded ->
             checkLoadFinished()
         }
     }
@@ -149,7 +151,7 @@ class PlayViewModel(
         topicsIdSelected: IntArray?,
         levelSelected: QuestionLevel?
     ) {
-        when(getGameModes()[gameModeIndex].action) {
+        when (getGameModes()[gameModeIndex].action) {
             is GameType.WeeklyGame -> {
                 _startGame.value = Event(gameModeIndex)
             }
@@ -191,7 +193,7 @@ class PlayViewModel(
                         if (questionList.isEmpty()) {
                             showEmptyQuestionsError()
                         } else {
-                            when(questionList.first().level) {
+                            when (questionList.first().level) {
                                 QuestionLevel.EASY -> {
                                     easyQuestionsList = questionList.toMutableList()
                                 }
@@ -211,7 +213,7 @@ class PlayViewModel(
                     if (mode.action is GameType.ClassicGame) {
                         totalQuestions = mode.action.classicType.numberOfQuestions
                         rankingType = RankingType.GENERAL
-                    } else if (mode.action is GameType.WeeklyGame){
+                    } else if (mode.action is GameType.WeeklyGame) {
                         topicList = weeklyQuestionsGenerator()
                         rankingType = RankingType.WEEKLY
                     }
@@ -256,8 +258,8 @@ class PlayViewModel(
     fun setInitialQuestions() {
         val initialQuestions =
             easyQuestionsList.takeIf { it.isNotEmpty() }
-            ?: normalQuestionsList.takeIf { it.isNotEmpty() }
-            ?: difficultQuestionsList.takeIf { it.isNotEmpty() }
+                ?: normalQuestionsList.takeIf { it.isNotEmpty() }
+                ?: difficultQuestionsList.takeIf { it.isNotEmpty() }
 
         if (initialQuestions == null) {
             showEmptyQuestionsError()
@@ -273,11 +275,11 @@ class PlayViewModel(
     }
 
     fun fetchNextQuestion(smoothNextPage: () -> Unit) {
-        _questions.value?.toMutableList()?.let { actualQuestionList ->
-            if (_levelSelected != QuestionLevel.UNKNOWN) {
-
-            } else {
-                when (_userGameResult.getLevelOfNextQuestion()) {
+        _questions
+            .value
+            ?.toMutableList()
+            ?.let { actualQuestionList ->
+                when (_levelSelected.takeIf { it != QuestionLevel.UNKNOWN } ?: _userGameResult.getLevelOfNextQuestion()) {
                     QuestionLevel.EASY -> {
                         easyQuestionsList.firstOrNull()?.let {
                             actualQuestionList.set(_currentTabIndex.value ?: 0, it)
@@ -297,10 +299,9 @@ class PlayViewModel(
                         runCatching { normalQuestionsList.removeAt(0) }
                     }
                 }
+                setQuestions(actualQuestionList)
+                smoothNextPage()
             }
-            setQuestions(actualQuestionList)
-            smoothNextPage()
-        }
     }
 
     fun setQuestions(questionsList: List<QuestionBO>) {
@@ -309,31 +310,38 @@ class PlayViewModel(
         }
     }
 
-    fun setGameResultAccumulated(question: QuestionBO, userAnswer: AnswerBO, points: Long, userMarkInMillis: Long, isGameFinished: Boolean, smoothNextPage: () -> Unit) {
-        _navType.value?.let { currentNavType ->
-            if (currentNavType == GameNavType.START_GAME) {
-                _userGameResult.apply {
-                    userQuestions.add(question)
-                    this.userAnswer.add(Pair(userAnswer, points))
-                    totalTime += userMarkInMillis
-                }
+    fun setGameResultAccumulated(
+        question: QuestionBO,
+        userAnswer: AnswerBO,
+        points: Long,
+        userMarkInMillis: Long,
+        isGameFinished: Boolean,
+        initialNavType: GameNavType,
+        smoothNextPage: () -> Unit,
+    ) {
+        if (_navType.value == GameNavType.START_GAME) {
+            _userGameResult.apply {
+                userQuestions.add(question)
+                this.userAnswer.add(Pair(userAnswer, points))
+                totalTime += userMarkInMillis
             }
-            if (isGameFinished) {
-                onGameFinished(currentNavType)
-            } else {
-                fetchNextQuestion(smoothNextPage)
-            }
+        }
+        if (isGameFinished) {
+            onGameFinished(initialNavType)
+        } else {
+            fetchNextQuestion(smoothNextPage)
         }
     }
 
-    fun onGameFinished(currentNavType: GameNavType) {
+    fun onGameFinished(initialNavType: GameNavType) {
         with(_userGameResult.getAllIncorrectQuestions()) {
-            when (currentNavType) {
+            when (initialNavType) {
                 GameNavType.REPEAT_INCORRECT_ANSWERS -> {
                     if (isEmpty()) {
                         _showResults.value = Event(true)
                     } else {
-                        _repeatIncorrectAnswers.value = Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
+                        _repeatIncorrectAnswers.value =
+                            Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
                     }
                 }
                 else -> {
@@ -341,7 +349,8 @@ class PlayViewModel(
                     if (isEmpty()) {
                         _showResults.value = Event(true)
                     } else {
-                        _repeatIncorrectAnswers.value = Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
+                        _repeatIncorrectAnswers.value =
+                            Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
                     }
                 }
             }

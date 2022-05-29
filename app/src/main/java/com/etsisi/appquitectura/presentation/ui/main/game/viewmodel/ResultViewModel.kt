@@ -105,11 +105,16 @@ class ResultViewModel(
         return rouletteItems.map { it.getWidgetItem() }
     }
 
-    fun updateUserScore(itemRouletteIndex: Int) {
+    fun showUserScore() {
         userGameScore?.let { score ->
-            val rouletteItemSelected = rouletteItems[itemRouletteIndex]
             _result.value = score
+        }
+    }
 
+    fun setUserScore(itemRouletteIndex: Int) {
+        userGameScore?.let { score ->
+            showUserScore()
+            val rouletteItemSelected = rouletteItems.get(itemRouletteIndex)
             _regard.value = Pair(rouletteItemSelected.type, rouletteItemSelected.points)
             updateUserDetailsUseCase.invoke(
                 params = UpdateUserDetailsUseCase.Params(

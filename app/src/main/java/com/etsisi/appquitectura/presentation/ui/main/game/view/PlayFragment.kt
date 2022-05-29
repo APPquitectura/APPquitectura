@@ -43,7 +43,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     private val questionsViewPager: ViewPager2
         get() = mBinding.viewPager
 
-    private val currentNavType: GameNavType
+    private val initialNavType: GameNavType
         get() = args.navType
     private val questionsToRepeat: List<QuestionBO>?
         get() = args.incorrectQuestions?.toList()
@@ -70,6 +70,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             setGameModeSelected(args.gameModeIndex)
             setTopicsSelected(args.topicsIdSelected?.toList())
             setLevelSelected(args.levelSelected)
+            setNavType(initialNavType)
         }
     }
 
@@ -79,7 +80,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             onBackPressedDispatcher.apply {
                 addCallback(this@PlayFragment, object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-                        if (currentNavType == GameNavType.GAME_MODE) {
+                        if (initialNavType == GameNavType.GAME_MODE) {
                             navigator.onBackPressed()
                         } else {
                             navigator.openNavigationDialog(
@@ -100,7 +101,6 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             lifecycleOwner = viewLifecycleOwner
             lifecycle.addObserver(mViewModel)
             viewModel = mViewModel
-            mViewModel.setNavType(currentNavType)
 
             gameModesRv.adapter = GameModeAdapter(this@PlayFragment)
 
@@ -207,7 +207,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 userAnswer = answer,
                 points = points,
                 userMarkInMillis = userMarkInMillis,
-                isGameFinished = currentItem == adapter?.itemCount?.minus(1)
+                isGameFinished = currentItem == adapter?.itemCount?.minus(1),
+                initialNavType = initialNavType
             ) {
                 postDelayed({
                     setCurrentItem(currentItem + 1, true)

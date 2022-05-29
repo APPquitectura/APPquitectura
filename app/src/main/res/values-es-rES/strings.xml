@@ -65,13 +65,14 @@
     <string name="results_time_average_value">%d segs</string>
     <string name="results_experience">Experiencia adquirida</string>
     <string name="results_points">Puntuación</string>
-    <string name="results_points_value">Puntaje %d. Puntos para el ranking %d</string>
+    <string name="results_points_value">%d puntos</string>
     <string name="results_reward">Premio</string>
 
     <string name="rotate_roulette">Gira la ruleta</string>
     <string name="roulette_item_points">+%d puntos</string>
 
     <string name="dialog_topic_picker_title">Selecciona tus temas de interés</string>
+    <string name="dialog_topic_picker_error_no_selection">Selecciona la dificultad y un tema como minímo</string>
 
     <!-- Profile -->
     <string name="profile_title">Mi perfil</string>

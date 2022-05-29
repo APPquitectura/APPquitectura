@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.DialogPickerTopicBinding
 import com.etsisi.appquitectura.databinding.ItemLabelBinding
@@ -80,8 +81,12 @@ class TopicPickerDialog(
                 }
             }
             startGame.setOnClickListener {
-                dismiss()
-                listener.onGameModeSelected(gameModeIndex, labels.checkedChipIds.toIntArray().takeIf { it.isNotEmpty() }, levels[questionLevel.checkedChipId])
+                if (labels.checkedChipIds.isEmpty() || questionLevel.checkedChipId == View.NO_ID) {
+                    Toast.makeText(requireContext(), getString(R.string.dialog_topic_picker_error_no_selection), Toast.LENGTH_SHORT).show()
+                } else {
+                    dismiss()
+                    listener.onGameModeSelected(gameModeIndex, labels.checkedChipIds.toIntArray().takeIf { it.isNotEmpty() }, levels[questionLevel.checkedChipId])
+                }
             }
         }
     }
