@@ -64,8 +64,11 @@ open class BaseLoginViewModel(
                 )
             ) { resultCode ->
                 showLoading(false)
-                _onSuccessLogin.value =
-                    Event(resultCode == SignInWithCredentialsUseCase.RESULT_CODES.SUCESS)
+                _onSuccessLogin.value = Event(resultCode == SignInWithCredentialsUseCase.RESULT_CODES.SUCESS).also {
+                    if (it.peekContent()) {
+                        analytics.onLogin(_email.value.orEmpty(), LoginType.GOOGLE)
+                    }
+                }
                 when (resultCode) {
                     SignInWithCredentialsUseCase.RESULT_CODES.COLLISION -> {
                         val config = DialogConfig(
@@ -102,7 +105,7 @@ open class BaseLoginViewModel(
                 }
             }
         } else {
-            analytics.onLogin(LoginType.GOOGLE)
+            analytics.onLogin(_email.value.orEmpty(), LoginType.GOOGLE)
             _onSuccessLogin.value = Event(false)
         }
     }

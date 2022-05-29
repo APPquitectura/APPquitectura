@@ -1,17 +1,15 @@
 package com.etsisi.analytics
 
 import com.etsisi.analytics.enums.LoginType
-import com.etsisi.analytics.enums.ScreenType
+import com.etsisi.analytics.enums.SignUpType
 
 interface IFirebaseAnalytics {
 
-    fun onNewScreen(screenType: ScreenType, activity: String)
+    fun onLogin(email:String, loginType: LoginType)
+    fun onSignUp(type: SignUpType, email: String, course: String, city: String, academicGroup: String, academicRecord: String)
 
-    fun onLogin(loginType: LoginType)
-    fun onsignUp()
-
-    fun onItemGameModeClick(mode: String)
-    fun onPostScore(level: Int, now: Int)
+    fun onItemGameModeClick(mode: String, totalQuestions: Int, topics: List<String>, level: String)
+    fun onPostScore(correctAnswers: Int, experience: Int, rankingPointsEarned: Int, rankingType: String)
 
     fun onItemHomeMenuClick(itemId: String, contentType: String)
 }

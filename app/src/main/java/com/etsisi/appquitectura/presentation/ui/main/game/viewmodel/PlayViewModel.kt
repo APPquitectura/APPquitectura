@@ -1,11 +1,13 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.viewmodel
 
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.etsisi.analytics.IFirebaseAnalytics
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.data.helper.PreferencesHelper
 import com.etsisi.appquitectura.data.model.enums.PreferenceKeys
@@ -29,6 +31,7 @@ import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
 
 class PlayViewModel(
+    private val analytics: IFirebaseAnalytics,
     private val getGameQuestionsUseCase: GetGameQuestionsUseCase,
     private val getQuestionTopicsUseCase: GetQuestionTopicsUseCase,
     private val getWeeklyQuestionTopicUseCase: GetWeeklyQuestionTopicUseCase
@@ -207,6 +210,13 @@ class PlayViewModel(
                             _questionsLoaded.value = true
                         }
                     }
+                    analytics.onItemGameModeClick(
+                        mode = GameType.WeeklyGame.toString(),
+                        totalQuestions = totalQuestions,
+                        topics = topicList?.map { it.value }.orEmpty(),
+                        level = _levelSelected?.value.orEmpty()
+
+                    )
                     rankingType = RankingType.UNKOWN
                 }
                 else -> {
@@ -217,6 +227,13 @@ class PlayViewModel(
                         topicList = weeklyQuestionsGenerator()
                         rankingType = RankingType.WEEKLY
                     }
+                    analytics.onItemGameModeClick(
+                        mode = mode.action.toString(),
+                        totalQuestions = totalQuestions,
+                        topics = topicList?.map { it.value }.orEmpty(),
+                        level = _levelSelected?.value.orEmpty()
+
+                    )
                     getGameQuestionsUseCase.invoke(
                         scope = viewModelScope,
                         params = GetGameQuestionsUseCase.Params(

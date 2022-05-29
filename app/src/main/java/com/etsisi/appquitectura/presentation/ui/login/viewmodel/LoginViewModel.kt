@@ -193,7 +193,7 @@ class LoginViewModel(
     fun onSuccessLogin() {
         _loaded.value = true
         if (CurrentUser.isEmailVerfied) {
-            analytics.onLogin(LoginType.EMAIL_PASSWORD)
+            analytics.onLogin(_email.value.orEmpty(), LoginType.EMAIL_PASSWORD)
             _onSuccessLogin.value = Event(true)
         } else {
             showLoading(true)

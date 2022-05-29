@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluehomestudio.luckywheel.WheelItem
+import com.etsisi.analytics.IFirebaseAnalytics
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.data.helper.PreferencesHelper
 import com.etsisi.appquitectura.data.model.enums.PreferenceKeys
@@ -23,6 +24,7 @@ import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRouletteType
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRoulette
 
 class ResultViewModel(
+    private val analytics: IFirebaseAnalytics,
     private val getQuestionTopicsUseCase: GetQuestionTopicsUseCase,
     private val getWeeklyQuestionTopicUseCase: GetWeeklyQuestionTopicUseCase,
     private val updateUserDetailsUseCase: UpdateUserDetailsUseCase,
@@ -107,6 +109,12 @@ class ResultViewModel(
 
     fun showUserScore() {
         userGameScore?.let { score ->
+            analytics.onPostScore(
+                correctAnswers = score.getAllCorrectAnswers().size,
+                experience = score.getExperience().toInt(),
+                rankingPointsEarned = score.getRankingPoints(),
+                rankingType = score.rankingType?.name.orEmpty()
+            )
             _result.value = score
         }
     }

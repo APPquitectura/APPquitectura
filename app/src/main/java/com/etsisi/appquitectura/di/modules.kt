@@ -59,11 +59,11 @@ val viewModelModule = module {
     viewModel { RegisterViewModel(get(), get(), get(), get(), get()) }
     viewModel { MainViewModel(androidApplication(), get(), get(), get(), get()) }
     viewModel { EmptyViewModel() }
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(get()) }
     viewModel { InputTextViewModel(get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
-    viewModel { PlayViewModel(get(), get(), get()) }
-    viewModel { ResultViewModel(get(), get(), get(), get()) }
+    viewModel { PlayViewModel(get(), get(), get(), get()) }
+    viewModel { ResultViewModel(get(), get(), get(), get(), get()) }
     viewModel { MyProfileViewModel(get(), get())}
     viewModel { RankingViewModel(get(), get(), get()) }
 }

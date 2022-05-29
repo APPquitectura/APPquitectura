@@ -45,7 +45,7 @@
     <!-- Play -->
     <string name="error_no_questions_found">Tenemos dificultades para empezar la partida</string>
     <string name="game_mode_classic">Partida de %d preguntas</string>
-    <string name="game_mode_weekly">Partida semanal</string>
+    <string name="game_mode_weekly">Desafío semanal</string>
     <string name="game_mode_test">Partida de prueba</string>
     <string name="game_mode_title">Selecciona el tipo de partida</string>
     <string name="game_mode_option">Partida de %d</string>

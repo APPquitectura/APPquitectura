@@ -46,7 +46,7 @@
     <!-- Play -->
     <string name="error_no_questions_found">We are experiencing technical difficulties</string>
     <string name="game_mode_classic">%d Questions</string>
-    <string name="game_mode_weekly">Weekly game</string>
+    <string name="game_mode_weekly">Challenge</string>
     <string name="game_mode_test">Demo</string>
     <string name="game_mode_title">Selecciona el tipo de partida</string>
     <string name="game_mode_option">%d Questions</string>
