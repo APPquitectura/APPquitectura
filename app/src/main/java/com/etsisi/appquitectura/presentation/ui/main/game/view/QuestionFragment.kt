@@ -46,15 +46,15 @@ class QuestionFragment(
             counter = object : CountDownTimer(counterTime, COUNT_DOWN_INTERVAL) {
                 override fun onTick(millisUntilFinished: Long) {
                     counterMillisUntilFinished = millisUntilFinished
-                    progressText.text = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished).toString()
-                    progress.progress--
+                    counterLayout.progressText.text = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished).toString()
+                    counterLayout.progress.progress--
                     if (millisUntilFinished <= THREE_SECONDS) {
-                        progressText.setTextColor(Color.RED)
+                        counterLayout.progressText.setTextColor(Color.RED)
                     }
                 }
 
                 override fun onFinish() {
-                    progress.progress = 0
+                    counterLayout.progress.progress = 0
                 }
             }
         }

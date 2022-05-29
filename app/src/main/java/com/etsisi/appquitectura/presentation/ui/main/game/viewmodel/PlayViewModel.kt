@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.data.helper.PreferencesHelper
 import com.etsisi.appquitectura.data.model.enums.PreferenceKeys
 import com.etsisi.appquitectura.domain.enums.GameNavType
@@ -24,6 +25,7 @@ import com.etsisi.appquitectura.domain.enums.GameType
 import com.etsisi.appquitectura.domain.enums.RankingType
 import com.etsisi.appquitectura.domain.usecase.GetQuestionTopicsUseCase
 import com.etsisi.appquitectura.domain.usecase.GetWeeklyQuestionTopicUseCase
+import com.etsisi.appquitectura.presentation.dialog.model.DialogConfig
 import com.etsisi.appquitectura.presentation.ui.main.game.model.ItemLabel
 
 class PlayViewModel(
@@ -60,6 +62,10 @@ class PlayViewModel(
     val showResults: LiveEvent<Boolean>
         get() = _showResults
 
+    private val _showError by lazy { MutableLiveEvent<DialogConfig>() }
+    val showError: LiveEvent<DialogConfig>
+        get() = _showError
+
     private val _navType = MutableLiveData<GameNavType>()
     val navType: LiveData<GameNavType>
         get() = _navType
@@ -76,13 +82,15 @@ class PlayViewModel(
     private var normalQuestionsList = mutableListOf<QuestionBO>()
     private var easyQuestionsList = mutableListOf<QuestionBO>()
 
-    var levelOfNextQuestions: QuestionLevel? = null
+    var _levelSelected: QuestionLevel? = null
     var gameModeSelected: ItemGameMode? = null
     var topicsSelectedToFilter: List<QuestionTopic>? = null
     var rankingType: RankingType? = null
     var _labelsSelectedIndex: IntArray? = null
     val _userGameResult by lazy { UserGameScoreBO(rankingType = rankingType) }
-    val labelsList by lazy { getQuestionTopicsUseCase.invoke().filter { it != QuestionTopic.UNKNOWN } }
+    val labelsList by lazy {
+        getQuestionTopicsUseCase.invoke().filter { it != QuestionTopic.UNKNOWN }
+    }
 
     private companion object {
         const val DEFAULT_INITIAL_QUESTIONS_COUNT = 20
@@ -99,10 +107,10 @@ class PlayViewModel(
         _questionsLoaded.addSource(_difficultQuestionsLoaded) { isLoaded ->
             checkLoadFinished()
         }
-        _questionsLoaded.addSource(_normalQuestionsLoaded) {isLoaded ->
+        _questionsLoaded.addSource(_normalQuestionsLoaded) { isLoaded ->
             checkLoadFinished()
         }
-        _questionsLoaded.addSource(_easyQuestionsLoaded) {isLoaded ->
+        _questionsLoaded.addSource(_easyQuestionsLoaded) { isLoaded ->
             checkLoadFinished()
         }
     }
@@ -114,6 +122,10 @@ class PlayViewModel(
 
     fun setTopicsSelected(topicsIndexList: List<Int>?) {
         topicsSelectedToFilter = topicsIndexList?.map { labelsList[it] }
+    }
+
+    fun setLevelSelected(level: QuestionLevel) {
+        _levelSelected = level.takeIf { it != QuestionLevel.UNKNOWN }
     }
 
     fun setGameModeSelected(gameModeIndex: Int) {
@@ -134,13 +146,18 @@ class PlayViewModel(
         return mGameModes.also { _gameModes.value = it }
     }
 
-    fun handleGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?) {
-        when(getGameModes()[gameModeIndex].action) {
+    fun handleGameModeSelected(
+        gameModeIndex: Int,
+        topicsIdSelected: IntArray?,
+        levelSelected: QuestionLevel?
+    ) {
+        when (getGameModes()[gameModeIndex].action) {
             is GameType.WeeklyGame -> {
                 _startGame.value = Event(gameModeIndex)
             }
             is GameType.TestGame -> {
                 if (topicsIdSelected != null) {
+                    _levelSelected = levelSelected ?: QuestionLevel.UNKNOWN
                     _labelsSelectedIndex = topicsIdSelected
                     _startGame.value = Event(gameModeIndex)
                 } else {
@@ -161,90 +178,130 @@ class PlayViewModel(
         val initialLevel = QuestionLevel.EASY
         gameModeSelected?.let { mode ->
             when (mode.action) {
-                is GameType.WeeklyGame -> {
-                    rankingType = RankingType.WEEKLY
-                    topicList = weeklyQuestionsGenerator()
-                }
                 is GameType.TestGame -> {
-                    rankingType = RankingType.UNKOWN
                     totalQuestions = mode.action.numberOfQuestions
                     topicList = topicsSelectedToFilter
+
+                    getGameQuestionsUseCase.invoke(
+                        scope = viewModelScope,
+                        params = GetGameQuestionsUseCase.Params(
+                            topics = topicList,
+                            totalCount = totalQuestions,
+                            questionLevel = _levelSelected ?: QuestionLevel.EASY
+                        )
+                    ) { questionList ->
+                        if (questionList.isEmpty()) {
+                            showEmptyQuestionsError()
+                        } else {
+                            when (questionList.first().level) {
+                                QuestionLevel.EASY -> {
+                                    easyQuestionsList = questionList.toMutableList()
+                                }
+                                QuestionLevel.NORMAL -> {
+                                    normalQuestionsList = questionList.toMutableList()
+                                }
+                                QuestionLevel.DIFFICULT -> {
+                                    difficultQuestionsList = questionList.toMutableList()
+                                }
+                            }
+                            _questionsLoaded.value = true
+                        }
+                    }
+                    rankingType = RankingType.UNKOWN
                 }
-                is GameType.ClassicGame -> {
-                    rankingType = RankingType.GENERAL
-                    totalQuestions = mode.action.classicType.numberOfQuestions
+                else -> {
+                    if (mode.action is GameType.ClassicGame) {
+                        totalQuestions = mode.action.classicType.numberOfQuestions
+                        rankingType = RankingType.GENERAL
+                    } else if (mode.action is GameType.WeeklyGame) {
+                        topicList = weeklyQuestionsGenerator()
+                        rankingType = RankingType.WEEKLY
+                    }
+                    getGameQuestionsUseCase.invoke(
+                        scope = viewModelScope,
+                        params = GetGameQuestionsUseCase.Params(
+                            topics = topicList,
+                            totalCount = totalQuestions,
+                            questionLevel = QuestionLevel.DIFFICULT
+                        )
+                    ) {
+                        difficultQuestionsList = it.toMutableList()
+                        _difficultQuestionsLoaded.value = true
+                    }
+                    getGameQuestionsUseCase.invoke(
+                        scope = viewModelScope,
+                        params = GetGameQuestionsUseCase.Params(
+                            topics = topicList,
+                            totalCount = totalQuestions,
+                            questionLevel = QuestionLevel.NORMAL
+                        )
+                    ) {
+                        normalQuestionsList = it.toMutableList()
+                        _normalQuestionsLoaded.value = true
+                    }
+                    getGameQuestionsUseCase.invoke(
+                        scope = viewModelScope,
+                        params = GetGameQuestionsUseCase.Params(
+                            topics = topicList,
+                            totalCount = totalQuestions,
+                            questionLevel = initialLevel
+                        )
+                    ) {
+                        easyQuestionsList = it.toMutableList()
+                        _easyQuestionsLoaded.value = true
+                    }
                 }
-            }
-            getGameQuestionsUseCase.invoke(
-                scope = viewModelScope,
-                params = GetGameQuestionsUseCase.Params(
-                    topics = topicList,
-                    totalCount = totalQuestions,
-                    questionLevel = QuestionLevel.DIFFICULT
-                )
-            ) {
-                difficultQuestionsList = it.toMutableList()
-                _difficultQuestionsLoaded.value = true
-            }
-            getGameQuestionsUseCase.invoke(
-                scope = viewModelScope,
-                params = GetGameQuestionsUseCase.Params(
-                    topics = topicList,
-                    totalCount = totalQuestions,
-                    questionLevel = QuestionLevel.NORMAL
-                )
-            ) {
-                normalQuestionsList = it.toMutableList()
-                _normalQuestionsLoaded.value = true
-            }
-            getGameQuestionsUseCase.invoke(
-                scope = viewModelScope,
-                params = GetGameQuestionsUseCase.Params(
-                    topics = topicList,
-                    totalCount = totalQuestions,
-                    questionLevel = initialLevel
-                )
-            ) {
-                easyQuestionsList = it.toMutableList()
-                _easyQuestionsLoaded.value = true
             }
         }
     }
 
     fun setInitialQuestions() {
-        setQuestions(easyQuestionsList)
-        easyQuestionsList.removeAt(0)
-        _questionsLoaded.removeSource(_easyQuestionsLoaded)
-        _questionsLoaded.removeSource(_normalQuestionsLoaded)
-        _questionsLoaded.removeSource(_difficultQuestionsLoaded)
+        val initialQuestions =
+            easyQuestionsList.takeIf { it.isNotEmpty() }
+                ?: normalQuestionsList.takeIf { it.isNotEmpty() }
+                ?: difficultQuestionsList.takeIf { it.isNotEmpty() }
+
+        if (initialQuestions == null) {
+            showEmptyQuestionsError()
+        } else {
+            setQuestions(initialQuestions)
+            runCatching { easyQuestionsList.removeAt(0) }.getOrNull()
+                ?: runCatching { normalQuestionsList.removeAt(0) }.getOrNull()
+                ?: runCatching { difficultQuestionsList.removeAt(0) }
+            _questionsLoaded.removeSource(_easyQuestionsLoaded)
+            _questionsLoaded.removeSource(_normalQuestionsLoaded)
+            _questionsLoaded.removeSource(_difficultQuestionsLoaded)
+        }
     }
 
     fun fetchNextQuestion(smoothNextPage: () -> Unit) {
-        _questions.value?.toMutableList()?.let { actualQuestionList ->
-            when (_userGameResult.getLevelOfNextQuestion()) {
-                QuestionLevel.EASY -> {
-                    easyQuestionsList.firstOrNull()?.let {
-                        actualQuestionList.set(_currentTabIndex.value ?: 0, it)
+        _questions
+            .value
+            ?.toMutableList()
+            ?.let { actualQuestionList ->
+                when (_levelSelected.takeIf { it != QuestionLevel.UNKNOWN } ?: _userGameResult.getLevelOfNextQuestion()) {
+                    QuestionLevel.EASY -> {
+                        easyQuestionsList.firstOrNull()?.let {
+                            actualQuestionList.set(_currentTabIndex.value ?: 0, it)
+                        }
+                        runCatching { easyQuestionsList.removeAt(0) }
                     }
-                    runCatching { easyQuestionsList.removeAt(0) }
-                }
-                QuestionLevel.NORMAL -> {
-                    normalQuestionsList.firstOrNull()?.let {
-                        actualQuestionList.set(_currentTabIndex.value ?: 0, it)
+                    QuestionLevel.NORMAL -> {
+                        normalQuestionsList.firstOrNull()?.let {
+                            actualQuestionList.set(_currentTabIndex.value ?: 0, it)
+                        }
+                        runCatching { normalQuestionsList.removeAt(0) }
                     }
-                    runCatching { normalQuestionsList.removeAt(0) }
-                }
-                QuestionLevel.DIFFICULT -> {
-                    //There is no difficult questions
-                    normalQuestionsList.firstOrNull()?.let {
-                        actualQuestionList.set(_currentTabIndex.value ?: 0, it)
+                    QuestionLevel.DIFFICULT -> {
+                        difficultQuestionsList.firstOrNull()?.let {
+                            actualQuestionList.set(_currentTabIndex.value ?: 0, it)
+                        }
+                        runCatching { normalQuestionsList.removeAt(0) }
                     }
-                    runCatching { normalQuestionsList.removeAt(0) }
                 }
+                setQuestions(actualQuestionList)
+                smoothNextPage()
             }
-            _questions.value = actualQuestionList
-            smoothNextPage()
-        }
     }
 
     fun setQuestions(questionsList: List<QuestionBO>) {
@@ -253,31 +310,38 @@ class PlayViewModel(
         }
     }
 
-    fun setGameResultAccumulated(question: QuestionBO, userAnswer: AnswerBO, points: Long, userMarkInMillis: Long, isGameFinished: Boolean, smoothNextPage: () -> Unit) {
-        _navType.value?.let { currentNavType ->
-            if (currentNavType == GameNavType.START_GAME) {
-                _userGameResult.apply {
-                    userQuestions.add(question)
-                    this.userAnswer.add(Pair(userAnswer, points))
-                    totalTime += userMarkInMillis
-                }
+    fun setGameResultAccumulated(
+        question: QuestionBO,
+        userAnswer: AnswerBO,
+        points: Long,
+        userMarkInMillis: Long,
+        isGameFinished: Boolean,
+        initialNavType: GameNavType,
+        smoothNextPage: () -> Unit,
+    ) {
+        if (_navType.value == GameNavType.START_GAME) {
+            _userGameResult.apply {
+                userQuestions.add(question)
+                this.userAnswer.add(Pair(userAnswer, points))
+                totalTime += userMarkInMillis
             }
-            if (isGameFinished) {
-                onGameFinished(currentNavType)
-            } else {
-                fetchNextQuestion(smoothNextPage)
-            }
+        }
+        if (isGameFinished) {
+            onGameFinished(initialNavType)
+        } else {
+            fetchNextQuestion(smoothNextPage)
         }
     }
 
-    fun onGameFinished(currentNavType: GameNavType) {
+    fun onGameFinished(initialNavType: GameNavType) {
         with(_userGameResult.getAllIncorrectQuestions()) {
-            when (currentNavType) {
+            when (initialNavType) {
                 GameNavType.REPEAT_INCORRECT_ANSWERS -> {
                     if (isEmpty()) {
                         _showResults.value = Event(true)
                     } else {
-                        _repeatIncorrectAnswers.value = Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
+                        _repeatIncorrectAnswers.value =
+                            Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
                     }
                 }
                 else -> {
@@ -285,7 +349,8 @@ class PlayViewModel(
                     if (isEmpty()) {
                         _showResults.value = Event(true)
                     } else {
-                        _repeatIncorrectAnswers.value = Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
+                        _repeatIncorrectAnswers.value =
+                            Event(_userGameResult.getAllIncorrectQuestions().toTypedArray())
                     }
                 }
             }
@@ -298,5 +363,16 @@ class PlayViewModel(
             .let {
                 listOf(it)
             }
+    }
+
+    private fun showEmptyQuestionsError() {
+        _showError.value = Event(
+            DialogConfig(
+                title = R.string.generic_error_title,
+                body = R.string.error_no_questions_found,
+                lottieRes = R.raw.message_alert,
+                showNegativeButton = false
+            )
+        )
     }
 }

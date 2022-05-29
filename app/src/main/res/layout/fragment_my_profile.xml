@@ -116,7 +116,7 @@
                 <TextView
                     style="@style/gameBodyStyle"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/dimen_5"
@@ -162,7 +162,7 @@
                     style="@style/gameBodyStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/dimen_5"
                     android:text="@{@string/roulette_item_exp(viewModel.currentUser.gameExperience)}"
@@ -190,7 +190,7 @@
                     style="@style/gameBodyStyle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingStart="@dimen/dimen_5"
                     app:userLevel="@{viewModel.userLevel}" />

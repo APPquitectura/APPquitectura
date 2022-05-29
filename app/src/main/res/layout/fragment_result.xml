@@ -192,7 +192,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@{@string/results_points_value(viewModel.result.rankingPoints, Math.max(viewModel.result.rankingPoints, 0))}"
+                    android:text="@{@string/results_points_value(viewModel.result.rankingPoints)}"
                     android:textSize="@dimen/text_20" />
             </LinearLayout>
 
@@ -202,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/dimen_10"
                 android:orientation="horizontal"
-                app:isVisible="@{viewModel.regard != null}">
+                app:isVisible="@{viewModel.regard.first != null}">
 
                 <TextView
                     style="@style/gameBodyStyle"

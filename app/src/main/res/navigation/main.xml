@@ -109,7 +109,10 @@
         </action>
         <action
             android:id="@+id/open_navigationDialog"
-            app:destination="@id/navigationDialog" />
+            app:destination="@id/navigationDialog"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down"
+            />
         <action
             android:id="@+id/action_playFragment_to_resultFragment"
             app:destination="@id/resultFragment"
@@ -132,6 +135,10 @@
                 android:defaultValue="REPEAT_INCORRECT_ANSWERS"
                 app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
         </action>
+        <argument
+            android:name="levelSelected"
+            app:argType="com.etsisi.appquitectura.domain.enums.QuestionLevel"
+            android:defaultValue="UNKNOWN" />
     </fragment>
     <dialog
         android:id="@+id/navigationDialog"

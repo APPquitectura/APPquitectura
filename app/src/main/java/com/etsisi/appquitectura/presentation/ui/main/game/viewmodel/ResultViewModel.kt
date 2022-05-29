@@ -37,8 +37,16 @@ class ResultViewModel(
     val regard: LiveData<Pair<ItemRouletteType, Int>>
         get() = _regard
 
+    private val _showRoulette = MutableLiveData<Boolean>()
+    val showRoulette: LiveData<Boolean>
+        get() = _showRoulette
+
     private val rouletteItems = mutableListOf<ItemRoulette>()
     private val userGameScore = PreferencesHelper.readObject<UserGameScoreBO>(PreferenceKeys.USER_SCORE)
+
+    init {
+        _showRoulette.value = userGameScore?.rankingType != RankingType.UNKOWN
+    }
 
     fun getRouletteItems(context: Context): List<WheelItem> {
         with(context.resources) {
@@ -97,11 +105,16 @@ class ResultViewModel(
         return rouletteItems.map { it.getWidgetItem() }
     }
 
-    fun updateUserScore(itemRouletteIndex: Int) {
+    fun showUserScore() {
         userGameScore?.let { score ->
-            val rouletteItemSelected = rouletteItems[itemRouletteIndex]
             _result.value = score
+        }
+    }
 
+    fun setUserScore(itemRouletteIndex: Int) {
+        userGameScore?.let { score ->
+            showUserScore()
+            val rouletteItemSelected = rouletteItems.get(itemRouletteIndex)
             _regard.value = Pair(rouletteItemSelected.type, rouletteItemSelected.points)
             updateUserDetailsUseCase.invoke(
                 params = UpdateUserDetailsUseCase.Params(
@@ -132,7 +145,6 @@ class ResultViewModel(
             updateRankingPointsUseCase.invoke(
                 params = params
             ) {
-
             }
         }
     }

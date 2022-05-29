@@ -21,6 +21,7 @@ import com.etsisi.appquitectura.presentation.dialog.view.TopicPickerDialog
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.GameModeAdapter
 import com.etsisi.appquitectura.presentation.ui.main.game.adapter.QuestionsViewPagerAdapter
 import com.etsisi.appquitectura.domain.enums.GameType
+import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.PlayViewModel
 import com.etsisi.appquitectura.presentation.utils.TAG
 import com.google.android.material.tabs.TabLayout
@@ -42,7 +43,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
     private val questionsViewPager: ViewPager2
         get() = mBinding.viewPager
 
-    private val currentNavType: GameNavType
+    private val initialNavType: GameNavType
         get() = args.navType
     private val questionsToRepeat: List<QuestionBO>?
         get() = args.incorrectQuestions?.toList()
@@ -68,6 +69,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         with(mViewModel) {
             setGameModeSelected(args.gameModeIndex)
             setTopicsSelected(args.topicsIdSelected?.toList())
+            setLevelSelected(args.levelSelected)
+            setNavType(initialNavType)
         }
     }
 
@@ -77,7 +80,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             onBackPressedDispatcher.apply {
                 addCallback(this@PlayFragment, object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-                        if (currentNavType == GameNavType.GAME_MODE) {
+                        if (initialNavType == GameNavType.GAME_MODE) {
                             navigator.onBackPressed()
                         } else {
                             navigator.openNavigationDialog(
@@ -98,7 +101,6 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
             lifecycleOwner = viewLifecycleOwner
             lifecycle.addObserver(mViewModel)
             viewModel = mViewModel
-            mViewModel.setNavType(currentNavType)
 
             gameModesRv.adapter = GameModeAdapter(this@PlayFragment)
 
@@ -168,13 +170,19 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 ).show(childFragmentManager, TopicPickerDialog.TAG)
             })
             startGame.observe(viewLifecycleOwner, LiveEventObserver {
-                navigator.startGame(it, _labelsSelectedIndex)
+                navigator.startGame(it, _labelsSelectedIndex, _levelSelected ?: QuestionLevel.UNKNOWN)
             })
             repeatIncorrectAnswers.observe(viewLifecycleOwner, LiveEventObserver {
                 navigator.repeatIncorrectAnswers(it)
             })
             showResults.observe(viewLifecycleOwner, LiveEventObserver {
                 navigator.openResultFragment()
+            })
+            showError.observe(viewLifecycleOwner, LiveEventObserver {
+                navigator.openNavigationDialog(
+                    config = it,
+                    type = DialogType.NO_QUESTIONS_FOUND
+                )
             })
         }
     }
@@ -199,7 +207,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
                 userAnswer = answer,
                 points = points,
                 userMarkInMillis = userMarkInMillis,
-                isGameFinished = currentItem == adapter?.itemCount?.minus(1)
+                isGameFinished = currentItem == adapter?.itemCount?.minus(1),
+                initialNavType = initialNavType
             ) {
                 postDelayed({
                     setCurrentItem(currentItem + 1, true)
@@ -208,8 +217,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding, PlayViewModel>(
         }
     }
 
-    override fun onGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?) {
-        mViewModel.handleGameModeSelected(gameModeIndex, topicsIdSelected)
+    override fun onGameModeSelected(gameModeIndex: Int, topicsIdSelected: IntArray?, levelSelected: QuestionLevel?) {
+        mViewModel.handleGameModeSelected(gameModeIndex, topicsIdSelected, levelSelected)
     }
 
 }

@@ -26,6 +26,7 @@ class NavigationDialog: BaseDialog<DialogNavigationBinding, EmptyViewModel>(
             buttonsListener = object : DialogListener {
                 override fun onPositiveButtonClicked() {
                     when (args.dialogType) {
+                        DialogType.NO_QUESTIONS_FOUND,
                         DialogType.WARNING_LEAVING_GAME -> {
                             navigator.navigateToHome()
                         }

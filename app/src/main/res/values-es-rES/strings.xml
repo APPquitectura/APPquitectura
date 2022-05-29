@@ -43,6 +43,7 @@
     <string name="item_home_play">Empezar partida</string>
 
     <!-- Play -->
+    <string name="error_no_questions_found">Tenemos dificultades para empezar la partida</string>
     <string name="game_mode_classic">Partida de %d preguntas</string>
     <string name="game_mode_weekly">Partida semanal</string>
     <string name="game_mode_test">Partida de prueba</string>
@@ -54,19 +55,24 @@
     <string name="dialog_leaving_game_title">Estás abandonando la partida</string>
     <string name="dialog_leaving_game_body">Perderás todo el progreso hasta ahora</string>
 
+    <string name="level_easy">Fácil</string>
+    <string name="level_normal">Normal</string>
+    <string name="level_difficult">Difícil</string>
+
     <string name="results_title">Resultados</string>
     <string name="results_correct_questions">Respuestas correctas</string>
     <string name="results_time_average">Tiempo promedio en responder</string>
     <string name="results_time_average_value">%d segs</string>
     <string name="results_experience">Experiencia adquirida</string>
     <string name="results_points">Puntuación</string>
-    <string name="results_points_value">Puntaje %d. Puntos para el ranking %d</string>
+    <string name="results_points_value">%d puntos</string>
     <string name="results_reward">Premio</string>
 
     <string name="rotate_roulette">Gira la ruleta</string>
     <string name="roulette_item_points">+%d puntos</string>
 
     <string name="dialog_topic_picker_title">Selecciona tus temas de interés</string>
+    <string name="dialog_topic_picker_error_no_selection">Selecciona la dificultad y un tema como minímo</string>
 
     <!-- Profile -->
     <string name="profile_title">Mi perfil</string>

@@ -67,6 +67,10 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="itemLevelStyle" parent="Widget.AppQuitectura.Chip">
+        <item name="chipBackgroundColor">@color/primary_blue</item>
+    </style>
+
     <style name="itemTextStyle">
         <item name="maxLines">2</item>
         <item name="android:textColor">@color/text_color_primary</item>

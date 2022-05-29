@@ -53,9 +53,9 @@
                 style="@style/buttonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="@dimen/dimen_0"
                 android:layout_weight="1"
                 android:elevation="@dimen/dimen_0"
-                android:layout_margin="@dimen/dimen_0"
                 android:onClick="@{() -> buttonsListener.onPositiveButtonClicked()}"
                 android:text="@string/accept" />
 
@@ -63,11 +63,12 @@
                 style="@style/buttonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="@dimen/dimen_0"
                 android:layout_weight="1"
                 android:elevation="@dimen/dimen_0"
-                android:layout_margin="@dimen/dimen_0"
                 android:onClick="@{() -> buttonsListener.onNegativeButtonClicked()}"
-                android:text="@string/cancel" />
+                android:text="@string/cancel"
+                app:isVisible="@{config.showNegativeButton}" />
         </LinearLayout>
 
     </LinearLayout>
