@@ -11,6 +11,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.etsisi.appquitectura.domain.usecase.FetchAllQuestionsUseCase
 import com.etsisi.appquitectura.presentation.utils.TAG
+import com.etsisi.appquitectura.utils.GlideApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -53,6 +54,12 @@ class QuestionsWorker (appContext: Context, params: WorkerParameters): Coroutine
     private suspend fun launchFetchQuestionsUseCase(): Result = suspendCancellableCoroutine { cont ->
         fetchAllQuestionsUseCase.invoke(params = Unit) {
             if (it.isNullOrEmpty()) {
+                it.forEach {
+                    GlideApp
+                        .with(applicationContext)
+                        .load(it.getImageFirestorageReference())
+                        .preload()
+                }
                 cont.resume(Result.failure(), null)
             } else {
                 cont.resume(Result.success(), null)
