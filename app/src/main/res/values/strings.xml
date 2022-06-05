@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">APPquitectura</string>
+    <string name="app_name" translatable="false">AppQuitectura</string>
 
     <!-- Dialog -->
     <string name="accept">Accept</string>
@@ -46,7 +46,7 @@
     <!-- Play -->
     <string name="error_no_questions_found">We are experiencing technical difficulties</string>
     <string name="game_mode_classic">%d Questions</string>
-    <string name="game_mode_weekly">Weekly game</string>
+    <string name="game_mode_weekly">Challenge</string>
     <string name="game_mode_test">Demo</string>
     <string name="game_mode_title">Selecciona el tipo de partida</string>
     <string name="game_mode_option">%d Questions</string>
@@ -111,7 +111,10 @@
     <string name="done">Done</string>
 
     <!-- Ranking -->
+    <string name="ranking_empty">Be the first to play!</string>
     <string name="ranking_title" translatable="false">Ranking</string>
+    <string name="ranking_weekly_title">Weekly challenge</string>
+    <string name="ranking_general_title">General</string>
     <string name="ranking_points_value">%d points</string>
 
     <!-- Reset Password -->

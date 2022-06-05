@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.etsisi.analytics.IFirebaseAnalytics
+import com.etsisi.analytics.enums.LoginType
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.data.helper.PreferencesHelper
 import com.etsisi.appquitectura.domain.model.CurrentUser
@@ -22,10 +24,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 open class BaseLoginViewModel(
+    private val analytics: IFirebaseAnalytics,
     private val logOutUseCase: LogOutUseCase,
     private val signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     private val sendEmailVerificationUseCase: SendEmailVerificationUseCase
-    ): BaseViewModel(), LifecycleObserver {
+) : BaseViewModel(), LifecycleObserver {
 
     protected val _email by lazy { MutableLiveData<String>() }
     val email: MutableLiveData<String>
@@ -54,34 +57,58 @@ open class BaseLoginViewModel(
         if (account.idToken != null) {
             showLoading(true, R.string.loading_sign_in_google)
             signInWithCredentialsUseCase.invoke(
-                params = SignInWithCredentialsUseCase.Params(account.idToken!!, context, account.email.orEmpty())
+                params = SignInWithCredentialsUseCase.Params(
+                    account.idToken!!,
+                    context,
+                    account.email.orEmpty()
+                )
             ) { resultCode ->
                 showLoading(false)
-                _onSuccessLogin.value = Event(resultCode == SignInWithCredentialsUseCase.RESULT_CODES.SUCESS)
-                when(resultCode) {
+                _onSuccessLogin.value = Event(resultCode == SignInWithCredentialsUseCase.RESULT_CODES.SUCESS).also {
+                    if (it.peekContent()) {
+                        analytics.onLogin(_email.value.orEmpty(), LoginType.GOOGLE)
+                    }
+                }
+                when (resultCode) {
                     SignInWithCredentialsUseCase.RESULT_CODES.COLLISION -> {
-                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_collision, lottieRes = R.raw.lottie_404)
+                        val config = DialogConfig(
+                            title = R.string.generic_error_title,
+                            body = R.string.error_sign_in_google_collision,
+                            lottieRes = R.raw.lottie_404
+                        )
                         _onError.value = Event(config)
                     }
                     SignInWithCredentialsUseCase.RESULT_CODES.CREDENTIALS_MALFORMED -> {
-                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.generic_error_body, lottieRes = R.raw.lottie_404)
+                        val config = DialogConfig(
+                            title = R.string.generic_error_title,
+                            body = R.string.generic_error_body,
+                            lottieRes = R.raw.lottie_404
+                        )
                         _onError.value = Event(config)
                     }
                     SignInWithCredentialsUseCase.RESULT_CODES.INVALID_USER -> {
-                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sign_in_google_user_not_exists, lottieRes = R.raw.lottie_404)
+                        val config = DialogConfig(
+                            title = R.string.generic_error_title,
+                            body = R.string.error_sign_in_google_user_not_exists,
+                            lottieRes = R.raw.lottie_404
+                        )
                         _onError.value = Event(config)
                     }
                     SignInWithCredentialsUseCase.RESULT_CODES.DATABASE_ERROR -> {
-                        val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_register_database, lottieRes = R.raw.message_alert)
+                        val config = DialogConfig(
+                            title = R.string.generic_error_title,
+                            body = R.string.error_register_database,
+                            lottieRes = R.raw.message_alert
+                        )
                         _onError.value = Event(config)
                     }
                 }
             }
         } else {
+            analytics.onLogin(_email.value.orEmpty(), LoginType.GOOGLE)
             _onSuccessLogin.value = Event(false)
         }
     }
-
 
     fun initSilentLogin(context: AppCompatActivity): Boolean {
         return if (!CurrentUser.isSigned()) {
@@ -106,7 +133,11 @@ open class BaseLoginViewModel(
             if (resultCodes == SendEmailVerificationUseCase.RESULT_CODES.SUCESS) {
                 _emailVerificationSended.value = Event(true)
             } else {
-                val config = DialogConfig(title = R.string.generic_error_title, body = R.string.error_sending_code_verification, lottieRes = R.raw.lottie_404)
+                val config = DialogConfig(
+                    title = R.string.generic_error_title,
+                    body = R.string.error_sending_code_verification,
+                    lottieRes = R.raw.lottie_404
+                )
                 _onError.value = Event(config)
             }
         }

@@ -5,6 +5,8 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.etsisi.analytics.IFirebaseAnalytics
+import com.etsisi.analytics.enums.SignUpType
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.data.model.enums.UserGender
 import com.etsisi.appquitectura.domain.enums.QuestionSubject
@@ -23,8 +25,10 @@ class RegisterViewModel(
     logOutUseCase: LogOutUseCase,
     signInWithCredentialsUseCase: SignInWithCredentialsUseCase,
     sendEmailVerificationUseCase: SendEmailVerificationUseCase,
+    private val analytics: IFirebaseAnalytics,
     private val registerUseCase: RegisterUseCase
 ) : BaseLoginViewModel(
+    analytics,
     logOutUseCase,
     signInWithCredentialsUseCase,
     sendEmailVerificationUseCase
@@ -130,7 +134,10 @@ class RegisterViewModel(
                         )
                         _onError.value = Event(config)
                     }
-                    RegisterUseCase.RESULT_CODES.SUCCESS -> onSuccessRegister()
+                    RegisterUseCase.RESULT_CODES.SUCCESS -> {
+                        analytics.onSignUp(SignUpType.FORM, _email.value.orEmpty(), courseSelected.value, city.value.orEmpty(), academicGroup.value.orEmpty(), academicRecord.value.orEmpty())
+                        onSuccessRegister()
+                    }
                 }
             }
         }

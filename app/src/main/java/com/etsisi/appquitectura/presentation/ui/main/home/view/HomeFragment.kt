@@ -3,6 +3,7 @@ package com.etsisi.appquitectura.presentation.ui.main.home.view
 import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.databinding.FragmentHomeBinding
 import com.etsisi.appquitectura.presentation.common.BaseFragment
+import com.etsisi.appquitectura.presentation.common.LiveEventObserver
 import com.etsisi.appquitectura.presentation.ui.main.home.adapter.HomeMenuAdapter
 import com.etsisi.appquitectura.presentation.ui.main.home.model.ItemHomeAction
 import com.etsisi.appquitectura.presentation.ui.main.home.viewmodel.HomeViewModel
@@ -21,7 +22,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
             lifecycleOwner = viewLifecycleOwner
             rvMenu.adapter = HomeMenuAdapter(
                 onMenuItemClickedlistener = { item ->
-                    navigator.openSection(item.action)
+                    mViewModel.handleMenuItemSelected(item, requireContext())
                 }
             )
             btnInfo.setOnClickListener {
@@ -36,6 +37,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
             sections.observe(viewLifecycleOwner) {
                 adapter?.addDataSet(it)
             }
+            onMenuItemClicked.observe(viewLifecycleOwner, LiveEventObserver {
+                navigator.openSection(it)
+            })
         }
     }
 

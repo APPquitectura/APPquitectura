@@ -164,7 +164,7 @@
         tools:layout="@layout/fragment_my_profile" />
     <fragment
         android:id="@+id/rankingFragment"
-        android:name="com.etsisi.appquitectura.presentation.ui.main.ranking.view.RankingFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.ranking.view.RankingContainerFragment"
         android:label="RankingFragment"
-        tools:layout="@layout/fragment_ranking"/>
+        tools:layout="@layout/fragment_container_ranking"/>
 </navigation>
