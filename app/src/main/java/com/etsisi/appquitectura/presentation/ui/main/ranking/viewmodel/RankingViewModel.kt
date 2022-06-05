@@ -1,12 +1,11 @@
 package com.etsisi.appquitectura.presentation.ui.main.ranking.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.etsisi.appquitectura.R
 import com.etsisi.appquitectura.domain.enums.QuestionTopic
+import com.etsisi.appquitectura.domain.enums.RankingType
 import com.etsisi.appquitectura.domain.usecase.FetchRankingUseCase
 import com.etsisi.appquitectura.domain.usecase.GetQuestionTopicsUseCase
 import com.etsisi.appquitectura.domain.usecase.GetWeeklyQuestionTopicUseCase
@@ -27,32 +26,20 @@ class RankingViewModel(
 
     init {
         weeklyTopic = getWeeklyQuestionTopic()
-        getRanking()
     }
 
-    fun getRanking() {
+    fun getRanking(rankingType: RankingType) {
         fetchRankingUseCase.invoke(
             scope = viewModelScope,
             params = Unit,
             onResult = { rankingList ->
                 if (rankingList.isNotEmpty()) {
-                    val weeklyRanking =
-                        rankingList.filter { it.getWeeklyRankingPoints(weeklyTopic) != null }
-                    val generalRanking = rankingList.filter { it.getGeneralRankingPoints() != null }
-
-                    _ranking.value = buildList {
-                        if (generalRanking.isNotEmpty()) {
-                            add(
-                                ItemRanking(
-                                    name = "RANKING GENERAL",
-                                    rankingPoints = 0,
-                                    position = 0,
-                                    icon = R.drawable.ic_badge,
-                                    viewType = RankingViewType.HEADER
-                                )
-                            )
-                            addAll(
-                                generalRanking.mapIndexed { index, rankingBO ->
+                    _ranking.value = when(rankingType) {
+                        RankingType.GENERAL -> {
+                            rankingList
+                                .filter { it.getGeneralRankingPoints() != null }
+                                .takeIf { it.isNotEmpty() }
+                                ?.mapIndexed { index, rankingBO ->
                                     ItemRanking(
                                         name = rankingBO.user?.name.orEmpty(),
                                         rankingPoints = rankingBO.getGeneralRankingPoints() ?: 0,
@@ -60,20 +47,12 @@ class RankingViewModel(
                                         viewType = RankingViewType.ITEM
                                     )
                                 }
-                            )
                         }
-                        if (weeklyRanking.isNotEmpty()) {
-                            add(
-                                ItemRanking(
-                                    name = "RANKING SEMANAL",
-                                    rankingPoints = 0,
-                                    position = 0,
-                                    viewType = RankingViewType.HEADER,
-                                    icon = R.drawable.ic_trophy
-                                )
-                            )
-                            addAll(
-                                weeklyRanking.mapIndexed { index, rankingBO ->
+                        else -> {
+                            rankingList
+                                .filter { it.getWeeklyRankingPoints(weeklyTopic) != null }
+                                .takeIf { it.isNotEmpty() }
+                                ?.mapIndexed { index, rankingBO ->
                                     ItemRanking(
                                         name = rankingBO.user?.name.orEmpty(),
                                         rankingPoints = rankingBO.getWeeklyRankingPoints(),
@@ -81,7 +60,6 @@ class RankingViewModel(
                                         viewType = RankingViewType.ITEM
                                     )
                                 }
-                            )
                         }
                     }
                 }

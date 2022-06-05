@@ -111,7 +111,10 @@
     <string name="done">Done</string>
 
     <!-- Ranking -->
+    <string name="ranking_empty">Be the first to play!</string>
     <string name="ranking_title" translatable="false">Ranking</string>
+    <string name="ranking_weekly_title">Weekly challenge</string>
+    <string name="ranking_general_title">General</string>
     <string name="ranking_points_value">%d points</string>
 
     <!-- Reset Password -->

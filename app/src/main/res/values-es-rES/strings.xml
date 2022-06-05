@@ -109,7 +109,10 @@
     <string name="done">Completado</string>
 
     <!-- Ranking -->
+    <string name="ranking_empty">¡Se el primero en jugar!</string>
     <string name="ranking_points_value">%d puntos</string>
+    <string name="ranking_weekly_title">Desafío semanal</string>
+    <string name="ranking_general_title">General</string>
 
     <!-- Reset Password -->
     <string name="reset_password">Restablecer contraseña</string>

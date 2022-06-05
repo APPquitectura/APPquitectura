@@ -1,6 +1,5 @@
 package com.etsisi.appquitectura.presentation.ui.main.game.viewmodel
 
-import androidx.core.os.bundleOf
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
