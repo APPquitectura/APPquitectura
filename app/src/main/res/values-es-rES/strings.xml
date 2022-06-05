@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Dialog -->
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+
+    <!-- Generic Error -->
+    <string name="generic_error_body">Ha ocurrido un error, contacte con el equipo de soporte</string>
+
+    <!-- Login -->
+    <string name="error_network_title">Error de red</string>
+    <string name="error_network_body">Estamos experimentando fallas técnicas de conexión</string>
+
+    <string name="error_login_credentials_title">Credenciales erróneas</string>
+    <string name="error_login_credentials_body">Comprueba tu correo o contraseña antes de continuar</string>
+
+    <string name="error_sign_in_google_collision">Ya existe una cuenta asociada a este correo electrónico</string>
+    <string name="error_sign_in_google_user_not_exists">No existe ninguna cuenta asociada a este correo electrónico</string>
+
+    <string name="error_internal_google_title">Error externo</string>
+    <string name="error_internal_google_body">Estamos experimentando algunos problemas externos</string>
+
+    <string name="error_sign_in_required_google_title">Inicio de sesión con Google</string>
+    <string name="error_sign_in_required_google_body">Inicie sesión con su cuenta de Google antes de proceder</string>
+    <string name="error_sign_in_google_in_progress">Iniciando sesión en proceso</string>
+
+    <string name="hint_email">Correo</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_register">No tengo cuenta</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="login_btn_txt">Acceder</string>
+
+    <string name="loading_sign_in_google">Iniciando sesión con Google...</string>
+    <string name="loading_veryfing_code">Verificando código...</string>
+
+    <!-- Main -->
+    <string name="item_home_profile">Perfil</string>
+    <string name="item_home_configuration">Configuración</string>
+    <string name="item_home_ranking">Ranking</string>
+    <string name="item_home_about">Info</string>
+    <string name="item_home_analytics">Estadísticas</string>
+    <string name="item_home_play">Empezar partida</string>
+
+    <!-- Play -->
+    <string name="error_no_questions_found">Tenemos dificultades para empezar la partida</string>
+    <string name="game_mode_classic">Partida de %d preguntas</string>
+    <string name="game_mode_weekly">Desafío semanal</string>
+    <string name="game_mode_test">Partida de prueba</string>
+    <string name="game_mode_title">Selecciona el tipo de partida</string>
+    <string name="game_mode_option">Partida de %d</string>
+    <string name="game_mode_repeat">Repitiendo preguntas incorrectas</string>
+
+    <string name="time">Tiempo</string>
+    <string name="dialog_leaving_game_title">Estás abandonando la partida</string>
+    <string name="dialog_leaving_game_body">Perderás todo el progreso hasta ahora</string>
+
+    <string name="level_easy">Fácil</string>
+    <string name="level_normal">Normal</string>
+    <string name="level_difficult">Difícil</string>
+
+    <string name="results_title">Resultados</string>
+    <string name="results_correct_questions">Respuestas correctas</string>
+    <string name="results_time_average">Tiempo promedio en responder</string>
+    <string name="results_time_average_value">%d segs</string>
+    <string name="results_experience">Experiencia adquirida</string>
+    <string name="results_points">Puntuación</string>
+    <string name="results_points_value">%d puntos</string>
+    <string name="results_reward">Premio</string>
+
+    <string name="rotate_roulette">Gira la ruleta</string>
+    <string name="roulette_item_points">+%d puntos</string>
+
+    <string name="dialog_topic_picker_title">Selecciona tus temas de interés</string>
+    <string name="dialog_topic_picker_error_no_selection">Selecciona la dificultad y un tema como minímo</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Mi perfil</string>
+    <string name="profile_experience">Experiencia</string>
+    <string name="profile_level">Nivel</string>
+    <string name="profile_level_value">Nivel %d</string>
+
+    <!-- Register -->
+    <string name="register_title">¡Bienvenido!</string>
+    <string name="register_greeting">¡Hola %s!</string>
+    <string name="register_need_verification_msg">Tendrás que confirmar que eres tú</string>
+    <string name="age">Fecha de nacimiento</string>
+    <string name="city">Ciudad de origen</string>
+    <string name="course">Asignatura</string>
+    <string name="gender">Sexo</string>
+    <string name="gender_male">Masculino</string>
+    <string name="gender_female">Femenino</string>
+    <string name="group">Grupo</string>
+    <string name="name">Nombre</string>
+    <string name="surname">Apellidos</string>
+    <string name="number_academic_record">Nº expediente</string>
+    <string name="error_code_verification">No hemos podido verificar su correo electrónico, contacte con soporte</string>
+    <string name="error_email_already_exists">El correo electrónico ya existe</string>
+    <string name="error_email_malformed">Correo electrónico incorrecto</string>
+    <string name="error_email_password_malformed">Comprueba tu correo/contraseña. La contraseña debe tener más de 6 caracteres</string>
+    <string name="error_sending_code_verification">Estamos teniendo problemas técnicos para enviarte un código de verificación al correo electrónico</string>
+    <string name="error_weak_password">Contraseña muy débil</string>
+    <string name="error_unselected_year">Selecciona el año de grado universitario</string>
+
+    <string name="error_register_database">Estamos teniendo problemas técnicos con la base de datos</string>
+
+    <string name="register_btn_text">Empecemos</string>
+    <string name="loading">Cargando</string>
+    <string name="done">Completado</string>
+
+    <!-- Ranking -->
+    <string name="ranking_empty">¡Se el primero en jugar!</string>
+    <string name="ranking_points_value">%d puntos</string>
+    <string name="ranking_weekly_title">Desafío semanal</string>
+    <string name="ranking_general_title">General</string>
+
+    <!-- Reset Password -->
+    <string name="reset_password">Restablecer contraseña</string>
+    <string name="type_email">Escribe tu email para recuperar tu contraseña</string>
+
+    <!-- Settings -->
+    <string name="item_settings_log_out">Cerrar sesión</string>
+    <string name="item_settings_update_questions">Actualizar preguntas</string>
+    <string name="item_settings_repeat_mode">Repetir preguntas incorrectas</string>
+    <string name="version_info">Versión %s</string>
+
+    <!-- Verify -->
+    <string name="verify_code_scree_welcome">¡Hola %s! Por último, comprueba la bandeja de entrada de tu correo electrónico para verificar que eres tú</string>
+    <string name="verifying">Verificando código...</string>
+</resources>

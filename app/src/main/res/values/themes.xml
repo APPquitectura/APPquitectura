@@ -1,9 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Quizz" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+    <style name="Theme.Appquitectura" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="chipStyle">@style/Widget.AppQuitectura.Chip</item>
+        <!--   a darker variant of the primary color, used for
+               the status bar (on Android 5.0+) and contextual app bars -->
+        <item name="colorPrimaryDark">#303F9F</item>
+
+        <!-- color de fondo de las actividades -->
+        <item name="android:windowBackground">@color/white</item>
+        <!-- Primary brand color.color for the app bar and other primary UI elements -->
+        <item name="colorPrimary">@color/text_color_primary</item>
+        <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -11,13 +20,71 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here.  a secondary color for controls like checkboxes and text fields-->
+        <item name="colorAccent">@color/primary_alpha_blue</item>
+        <item name="android:textColorPrimary">@color/text_color_primary</item>
+        <item name="android:colorAccent" tools:targetApi="lollipop">@color/red_error</item>
+
+        <item name="textInputStyle">@style/Widget.AppQuitectura.TextInputLayout</item>
+        <item name="bottomSheetDialogTheme">@style/Widget.AppQuitectura.BottomSheetDialog</item>
+        <item name="android:datePickerDialogTheme">@style/DatePickerStyle</item>
     </style>
 
-    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/black</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_background</item>
-        <item name="windowSplashScreenAnimationDuration">200</item>
-        <item name="postSplashScreenTheme">@style/Theme.Quizz</item>
+    <style name="Theme.Appquitectura.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_background</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        <item name="postSplashScreenTheme">@style/Theme.Appquitectura</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <!-- Bottomsheet -->
+    <style name="Widget.AppQuitectura.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+    </style>
+
+    <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+
+    <style name="Widget.AppQuitectura.Chip" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/purple_200</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="chipStrokeWidth">2dp</item>
+        <item name="chipIconTint">@color/white</item>
+        <item name="chipStrokeColor">@color/label</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+        <item name="ensureMinTouchTargetSize">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.BodyMedium</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <style name="Widget.AppQuitectura.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:textAppearance">@style/TextAppearance.App.BodyMedium</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="boxStrokeColor">@color/primary_blue</item>
+        <item name="boxStrokeErrorColor">@color/red_error</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textColorHint">@color/text_color_primary</item>
+        <item name="hintTextColor">@color/primary_blue</item>
+    </style>
+
+    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="fontFamily">@font/oxygen_bold</item>
+        <item name="android:fontFamily">@font/oxygen_bold</item>
+    </style>
+
+    <style name="DatePickerStyle" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorPrimary">@color/primary_alpha_blue</item>
+        <item name="colorSecondary">@color/primary_alpha_blue</item>
     </style>
 </resources>

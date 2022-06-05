@@ -1,5 +1,133 @@
 <resources>
-    <string name="app_name">APPquitectura</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name" translatable="false">AppQuitectura</string>
+
+    <!-- Dialog -->
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Generic Error -->
+    <string name="generic_error_title" translatable="false">Oops!</string>
+    <string name="generic_error_body">An error has occurred, please contact with the support team</string>
+
+    <!-- Login -->
+    <string name="error_network_title">Network error</string>
+    <string name="error_network_body">We are experiencing technical difficulties with your network</string>
+
+    <string name="error_login_credentials_title">Wrong credentials</string>
+    <string name="error_login_credentials_body">Check your email or password before you proceed</string>
+
+    <string name="error_sign_in_google_collision">There already exists an account with your email address</string>
+    <string name="error_sign_in_google_user_not_exists">You do not have an account with this email address</string>
+    <string name="error_sign_in_google_in_progress">A sign in process is currently in progress</string>
+
+    <string name="error_internal_google_title">External error</string>
+    <string name="error_internal_google_body">We are having some external errors</string>
+
+    <string name="error_sign_in_required_google_title">Sign in required</string>
+    <string name="error_sign_in_required_google_body">Please, sign in in to your Google account before you proceed</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_register">Sign up</string>
+    <string name="login_btn_txt">Access</string>
+    <string name="sign_in">Sign in</string>
+
+    <string name="loading_sign_in_google">Signing in with Google...</string>
+    <string name="loading_veryfing_code">Veryfing code...</string>
+
+    <!-- Main -->
+    <string name="item_home_profile">Profile</string>
+    <string name="item_home_configuration">Configuration</string>
+    <string name="item_home_ranking">Ranking</string>
+    <string name="item_home_about">About</string>
+    <string name="item_home_analytics">Analytics</string>
+    <string name="item_home_play">Start game</string>
+
+    <!-- Play -->
+    <string name="error_no_questions_found">We are experiencing technical difficulties</string>
+    <string name="game_mode_classic">%d Questions</string>
+    <string name="game_mode_weekly">Challenge</string>
+    <string name="game_mode_test">Demo</string>
+    <string name="game_mode_title">Selecciona el tipo de partida</string>
+    <string name="game_mode_option">%d Questions</string>
+    <string name="game_mode_repeat">Repeating incorrect questions</string>
+
+    <string name="time">Time</string>
+    <string name="dialog_leaving_game_title">You are leaving the game</string>
+    <string name="dialog_leaving_game_body">You will lose all the progress</string>
+
+    <string name="level_easy">Fácil</string>
+    <string name="level_normal">Normal</string>
+    <string name="level_difficult">Difícil</string>
+
+    <string name="results_title">Score</string>
+    <string name="results_correct_questions">Correct answers</string>
+    <string name="results_time_average">Time average</string>
+    <string name="results_time_average_value">%d sec</string>
+    <string name="results_experience">Experience earned</string>
+    <string name="results_points">Score</string>
+    <string name="results_points_value">Score %d</string>
+    <string name="results_reward">Reward</string>
+
+    <string name="rotate_roulette">Spin the wheel</string>
+    <string name="roulette_item_points">+%d points</string>
+    <string name="roulette_item_exp" translatable="false">+%d EXP</string>
+
+    <string name="dialog_topic_picker_title">Select topics you are interested in</string>
+    <string name="dialog_topic_picker_error_no_selection">Select the difficulty and one topic at least</string>
+
+    <!-- Profile -->
+    <string name="profile_title">My profile</string>
+    <string name="profile_experience">Experience</string>
+    <string name="profile_level">Level</string>
+    <string name="profile_level_value">Level %d</string>
+
+    <!-- Register -->
+    <string name="register_title">Welcome!</string>
+    <string name="register_greeting">Hi %s!</string>
+    <string name="register_need_verification_msg">You will need to confirm your account</string>
+    <string name="age">Date of birth</string>
+    <string name="city">City</string>
+    <string name="course">Course</string>
+    <string name="gender">Gender</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="group">Group</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="number_academic_record">Academic record</string>
+    <string name="error_code_verification">We are experiencing technical difficulties verifying your email. Contact with our support team</string>
+    <string name="error_email_already_exists">Email already exists</string>
+    <string name="error_email_malformed">Email malformed</string>
+    <string name="error_email_password_malformed">Check your email/password. The password must have more than 6 characters</string>
+    <string name="error_register_database">We are experiencing technical difficulties with the database</string>
+    <string name="error_sending_code_verification">We are experiencing technical difficulties sending a verification code to your email</string>
+    <string name="error_weak_password">Weak password</string>
+    <string name="error_unselected_year">Select the year of the degree</string>
+
+
+    <string name="register_btn_text">Let\'s start</string>
+    <string name="loading">Loading</string>
+    <string name="done">Done</string>
+
+    <!-- Ranking -->
+    <string name="ranking_empty">Be the first to play!</string>
+    <string name="ranking_title" translatable="false">Ranking</string>
+    <string name="ranking_weekly_title">Weekly challenge</string>
+    <string name="ranking_general_title">General</string>
+    <string name="ranking_points_value">%d points</string>
+
+    <!-- Reset Password -->
+    <string name="reset_password">Reset password</string>
+    <string name="type_email">Write yor email to recover your password</string>
+
+    <!-- Settings -->
+    <string name="item_settings_log_out">Log out</string>
+    <string name="item_settings_update_questions">Update questions</string>
+    <string name="item_settings_repeat_mode">Repeat wrong questions</string>
+    <string name="version_info">Version %s</string>
+
+    <!-- Verify -->
+    <string name="verify_code_scree_welcome">Hi %s! After sending the registration form, please check your inbox for an e-mail inviting you to confirm your registration.</string>
+    <string name="verifying">Verifying code...</string>
 </resources>

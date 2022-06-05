@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/homeFragment">
+
+    <action
+        android:id="@+id/action_main_to_login"
+        app:destination="@id/loginActivity"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/main"
+        app:popUpToInclusive="true"
+        app:popUpToSaveState="false"
+        app:restoreState="false" />
+
+    <action
+        android:id="@+id/action_main_to_homeFragment"
+        app:destination="@id/homeFragment"
+        app:enterAnim="@anim/enter_from_right"
+        app:exitAnim="@anim/exit_to_left"
+        app:popEnterAnim="@anim/enter_from_left"
+        app:popExitAnim="@anim/exit_to_right"
+        app:popUpTo="@id/main"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.home.view.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_settings"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_home_to_play"
+            app:destination="@id/playFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/homeFragment"
+            app:restoreState="false"/>
+        <action
+            android:id="@+id/action_home_to_myProfile"
+            app:destination="@id/myProfileFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right" />
+        <action
+            android:id="@+id/action_home_to_rankingFragment"
+            app:destination="@id/rankingFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.settings.view.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"></fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.etsisi.appquitectura.presentation.ui.login.view.LoginActivity"
+        android:label="LoginActivity"
+        tools:layout="@layout/activity_login"></activity>
+    <fragment
+        android:id="@+id/playFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.game.view.PlayFragment"
+        android:label="PlayFragment"
+        tools:layout="@layout/fragment_play">
+        <argument
+            android:name="navType"
+            android:defaultValue="GAME_MODE"
+            app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
+        <argument
+            android:name="gameModeIndex"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="incorrectQuestions"
+            app:argType="com.etsisi.appquitectura.domain.model.QuestionBO[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="topicsIdSelected"
+            app:argType="integer[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_gameMode_to_play"
+            app:destination="@id/playFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/homeFragment"
+            app:restoreState="false">
+            <argument
+                android:name="navType"
+                android:defaultValue="PRE_START_GAME"
+                app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
+        </action>
+        <action
+            android:id="@+id/open_navigationDialog"
+            app:destination="@id/navigationDialog"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/slide_down"
+            />
+        <action
+            android:id="@+id/action_playFragment_to_resultFragment"
+            app:destination="@id/resultFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToSaveState="false" />
+        <action
+            android:id="@+id/action_repeat_incorrect_answers"
+            app:destination="@id/playFragment"
+            app:popUpTo="@id/homeFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right">
+            <argument
+                android:name="navType"
+                android:defaultValue="REPEAT_INCORRECT_ANSWERS"
+                app:argType="com.etsisi.appquitectura.domain.enums.GameNavType" />
+        </action>
+        <argument
+            android:name="levelSelected"
+            app:argType="com.etsisi.appquitectura.domain.enums.QuestionLevel"
+            android:defaultValue="UNKNOWN" />
+    </fragment>
+    <dialog
+        android:id="@+id/navigationDialog"
+        android:name="com.etsisi.appquitectura.presentation.dialog.view.NavigationDialog"
+        android:label="NavigationDialog"
+        tools:layout="@layout/dialog_navigation">
+        <argument
+            android:name="dialogType"
+            app:argType="com.etsisi.appquitectura.presentation.dialog.enums.DialogType" />
+        <argument
+            android:name="config"
+            app:argType="com.etsisi.appquitectura.presentation.dialog.model.DialogConfig" />
+    </dialog>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.game.view.ResultFragment"
+        android:label="ResultFragment"
+        tools:layout="@layout/fragment_result"/>
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.profile.view.MyProfileFragment"
+        android:label="MyProfileFragment"
+        tools:layout="@layout/fragment_my_profile" />
+    <fragment
+        android:id="@+id/rankingFragment"
+        android:name="com.etsisi.appquitectura.presentation.ui.main.ranking.view.RankingContainerFragment"
+        android:label="RankingFragment"
+        tools:layout="@layout/fragment_container_ranking"/>
+</navigation>

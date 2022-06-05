@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:LuckyWheel="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.etsisi.appquitectura.presentation.ui.main.game.viewmodel.ResultViewModel" />
+
+        <import type="com.etsisi.appquitectura.presentation.ui.main.game.model.ItemRouletteType" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/play_background" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/congratsAnimation"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/resultsContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/lottie_congrats" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/gameTitleStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/results_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/rouletteContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.bluehomestudio.luckywheel.LuckyWheel
+                android:id="@+id/wheel"
+                android:layout_width="@dimen/dimen_300"
+                android:layout_height="@dimen/dimen_300"
+                android:layout_marginBottom="@dimen/dimen_30"
+                android:backgroundTint="@null"
+                LuckyWheel:background_color="@color/primary_alpha_blue" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/spinBtn"
+                style="@style/gameBodyStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_40"
+                android:background="@drawable/spin_btn_background"
+                android:backgroundTint="@null"
+                android:gravity="center"
+                android:stateListAnimator="@xml/button_pressed"
+                android:text="@string/rotate_roulette"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/resultsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/dimen_10"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintVertical_bias="0.2">
+
+            <LinearLayout
+                android:id="@+id/correctQuestionsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dimen_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/results_correct_questions"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/correctQuestions"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{Long.toString(viewModel.result.allCorrectAnswers.size)}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/answersAverageContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dimen_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/results_time_average"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/answersAverage"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{@string/results_time_average_value(viewModel.result.averageTime)}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/experienceContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dimen_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/results_experience"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/experience"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{@string/roulette_item_exp(viewModel.result.experience)}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pointsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dimen_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/results_points"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/points"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{@string/results_points_value(viewModel.result.rankingPoints)}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rewardContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dimen_10"
+                android:orientation="horizontal"
+                app:isVisible="@{viewModel.regard.first != null}">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/results_reward"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/reward"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{viewModel.regard.first == ItemRouletteType.EXP ? @string/roulette_item_exp(viewModel.regard.second) : @string/roulette_item_points(viewModel.regard.second)}"
+                    android:textSize="@dimen/text_20" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="dialog_title">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/dimen_28</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_28</item>
+        <item name="android:layout_marginTop">@dimen/dimen_20</item>
+        <item name="android:textSize">@dimen/text_20</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:fontFamily">@font/alfa</item>
+    </style>
+
+    <style name="dialog_body">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/oxygen_bold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">@dimen/dimen_20</item>
+        <item name="android:layout_marginStart">@dimen/dimen_28</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_28</item>
+        <item name="android:layout_marginBottom">@dimen/dimen_7</item>
+        <item name="android:textSize">@dimen/text_16</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+    </style>
+
+    <style name="dialog_no_actionbar" parent="android:Theme.Material.Dialog.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <style name="gameTitleStyle">
+        <item name="android:fontFamily">@font/alfa</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textSize">@dimen/text_24</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/dimen_32</item>
+    </style>
+
+    <style name="gameBodyStyle">
+        <item name="android:fontFamily">@font/oxygen_bold</item>
+        <item name="android:textSize">@dimen/text_16</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+    </style>
+
+    <style name="buttonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimen_40</item>
+        <item name="android:background">@drawable/shape_submit_button</item>
+        <item name="android:layout_margin">@dimen/dimen_4</item>
+        <item name="android:elevation">@dimen/dimen_4</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="itemLevelStyle" parent="Widget.AppQuitectura.Chip">
+        <item name="chipBackgroundColor">@color/primary_blue</item>
+    </style>
+
+    <style name="itemTextStyle">
+        <item name="maxLines">2</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textSize">@dimen/text_16</item>
+        <item name="android:textStyle">normal</item>
+        <item name="lineHeight">@dimen/text_16</item>
+    </style>
+
+    <style name="CircularDeterminateProgressBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/counter</item>
+    </style>
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>

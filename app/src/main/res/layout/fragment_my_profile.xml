@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.etsisi.appquitectura.presentation.ui.main.profile.viewmodel.MyProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="@dimen/dimen_150"
+            android:layout_height="@dimen/dimen_0"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:src="@drawable/user"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:strokeColor="@color/white"
+            app:strokeWidth="1dp" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_150"
+            android:src="@drawable/play_background_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/gameTitleStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:divider="@drawable/divider"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/dimen_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgProfile">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_5">
+                <TextView
+                    android:id="@+id/infoSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Datos personales" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/infoSubtitle"
+                    android:background="@drawable/divider" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dimen_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/name"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen_5"
+                    android:text="@{viewModel.currentUser.name}"
+                    tools:text="Pepe" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dimen_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/hint_email"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen_5"
+                    android:text="@{viewModel.currentUser.email}"
+                    tools:text="a@aaaaaaaaaaaaaaaaaaa.com" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_5">
+
+                <TextView
+                    android:id="@+id/scoreSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Puntuación" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/scoreSubtitle"
+                    android:background="@drawable/divider" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/experienceContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dimen_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/profile_experience"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/experience"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen_5"
+                    android:text="@{@string/roulette_item_exp(viewModel.currentUser.gameExperience)}"
+                    tools:text="15" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userLevelContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dimen_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/alfa"
+                    android:text="@string/profile_level"
+                    android:textSize="@dimen/text_20" />
+
+                <TextView
+                    android:id="@+id/userLevel"
+                    style="@style/gameBodyStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingStart="@dimen/dimen_5"
+                    app:userLevel="@{viewModel.userLevel}" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

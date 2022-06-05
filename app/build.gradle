@@ -2,16 +2,34 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
 }
 
+def keyStorePropertiesFileName = "keystore.properties"
+
 android {
     compileSdkVersion 31
 
+    signingConfigs {
+        release {
+            if (rootProject.file(keyStorePropertiesFileName).exists()) {
+                // Load keystore
+                def keystorePropertiesFile = rootProject.file(keyStorePropertiesFileName)
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
+
     defaultConfig {
         applicationId "com.etsisi.appquitectura"
-        minSdk 21
+        minSdk 24
         targetSdk 31
         versionCode rootProject.ext.appVersionCode
         versionName rootProject.ext.appVersionName
@@ -21,11 +39,14 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField "int", "DATABASE_VERSION", "${rootProject.ext.databaseDebugVersion}"
             applicationIdSuffix ".debug"
             debuggable true
         }
         release {
+            buildConfigField "int", "DATABASE_VERSION", "${rootProject.ext.databaseReleaseVersion}"
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -41,11 +62,14 @@ android {
         viewBinding = true
     }
     packagingOptions {
+        exclude 'META-INF/atomicfu.kotlin_module'
         resources.excludes += "DebugProbesKt.bin"
     }
 }
 
 dependencies {
+
+    implementation project(path: ':analytics')
 
     // AndroidX
     implementation rootProject.ext.androidAppCompat
@@ -62,7 +86,18 @@ dependencies {
     implementation rootProject.ext.coroutinesKtxDependency
 
     //Firebase
+    implementation platform(rootProject.ext.BOMdependency)
+    implementation rootProject.ext.firebaseAuthDependency
     implementation rootProject.ext.firestoreDependency
+    implementation rootProject.ext.firebaseStorageDependency
+    implementation rootProject.ext.firebaseUIStorageDependency
+    implementation rootProject.ext.dynamicLinksDependency
+
+    //Flexbox
+    implementation rootProject.ext.flexboxDependency
+
+    //Google Play Services
+    implementation rootProject.ext.googleAuthDependency
 
     //Glide
     implementation rootProject.ext.glideDependency
@@ -78,14 +113,37 @@ dependencies {
     implementation rootProject.ext.lifecycleKtxDependency
     implementation rootProject.ext.viewModelKtxDependency
 
+    //Lottie
+    implementation rootProject.ext.lottieDependency
+
+    //Material
+    implementation rootProject.ext.materialDependency
+
     //JetPack
     implementation rootProject.ext.navigationFragKtxDependency
     implementation rootProject.ext.navigationKtxDependency
 
-    // Retrofit
+    //Progress Button
+    implementation rootProject.ext.progressButtonDependency
+
+    //Retrofit
     implementation rootProject.ext.retrofitDependency
     implementation rootProject.ext.retrofitGsonDependency
 
+    //Room
+    implementation rootProject.ext.roomDependency
+    implementation rootProject.ext.roomCoroutinesDependency
+    kapt rootProject.ext.roomAnnotation
+
     //Splash
     implementation rootProject.ext.splashScreenDependency
+
+    //ViewPager2
+    implementation rootProject.ext.viewPager2Dependency
+
+    //Wheel
+    implementation rootProject.ext.rouletteDependency
+
+    //WorkManager
+    implementation rootProject.ext.workManagerDependency
 }

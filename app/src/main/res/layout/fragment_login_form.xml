@@ -1,14 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context="com.etsisi.appquitectura.presentation.ui.login.view.formscreen.LoginFormFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.etsisi.appquitectura.presentation.ui.login.viewmodel.LoginViewModel" />
+
+        <variable
+            name="googleListener"
+            type="com.etsisi.appquitectura.presentation.common.GoogleSignInListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraints_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:paddingHorizontal="@dimen/dimen_12">
 
-</FrameLayout>
+        <ScrollView
+            android:id="@+id/scrollViewContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:isScrollContainer="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/login_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/dimen_32"
+                    android:layout_gravity="center"
+                    android:text="@string/sign_in"
+                    android:textSize="@dimen/text_22" />
+
+                <include
+                    android:id="@+id/form"
+                    layout="@layout/login_form"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:viewModel="@{viewModel}" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    app:alignItems="center"
+                    app:dividerDrawable="@drawable/divider"
+                    app:flexDirection="row"
+                    app:flexWrap="nowrap"
+                    app:showDivider="middle">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_login"
+                        style="@style/buttonStyle"
+                        android:onClick="@{() -> viewModel.initFirebaseLogin()}"
+                        android:text="@string/login_btn_txt" />
+
+                    <com.google.android.gms.common.SignInButton
+                        android:id="@+id/btn_google"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:onClickCustom="@{() -> googleListener.initSignInGoogle()}" />
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_register"
+                    style="@style/buttonStyle"
+                    android:layout_margin="@dimen/dimen_40"
+                    android:onClick="@{() -> viewModel.onRegister()}"
+                    android:text="@string/btn_register" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_reset_password"
+                    style="@style/buttonStyle"
+                    android:layout_margin="@dimen/dimen_40"
+                    android:background="@android:color/transparent"
+                    android:onClick="@{() -> viewModel.onResetPassword()}"
+                    android:text="@string/reset_password" />
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
