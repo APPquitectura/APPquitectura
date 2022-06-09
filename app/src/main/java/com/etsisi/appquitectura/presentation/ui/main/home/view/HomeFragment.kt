@@ -40,8 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
                     R.drawable.carga_4,
                     R.drawable.carga_5,
                     R.drawable.carga_6,
-                    R.drawable.carga_7,
-                    R.drawable.carga_8
+                    R.drawable.carga_7
                 ))
                 isUserInputEnabled = false
                 setPageTransformer(ZoomOutPageTransformer())
