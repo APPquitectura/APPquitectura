@@ -23,6 +23,9 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.viewpager2.widget.ViewPager2
+import kotlinx.coroutines.delay
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -48,8 +51,21 @@ inline fun <reified T : Activity> Activity.startClearActivity(args: Bundle? = nu
 inline val <reified T> T.TAG: String
     get() = T::class.java.canonicalName ?: T::class.simpleName ?: T::class.java.simpleName
 
-fun <T> List<T>.penultimate(): T? {
-    return kotlin.runCatching { this[size - 2] }.getOrNull()
+fun ViewPager2.autoScroll(lifecycleScope: LifecycleCoroutineScope, interval: Long) {
+    lifecycleScope.launchWhenResumed {
+        scrollIndefinitely(interval)
+    }
+}
+
+suspend fun ViewPager2.scrollIndefinitely(interval: Long) {
+    delay(interval)
+    val numberOfItems = adapter?.itemCount ?: 0
+    val lastIndex = if (numberOfItems > 0) numberOfItems - 1 else 0
+    val nextItem = if (currentItem == lastIndex) 0 else currentItem + 1
+
+    setCurrentItem(nextItem, true)
+
+    scrollIndefinitely(interval)
 }
 
 fun Context.showKeyboard(view: View) {
