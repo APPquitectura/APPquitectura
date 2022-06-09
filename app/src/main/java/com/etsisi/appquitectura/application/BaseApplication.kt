@@ -1,6 +1,7 @@
 package com.etsisi.appquitectura.application
 
 import android.app.Application
+import android.content.Context
 import com.etsisi.analytics.di.analyticsModule
 import com.etsisi.appquitectura.BuildConfig
 import com.etsisi.appquitectura.di.databaseModule

@@ -24,7 +24,6 @@
         <item name="colorAccent">@color/primary_alpha_blue</item>
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/red_error</item>
-
         <item name="textInputStyle">@style/Widget.AppQuitectura.TextInputLayout</item>
         <item name="bottomSheetDialogTheme">@style/Widget.AppQuitectura.BottomSheetDialog</item>
         <item name="android:datePickerDialogTheme">@style/DatePickerStyle</item>
@@ -32,7 +31,7 @@
 
     <style name="Theme.Appquitectura.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="windowSplashScreenAnimationDuration">300</item>
         <item name="postSplashScreenTheme">@style/Theme.Appquitectura</item>
     </style>

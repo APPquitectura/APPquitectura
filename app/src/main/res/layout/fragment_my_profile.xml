@@ -12,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/background">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgProfile"
@@ -27,14 +28,6 @@
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
             app:strokeColor="@color/white"
             app:strokeWidth="1dp" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dimen_150"
-            android:src="@drawable/play_background_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/title"
@@ -60,10 +53,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_5">
+
                 <TextView
                     android:id="@+id/infoSubtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="Datos personales" />
                 <View
                     android:layout_width="match_parent"
@@ -133,6 +128,7 @@
                     android:id="@+id/scoreSubtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="Puntuación" />
                 <View
                     android:layout_width="match_parent"

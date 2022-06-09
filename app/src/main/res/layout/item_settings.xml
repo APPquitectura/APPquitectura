@@ -17,8 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_44"
-        android:onClick="@{() -> listener.onSettingsItemClicked(item)}"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> listener.onSettingsItemClicked(item)}">
 
         <ImageView
             android:id="@+id/txtItemIcon"
@@ -31,10 +31,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcRes="@{item.icon}"
             tools:src="@drawable/ic_settings"
-            app:tint="@color/text_color_primary" />
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/title"
+            style="@style/gameBodyStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_16"
