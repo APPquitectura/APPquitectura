@@ -42,18 +42,19 @@
     </style>
 
     <style name="gameTitleStyle">
-        <item name="android:fontFamily">@font/alfa</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
         <item name="android:letterSpacing">0.01</item>
         <item name="android:textSize">@dimen/text_24</item>
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:layout_marginTop">@dimen/dimen_32</item>
     </style>
 
     <style name="gameBodyStyle">
-        <item name="android:fontFamily">@font/oxygen_bold</item>
+        <item name="android:fontFamily">@font/quicksand_light</item>
         <item name="android:textSize">@dimen/text_16</item>
         <item name="android:letterSpacing">0.02</item>
-        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="buttonStyle">
@@ -73,9 +74,10 @@
 
     <style name="itemTextStyle">
         <item name="maxLines">2</item>
-        <item name="android:textColor">@color/text_color_primary</item>
-        <item name="android:textSize">@dimen/text_16</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="android:textSize">@dimen/text_18</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
         <item name="lineHeight">@dimen/text_16</item>
     </style>
 

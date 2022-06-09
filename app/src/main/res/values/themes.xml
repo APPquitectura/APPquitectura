@@ -24,7 +24,6 @@
         <item name="colorAccent">@color/primary_alpha_blue</item>
         <item name="android:textColorPrimary">@color/text_color_primary</item>
         <item name="android:colorAccent" tools:targetApi="lollipop">@color/red_error</item>
-
         <item name="textInputStyle">@style/Widget.AppQuitectura.TextInputLayout</item>
         <item name="bottomSheetDialogTheme">@style/Widget.AppQuitectura.BottomSheetDialog</item>
         <item name="android:datePickerDialogTheme">@style/DatePickerStyle</item>
