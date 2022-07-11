@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.etsisi.appquitectura.BuildConfig"/>
+
+        <import type="com.etsisi.appquitectura.BuildConfig" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/background">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvSettings"
@@ -17,23 +19,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layoutManager="LinearLayoutManager"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1"
             app:layout_constraintBottom_toTopOf="@+id/textVersionApp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
 
         <TextView
             android:id="@+id/textVersionApp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:layout_marginTop="@dimen/dimen_85"
             android:layout_marginBottom="@dimen/dimen_77"
-            app:text="@{@string/version_info(BuildConfig.VERSION_NAME)}"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:text="@{@string/version_info(BuildConfig.VERSION_NAME)}"
             tools:text="Version: 1.0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

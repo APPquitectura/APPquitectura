@@ -3,7 +3,6 @@ package com.etsisi.appquitectura.domain.model
 import android.os.Parcelable
 import com.etsisi.appquitectura.domain.enums.QuestionLevel
 import com.etsisi.appquitectura.domain.enums.RankingType
-import com.etsisi.appquitectura.presentation.utils.penultimate
 import kotlinx.parcelize.Parcelize
 import java.util.concurrent.TimeUnit
 
